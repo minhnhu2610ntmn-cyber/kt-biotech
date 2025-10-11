@@ -26,14 +26,14 @@ export default function Footer({
   };
 
   return (
-    <footer className="bg-gray-800 text-white">
+    <footer className="bg-blue-600 text-white">
       {/* Newsletter Section */}
       {showNewsletter && (
-        <div className="border-b border-gray-700">
-          <div className="container mx-auto px-4 py-12">
+        <div className="border-b border-blue-500">
+          <div className="container mx-auto px-4 py-8">
             <div className="max-w-2xl mx-auto text-center">
               <h3 className="text-2xl font-bold mb-4">Stay Updated</h3>
-              <p className="text-gray-300 mb-6">
+              <p className="text-blue-100 mb-6">
                 Subscribe to our newsletter for the latest insights, research, and innovations in biotechnology.
               </p>
               <form onSubmit={handleNewsletterSubmit} className="flex gap-3 max-w-md mx-auto">
@@ -42,7 +42,7 @@ export default function Footer({
                   name="email"
                   placeholder="Enter your email"
                   required
-                  className="flex-1 px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 px-4 py-2 rounded-lg bg-blue-700 text-white placeholder-blue-200 border border-blue-500 focus:ring-2 focus:ring-blue-300 focus:border-transparent"
                 />
                 <Button type="submit">
                   Subscribe
@@ -53,151 +53,86 @@ export default function Footer({
         </div>
       )}
 
-      {/* Main Footer Content */}
+      {/* Contact Information and Working Hours */}
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">K</span>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_200px_200px] gap-12">
+          {/* Contact Information */}
+          <div>
+            <h4 className="font-semibold mb-6 text-xl">Thông tin liên hệ</h4>
+            <div className="space-y-4">
+              <div className="text-lg font-bold">
+                CÔNG TY TNHH CÔNG NGHỆ SINH HỌC KHOA THƯƠNG
               </div>
-              <span className="text-xl font-bold">KTBioTech</span>
-            </div>
-            <p className="text-gray-300 mb-4">
-              Leading innovation in biotechnology for a sustainable future. 
-              We develop cutting-edge solutions to address global challenges.
-            </p>
-            <div className="flex gap-3">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                </svg>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
-                </svg>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-              </a>
+              <div className="space-y-2 text-blue-100">
+                <div>Điện thoại: (+84) 28.3761.2606</div>
+                <div>Email: Sales@kt-biotech.com</div>
+                <div>Email: Info@kt-biotech.com</div>
+                <div>Địa chỉ: Số 10-12, đường số 3, KDC Gia Hòa, Phường Phong Phú, tp Hồ Chí Minh</div>
+              </div>
             </div>
           </div>
 
-          {/* Research */}
-          <div>
-            <h4 className="font-semibold mb-4 text-lg">Research</h4>
-            <ul className="space-y-2 text-gray-300">
-              <li>
-                <Link href="/research/gene-editing" className="hover:text-white transition-colors">
-                  Gene Editing
-                </Link>
-              </li>
-              <li>
-                <Link href="/research/synthetic-biology" className="hover:text-white transition-colors">
-                  Synthetic Biology
-                </Link>
-              </li>
-              <li>
-                <Link href="/research/ai-biotech" className="hover:text-white transition-colors">
-                  AI in Biotech
-                </Link>
-              </li>
-              <li>
-                <Link href="/research/drug-discovery" className="hover:text-white transition-colors">
-                  Drug Discovery
-                </Link>
-              </li>
-              <li>
-                <Link href="/research/publications" className="hover:text-white transition-colors">
-                  Publications
-                </Link>
-              </li>
-            </ul>
-          </div>
+         
 
-          {/* Solutions */}
+          {/* Quick Links */}
           <div>
-            <h4 className="font-semibold mb-4 text-lg">Solutions</h4>
-            <ul className="space-y-2 text-gray-300">
-              <li>
-                <Link href="/solutions/sustainable-biotech" className="hover:text-white transition-colors">
-                  Sustainable Biotech
-                </Link>
-              </li>
-              <li>
-                <Link href="/solutions/personalized-medicine" className="hover:text-white transition-colors">
-                  Personalized Medicine
-                </Link>
-              </li>
-              <li>
-                <Link href="/solutions/environmental-solutions" className="hover:text-white transition-colors">
-                  Environmental Solutions
-                </Link>
-              </li>
-              <li>
-                <Link href="/solutions/healthcare-innovation" className="hover:text-white transition-colors">
-                  Healthcare Innovation
-                </Link>
-              </li>
-              <li>
-                <Link href="/solutions/agriculture" className="hover:text-white transition-colors">
-                  Agriculture
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Connect */}
-          <div>
-            <h4 className="font-semibold mb-4 text-lg">Connect</h4>
-            <ul className="space-y-2 text-gray-300">
-              <li>
+            <h4 className="font-semibold mb-6 text-xl">Liên kết nhanh</h4>
+            <div className="space-y-2 text-blue-100">
+              <div>
                 <Link href="/about" className="hover:text-white transition-colors">
-                  About Us
+                  Giới thiệu
                 </Link>
-              </li>
-              <li>
-                <Link href="/careers" className="hover:text-white transition-colors">
-                  Careers
+              </div>
+              <div>
+                <Link href="/products" className="hover:text-white transition-colors">
+                  Sản phẩm
                 </Link>
-              </li>
-              <li>
+              </div>
+              <div>
+                <Link href="/services" className="hover:text-white transition-colors">
+                  Dịch vụ
+                </Link>
+              </div>
+              <div>
                 <Link href="/contact" className="hover:text-white transition-colors">
-                  Contact
+                  Liên hệ
                 </Link>
-              </li>
-              <li>
-                <Link href="/news" className="hover:text-white transition-colors">
-                  News & Press
-                </Link>
-              </li>
-              <li>
-                <Link href="/partners" className="hover:text-white transition-colors">
-                  Partners
-                </Link>
-              </li>
-            </ul>
+              </div>
+            </div>
+          </div>
+
+           {/* Working Hours */}
+           <div>
+            <h4 className="font-semibold mb-6 text-xl">Thời gian làm việc</h4>
+            <div className="space-y-4 text-blue-100">
+              <div>
+                <div className="font-medium mb-2">Thứ 2 đến thứ 6</div>
+                <div className="ml-4 space-y-1">
+                  <div>– Sáng: 07h30 – 12h00</div>
+                  <div>– Chiều: 13h30 – 17h00</div>
+                </div>
+              </div>
+              <div className="font-medium">
+                Thứ 7 – Chủ nhật không làm việc
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-700 mt-8 pt-8">
+        <div className="border-t border-blue-500 mt-12 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="text-gray-300 text-sm">
+            <div className="text-blue-100 text-sm">
               &copy; 2024 KTBioTech. All rights reserved.
             </div>
             <div className="flex items-center gap-6 text-sm">
-              <Link href="/privacy" className="text-gray-300 hover:text-white transition-colors">
+              <Link href="/privacy" className="text-blue-100 hover:text-white transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="text-gray-300 hover:text-white transition-colors">
+              <Link href="/terms" className="text-blue-100 hover:text-white transition-colors">
                 Terms of Service
               </Link>
-              <Link href="/cookies" className="text-gray-300 hover:text-white transition-colors">
+              <Link href="/cookies" className="text-blue-100 hover:text-white transition-colors">
                 Cookie Policy
               </Link>
             </div>
