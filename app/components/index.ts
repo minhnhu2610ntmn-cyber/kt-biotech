@@ -1,5 +1,5 @@
 // Base Components (from system-design package)
-export { Button, Input, Select } from 'system-design';
+export { Button, Input, Select } from '@ktbiotech/system-design';
 
 // Layout Components
 export * from './layout';

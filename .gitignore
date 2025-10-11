@@ -40,6 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# system-design package build
+app/packages/*/dist/
+
 *storybook.log
 storybook-static
 .env

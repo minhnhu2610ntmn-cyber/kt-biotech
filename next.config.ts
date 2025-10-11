@@ -5,14 +5,25 @@ import path from 'path';
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
 const nextConfig: NextConfig = {
-  webpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      'system-design': path.resolve(__dirname, './app/packages/system-design/src'),
-      '@landing/system-design': path.resolve(__dirname, './app/packages/system-design/src'),
-    };
+  webpack: (config, { dev }) => {
+    // In development, use TypeScript source directly for hot reload
+    if (dev) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@ktbiotech/system-design': path.resolve(__dirname, './app/packages/system-design/src'),
+        '@ktbiotech/blog': path.resolve(__dirname, './app/packages/blog/src'),
+      };
+    } else {
+      // In production, use compiled JavaScript
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@ktbiotech/system-design': path.resolve(__dirname, './app/packages/system-design/dist'),
+        '@ktbiotech/blog': path.resolve(__dirname, './app/packages/blog/dist'),
+      };
+    }
     return config;
   },
+  transpilePackages: ['@ktbiotech/system-design', '@ktbiotech/blog'],
 };
 
 export default withNextIntl(nextConfig);

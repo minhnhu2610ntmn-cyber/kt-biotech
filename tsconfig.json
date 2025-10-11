@@ -20,8 +20,10 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "system-design": ["./app/packages/system-design/src"],
-      "@landing/system-design": ["./app/packages/system-design/src"]
+      "@ktbiotech/system-design": ["./app/packages/system-design/src"],
+      "@ktbiotech/system-design/*": ["./app/packages/system-design/src/*"],
+      "@ktbiotech/blog": ["./app/packages/blog/src"],
+      "@ktbiotech/blog/*": ["./app/packages/blog/src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

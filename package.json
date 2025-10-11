@@ -1,5 +1,5 @@
 {
-  "name": "landing",
+  "name": "ktbiotech",
   "version": "0.1.0",
   "private": true,
   "workspaces": [
@@ -7,11 +7,13 @@
   ],
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "yarn workspace @ktbiotech/system-design build && yarn workspace @ktbiotech/blog build && next build --turbopack",
     "start": "next start",
     "lint": "eslint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "build:system-design": "yarn workspace @ktbiotech/system-design build:clean",
+    "build:blog": "yarn workspace @ktbiotech/blog build:clean"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",

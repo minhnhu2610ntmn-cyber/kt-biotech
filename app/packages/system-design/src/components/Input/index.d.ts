@@ -10,5 +10,5 @@ interface InputProps extends Omit<React.ComponentProps<"input">, 'size'> {
     fullWidth?: boolean;
     required?: boolean;
 }
-declare function Input({ label, error, helperText, leftIcon, rightIcon, variant, size, fullWidth, required, type, className, ...props }: InputProps): React.JSX.Element;
+declare function Input({ label, error, helperText, leftIcon, rightIcon, variant, size, fullWidth, required, type, className, ...props }: InputProps): import("react/jsx-runtime").JSX.Element;
 export { Input };

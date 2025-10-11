@@ -1,7 +1,7 @@
 {
-  "name": "@ktbiotech/system-design",
+  "name": "@ktbiotech/blog",
   "version": "1.0.0",
-  "description": "KTBioTech system design components and utilities",
+  "description": "KTBioTech blog components and utilities",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,17 +27,9 @@
     "react-dom": "^19.1.0"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.2.3",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "lucide-react": "^0.545.0",
-    "react-select": "^5.10.2",
-    "tailwind-merge": "^3.3.1"
+    "@ktbiotech/system-design": "*"
   },
   "devDependencies": {
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@types/react-select": "^5.0.0",
-    "typescript": "^5"
+    "typescript": "^5.0.0"
   }
 }

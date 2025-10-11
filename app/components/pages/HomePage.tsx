@@ -4,8 +4,9 @@ import Image from "next/image";
 import { useTranslations } from 'next-intl';
 import { User, Mail, Lock, Phone, MapPin, Search } from 'lucide-react';
 import { LanguageSwitcher } from '../layout';
-import { Input, Select } from '@landing/system-design';
+import { Input, Select, Button } from '@ktbiotech/system-design';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function HomePage() {
   const t = useTranslations();
@@ -57,14 +58,26 @@ export default function HomePage() {
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <LanguageSwitcher />
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
+        <div className="flex flex-col items-center gap-4">
+          <Image
+            className="dark:invert"
+            src="/next.svg"
+            alt="Next.js logo"
+            width={180}
+            height={38}
+            priority
+          />
+          <div className="flex gap-3">
+            <Link href="/blogs">
+              <Button size="lg">
+                View Our Blog
+              </Button>
+            </Link>
+            <Button variant="outline" size="lg">
+              Learn More
+            </Button>
+          </div>
+        </div>
         <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
           <li className="mb-2 tracking-[-.01em]">
             {t('getStarted')}{" "}
