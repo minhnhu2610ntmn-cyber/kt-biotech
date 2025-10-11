@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Select from 'react-select';
+import Select, { StylesConfig, ControlProps, OptionProps, SingleValue, MultiValue } from 'react-select';
 
 interface OptionType {
   value: string;
   label: string;
 }
+
 
 export default function LanguageSwitcher() {
   const [currentLocale, setCurrentLocale] = useState('vi');
@@ -33,10 +34,10 @@ export default function LanguageSwitcher() {
     }
   }, []);
 
-  const switchLanguage = (selectedOption: OptionType | null) => {
-    if (!selectedOption) return;
+  const switchLanguage = (selectedOption: SingleValue<OptionType> | MultiValue<OptionType>) => {
+    if (!selectedOption || Array.isArray(selectedOption)) return;
     
-    const newLocale = selectedOption.value;
+    const newLocale = (selectedOption as OptionType).value;
     
     // Set locale cookie
     document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000`;
@@ -53,8 +54,8 @@ export default function LanguageSwitcher() {
     window.location.reload();
   };
 
-  const customStyles = {
-    control: (provided: any, state: any) => ({
+  const customStyles: StylesConfig<OptionType> = {
+    control: (provided: Record<string, unknown>, state: ControlProps<OptionType>) => ({
       ...provided,
       minHeight: '40px',
       backgroundColor: 'white',
@@ -67,7 +68,7 @@ export default function LanguageSwitcher() {
     indicatorSeparator: () => ({
       display: 'none'
     }),
-    option: (provided: any, state: any) => ({
+    option: (provided: Record<string, unknown>, state: OptionProps<OptionType>) => ({
       ...provided,
       backgroundColor: state.isSelected 
         ? '#3b82f6' 
@@ -79,11 +80,11 @@ export default function LanguageSwitcher() {
         backgroundColor: state.isSelected ? '#3b82f6' : '#eff6ff'
       }
     }),
-    singleValue: (provided: any) => ({
+    singleValue: (provided: Record<string, unknown>) => ({
       ...provided,
       color: '#374151'
     }),
-    menu: (provided: any) => ({
+    menu: (provided: Record<string, unknown>) => ({
       ...provided,
       boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
       border: '1px solid #e5e7eb'

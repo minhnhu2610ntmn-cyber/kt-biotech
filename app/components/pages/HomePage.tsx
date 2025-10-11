@@ -19,21 +19,6 @@ export default function HomePage() {
     console.log('Searching for:', value);
   };
 
-  const handleCountryChange = (selectedOption: {value: string, label: string} | {value: string, label: string}[] | null) => {
-    if (selectedOption && !Array.isArray(selectedOption)) {
-      setSelectedCountry(selectedOption);
-    } else {
-      setSelectedCountry(null);
-    }
-  };
-
-  const handleSkillsChange = (selectedOption: {value: string, label: string} | {value: string, label: string}[] | null) => {
-    if (Array.isArray(selectedOption)) {
-      setSelectedSkills(selectedOption);
-    } else {
-      setSelectedSkills([]);
-    }
-  };
 
   // Demo options
   const countryOptions = [
@@ -139,7 +124,7 @@ export default function HomePage() {
                 label="Country"
                 options={countryOptions}
                 value={selectedCountry}
-                onChange={setSelectedCountry}
+                onChange={(option) => setSelectedCountry(Array.isArray(option) ? option[0] || null : option)}
                 placeholder="Select your country"
                 isSearchable={true}
                 required
@@ -155,7 +140,7 @@ export default function HomePage() {
                 label="Skills"
                 options={skillOptions}
                 value={selectedSkills}
-                onChange={setSelectedSkills}
+                onChange={(option) => setSelectedSkills(Array.isArray(option) ? option : [])}
                 placeholder="Select your skills"
                 isMulti={true}
                 isSearchable={true}

@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { BlogPost, BlogCategory } from '../../types';
 import BlogList from '../../components/BlogList';
 import { Input, Select } from '@ktbiotech/system-design';
-import Link from 'next/link';
 import { Search } from 'lucide-react';
 
 interface BlogPageProps {
@@ -74,7 +73,7 @@ export default function BlogPage({ posts, categories, onPostClick }: BlogPagePro
                 ...categoryOptions
               ]}
               value={selectedCategory ? { value: selectedCategory, label: selectedCategory } : null}
-              onChange={(option) => setSelectedCategory(option?.value || '')}
+              onChange={(option) => setSelectedCategory((option as { value: string } | null)?.value || '')}
               placeholder="Filter by category"
               isClearable
             />

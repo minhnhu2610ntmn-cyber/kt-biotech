@@ -1,3 +1,5 @@
+import { SingleValue, MultiValue, ActionMeta } from 'react-select';
+
 export interface MessagesProviderProps {
   children: React.ReactNode;
 }
@@ -15,7 +17,7 @@ export interface OptionType {
 export interface SelectProps {
   options: OptionType[];
   value?: OptionType | OptionType[] | null;
-  onChange: (newValue: any, actionMeta: any) => void;
+  onChange: (newValue: SingleValue<OptionType> | MultiValue<OptionType>, actionMeta: ActionMeta<OptionType>) => void;
   placeholder?: string;
   isSearchable?: boolean;
   isDisabled?: boolean;

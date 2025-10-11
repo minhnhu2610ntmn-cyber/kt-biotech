@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { BlogPage, BlogPost, BlogCategory } from '@ktbiotech/blog';
-import { Button } from '@ktbiotech/system-design';
+import { Header, Footer } from '../components/containers';
 
 // Mock data for testing
 const mockPosts: BlogPost[] = [
@@ -94,34 +94,12 @@ export default function BlogsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                KTBioTech Blog
-              </h1>
-              <p className="text-gray-600">
-                Stay updated with the latest insights, research, and innovations in biotechnology
-              </p>
-            </div>
-            <div className="flex gap-3">
-              <Button 
-                onClick={() => window.history.back()}
-                variant="outline"
-              >
-                ← Back
-              </Button>
-              <Button 
-                onClick={() => console.log('Subscribe clicked')}
-              >
-                Subscribe
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Header 
+        title="KTBioTech Blog"
+        subtitle="Stay updated with the latest insights, research, and innovations in biotechnology"
+        showBackButton={true}
+        showSubscribeButton={true}
+      />
 
       {/* Blog Page Component */}
       <BlogPage
@@ -130,49 +108,7 @@ export default function BlogsPage() {
         onPostClick={handlePostClick}
       />
 
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">KTBioTech</h3>
-              <p className="text-gray-300">
-                Leading innovation in biotechnology for a sustainable future.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Research</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li>Gene Editing</li>
-                <li>Synthetic Biology</li>
-                <li>AI in Biotech</li>
-                <li>Drug Discovery</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Solutions</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li>Sustainable Biotech</li>
-                <li>Personalized Medicine</li>
-                <li>Environmental Solutions</li>
-                <li>Healthcare Innovation</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Connect</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li>About Us</li>
-                <li>Careers</li>
-                <li>Contact</li>
-                <li>Newsletter</li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-            <p>&copy; 2024 KTBioTech. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer showNewsletter={true} />
     </div>
   );
 }

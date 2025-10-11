@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Select from './index';
 import { useState } from 'react';
+import { OptionType } from '../../types';
 
 const meta: Meta<typeof Select> = {
   title: 'Base/Select',
@@ -65,7 +66,7 @@ export const Default: Story = {
       <Select
         {...args}
         value={value}
-        onChange={setValue}
+        onChange={(option) => setValue(Array.isArray(option) ? option[0] || null : option)}
       />
     );
   },
@@ -84,7 +85,7 @@ export const WithLabel: Story = {
       <Select
         {...args}
         value={value}
-        onChange={setValue}
+        onChange={(option) => setValue(Array.isArray(option) ? option[0] || null : option)}
       />
     );
   },
@@ -103,7 +104,7 @@ export const Searchable: Story = {
       <Select
         {...args}
         value={value}
-        onChange={setValue}
+        onChange={(option) => setValue(Array.isArray(option) ? option[0] || null : option)}
       />
     );
   },
@@ -122,7 +123,7 @@ export const Clearable: Story = {
       <Select
         {...args}
         value={value}
-        onChange={setValue}
+        onChange={(option) => setValue(Array.isArray(option) ? option[0] || null : option)}
       />
     );
   },
@@ -138,12 +139,12 @@ export const MultiSelect: Story = {
     isClearable: true,
   },
   render: (args) => {
-    const [value, setValue] = useState([]);
+    const [value, setValue] = useState<OptionType[]>([]);
     return (
       <Select
         {...args}
         value={value}
-        onChange={setValue}
+        onChange={(option) => setValue(Array.isArray(option) ? option : [])}
       />
     );
   },
@@ -162,7 +163,7 @@ export const WithError: Story = {
       <Select
         {...args}
         value={value}
-        onChange={setValue}
+        onChange={(option) => setValue(Array.isArray(option) ? option[0] || null : option)}
       />
     );
   },
@@ -177,12 +178,12 @@ export const WithHelperText: Story = {
     isMulti: true,
   },
   render: (args) => {
-    const [value, setValue] = useState([]);
+    const [value, setValue] = useState<OptionType[]>([]);
     return (
       <Select
         {...args}
         value={value}
-        onChange={setValue}
+        onChange={(option) => setValue(Array.isArray(option) ? option : [])}
       />
     );
   },
@@ -201,7 +202,7 @@ export const Disabled: Story = {
       <Select
         {...args}
         value={value}
-        onChange={setValue}
+        onChange={(option) => setValue(Array.isArray(option) ? option[0] || null : option)}
       />
     );
   },
@@ -221,7 +222,7 @@ export const FullWidth: Story = {
         <Select
           {...args}
           value={value}
-          onChange={setValue}
+          onChange={(option) => setValue(Array.isArray(option) ? option[0] || null : option)}
         />
       </div>
     );

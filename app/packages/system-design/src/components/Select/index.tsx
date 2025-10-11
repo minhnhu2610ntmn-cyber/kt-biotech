@@ -1,6 +1,6 @@
 'use client';
 
-import ReactSelect, { MultiValue, SingleValue, ActionMeta } from 'react-select';
+import ReactSelect, { StylesConfig, ControlProps, OptionProps } from 'react-select';
 import { cn } from '../../utils';
 import { OptionType, SelectProps } from '../../types';
 
@@ -19,8 +19,8 @@ export default function Select({
   helperText,
   required = false
 }: SelectProps) {
-  const customStyles = {
-    control: (provided: any, state: any) => ({
+  const customStyles: StylesConfig<OptionType> = {
+    control: (provided: Record<string, unknown>, state: ControlProps<OptionType>) => ({
       ...provided,
       minHeight: '40px',
       backgroundColor: isDisabled ? '#f9fafb' : 'white',
@@ -43,7 +43,7 @@ export default function Select({
     indicatorSeparator: () => ({
       display: 'none'
     }),
-    option: (provided: any, state: any) => ({
+    option: (provided: Record<string, unknown>, state: OptionProps<OptionType>) => ({
       ...provided,
       backgroundColor: state.isSelected 
         ? '#3b82f6' 
@@ -56,20 +56,20 @@ export default function Select({
         backgroundColor: state.isSelected ? '#3b82f6' : '#eff6ff'
       }
     }),
-    singleValue: (provided: any) => ({
+    singleValue: (provided: Record<string, unknown>) => ({
       ...provided,
       color: '#374151'
     }),
-    multiValue: (provided: any) => ({
+    multiValue: (provided: Record<string, unknown>) => ({
       ...provided,
       backgroundColor: '#eff6ff',
       borderRadius: '6px'
     }),
-    multiValueLabel: (provided: any) => ({
+    multiValueLabel: (provided: Record<string, unknown>) => ({
       ...provided,
       color: '#1d4ed8'
     }),
-    multiValueRemove: (provided: any) => ({
+    multiValueRemove: (provided: Record<string, unknown>) => ({
       ...provided,
       color: '#6b7280',
       '&:hover': {
@@ -77,18 +77,18 @@ export default function Select({
         color: '#dc2626'
       }
     }),
-    placeholder: (provided: any) => ({
+    placeholder: (provided: Record<string, unknown>) => ({
       ...provided,
       color: '#9ca3af'
     }),
-    menu: (provided: any) => ({
+    menu: (provided: Record<string, unknown>) => ({
       ...provided,
       boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
       border: '1px solid #e5e7eb',
       borderRadius: '8px',
       zIndex: 9999
     }),
-    menuList: (provided: any) => ({
+    menuList: (provided: Record<string, unknown>) => ({
       ...provided,
       padding: '4px',
       borderRadius: '8px'

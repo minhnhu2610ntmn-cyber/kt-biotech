@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { BlogPost } from '@ktbiotech/blog';
-import { Button } from '@ktbiotech/system-design';
+import { Header, Footer } from '../../components/containers';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -198,26 +198,11 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <Link href="/blogs">
-              <Button variant="outline">
-                ← Back to Blog
-              </Button>
-            </Link>
-            <div className="flex gap-3">
-              <Button variant="outline">
-                Share
-              </Button>
-              <Button>
-                Subscribe
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Header 
+        showBackButton={true}
+        showSubscribeButton={true}
+        onBackClick={() => window.location.href = '/blogs'}
+      />
 
       {/* Article */}
       <article className="container mx-auto px-4 py-8">
@@ -307,6 +292,8 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
           </div>
         </div>
       </article>
+
+      <Footer showNewsletter={true} />
     </div>
   );
 }

@@ -31,7 +31,7 @@ export const truncateText = (text: string, length: number): string => {
 /**
  * Parse markdown frontmatter
  */
-export const parseFrontmatter = (content: string): { frontmatter: Record<string, any>; content: string } => {
+export const parseFrontmatter = (content: string): { frontmatter: Record<string, unknown>; content: string } => {
   const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
   const match = content.match(frontmatterRegex);
   
@@ -40,7 +40,7 @@ export const parseFrontmatter = (content: string): { frontmatter: Record<string,
   }
   
   const [, frontmatterString, markdownContent] = match;
-  const frontmatter: Record<string, any> = {};
+  const frontmatter: Record<string, unknown> = {};
   
   frontmatterString.split('\n').forEach(line => {
     const [key, ...valueParts] = line.split(':');
