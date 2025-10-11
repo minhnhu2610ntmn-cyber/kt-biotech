@@ -1,0 +1,33 @@
+{
+  "name": "@landing/system-design",
+  "version": "1.0.0",
+  "description": "Landing page system design components and utilities",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.545.0",
+    "react-select": "^5.10.2",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/react-select": "^5.0.0",
+    "typescript": "^5"
+  }
+}

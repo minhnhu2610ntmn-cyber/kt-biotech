@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useTranslations } from 'next-intl';
 import { User, Mail, Lock, Phone, MapPin, Search } from 'lucide-react';
 import { LanguageSwitcher } from '../layout';
-import { Input, Select } from '../ui';
+import { Input, Select } from '@landing/system-design';
 import { useState } from 'react';
 
 export default function HomePage() {

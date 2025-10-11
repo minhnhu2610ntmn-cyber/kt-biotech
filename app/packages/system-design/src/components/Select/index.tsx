@@ -1,8 +1,8 @@
 'use client';
 
-import ReactSelect from 'react-select';
-import { cn } from '@/app/utils';
-import { OptionType, SelectProps } from '@/app/types';
+import ReactSelect, { MultiValue, SingleValue, ActionMeta } from 'react-select';
+import { cn } from '../../utils';
+import { OptionType, SelectProps } from '../../types';
 
 export default function Select({
   options,
@@ -18,7 +18,7 @@ export default function Select({
   error,
   helperText,
   required = false
-}: CustomSelectProps) {
+}: SelectProps) {
   const customStyles = {
     control: (provided: any, state: any) => ({
       ...provided,

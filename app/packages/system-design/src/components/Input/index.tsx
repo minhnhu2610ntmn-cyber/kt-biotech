@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Eye, EyeOff, AlertCircle } from "lucide-react";
-import { cn } from "@/app/utils";
+import { cn } from "../../utils";
 
 interface InputProps extends Omit<React.ComponentProps<"input">, 'size'> {
   label?: string;

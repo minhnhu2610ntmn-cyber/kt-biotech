@@ -3,7 +3,7 @@ import Select from './index';
 import { useState } from 'react';
 
 const meta: Meta<typeof Select> = {
-  title: 'UI/Select',
+  title: 'Base/Select',
   component: Select,
   parameters: {
     layout: 'centered',

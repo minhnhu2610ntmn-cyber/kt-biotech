@@ -3,7 +3,7 @@ import { Input } from './index';
 import { Search, User, Mail, Lock } from 'lucide-react';
 
 const meta: Meta<typeof Input> = {
-  title: 'UI/Input',
+  title: 'Base/Input',
   component: Input,
   parameters: {
     layout: 'centered',

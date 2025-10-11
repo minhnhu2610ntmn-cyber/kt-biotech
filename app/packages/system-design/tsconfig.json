@@ -5,7 +5,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true,
+    "noEmit": false,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -13,17 +13,14 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "declaration": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "system-design": ["./app/packages/system-design/src"],
-      "@landing/system-design": ["./app/packages/system-design/src"]
+      "@/*": ["../*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.stories.*"]
 }

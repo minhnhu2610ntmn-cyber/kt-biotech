@@ -1,5 +1,5 @@
-// UI Components
-export * from './ui';
+// Base Components (from system-design package)
+export { Button, Input, Select } from 'system-design';
 
 // Layout Components
 export * from './layout';
