@@ -3,6 +3,7 @@
 import React from 'react';
 import { BlogPage, BlogPost, BlogCategory } from '@ktbiotech/blog';
 import { Header, Footer } from '../components/containers';
+import { useRouter } from 'next/navigation';
 
 // Mock data for testing
 const mockPosts: BlogPost[] = [
@@ -86,10 +87,12 @@ const mockCategories: BlogCategory[] = [
 ];
 
 export default function BlogsPage() {
+  const router = useRouter();
+  
   const handlePostClick = (post: BlogPost) => {
     console.log('Post clicked:', post.title);
-    // In a real app, you would navigate to the post detail page
-    // router.push(`/blogs/${post.slug}`);
+    // Navigate to the blog detail page using Next.js router
+    router.push(`/blogs/${post.slug}`);
   };
 
   return (

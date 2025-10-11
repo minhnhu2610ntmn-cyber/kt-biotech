@@ -24,6 +24,9 @@ const nextConfig: NextConfig = {
     return config;
   },
   transpilePackages: ['@ktbiotech/system-design', '@ktbiotech/blog'],
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
 };
 
 export default withNextIntl(nextConfig);

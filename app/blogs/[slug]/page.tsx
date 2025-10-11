@@ -1,10 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo, Suspense } from 'react';
 import { BlogPost } from '@ktbiotech/blog';
 import { Header, Footer } from '../../components/containers';
+import { TableOfContents, SocialShare, AuthorCard, ReadingProgress, calculateReadingTime, formatReadingTime, formatMediumDate, parseTocFromMarkdown } from '@ktbiotech/blog';
+import { LoadingSpinner } from '@ktbiotech/system-design';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 // Mock blog posts data (in real app, this would come from a CMS or API)
 const blogPosts: BlogPost[] = [
@@ -188,110 +192,176 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
     notFound();
   }
 
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }).format(date);
+  // Calculate reading time and generate TOC
+  const readingTime = useMemo(() => {
+    return formatReadingTime(calculateReadingTime(post.content));
+  }, [post.content]);
+
+  const toc = useMemo(() => {
+    return parseTocFromMarkdown(post.content);
+  }, [post.content]);
+
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
+
+  // Custom components for ReactMarkdown
+  const components = {
+    h2: ({ children }: { children?: React.ReactNode }) => {
+      const text = children?.toString() || '';
+      const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-').replace(/^-+|-+$/g, '');
+      return <h2 id={id} className="text-2xl font-bold text-gray-900 mt-12 mb-6 leading-tight">{children}</h2>;
+    },
+    h3: ({ children }: { children?: React.ReactNode }) => {
+      const text = children?.toString() || '';
+      const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-').replace(/^-+|-+$/g, '');
+      return <h3 id={id} className="text-xl font-semibold text-gray-900 mt-8 mb-4 leading-tight">{children}</h3>;
+    },
+    p: ({ children }: { children?: React.ReactNode }) => (
+      <p className="text-gray-800 leading-relaxed mb-6 text-lg">{children}</p>
+    ),
+    ul: ({ children }: { children?: React.ReactNode }) => (
+      <ul className="list-disc list-inside mb-6 space-y-2 text-gray-800">{children}</ul>
+    ),
+    ol: ({ children }: { children?: React.ReactNode }) => (
+      <ol className="list-decimal list-inside mb-6 space-y-2 text-gray-800">{children}</ol>
+    ),
+    li: ({ children }: { children?: React.ReactNode }) => (
+      <li className="text-lg leading-relaxed">{children}</li>
+    ),
+    strong: ({ children }: { children?: React.ReactNode }) => (
+      <strong className="font-semibold text-gray-900">{children}</strong>
+    ),
+    code: ({ children }: { children?: React.ReactNode }) => (
+      <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800">{children}</code>
+    ),
+    blockquote: ({ children }: { children?: React.ReactNode }) => (
+      <blockquote className="border-l-4 border-blue-500 pl-4 italic text-gray-600 my-6">{children}</blockquote>
+    ),
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
+      {/* Reading progress bar */}
+      <ReadingProgress />
+      
+      {/* Minimal header for reading */}
       <Header 
         showBackButton={true}
-        showSubscribeButton={true}
+        showSubscribeButton={false}
         onBackClick={() => window.location.href = '/blogs'}
       />
 
-      {/* Article */}
-      <article className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Article Header */}
-          <header className="mb-8">
-            <div className="flex items-center gap-4 mb-4 text-sm text-gray-600">
-              <time>{formatDate(post.publishedAt)}</time>
-              <span>•</span>
-              <span>by {post.author}</span>
-            </div>
-            
-            <h1 className="text-4xl font-bold text-gray-900 mb-6">
-              {post.title}
-            </h1>
-            
-            <p className="text-xl text-gray-600 mb-6">
-              {post.excerpt}
-            </p>
-            
-            <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </header>
-
-          {/* Article Content */}
-          <div className="prose prose-lg max-w-none">
-            <div 
-              className="whitespace-pre-wrap text-gray-800 leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br />') }}
-            />
-          </div>
-
-          {/* Author Bio */}
-          <div className="mt-12 p-6 bg-white rounded-lg shadow-sm border">
-            <h3 className="text-lg font-semibold mb-3">About the Author</h3>
-            <div className="flex items-start gap-4">
-              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
-                <span className="text-2xl font-bold text-gray-600">
-                  {post.author.split(' ').map(n => n[0]).join('')}
-                </span>
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-900">{post.author}</h4>
-                <p className="text-gray-600 mt-1">
-                  Leading researcher in biotechnology with over 15 years of experience 
-                  in gene editing and sustainable biotech solutions. Published author 
-                  of numerous peer-reviewed papers and recipient of multiple research awards.
+      {/* Main content area */}
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex gap-8">
+          {/* Main article content */}
+          <article className="flex-1 max-w-4xl">
+            <div className="max-w-3xl mx-auto">
+              {/* Article Header */}
+              <header className="mb-12">
+                {/* Author and metadata */}
+                <div className="flex items-center gap-4 mb-6 text-sm text-gray-600">
+                  <span className="font-medium text-gray-900">{post.author}</span>
+                  <span>•</span>
+                  <time>{formatMediumDate(post.publishedAt)}</time>
+                  <span>•</span>
+                  <span>{readingTime}</span>
+                </div>
+                
+                {/* Title */}
+                <h1 className="text-5xl font-bold text-gray-900 mb-6 leading-tight tracking-tight">
+                  {post.title}
+                </h1>
+                
+                {/* Subtitle/Excerpt */}
+                <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+                  {post.excerpt}
                 </p>
+                
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <Link
+                      key={tag}
+                      href={`/blogs?tag=${tag.toLowerCase()}`}
+                      className="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-full transition-colors"
+                    >
+                      #{tag}
+                    </Link>
+                  ))}
+                </div>
+              </header>
+
+              {/* Article Content */}
+              <div className="prose prose-lg max-w-none">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={components}
+                >
+                  {post.content}
+                </ReactMarkdown>
+              </div>
+
+              {/* Author Card */}
+              <div className="mt-16">
+                <AuthorCard
+                  author={post.author}
+                  publishedAt={post.publishedAt}
+                  readingTime={readingTime}
+                />
+              </div>
+
+              {/* Related Articles */}
+              <div className="mt-16">
+                <h3 className="text-2xl font-bold text-gray-900 mb-8">More from KTBioTech</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {blogPosts
+                    .filter(p => p.id !== post.id)
+                    .slice(0, 2)
+                    .map((relatedPost) => (
+                      <Link 
+                        key={relatedPost.id}
+                        href={`/blogs/${relatedPost.slug}`}
+                        className="group block p-6 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-200"
+                      >
+                        <h4 className="font-semibold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                          {relatedPost.title}
+                        </h4>
+                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                          {relatedPost.excerpt}
+                        </p>
+                        <div className="flex items-center justify-between text-sm text-gray-500">
+                          <span>by {relatedPost.author}</span>
+                          <time>{formatMediumDate(relatedPost.publishedAt)}</time>
+                        </div>
+                      </Link>
+                    ))}
+                </div>
               </div>
             </div>
-          </div>
+          </article>
 
-          {/* Related Articles */}
-          <div className="mt-12">
-            <h3 className="text-2xl font-bold mb-6">Related Articles</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {blogPosts
-                .filter(p => p.id !== post.id)
-                .slice(0, 2)
-                .map((relatedPost) => (
-                  <Link 
-                    key={relatedPost.id}
-                    href={`/blogs/${relatedPost.slug}`}
-                    className="block p-6 bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow"
-                  >
-                    <h4 className="font-semibold text-gray-900 mb-2">
-                      {relatedPost.title}
-                    </h4>
-                    <p className="text-gray-600 text-sm mb-3">
-                      {relatedPost.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between text-sm text-gray-500">
-                      <span>by {relatedPost.author}</span>
-                      <time>{formatDate(relatedPost.publishedAt)}</time>
-                    </div>
-                  </Link>
-                ))}
+          {/* Sidebar */}
+          <aside className="hidden lg:block w-80 flex-shrink-0">
+            <div className="sticky top-24 space-y-6">
+              {/* Table of Contents */}
+              <Suspense fallback={<LoadingSpinner size="sm" text="Preparing navigation..." />}>
+                {toc.length > 0 && (
+                  <TableOfContents items={toc} />
+                )}
+              </Suspense>
+              
+              {/* Social Share */}
+              <Suspense fallback={<LoadingSpinner size="sm" text="Setting up sharing..." />}>
+                <SocialShare
+                  title={post.title}
+                  url={currentUrl}
+                  author={post.author}
+                />
+              </Suspense>
             </div>
-          </div>
+          </aside>
         </div>
-      </article>
+      </div>
 
       <Footer showNewsletter={true} />
     </div>

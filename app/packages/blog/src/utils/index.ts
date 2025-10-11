@@ -57,3 +57,6 @@ export const parseFrontmatter = (content: string): { frontmatter: Record<string,
   
   return { frontmatter, content: markdownContent };
 };
+
+// Export blog-specific utilities
+export * from './blogUtils';
