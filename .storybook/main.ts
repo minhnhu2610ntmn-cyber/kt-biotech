@@ -28,6 +28,7 @@ const config: StorybookConfig = {
       config.resolve.alias = {
         ...config.resolve.alias,
         '@': path.resolve(__dirname, '../'),
+        'next-intl': path.resolve(__dirname, './mocks/next-intl.ts'),
       };
     }
     return config;

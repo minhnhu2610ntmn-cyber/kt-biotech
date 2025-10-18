@@ -1,6 +1,8 @@
 import '../app/globals.css';
+import { withNextIntl } from './next-intl-decorator';
 
 const preview = {
+  decorators: [withNextIntl],
   parameters: {
     controls: {
       matchers: {
