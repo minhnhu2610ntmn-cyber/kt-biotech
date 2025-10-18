@@ -1,24 +1,21 @@
-import { MasterLayout } from '../layout';
 import {
+  CountriesSection,
   HeroSection,
   MilestonesSection,
-  TechnologySection,
-  CountriesSection,
   NewsSection,
   PartnersSection,
+  TechnologySection,
 } from '../containers';
 
 export default function HomePage() {
   return (
-    <MasterLayout>
-      <div className='min-h-screen'>
-        <HeroSection />
-        <MilestonesSection />
-        <TechnologySection />
-        <CountriesSection />
-        <NewsSection />
-        <PartnersSection />
-      </div>
-    </MasterLayout>
+    <div className='min-h-screen'>
+      <HeroSection />
+      <MilestonesSection />
+      <TechnologySection />
+      <CountriesSection />
+      <NewsSection />
+      <PartnersSection />
+    </div>
   );
 }

@@ -1,23 +1,23 @@
 'use client';
 
 import React, { ReactNode } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import {
-  Navigation,
   Autoplay,
-  EffectFade,
   EffectCoverflow,
+  EffectFade,
+  Navigation,
 } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { cn } from '../../utils';
 
 // Import Swiper styles
 import 'swiper/css';
+import 'swiper/css/a11y';
+import 'swiper/css/autoplay';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import 'swiper/css/autoplay';
-import 'swiper/css/effect-fade';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/a11y';
 
 export interface SliderProps {
   children: ReactNode[];
@@ -323,6 +323,25 @@ export const SliderPresets = {
     effect: 'fade' as const,
     grabCursor: true,
     allowTouchMove: true,
+  },
+
+  // Partners carousel
+  partners: {
+    slidesPerView: 5,
+    spaceBetween: 30,
+    loop: true,
+    autoplay: { delay: 3000, disableOnInteraction: false },
+    navigation: true,
+    pagination: false,
+    grabCursor: true,
+    allowTouchMove: true,
+    breakpoints: {
+      320: { slidesPerView: 2, spaceBetween: 15 },
+      640: { slidesPerView: 3, spaceBetween: 20 },
+      1024: { slidesPerView: 4, spaceBetween: 25 },
+      1280: { slidesPerView: 5, spaceBetween: 30 },
+    },
+    modules: [Autoplay, Navigation],
   },
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { useTranslations } from 'next-intl';
@@ -33,10 +34,13 @@ export function useNavbarConfig(customConfig?: NavbarConfig): NavbarConfig {
     ],
     showSearch: true,
     searchPlaceholder: tNavbar('searchPlaceholder'),
-    onSearch: (value) => console.log('Searching for:', value),
+    onSearch: (value: string) => {
+      // Handle search functionality
+    },
     hotlineNumber: '(+84) 28.3761.2606',
     hotlineLabel: tNavbar('hotline'),
-    address: 'Số 10-12, đường số 3, KDC Gia Hòa, Phường Phong Phú, tp Hồ Chí Minh',
+    address:
+      'Số 10-12, đường số 3, KDC Gia Hòa, Phường Phong Phú, tp Hồ Chí Minh',
   };
 
   // Merge custom config with default config

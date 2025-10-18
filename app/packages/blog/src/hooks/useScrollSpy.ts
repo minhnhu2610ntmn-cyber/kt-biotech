@@ -10,20 +10,24 @@ export const useScrollSpy = (sectionIds: string[]): string | null => {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
+      entries => {
         // Find the entry with the largest intersection ratio
         let maxRatio = 0;
         let maxEntry = null;
 
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
           if (entry.intersectionRatio > maxRatio) {
             maxRatio = entry.intersectionRatio;
             maxEntry = entry;
           }
         });
 
-        if (maxEntry && (maxEntry as IntersectionObserverEntry).intersectionRatio > 0) {
-          const target = (maxEntry as IntersectionObserverEntry).target as HTMLElement;
+        if (
+          maxEntry &&
+          (maxEntry as IntersectionObserverEntry).intersectionRatio > 0
+        ) {
+          const target = (maxEntry as IntersectionObserverEntry)
+            .target as HTMLElement;
           setActiveId(target.id);
         }
       },
@@ -34,7 +38,7 @@ export const useScrollSpy = (sectionIds: string[]): string | null => {
     );
 
     // Observe all sections
-    sectionIds.forEach((id) => {
+    sectionIds.forEach(id => {
       const element = document.getElementById(id);
       if (element) {
         observer.observe(element);

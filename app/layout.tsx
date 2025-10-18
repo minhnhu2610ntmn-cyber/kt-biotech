@@ -1,20 +1,21 @@
-import { Geist, Geist_Mono } from "next/font/google";
-import { MessagesProvider, MasterLayout } from "./components";
-import "./globals.css";
+import { Geist, Geist_Mono } from 'next/font/google';
+import { MessagesProvider, MasterLayout } from './components';
+import './globals.css';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata = {
-  title: "KTBioTech - Công nghệ sinh học hàng đầu",
-  description: "KTBioTech cung cấp các giải pháp công nghệ sinh học tiên tiến, thiết bị y tế và dịch vụ tư vấn chuyên nghiệp.",
+  title: 'KTBioTech - Công nghệ sinh học hàng đầu',
+  description:
+    'KTBioTech cung cấp các giải pháp công nghệ sinh học tiên tiến, thiết bị y tế và dịch vụ tư vấn chuyên nghiệp.',
 };
 
 export default function RootLayout({
@@ -28,9 +29,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white flex flex-col`}
       >
         <MessagesProvider>
-          <MasterLayout>
-            {children}
-          </MasterLayout>
+          <MasterLayout>{children}</MasterLayout>
         </MessagesProvider>
       </body>
     </html>

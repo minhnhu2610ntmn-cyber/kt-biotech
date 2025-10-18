@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getCookieValue, loadMessages } from '../utils';
 
 export const useMessagesProvider = () => {
@@ -32,6 +32,6 @@ export const useMessagesProvider = () => {
     messages,
     locale,
     setMessages,
-    setLocale
+    setLocale,
   };
 };

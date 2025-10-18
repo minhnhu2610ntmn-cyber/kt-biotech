@@ -12,11 +12,14 @@ export default function FeaturedProducts({
 }: FeaturedProductsProps) {
   return (
     <div className={className}>
-      <Heading level={3} className='text-kt-gray-800 font-semibold mb-6 text-center'>
+      <Heading
+        level={3}
+        className='text-kt-gray-800 font-semibold mb-6 text-center'
+      >
         SẢN PHẨM NỔI BẬT
       </Heading>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
-        {products.map((product) => (
+        {products.map(product => (
           <div
             key={product.id}
             className='bg-white border border-kt-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow'

@@ -8,8 +8,10 @@ export interface NewsGridProps {
 
 export default function NewsGrid({ news, className }: NewsGridProps) {
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${className}`}>
-      {news.map((item) => (
+    <div
+      className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ${className}`}
+    >
+      {news.map(item => (
         <div
           key={item.id}
           className='bg-white border border-kt-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow'
@@ -21,15 +23,20 @@ export default function NewsGrid({ news, className }: NewsGridProps) {
               className='w-full h-full object-cover'
             />
             <div className='absolute top-4 left-4'>
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                item.category === 'news'
-                  ? 'bg-kt-blue-600 text-white'
+              <span
+                className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  item.category === 'news'
+                    ? 'bg-kt-blue-600 text-white'
+                    : item.category === 'about'
+                      ? 'bg-kt-success text-white'
+                      : 'bg-kt-warning text-white'
+                }`}
+              >
+                {item.category === 'news'
+                  ? 'Tin tức'
                   : item.category === 'about'
-                  ? 'bg-kt-success text-white'
-                  : 'bg-kt-warning text-white'
-              }`}>
-                {item.category === 'news' ? 'Tin tức' : 
-                 item.category === 'about' ? 'Giới thiệu' : 'Tuyển dụng'}
+                    ? 'Giới thiệu'
+                    : 'Tuyển dụng'}
               </span>
             </div>
           </div>

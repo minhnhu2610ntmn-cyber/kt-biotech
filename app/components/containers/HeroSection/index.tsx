@@ -1,8 +1,13 @@
-import { Slider, SliderPresets } from '@ktbiotech/system-design';
-import { ProductCategories } from './ProductCategories';
-import { FeaturedProducts } from './FeaturedProducts';
-import { CompanyMessage } from './CompanyMessage';
-import { productCategories, featuredProducts, companyMessage, heroSlides } from '../../data/mockData';
+import { Heading, Slider, SliderPresets, Text } from '@ktbiotech/system-design';
+import {
+  companyMessage,
+  featuredProducts,
+  heroSlides,
+  productCategories,
+} from '../../../data/mockData';
+import CompanyMessage from './CompanyMessage';
+import FeaturedProducts from './FeaturedProducts';
+import ProductCategories from './ProductCategories';
 
 export default function HeroSection() {
   return (
@@ -13,12 +18,12 @@ export default function HeroSection() {
           <div className='lg:col-span-1'>
             <ProductCategories categories={productCategories} />
           </div>
-          
+
           {/* Hero Carousel */}
           <div className='lg:col-span-2'>
             <div className='bg-kt-gray-50 rounded-lg overflow-hidden'>
               <Slider {...SliderPresets.hero}>
-                {heroSlides.map((slide) => (
+                {heroSlides.map(slide => (
                   <div key={slide.id} className='relative h-96'>
                     <img
                       src={slide.image}
@@ -27,8 +32,10 @@ export default function HeroSection() {
                     />
                     <div className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center'>
                       <div className='text-center text-white px-8'>
-                        <h2 className='text-3xl font-bold mb-4'>{slide.title}</h2>
-                        <p className='text-xl mb-6'>{slide.subtitle}</p>
+                        <Heading level={2} className='text-3xl font-bold mb-4'>
+                          {slide.title}
+                        </Heading>
+                        <Text className='text-xl mb-6'>{slide.subtitle}</Text>
                         <a
                           href={slide.href}
                           className='bg-kt-blue-600 hover:bg-kt-blue-700 text-white px-6 py-3 rounded-lg transition-colors'
@@ -42,13 +49,13 @@ export default function HeroSection() {
               </Slider>
             </div>
           </div>
-          
+
           {/* Company Message */}
           <div className='lg:col-span-1'>
             <CompanyMessage {...companyMessage} />
           </div>
         </div>
-        
+
         {/* Featured Products */}
         <div className='mt-8'>
           <FeaturedProducts products={featuredProducts} />

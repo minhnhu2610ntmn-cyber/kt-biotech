@@ -1,13 +1,15 @@
-import { Step, StepPresets } from '@ktbiotech/system-design';
-import { TechnologyContent } from './TechnologyContent';
-import { technologyFootprints } from '../../data/mockData';
+import { Heading, Step, StepPresets } from '@ktbiotech/system-design';
+import { technologyFootprints } from '../../../data/mockData';
+import TechnologyContent from './TechnologyContent';
 
 export default function TechnologySection() {
-  const stepItems = technologyFootprints.map((footprint) => ({
+  const stepItems = technologyFootprints.map(footprint => ({
     id: footprint.id,
     title: footprint.title,
     description: `${footprint.year} - ${footprint.description}`,
-    status: footprint.isActive ? 'active' : 'upcoming',
+    status: (footprint.isActive ? 'current' : 'upcoming') as
+      | 'current'
+      | 'upcoming',
   }));
 
   return (
@@ -18,18 +20,16 @@ export default function TechnologySection() {
           <div>
             <TechnologyContent footprints={technologyFootprints} />
           </div>
-          
+
           {/* Technology Timeline */}
           <div className='flex flex-col'>
-            <h3 className='text-kt-gray-800 font-semibold mb-6 text-center text-xl'>
+            <Heading
+              level={3}
+              className='text-kt-gray-800 font-semibold mb-6 text-center text-xl'
+            >
               DẤU ẤN CÔNG NGHỆ
-            </h3>
-            <Step
-              items={stepItems}
-              orientation='vertical'
-              variant='timeline'
-              {...StepPresets.timeline}
-            />
+            </Heading>
+            <Step items={stepItems} {...StepPresets.timeline} />
           </div>
         </div>
       </div>
