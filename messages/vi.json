@@ -24,5 +24,16 @@
   "demo": "Demo",
   "tryComponents": "Thử các component bên dưới:",
   "searchExample": "Thử tìm kiếm một cái gì đó...",
-  "formExample": "Ví dụ Form"
+  "formExample": "Ví dụ Form",
+  "navbar": {
+    "home": "Trang chủ",
+    "about": "Giới thiệu",
+    "products": "Sản phẩm",
+    "news": "Tin tức",
+    "research": "Nghiên cứu Khoa học",
+    "careers": "Tuyển Dụng",
+    "contact": "Liên hệ",
+    "searchPlaceholder": "Tìm kiếm...",
+    "hotline": "Hotline"
+  }
 }

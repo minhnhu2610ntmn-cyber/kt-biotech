@@ -16,6 +16,7 @@
     "build:blog": "yarn workspace @ktbiotech/blog build:clean"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@types/react-select": "^5.0.0",
     "class-variance-authority": "^0.7.1",
@@ -25,6 +26,7 @@
     "next-intl": "^4.3.12",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-hook-form": "^7.65.0",
     "react-markdown": "^10.1.0",
     "react-select": "^5.10.2",
     "remark-gfm": "^4.0.1",

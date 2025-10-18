@@ -3,8 +3,7 @@
 import Image from "next/image";
 import { useTranslations } from 'next-intl';
 import { User, Mail, Lock, Phone, MapPin, Search } from 'lucide-react';
-import { LanguageSwitcher } from '../layout';
-import { Input, Select, Button } from '@ktbiotech/system-design';
+import { Input, Select, Button, Slider, SliderPresets } from '@ktbiotech/system-design';
 import { useState } from 'react';
 import Link from 'next/link';
 
@@ -18,7 +17,6 @@ export default function HomePage() {
   const handleSearch = (value: string) => {
     console.log('Searching for:', value);
   };
-
 
   // Demo options
   const countryOptions = [
@@ -40,8 +38,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <LanguageSwitcher />
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <div className="flex flex-col items-center gap-4">
           <Image
@@ -76,12 +73,33 @@ export default function HomePage() {
           </li>
         </ol>
 
-        {/* Demo Components Section */}
-        <div className="w-full max-w-2xl space-y-8">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold mb-2">{t('demo')}</h2>
-            <p className="text-muted-foreground">{t('tryComponents')}</p>
-          </div>
+               {/* Demo Components Section */}
+               <div className="w-full max-w-2xl space-y-8">
+                 <div className="text-center">
+                   <h2 className="text-2xl font-bold mb-2">{t('demo')}</h2>
+                   <p className="text-muted-foreground">{t('tryComponents')}</p>
+                 </div>
+
+                 {/* Slider Demo */}
+                 <div className="space-y-4">
+                   <h3 className="text-lg font-semibold">Image Slider</h3>
+                   <div className="w-full max-w-md mx-auto">
+                     <Slider
+                       {...SliderPresets.hero}
+                       className="rounded-lg overflow-hidden"
+                     >
+                       <div className="bg-gradient-to-r from-blue-500 to-purple-600 h-48 flex items-center justify-center text-white text-xl font-semibold">
+                         Slide 1 - Welcome
+                       </div>
+                       <div className="bg-gradient-to-r from-green-500 to-blue-600 h-48 flex items-center justify-center text-white text-xl font-semibold">
+                         Slide 2 - Innovation
+                       </div>
+                       <div className="bg-gradient-to-r from-purple-500 to-pink-600 h-48 flex items-center justify-center text-white text-xl font-semibold">
+                         Slide 3 - Technology
+                       </div>
+                     </Slider>
+                   </div>
+                 </div>
 
           {/* Search Input Demo */}
           <div className="space-y-4">
@@ -120,7 +138,7 @@ export default function HomePage() {
                 required
                 helperText="Enter your email address"
               />
-                  <Select
+              <Select
                 label="Country"
                 options={countryOptions}
                 value={selectedCountry}
@@ -136,7 +154,7 @@ export default function HomePage() {
                 placeholder={t('phone')}
                 leftIcon={<Phone className="h-4 w-4" />}
               />
-                  <Select
+              <Select
                 label="Skills"
                 options={skillOptions}
                 value={selectedSkills}
@@ -175,78 +193,16 @@ export default function HomePage() {
         </div>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-{t('deployNow')}
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-{t('readDocs')}
-          </a>
+          <Link href="/blogs">
+            <Button size="lg">
+              Xem Blog
+            </Button>
+          </Link>
+          <Button variant="outline" size="lg">
+            Tìm hiểu thêm
+          </Button>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-{t('learn')}
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-{t('examples')}
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-{t('goToNextjs')}
-        </a>
-      </footer>
     </div>
   );
 }

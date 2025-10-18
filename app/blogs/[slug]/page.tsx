@@ -2,7 +2,6 @@
 
 import React, { useMemo, Suspense } from 'react';
 import { BlogPost } from '@ktbiotech/blog';
-import { Header, Footer } from '../../components/containers';
 import { TableOfContents, SocialShare, AuthorCard, ReadingProgress, calculateReadingTime, formatReadingTime, formatMediumDate, parseTocFromMarkdown } from '@ktbiotech/blog';
 import { LoadingSpinner } from '@ktbiotech/system-design';
 import Link from 'next/link';
@@ -49,133 +48,99 @@ The technology is revolutionizing agriculture by:
 
 ## Challenges and Considerations
 
-While CRISPR offers immense potential, several challenges remain:
+While CRISPR technology holds immense promise, several challenges remain:
 
-- **Off-target effects**: Ensuring modifications occur only at intended locations
-- **Delivery methods**: Efficiently transporting CRISPR components to target cells
-- **Ethical considerations**: Balancing innovation with responsible use
-- **Regulatory frameworks**: Establishing appropriate oversight mechanisms
+### Ethical Concerns
+The ability to edit human embryos raises important ethical questions about the future of human evolution and the potential for creating "designer babies."
+
+### Off-Target Effects
+Despite improvements, there's still a risk of unintended genetic modifications that could have unforeseen consequences.
+
+### Regulatory Hurdles
+Governments worldwide are grappling with how to regulate this powerful technology while ensuring safety and ethical use.
 
 ## Future Prospects
 
-The future of CRISPR technology looks promising, with ongoing research focusing on:
+The future of CRISPR technology looks incredibly promising. Researchers are working on:
 
-- **In vivo applications**: Direct editing within the body
-- **Multiplex editing**: Simultaneous modification of multiple genes
-- **Epigenetic editing**: Modifying gene expression without changing DNA sequence
-- **Synthetic biology integration**: Combining with other biotechnological approaches
+- More precise editing tools
+- Delivery methods for therapeutic applications
+- Applications in environmental conservation
+- Industrial biotechnology applications
 
 ## Conclusion
 
-CRISPR technology represents a paradigm shift in biotechnology, offering unprecedented opportunities for treating diseases, improving agriculture, and advancing scientific understanding. As research continues and applications expand, we can expect even more remarkable developments in this field.
+CRISPR technology represents a paradigm shift in biotechnology, offering unprecedented opportunities to address some of humanity's most pressing challenges. As we continue to refine and expand its applications, it's crucial to balance innovation with careful consideration of ethical implications and safety concerns.
 
-The key to maximizing CRISPR's potential lies in continued investment in research, responsible development practices, and thoughtful consideration of ethical implications. With proper oversight and continued innovation, CRISPR technology has the potential to revolutionize medicine and agriculture for the benefit of humanity.
+The journey of CRISPR from a bacterial defense mechanism to a revolutionary gene-editing tool exemplifies the power of scientific discovery and its potential to transform our world for the better.
     `,
     excerpt: 'Recent breakthroughs in CRISPR gene editing technology are revolutionizing biotechnology and opening new possibilities for treating genetic diseases.',
-    author: 'Dr. Sarah Chen',
-    publishedAt: new Date('2024-01-15'),
-    tags: ['Biotechnology', 'Gene Editing', 'Research'],
-    slug: 'advances-crispr-technology'
+    slug: 'advances-in-crispr-technology',
+    author: {
+      name: 'Dr. Sarah Johnson',
+      avatar: '/avatars/sarah.jpg',
+      bio: 'Senior Research Scientist at KTBioTech'
+    },
+    publishedAt: '2024-01-15T10:00:00Z',
+    updatedAt: '2024-01-15T10:00:00Z',
+    readTime: 8,
+    tags: ['CRISPR', 'Gene Editing', 'Biotechnology'],
+    category: {
+      id: '1',
+      name: 'Research',
+      slug: 'research',
+      description: 'Scientific research and discoveries'
+    },
+    featuredImage: '/images/crispr-lab.jpg',
+    status: 'published'
   },
   {
     id: '2',
-    title: 'Sustainable Biotech Solutions for Climate Change',
-    content: `
-# Sustainable Biotech Solutions for Climate Change
-
-Climate change represents one of the most pressing challenges of our time, and biotechnology is emerging as a powerful ally in our fight against environmental degradation. Through innovative approaches that harness biological processes, we can develop sustainable solutions that address climate change while promoting environmental health.
-
-## The Role of Biotechnology in Climate Mitigation
-
-### Carbon Capture and Utilization
-Biotechnology offers novel approaches to carbon management:
-
-- **Microbial carbon fixation**: Engineering microorganisms to capture CO2 more efficiently
-- **Bio-based materials**: Developing carbon-negative materials from biological sources
-- **Algal systems**: Using algae for large-scale carbon sequestration
-
-### Renewable Energy Solutions
-Biological systems are being harnessed for clean energy:
-
-- **Biofuels**: Advanced biofuels from non-food biomass
-- **Biological hydrogen production**: Using microorganisms to produce clean hydrogen
-- **Biogas optimization**: Improving efficiency of anaerobic digestion processes
-
-## Agricultural Innovations
-
-### Climate-Resilient Crops
-Biotechnology is developing crops that can thrive in changing conditions:
-
-- **Drought-resistant varieties**: Crops that require less water
-- **Heat-tolerant plants**: Varieties that perform well in higher temperatures
-- **Salinity-resistant crops**: Plants that grow in saline soils
-
-### Sustainable Farming Practices
-- **Precision agriculture**: Using biotechnology to optimize resource use
-- **Biological pest control**: Reducing chemical pesticide dependency
-- **Soil health improvement**: Enhancing soil microbiome for better carbon storage
-
-## Industrial Biotechnology
-
-### Green Manufacturing
-- **Bio-based chemicals**: Replacing petroleum-derived chemicals
-- **Enzymatic processes**: More efficient and cleaner manufacturing
-- **Waste valorization**: Converting industrial waste into valuable products
-
-### Circular Economy
-- **Biodegradable materials**: Developing materials that naturally decompose
-- **Resource recovery**: Extracting valuable materials from waste streams
-- **Life cycle optimization**: Designing products for complete recyclability
-
-## Marine Biotechnology
-
-### Ocean Health
-- **Coral reef restoration**: Using biotechnology to help coral survive climate change
-- **Marine pollution cleanup**: Biological solutions for ocean contamination
-- **Sustainable aquaculture**: Developing environmentally friendly fish farming
-
-### Blue Carbon
-- **Seagrass restoration**: Protecting and restoring carbon-sequestering marine plants
-- **Mangrove conservation**: Preserving these critical carbon sinks
-- **Marine algae farming**: Large-scale carbon capture through marine biomass
-
-## Challenges and Opportunities
-
-### Technical Challenges
-- **Scale-up**: Moving from lab to industrial scale
-- **Cost-effectiveness**: Making biotech solutions economically viable
-- **Integration**: Combining multiple biotechnological approaches
-
-### Policy and Regulation
-- **Risk assessment**: Evaluating environmental and health impacts
-- **International cooperation**: Coordinating global efforts
-- **Public acceptance**: Building trust in biotechnological solutions
-
-## Future Directions
-
-### Emerging Technologies
-- **Synthetic biology**: Designing biological systems for specific environmental functions
-- **Gene editing**: Developing organisms optimized for environmental applications
-- **Biomimetics**: Learning from nature to solve environmental problems
-
-### Integrated Approaches
-- **Systems thinking**: Considering entire ecosystems in solution design
-- **Cross-sector collaboration**: Bringing together diverse expertise
-- **Technology convergence**: Combining biotechnology with other emerging technologies
-
-## Conclusion
-
-Biotechnology holds immense promise for addressing climate change through sustainable, innovative solutions. By harnessing biological processes and systems, we can develop approaches that not only mitigate climate change but also promote environmental health and sustainability.
-
-The key to success lies in continued research and development, responsible implementation, and collaboration across sectors. As we face the urgent challenge of climate change, biotechnology offers hope for a more sustainable future.
-
-Investing in biotechnological solutions today will pay dividends for generations to come, helping us build a world that is not only climate-resilient but also environmentally thriving.
-    `,
-    excerpt: 'How biotechnology is leading the way in sustainable solutions for environmental challenges and climate change mitigation.',
-    author: 'Dr. Michael Rodriguez',
-    publishedAt: new Date('2024-01-10'),
-    tags: ['Sustainability', 'Biotechnology', 'Environment'],
-    slug: 'sustainable-biotech-solutions'
+    title: 'The Future of Personalized Medicine',
+    content: 'Full article content...',
+    excerpt: 'How personalized medicine is transforming healthcare through tailored treatments based on individual genetic profiles.',
+    slug: 'future-personalized-medicine',
+    author: {
+      name: 'Dr. Michael Chen',
+      avatar: '/avatars/michael.jpg',
+      bio: 'Chief Medical Officer'
+    },
+    publishedAt: '2024-01-10T14:30:00Z',
+    updatedAt: '2024-01-10T14:30:00Z',
+    readTime: 12,
+    tags: ['Personalized Medicine', 'Genomics', 'Healthcare'],
+    category: {
+      id: '2',
+      name: 'Medicine',
+      slug: 'medicine',
+      description: 'Medical advances and treatments'
+    },
+    featuredImage: '/images/personalized-medicine.jpg',
+    status: 'published'
+  },
+  {
+    id: '3',
+    title: 'Biotech Startup Funding Trends 2024',
+    content: 'Full article content...',
+    excerpt: 'An analysis of investment patterns and funding trends in the biotechnology startup ecosystem.',
+    slug: 'biotech-startup-funding-trends-2024',
+    author: {
+      name: 'Alex Rodriguez',
+      avatar: '/avatars/alex.jpg',
+      bio: 'Investment Analyst'
+    },
+    publishedAt: '2024-01-05T09:15:00Z',
+    updatedAt: '2024-01-05T09:15:00Z',
+    readTime: 6,
+    tags: ['Startups', 'Funding', 'Investment'],
+    category: {
+      id: '3',
+      name: 'Business',
+      slug: 'business',
+      description: 'Business and commercial aspects'
+    },
+    featuredImage: '/images/funding-trends.jpg',
+    status: 'published'
   }
 ];
 
@@ -225,145 +190,160 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
       <ol className="list-decimal list-inside mb-6 space-y-2 text-gray-800">{children}</ol>
     ),
     li: ({ children }: { children?: React.ReactNode }) => (
-      <li className="text-lg leading-relaxed">{children}</li>
+      <li className="text-gray-800">{children}</li>
     ),
     strong: ({ children }: { children?: React.ReactNode }) => (
       <strong className="font-semibold text-gray-900">{children}</strong>
-    ),
-    code: ({ children }: { children?: React.ReactNode }) => (
-      <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800">{children}</code>
     ),
     blockquote: ({ children }: { children?: React.ReactNode }) => (
       <blockquote className="border-l-4 border-blue-500 pl-4 italic text-gray-600 my-6">{children}</blockquote>
     ),
   };
 
+  // Generate ID for headings
+  const generateId = (children: React.ReactNode) => {
+    const text = children?.toString() || '';
+    return text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-').replace(/^-+|-+$/g, '');
+  };
+
+  // Convert TOC to the format expected by TableOfContents component
+  const tocItems = toc.map(item => ({
+    id: item.id,
+    label: item.text,
+    level: item.level
+  }));
+
+  // State for active TOC item
+  const [activeTocId, setActiveTocId] = React.useState<string>('');
+
   return (
     <div className="min-h-screen bg-white">
       {/* Reading progress bar */}
       <ReadingProgress />
       
-      {/* Minimal header for reading */}
-      <Header 
-        showBackButton={true}
-        showSubscribeButton={false}
-        onBackClick={() => window.location.href = '/blogs'}
-      />
-
       {/* Main content area */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex gap-8">
-          {/* Main article content */}
-          <article className="flex-1 max-w-4xl">
-            <div className="max-w-3xl mx-auto">
-              {/* Article Header */}
-              <header className="mb-12">
-                {/* Author and metadata */}
-                <div className="flex items-center gap-4 mb-6 text-sm text-gray-600">
-                  <span className="font-medium text-gray-900">{post.author}</span>
-                  <span>•</span>
-                  <time>{formatMediumDate(post.publishedAt)}</time>
-                  <span>•</span>
-                  <span>{readingTime}</span>
-                </div>
-                
-                {/* Title */}
-                <h1 className="text-5xl font-bold text-gray-900 mb-6 leading-tight tracking-tight">
-                  {post.title}
-                </h1>
-                
-                {/* Subtitle/Excerpt */}
-                <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                  {post.excerpt}
-                </p>
-                
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
-                    <Link
-                      key={tag}
-                      href={`/blogs?tag=${tag.toLowerCase()}`}
-                      className="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-full transition-colors"
-                    >
-                      #{tag}
-                    </Link>
-                  ))}
-                </div>
-              </header>
+          {/* Table of Contents - Desktop only */}
+          <div className="hidden lg:block w-64 flex-shrink-0">
+            <div className="sticky top-8">
+              <TableOfContents 
+                items={tocItems} 
+                activeId={activeTocId}
+                onItemClick={setActiveTocId}
+              />
+            </div>
+          </div>
 
-              {/* Article Content */}
-              <div className="prose prose-lg max-w-none">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={components}
+          {/* Main content */}
+          <div className="flex-1 min-w-0">
+            {/* Breadcrumb */}
+            <nav className="mb-6">
+              <div className="flex items-center space-x-2 text-sm text-gray-500">
+                <Link href="/" className="hover:text-gray-700">Home</Link>
+                <span>/</span>
+                <Link href="/blogs" className="hover:text-gray-700">Blog</Link>
+                <span>/</span>
+                <span className="text-gray-900">{post.title}</span>
+              </div>
+            </nav>
+
+            {/* Article header */}
+            <header className="mb-8">
+              <div className="mb-4">
+                <Link 
+                  href={`/blogs?category=${post.category.slug}`}
+                  className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full hover:bg-blue-200 transition-colors"
                 >
-                  {post.content}
-                </ReactMarkdown>
+                  {post.category.name}
+                </Link>
               </div>
+              
+              <h1 className="text-4xl font-bold text-gray-900 mb-4 leading-tight">
+                {post.title}
+              </h1>
+              
+              <p className="text-xl text-gray-600 mb-6 leading-relaxed">
+                {post.excerpt}
+              </p>
 
-              {/* Author Card */}
-              <div className="mt-16">
-                <AuthorCard
-                  author={post.author}
-                  publishedAt={post.publishedAt}
-                  readingTime={readingTime}
-                />
-              </div>
-
-              {/* Related Articles */}
-              <div className="mt-16">
-                <h3 className="text-2xl font-bold text-gray-900 mb-8">More from KTBioTech</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {blogPosts
-                    .filter(p => p.id !== post.id)
-                    .slice(0, 2)
-                    .map((relatedPost) => (
-                      <Link 
-                        key={relatedPost.id}
-                        href={`/blogs/${relatedPost.slug}`}
-                        className="group block p-6 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-200"
-                      >
-                        <h4 className="font-semibold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                          {relatedPost.title}
-                        </h4>
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                          {relatedPost.excerpt}
-                        </p>
-                        <div className="flex items-center justify-between text-sm text-gray-500">
-                          <span>by {relatedPost.author}</span>
-                          <time>{formatMediumDate(relatedPost.publishedAt)}</time>
-                        </div>
-                      </Link>
-                    ))}
+              {/* Article meta */}
+              <div className="flex items-center justify-between border-b border-gray-200 pb-6">
+                <div className="flex items-center space-x-4">
+                  <AuthorCard 
+                    author={post.author}
+                    publishedAt={post.publishedAt}
+                    readTime={post.readTime}
+                    variant="compact"
+                  />
+                </div>
+                
+                <div className="flex items-center space-x-4">
+                  <SocialShare 
+                    url={`${typeof window !== 'undefined' ? window.location.origin : ''}/blogs/${post.slug}`}
+                    title={post.title}
+                    description={post.excerpt}
+                  />
                 </div>
               </div>
-            </div>
-          </article>
+            </header>
 
-          {/* Sidebar */}
-          <aside className="hidden lg:block w-80 flex-shrink-0">
-            <div className="sticky top-24 space-y-6">
-              {/* Table of Contents */}
-              <Suspense fallback={<LoadingSpinner size="sm" text="Preparing navigation..." />}>
-                {toc.length > 0 && (
-                  <TableOfContents items={toc} />
-                )}
-              </Suspense>
-              
-              {/* Social Share */}
-              <Suspense fallback={<LoadingSpinner size="sm" text="Setting up sharing..." />}>
-                <SocialShare
-                  title={post.title}
-                  url={currentUrl}
-                  author={post.author}
-                />
-              </Suspense>
-            </div>
-          </aside>
+            {/* Article content */}
+            <article className="prose prose-lg max-w-none">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  h1: ({ children }) => <h1 id={generateId(children)} className="scroll-mt-20">{children}</h1>,
+                  h2: ({ children }) => <h2 id={generateId(children)} className="scroll-mt-20">{children}</h2>,
+                  h3: ({ children }) => <h3 id={generateId(children)} className="scroll-mt-20">{children}</h3>,
+                  h4: ({ children }) => <h4 id={generateId(children)} className="scroll-mt-20">{children}</h4>,
+                }}
+              >
+                {post.content}
+              </ReactMarkdown>
+            </article>
+
+            {/* Article footer */}
+            <footer className="mt-12 pt-8 border-t border-gray-200">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <AuthorCard 
+                    author={post.author}
+                    publishedAt={post.publishedAt}
+                    readTime={post.readTime}
+                    variant="detailed"
+                  />
+                </div>
+                
+                <div className="flex items-center space-x-4">
+                  <SocialShare 
+                    url={`${typeof window !== 'undefined' ? window.location.origin : ''}/blogs/${post.slug}`}
+                    title={post.title}
+                    description={post.excerpt}
+                  />
+                </div>
+              </div>
+
+              {/* Tags */}
+              {post.tags && post.tags.length > 0 && (
+                <div className="mt-6">
+                  <h3 className="text-sm font-medium text-gray-900 mb-3">Tags</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 transition-colors cursor-pointer"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </footer>
+          </div>
         </div>
       </div>
-
-      <Footer showNewsletter={true} />
     </div>
   );
 }

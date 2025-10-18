@@ -24,5 +24,16 @@
   "demo": "Demo",
   "tryComponents": "Try the components below:",
   "searchExample": "Try searching for something...",
-  "formExample": "Form Example"
+  "formExample": "Form Example",
+  "navbar": {
+    "home": "Home",
+    "about": "About",
+    "products": "Products",
+    "news": "News",
+    "research": "Research",
+    "careers": "Careers",
+    "contact": "Contact",
+    "searchPlaceholder": "Search...",
+    "hotline": "Hotline"
+  }
 }
