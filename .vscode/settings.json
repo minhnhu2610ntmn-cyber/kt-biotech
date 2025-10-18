@@ -1,0 +1,52 @@
+{
+  "cursor.cpp.disabledLanguages": [],
+  "cursor.general.enableCodeActions": true,
+  "cursor.general.enableAutoImport": true,
+  "cursor.general.enableInlineEdit": true,
+  "cursor.general.enableTabAutocomplete": true,
+  "cursor.general.enableComposer": true,
+  "cursor.general.enableChat": true,
+  "cursor.general.enableRules": true,
+  "cursor.rules.enabled": true,
+  "cursor.rules.autoApply": true,
+  "cursor.rules.strictMode": true,
+  "cursor.rules.workspaceRules": true,
+  "cursor.rules.customRulesPath": ".cursor/rules/.cursorrules.mdc",
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.workingDirectories": [
+    "."
+  ],
+  "prettier.requireConfig": true,
+  "prettier.configPath": ".prettierrc",
+  "files.associations": {
+    ".cursorrules": "plaintext"
+  },
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.next": true,
+    "**/build": true,
+    "**/.turbo": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.next": true,
+    "**/build": true,
+    "**/.turbo": true
+  }
+}
