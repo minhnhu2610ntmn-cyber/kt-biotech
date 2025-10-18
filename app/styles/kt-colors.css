@@ -1,0 +1,132 @@
+/* KTBioTech Color Variables */
+:root {
+  /* Primary Brand Colors */
+  --kt-blue-50: #eff6ff;
+  --kt-blue-100: #dbeafe;
+  --kt-blue-200: #bfdbfe;
+  --kt-blue-300: #93c5fd;
+  --kt-blue-400: #60a5fa;
+  --kt-blue-500: #3b82f6;
+  --kt-blue-600: #2563eb;
+  --kt-blue-700: #1d4ed8;
+  --kt-blue-800: #1e40af;
+  --kt-blue-900: #1e3a8a;
+  --kt-blue-950: #172554;
+
+  /* Gray Scale */
+  --kt-gray-50: #f9fafb;
+  --kt-gray-100: #f3f4f6;
+  --kt-gray-200: #e5e7eb;
+  --kt-gray-300: #d1d5db;
+  --kt-gray-400: #9ca3af;
+  --kt-gray-500: #6b7280;
+  --kt-gray-600: #4b5563;
+  --kt-gray-700: #374151;
+  --kt-gray-800: #1f2937;
+  --kt-gray-900: #111827;
+  --kt-gray-950: #030712;
+
+  /* Footer Colors */
+  --kt-footer-50: #f8fafc;
+  --kt-footer-100: #f1f5f9;
+  --kt-footer-200: #e2e8f0;
+  --kt-footer-300: #cbd5e1;
+  --kt-footer-400: #94a3b8;
+  --kt-footer-500: #64748b;
+  --kt-footer-600: #475569;
+  --kt-footer-700: #334155;
+  --kt-footer-800: #1e293b;
+  --kt-footer-900: #0f172a;
+  --kt-footer-950: #020617;
+
+  /* Semantic Colors */
+  --kt-primary: var(--kt-blue-800);
+  --kt-primary-light: var(--kt-blue-500);
+  --kt-primary-dark: var(--kt-blue-900);
+  
+  --kt-secondary: var(--kt-gray-500);
+  --kt-secondary-light: var(--kt-gray-400);
+  --kt-secondary-dark: var(--kt-gray-600);
+  
+  --kt-success: #10b981;
+  --kt-success-light: #34d399;
+  --kt-success-dark: #059669;
+  
+  --kt-warning: #f59e0b;
+  --kt-warning-light: #fbbf24;
+  --kt-warning-dark: #d97706;
+  
+  --kt-error: #ef4444;
+  --kt-error-light: #f87171;
+  --kt-error-dark: #dc2626;
+  
+  --kt-info: #06b6d4;
+  --kt-info-light: #22d3ee;
+  --kt-info-dark: #0891b2;
+
+  /* Text Colors */
+  --kt-text-primary: var(--kt-gray-800);
+  --kt-text-secondary: var(--kt-gray-500);
+  --kt-text-muted: var(--kt-gray-400);
+  --kt-text-white: #ffffff;
+
+  /* Background Colors */
+  --kt-bg-primary: #ffffff;
+  --kt-bg-secondary: var(--kt-gray-50);
+  --kt-bg-tertiary: var(--kt-gray-100);
+  --kt-bg-footer: var(--kt-footer-800);
+
+  /* Border Colors */
+  --kt-border-light: var(--kt-gray-200);
+  --kt-border-medium: var(--kt-gray-300);
+  --kt-border-dark: var(--kt-gray-400);
+
+  /* Interactive Colors */
+  --kt-hover: var(--kt-blue-600);
+  --kt-active: var(--kt-blue-700);
+  --kt-focus: var(--kt-blue-500);
+  --kt-disabled: var(--kt-gray-300);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --kt-text-primary: var(--kt-gray-100);
+    --kt-text-secondary: var(--kt-gray-300);
+    --kt-text-muted: var(--kt-gray-400);
+    
+    --kt-bg-primary: var(--kt-gray-900);
+    --kt-bg-secondary: var(--kt-gray-800);
+    --kt-bg-tertiary: var(--kt-gray-700);
+    
+    --kt-border-light: var(--kt-gray-700);
+    --kt-border-medium: var(--kt-gray-600);
+    --kt-border-dark: var(--kt-gray-500);
+  }
+}
+
+/* Utility Classes */
+.kt-text-primary { color: var(--kt-text-primary); }
+.kt-text-secondary { color: var(--kt-text-secondary); }
+.kt-text-muted { color: var(--kt-text-muted); }
+.kt-text-white { color: var(--kt-text-white); }
+
+.kt-bg-primary { background-color: var(--kt-bg-primary); }
+.kt-bg-secondary { background-color: var(--kt-bg-secondary); }
+.kt-bg-tertiary { background-color: var(--kt-bg-tertiary); }
+.kt-bg-footer { background-color: var(--kt-bg-footer); }
+
+.kt-border-light { border-color: var(--kt-border-light); }
+.kt-border-medium { border-color: var(--kt-border-medium); }
+.kt-border-dark { border-color: var(--kt-border-dark); }
+
+.kt-hover:hover { color: var(--kt-hover); }
+.kt-active { color: var(--kt-active); }
+.kt-focus:focus { color: var(--kt-focus); }
+.kt-disabled { color: var(--kt-disabled); }
+
+/* Transition Utilities */
+.kt-transition { transition: all 0.2s ease-in-out; }
+.kt-transition-colors { transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out; }
+.kt-transition-transform { transition: transform 0.2s ease-in-out; }
+.kt-transition-opacity { transition: opacity 0.2s ease-in-out; }
