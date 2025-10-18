@@ -55,7 +55,7 @@ export const WithLeftIcon: Story = {
   args: {
     label: 'Search',
     placeholder: 'Search...',
-    leftIcon: <Search className="h-4 w-4" />,
+    leftIcon: <Search className='h-4 w-4' />,
   },
 };
 
@@ -64,7 +64,7 @@ export const Password: Story = {
     label: 'Password',
     placeholder: 'Enter your password',
     type: 'password',
-    leftIcon: <Lock className="h-4 w-4" />,
+    leftIcon: <Lock className='h-4 w-4' />,
     required: true,
   },
 };
@@ -75,7 +75,7 @@ export const WithError: Story = {
     placeholder: 'Enter your email',
     type: 'email',
     error: 'Please enter a valid email address',
-    leftIcon: <Mail className="h-4 w-4" />,
+    leftIcon: <Mail className='h-4 w-4' />,
   },
 };
 
@@ -84,7 +84,7 @@ export const WithHelperText: Story = {
     label: 'Username',
     placeholder: 'Enter your username',
     helperText: 'Choose a unique username',
-    leftIcon: <User className="h-4 w-4" />,
+    leftIcon: <User className='h-4 w-4' />,
   },
 };
 

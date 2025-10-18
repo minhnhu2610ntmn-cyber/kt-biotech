@@ -48,18 +48,36 @@ export default meta;
 type Story = StoryObj<typeof Slider>;
 
 // Sample slide content
-const SampleSlide = ({ children, bgColor = 'bg-blue-500' }: { children: React.ReactNode; bgColor?: string }) => (
-  <div className={`${bgColor} h-64 flex items-center justify-center text-white text-xl font-semibold rounded-lg`}>
+const SampleSlide = ({
+  children,
+  bgColor = 'bg-blue-500',
+}: {
+  children: React.ReactNode;
+  bgColor?: string;
+}) => (
+  <div
+    className={`${bgColor} h-64 flex items-center justify-center text-white text-xl font-semibold rounded-lg`}
+  >
     {children}
   </div>
 );
 
 const sampleSlides = [
-  <SampleSlide key="1" bgColor="bg-blue-500">Slide 1</SampleSlide>,
-  <SampleSlide key="2" bgColor="bg-green-500">Slide 2</SampleSlide>,
-  <SampleSlide key="3" bgColor="bg-purple-500">Slide 3</SampleSlide>,
-  <SampleSlide key="4" bgColor="bg-red-500">Slide 4</SampleSlide>,
-  <SampleSlide key="5" bgColor="bg-yellow-500">Slide 5</SampleSlide>,
+  <SampleSlide key='1' bgColor='bg-blue-500'>
+    Slide 1
+  </SampleSlide>,
+  <SampleSlide key='2' bgColor='bg-green-500'>
+    Slide 2
+  </SampleSlide>,
+  <SampleSlide key='3' bgColor='bg-purple-500'>
+    Slide 3
+  </SampleSlide>,
+  <SampleSlide key='4' bgColor='bg-red-500'>
+    Slide 4
+  </SampleSlide>,
+  <SampleSlide key='5' bgColor='bg-yellow-500'>
+    Slide 5
+  </SampleSlide>,
 ];
 
 // Default slider

@@ -17,7 +17,10 @@ export interface OptionType {
 export interface SelectProps {
   options: OptionType[];
   value?: OptionType | OptionType[] | null;
-  onChange: (newValue: SingleValue<OptionType> | MultiValue<OptionType>, actionMeta: ActionMeta<OptionType>) => void;
+  onChange: (
+    newValue: SingleValue<OptionType> | MultiValue<OptionType>,
+    actionMeta: ActionMeta<OptionType>
+  ) => void;
   placeholder?: string;
   isSearchable?: boolean;
   isDisabled?: boolean;

@@ -60,13 +60,15 @@ export const Default: Story = {
     options: countryOptions,
     placeholder: 'Select an option...',
   },
-  render: (args) => {
+  render: args => {
     const [value, setValue] = useState(null);
     return (
       <Select
         {...args}
         value={value}
-        onChange={(option) => setValue(Array.isArray(option) ? option[0] || null : option)}
+        onChange={option =>
+          setValue(Array.isArray(option) ? option[0] || null : option)
+        }
       />
     );
   },
@@ -79,13 +81,15 @@ export const WithLabel: Story = {
     placeholder: 'Select your country',
     required: true,
   },
-  render: (args) => {
+  render: args => {
     const [value, setValue] = useState(null);
     return (
       <Select
         {...args}
         value={value}
-        onChange={(option) => setValue(Array.isArray(option) ? option[0] || null : option)}
+        onChange={option =>
+          setValue(Array.isArray(option) ? option[0] || null : option)
+        }
       />
     );
   },
@@ -98,13 +102,15 @@ export const Searchable: Story = {
     placeholder: 'Search and select...',
     isSearchable: true,
   },
-  render: (args) => {
+  render: args => {
     const [value, setValue] = useState(null);
     return (
       <Select
         {...args}
         value={value}
-        onChange={(option) => setValue(Array.isArray(option) ? option[0] || null : option)}
+        onChange={option =>
+          setValue(Array.isArray(option) ? option[0] || null : option)
+        }
       />
     );
   },
@@ -117,13 +123,15 @@ export const Clearable: Story = {
     placeholder: 'Select and clear...',
     isClearable: true,
   },
-  render: (args) => {
+  render: args => {
     const [value, setValue] = useState(null);
     return (
       <Select
         {...args}
         value={value}
-        onChange={(option) => setValue(Array.isArray(option) ? option[0] || null : option)}
+        onChange={option =>
+          setValue(Array.isArray(option) ? option[0] || null : option)
+        }
       />
     );
   },
@@ -138,13 +146,13 @@ export const MultiSelect: Story = {
     isSearchable: true,
     isClearable: true,
   },
-  render: (args) => {
+  render: args => {
     const [value, setValue] = useState<OptionType[]>([]);
     return (
       <Select
         {...args}
         value={value}
-        onChange={(option) => setValue(Array.isArray(option) ? option : [])}
+        onChange={option => setValue(Array.isArray(option) ? option : [])}
       />
     );
   },
@@ -157,13 +165,15 @@ export const WithError: Story = {
     placeholder: 'Select your country',
     error: 'Please select a country',
   },
-  render: (args) => {
+  render: args => {
     const [value, setValue] = useState(null);
     return (
       <Select
         {...args}
         value={value}
-        onChange={(option) => setValue(Array.isArray(option) ? option[0] || null : option)}
+        onChange={option =>
+          setValue(Array.isArray(option) ? option[0] || null : option)
+        }
       />
     );
   },
@@ -177,13 +187,13 @@ export const WithHelperText: Story = {
     helperText: 'Choose skills that match your experience',
     isMulti: true,
   },
-  render: (args) => {
+  render: args => {
     const [value, setValue] = useState<OptionType[]>([]);
     return (
       <Select
         {...args}
         value={value}
-        onChange={(option) => setValue(Array.isArray(option) ? option : [])}
+        onChange={option => setValue(Array.isArray(option) ? option : [])}
       />
     );
   },
@@ -196,13 +206,15 @@ export const Disabled: Story = {
     placeholder: 'This select is disabled',
     isDisabled: true,
   },
-  render: (args) => {
+  render: args => {
     const [value, setValue] = useState(null);
     return (
       <Select
         {...args}
         value={value}
-        onChange={(option) => setValue(Array.isArray(option) ? option[0] || null : option)}
+        onChange={option =>
+          setValue(Array.isArray(option) ? option[0] || null : option)
+        }
       />
     );
   },
@@ -215,14 +227,16 @@ export const FullWidth: Story = {
     placeholder: 'Full width select',
     className: 'w-full',
   },
-  render: (args) => {
+  render: args => {
     const [value, setValue] = useState(null);
     return (
-      <div className="w-full max-w-md">
+      <div className='w-full max-w-md'>
         <Select
           {...args}
           value={value}
-          onChange={(option) => setValue(Array.isArray(option) ? option[0] || null : option)}
+          onChange={option =>
+            setValue(Array.isArray(option) ? option[0] || null : option)
+          }
         />
       </div>
     );

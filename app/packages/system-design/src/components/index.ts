@@ -10,19 +10,19 @@ export { Step, StepPresets } from './Step';
 export { Form } from './Form';
 export { Table } from './Table';
 export type { TableColumn, TableProps } from './Table';
-export { 
-  Typography, 
-  Heading, 
-  Text, 
-  Link, 
-  Code, 
-  Blockquote, 
-  List, 
-  ListItem 
+export {
+  Typography,
+  Heading,
+  Text,
+  Link,
+  Code,
+  Blockquote,
+  List,
+  ListItem,
 } from './Typography';
-export type { 
-  TypographyProps, 
-  HeadingProps, 
-  TextProps, 
-  LinkProps 
+export type {
+  TypographyProps,
+  HeadingProps,
+  TextProps,
+  LinkProps,
 } from './Typography';

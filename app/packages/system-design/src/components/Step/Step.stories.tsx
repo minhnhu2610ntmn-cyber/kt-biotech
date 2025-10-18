@@ -59,8 +59,12 @@ const stepsWithIcons = [
     title: 'Sign Up',
     description: 'Create your account',
     icon: (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+      <svg className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
+        <path
+          fillRule='evenodd'
+          d='M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z'
+          clipRule='evenodd'
+        />
       </svg>
     ),
     status: 'completed' as const,
@@ -70,9 +74,9 @@ const stepsWithIcons = [
     title: 'Verify Email',
     description: 'Check your email for verification link',
     icon: (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+      <svg className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
+        <path d='M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z' />
+        <path d='M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z' />
       </svg>
     ),
     status: 'current' as const,
@@ -82,8 +86,12 @@ const stepsWithIcons = [
     title: 'Complete Profile',
     description: 'Add your personal information',
     icon: (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+      <svg className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
+        <path
+          fillRule='evenodd'
+          d='M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z'
+          clipRule='evenodd'
+        />
       </svg>
     ),
     status: 'upcoming' as const,
@@ -97,7 +105,7 @@ const stepsWithContent = [
     description: 'Define project scope and requirements',
     status: 'completed' as const,
     content: (
-      <div className="text-xs text-gray-500">
+      <div className='text-xs text-gray-500'>
         <p>✓ Requirements gathered</p>
         <p>✓ Timeline created</p>
         <p>✓ Team assigned</p>
@@ -110,7 +118,7 @@ const stepsWithContent = [
     description: 'Build the application features',
     status: 'current' as const,
     content: (
-      <div className="text-xs text-gray-500">
+      <div className='text-xs text-gray-500'>
         <p>🔄 Frontend in progress</p>
         <p>⏳ Backend pending</p>
         <p>⏳ Testing pending</p>

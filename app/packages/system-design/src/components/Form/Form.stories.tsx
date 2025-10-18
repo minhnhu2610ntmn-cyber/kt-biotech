@@ -17,9 +17,11 @@ type Story = StoryObj<typeof Form>;
 
 export const Default: Story = {
   args: {
-    onSubmit: (data) => {
+    onSubmit: data => {
       console.log('Form submitted:', data);
-      alert(`Form submitted successfully!\n\nData: ${JSON.stringify(data, null, 2)}`);
+      alert(
+        `Form submitted successfully!\n\nData: ${JSON.stringify(data, null, 2)}`
+      );
     },
   },
 };
@@ -34,16 +36,18 @@ export const WithDefaultValues: Story = {
       message: 'This is a pre-filled message.',
       agree: true,
     },
-    onSubmit: (data) => {
+    onSubmit: data => {
       console.log('Form submitted:', data);
-      alert(`Form submitted successfully!\n\nData: ${JSON.stringify(data, null, 2)}`);
+      alert(
+        `Form submitted successfully!\n\nData: ${JSON.stringify(data, null, 2)}`
+      );
     },
   },
 };
 
 export const ContactForm: Story = {
   args: {
-    onSubmit: async (data) => {
+    onSubmit: async data => {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
       console.log('Contact form submitted:', data);
@@ -57,7 +61,7 @@ export const RegistrationForm: Story = {
     defaultValues: {
       agree: false,
     },
-    onSubmit: async (data) => {
+    onSubmit: async data => {
       // Simulate registration API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       console.log('Registration form submitted:', data);

@@ -10,9 +10,9 @@ interface LanguageSwitcherProps {
   variant?: 'default' | 'compact';
 }
 
-export function LanguageSwitcher({ 
+export function LanguageSwitcher({
   className,
-  variant = 'default' 
+  variant = 'default',
 }: LanguageSwitcherProps) {
   const router = useRouter();
   const [currentLocale, setCurrentLocale] = useState('vi');
@@ -20,7 +20,7 @@ export function LanguageSwitcher({
 
   const options = [
     { value: 'vi', label: '🇻🇳 Tiếng Việt' },
-    { value: 'en', label: '🇺🇸 English' }
+    { value: 'en', label: '🇺🇸 English' },
   ];
 
   // Get locale from cookie and set html lang attribute on mount
@@ -43,16 +43,16 @@ export function LanguageSwitcher({
   const switchLanguage = (newLocale: string) => {
     // Set locale cookie
     document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000`;
-    
+
     // Update html lang attribute
     if (typeof document !== 'undefined') {
       document.documentElement.lang = newLocale;
     }
-    
+
     // Update local state
     setCurrentLocale(newLocale);
     setIsOpen(false);
-    
+
     // Use router refresh to update the page with new locale
     router.refresh();
   };
@@ -64,16 +64,16 @@ export function LanguageSwitcher({
       <div className={cn('relative', className)}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center justify-between px-3 py-2 text-sm text-gray-700 hover:text-blue-600 transition-colors duration-200 bg-gray-100 hover:bg-gray-200 rounded-md cursor-pointer w-32"
+          className='flex items-center justify-between px-3 py-2 text-sm text-gray-700 hover:text-blue-600 transition-colors duration-200 bg-gray-100 hover:bg-gray-200 rounded-md cursor-pointer w-32'
         >
-          <span className="truncate">{currentOption?.label}</span>
-          <ChevronDown className="h-4 w-4 flex-shrink-0" />
+          <span className='truncate'>{currentOption?.label}</span>
+          <ChevronDown className='h-4 w-4 flex-shrink-0' />
         </button>
-        
+
         {isOpen && (
-          <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-md shadow-lg ring-1 ring-gray-200 z-50">
-            <div className="py-1">
-              {options.map((option) => (
+          <div className='absolute right-0 top-full mt-1 w-48 bg-white rounded-md shadow-lg ring-1 ring-gray-200 z-50'>
+            <div className='py-1'>
+              {options.map(option => (
                 <button
                   key={option.value}
                   onClick={() => switchLanguage(option.value)}
@@ -98,16 +98,16 @@ export function LanguageSwitcher({
     <div className={cn('relative', className)}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-md text-sm text-gray-700 transition-colors duration-200 cursor-pointer w-40"
+        className='flex items-center justify-between px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-md text-sm text-gray-700 transition-colors duration-200 cursor-pointer w-40'
       >
-        <span className="truncate">{currentOption?.label}</span>
-        <ChevronDown className="h-4 w-4 flex-shrink-0" />
+        <span className='truncate'>{currentOption?.label}</span>
+        <ChevronDown className='h-4 w-4 flex-shrink-0' />
       </button>
-      
+
       {isOpen && (
-        <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
-          <div className="py-1">
-            {options.map((option) => (
+        <div className='absolute right-0 top-full mt-1 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50'>
+          <div className='py-1'>
+            {options.map(option => (
               <button
                 key={option.value}
                 onClick={() => switchLanguage(option.value)}

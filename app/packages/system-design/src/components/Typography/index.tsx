@@ -6,7 +6,15 @@ import { cn } from '../../utils';
 export interface TypographyProps {
   children?: React.ReactNode;
   className?: string;
-  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info' | 'muted' | 'white';
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'warning'
+    | 'error'
+    | 'info'
+    | 'muted'
+    | 'white';
   weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold';
   align?: 'left' | 'center' | 'right' | 'justify';
   transform?: 'uppercase' | 'lowercase' | 'capitalize' | 'normal-case';
@@ -21,7 +29,17 @@ export interface HeadingProps extends TypographyProps {
 }
 
 export interface TextProps extends TypographyProps {
-  size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl';
+  size?:
+    | 'xs'
+    | 'sm'
+    | 'base'
+    | 'lg'
+    | 'xl'
+    | '2xl'
+    | '3xl'
+    | '4xl'
+    | '5xl'
+    | '6xl';
   variant?: 'body' | 'caption' | 'overline' | 'subtitle';
 }
 
@@ -207,7 +225,14 @@ export const Text: React.FC<TextProps> = ({
   };
 
   return (
-    <p className={cn(sizeClasses[size], variantClasses[variant], defaultWeight[variant], className)}>
+    <p
+      className={cn(
+        sizeClasses[size],
+        variantClasses[variant],
+        defaultWeight[variant],
+        className
+      )}
+    >
       <Typography
         color={color}
         weight={weight}
@@ -249,11 +274,13 @@ export const Link: React.FC<LinkProps> = ({
     className
   );
 
-  const linkProps = href ? {
-    href,
-    target,
-    rel: external ? 'noopener noreferrer' : rel,
-  } : {};
+  const linkProps = href
+    ? {
+        href,
+        target,
+        rel: external ? 'noopener noreferrer' : rel,
+      }
+    : {};
 
   return (
     <a className={linkClasses} {...linkProps}>
@@ -270,8 +297,12 @@ export const Link: React.FC<LinkProps> = ({
         {children}
       </Typography>
       {external && (
-        <svg className="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
-          <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+        <svg className='w-3 h-3 ml-1' fill='currentColor' viewBox='0 0 20 20'>
+          <path
+            fillRule='evenodd'
+            d='M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z'
+            clipRule='evenodd'
+          />
         </svg>
       )}
     </a>
@@ -292,10 +323,12 @@ export const Code: React.FC<TypographyProps> = ({
   lineClamp,
 }) => {
   return (
-    <code className={cn(
-      'bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono',
-      className
-    )}>
+    <code
+      className={cn(
+        'bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono',
+        className
+      )}
+    >
       <Typography
         color={color}
         weight={weight}
@@ -326,10 +359,12 @@ export const Blockquote: React.FC<TypographyProps> = ({
   lineClamp,
 }) => {
   return (
-    <blockquote className={cn(
-      'border-l-4 border-gray-300 pl-4 py-2 bg-gray-50',
-      className
-    )}>
+    <blockquote
+      className={cn(
+        'border-l-4 border-gray-300 pl-4 py-2 bg-gray-50',
+        className
+      )}
+    >
       <Typography
         color={color}
         weight={weight}
@@ -353,13 +388,15 @@ export const List: React.FC<TypographyProps & { ordered?: boolean }> = ({
   ordered = false,
 }) => {
   const Component = ordered ? 'ol' : 'ul';
-  
+
   return (
-    <Component className={cn(
-      'space-y-1',
-      ordered ? 'list-decimal list-inside' : 'list-disc list-inside',
-      className
-    )}>
+    <Component
+      className={cn(
+        'space-y-1',
+        ordered ? 'list-decimal list-inside' : 'list-disc list-inside',
+        className
+      )}
+    >
       {children}
     </Component>
   );

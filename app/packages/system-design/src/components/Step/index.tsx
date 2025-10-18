@@ -38,14 +38,14 @@ export const Step: React.FC<StepProps> = ({
 }) => {
   const getStepStatus = (index: number, item: StepItem) => {
     if (item.status) return item.status;
-    
+
     // Auto-determine status based on index
     const currentIndex = items.findIndex(item => item.status === 'current');
     if (currentIndex === -1) {
       // No explicit current step, assume first is current
       return index === 0 ? 'current' : index < 0 ? 'completed' : 'upcoming';
     }
-    
+
     if (index < currentIndex) return 'completed';
     if (index === currentIndex) return 'current';
     return 'upcoming';
@@ -53,46 +53,60 @@ export const Step: React.FC<StepProps> = ({
 
   const getStepColor = (status: string) => {
     switch (status) {
-      case 'completed': return completedColor;
-      case 'current': return activeColor;
-      case 'upcoming': return upcomingColor;
-      default: return upcomingColor;
+      case 'completed':
+        return completedColor;
+      case 'current':
+        return activeColor;
+      case 'upcoming':
+        return upcomingColor;
+      default:
+        return upcomingColor;
     }
   };
 
   const getStepIcon = (item: StepItem, status: string, index: number) => {
     if (item.icon) return item.icon;
-    
+
     if (status === 'completed') {
       return (
-        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+        <svg
+          className='w-5 h-5 text-white'
+          fill='currentColor'
+          viewBox='0 0 20 20'
+        >
+          <path
+            fillRule='evenodd'
+            d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+            clipRule='evenodd'
+          />
         </svg>
       );
     }
-    
+
     return (
-      <span className="text-sm font-semibold text-white">
-        {index + 1}
-      </span>
+      <span className='text-sm font-semibold text-white'>{index + 1}</span>
     );
   };
 
   const isVertical = orientation === 'vertical';
-  const isHorizontal = orientation === 'horizontal';
 
   return (
     <div className={`step-container ${className}`}>
-      <div className={`flex ${isVertical ? 'flex-col' : 'flex-row'} ${isVertical ? 'space-y-4' : 'space-x-4'}`}>
+      <div
+        className={`flex ${isVertical ? 'flex-col' : 'flex-row'} ${isVertical ? 'space-y-4' : 'space-x-4'}`}
+      >
         {items.map((item, index) => {
           const status = getStepStatus(index, item);
           const stepColor = getStepColor(status);
           const isLast = index === items.length - 1;
-          
+
           return (
-            <div key={item.id} className={`flex ${isVertical ? 'flex-row' : 'flex-col'} items-center ${isVertical ? 'space-x-4' : 'space-y-2'}`}>
+            <div
+              key={item.id}
+              className={`flex ${isVertical ? 'flex-row' : 'flex-col'} items-center ${isVertical ? 'space-x-4' : 'space-y-2'}`}
+            >
               {/* Step Circle */}
-              <div className="flex flex-col items-center">
+              <div className='flex flex-col items-center'>
                 <button
                   onClick={() => onStepClick?.(item, index)}
                   className={`
@@ -106,10 +120,10 @@ export const Step: React.FC<StepProps> = ({
                 >
                   {getStepIcon(item, status, index)}
                 </button>
-                
+
                 {/* Connector Line */}
                 {showConnector && !isLast && (
-                  <div 
+                  <div
                     className={`
                       ${isVertical ? 'w-0.5 h-8 mt-2' : 'h-0.5 w-8 mt-2'}
                       ${status === 'completed' ? completedColor : connectorColor}
@@ -117,23 +131,27 @@ export const Step: React.FC<StepProps> = ({
                   />
                 )}
               </div>
-              
+
               {/* Step Content */}
-              <div className={`flex-1 ${isVertical ? 'min-w-0' : 'text-center'}`}>
-                <div className={`${variant === 'card' ? 'bg-white p-4 rounded-lg shadow-md border' : ''}`}>
-                  <h3 className={`font-semibold text-gray-900 ${isVertical ? 'text-left' : 'text-center'}`}>
+              <div
+                className={`flex-1 ${isVertical ? 'min-w-0' : 'text-center'}`}
+              >
+                <div
+                  className={`${variant === 'card' ? 'bg-white p-4 rounded-lg shadow-md border' : ''}`}
+                >
+                  <h3
+                    className={`font-semibold text-gray-900 ${isVertical ? 'text-left' : 'text-center'}`}
+                  >
                     {item.title}
                   </h3>
                   {item.description && (
-                    <p className={`text-sm text-gray-600 mt-1 ${isVertical ? 'text-left' : 'text-center'}`}>
+                    <p
+                      className={`text-sm text-gray-600 mt-1 ${isVertical ? 'text-left' : 'text-center'}`}
+                    >
                       {item.description}
                     </p>
                   )}
-                  {item.content && (
-                    <div className="mt-2">
-                      {item.content}
-                    </div>
-                  )}
+                  {item.content && <div className='mt-2'>{item.content}</div>}
                 </div>
               </div>
             </div>
@@ -154,7 +172,7 @@ export const StepPresets = {
     completedColor: 'bg-green-600',
     upcomingColor: 'bg-gray-300',
   },
-  
+
   process: {
     orientation: 'vertical' as const,
     variant: 'default' as const,
@@ -163,7 +181,7 @@ export const StepPresets = {
     completedColor: 'bg-green-600',
     upcomingColor: 'bg-gray-300',
   },
-  
+
   timeline: {
     orientation: 'vertical' as const,
     variant: 'minimal' as const,
@@ -172,7 +190,7 @@ export const StepPresets = {
     completedColor: 'bg-green-600',
     upcomingColor: 'bg-gray-300',
   },
-  
+
   horizontal: {
     orientation: 'horizontal' as const,
     variant: 'default' as const,

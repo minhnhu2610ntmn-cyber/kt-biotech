@@ -2,8 +2,12 @@
 
 import React, { ReactNode } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay, EffectFade, EffectCoverflow } from 'swiper/modules';
-import { SwiperOptions } from 'swiper/types';
+import {
+  Navigation,
+  Autoplay,
+  EffectFade,
+  EffectCoverflow,
+} from 'swiper/modules';
 import { cn } from '../../utils';
 
 // Import Swiper styles
@@ -93,15 +97,15 @@ export function Slider({
 
   // Determine which modules to use
   const modules = [Navigation];
-  
+
   if (autoplay) {
     modules.push(Autoplay);
   }
-  
+
   if (effect === 'fade') {
     modules.push(EffectFade);
   }
-  
+
   if (effect === 'coverflow') {
     modules.push(EffectCoverflow);
   }
@@ -137,9 +141,10 @@ export function Slider({
 
   // Add autoplay config if enabled
   if (autoplay) {
-    swiperConfig.autoplay = typeof autoplay === 'boolean' 
-      ? { delay: 3000, disableOnInteraction: false }
-      : autoplay;
+    swiperConfig.autoplay =
+      typeof autoplay === 'boolean'
+        ? { delay: 3000, disableOnInteraction: false }
+        : autoplay;
   }
 
   // Add effect config
@@ -165,16 +170,14 @@ export function Slider({
     <div className={cn('relative group', className)}>
       <Swiper
         {...swiperConfig}
-        className="w-full h-full cursor-grab active:cursor-grabbing"
+        className='w-full h-full cursor-grab active:cursor-grabbing'
         style={{
           touchAction: 'pan-y',
           userSelect: 'none',
         }}
       >
         {slidesForLoop.map((child, index) => (
-          <SwiperSlide key={index}>
-            {child}
-          </SwiperSlide>
+          <SwiperSlide key={index}>{child}</SwiperSlide>
         ))}
       </Swiper>
 
@@ -183,47 +186,47 @@ export function Slider({
         <>
           <button
             className={`slider-button-prev absolute left-4 top-1/2 -translate-y-1/2 z-10 rounded-full p-2 shadow-lg transition-all duration-200 ${
-              swiperInstance?.isBeginning 
-                ? 'opacity-30 cursor-not-allowed bg-gray-300' 
+              swiperInstance?.isBeginning
+                ? 'opacity-30 cursor-not-allowed bg-gray-300'
                 : 'opacity-0 group-hover:opacity-100 cursor-pointer bg-white/80 hover:bg-white'
             }`}
-            aria-label="Previous slide"
+            aria-label='Previous slide'
             onClick={goToPrev}
           >
             <svg
-              className="w-6 h-6 text-gray-700"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+              className='w-6 h-6 text-gray-700'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                strokeLinecap='round'
+                strokeLinejoin='round'
                 strokeWidth={2}
-                d="M15 19l-7-7 7-7"
+                d='M15 19l-7-7 7-7'
               />
             </svg>
           </button>
           <button
             className={`slider-button-next absolute right-4 top-1/2 -translate-y-1/2 z-10 rounded-full p-2 shadow-lg transition-all duration-200 ${
-              swiperInstance?.isEnd 
-                ? 'opacity-30 cursor-not-allowed bg-gray-300' 
+              swiperInstance?.isEnd
+                ? 'opacity-30 cursor-not-allowed bg-gray-300'
                 : 'opacity-0 group-hover:opacity-100 cursor-pointer bg-white/80 hover:bg-white'
             }`}
-            aria-label="Next slide"
+            aria-label='Next slide'
             onClick={goToNext}
           >
             <svg
-              className="w-6 h-6 text-gray-700"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+              className='w-6 h-6 text-gray-700'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                strokeLinecap='round'
+                strokeLinejoin='round'
                 strokeWidth={2}
-                d="M9 5l7 7-7 7"
+                d='M9 5l7 7-7 7'
               />
             </svg>
           </button>
@@ -232,7 +235,7 @@ export function Slider({
 
       {/* Custom Pagination */}
       {pagination && (
-        <div className="flex justify-center mt-4 space-x-2">
+        <div className='flex justify-center mt-4 space-x-2'>
           {slidesForLoop.map((_, index) => (
             <button
               key={index}
@@ -265,7 +268,7 @@ export const SliderPresets = {
     grabCursor: true,
     allowTouchMove: true,
   },
-  
+
   // Product carousel
   productCarousel: {
     slidesPerView: 4,
@@ -282,7 +285,7 @@ export const SliderPresets = {
       1280: { slidesPerView: 4, spaceBetween: 20 },
     },
   },
-  
+
   // Testimonial slider
   testimonial: {
     slidesPerView: 1,
@@ -295,7 +298,7 @@ export const SliderPresets = {
     grabCursor: true,
     allowTouchMove: true,
   },
-  
+
   // Image gallery
   gallery: {
     slidesPerView: 1,
@@ -308,7 +311,7 @@ export const SliderPresets = {
     grabCursor: true,
     allowTouchMove: true,
   },
-  
+
   // Fade effect slider
   fade: {
     slidesPerView: 1,

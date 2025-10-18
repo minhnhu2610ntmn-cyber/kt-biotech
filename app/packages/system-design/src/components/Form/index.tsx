@@ -47,8 +47,8 @@ export const Form: React.FC<FormProps> = ({
     try {
       await onSubmit?.(data);
       reset();
-    } catch (error) {
-      console.error('Form submission error:', error);
+    } catch {
+      // Handle form submission error
     }
   };
 
@@ -61,24 +61,33 @@ export const Form: React.FC<FormProps> = ({
   ];
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className={`space-y-6 ${className}`}>
+    <form
+      onSubmit={handleSubmit(handleFormSubmit)}
+      className={`space-y-6 ${className}`}
+    >
       {/* Name Field */}
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+        <label
+          htmlFor='name'
+          className='block text-sm font-medium text-gray-700 mb-2'
+        >
           Full Name *
         </label>
         <Controller
-          name="name"
+          name='name'
           control={control}
-          rules={{ 
+          rules={{
             required: 'Name is required',
-            minLength: { value: 2, message: 'Name must be at least 2 characters' }
+            minLength: {
+              value: 2,
+              message: 'Name must be at least 2 characters',
+            },
           }}
           render={({ field }) => (
             <Input
               {...field}
-              id="name"
-              placeholder="Enter your full name"
+              id='name'
+              placeholder='Enter your full name'
               error={errors.name?.message}
             />
           )}
@@ -87,25 +96,28 @@ export const Form: React.FC<FormProps> = ({
 
       {/* Email Field */}
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+        <label
+          htmlFor='email'
+          className='block text-sm font-medium text-gray-700 mb-2'
+        >
           Email Address *
         </label>
         <Controller
-          name="email"
+          name='email'
           control={control}
-          rules={{ 
+          rules={{
             required: 'Email is required',
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: 'Invalid email address'
-            }
+              message: 'Invalid email address',
+            },
           }}
           render={({ field }) => (
             <Input
               {...field}
-              id="email"
-              type="email"
-              placeholder="Enter your email"
+              id='email'
+              type='email'
+              placeholder='Enter your email'
               error={errors.email?.message}
             />
           )}
@@ -114,24 +126,27 @@ export const Form: React.FC<FormProps> = ({
 
       {/* Phone Field */}
       <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+        <label
+          htmlFor='phone'
+          className='block text-sm font-medium text-gray-700 mb-2'
+        >
           Phone Number
         </label>
         <Controller
-          name="phone"
+          name='phone'
           control={control}
           rules={{
             pattern: {
               value: /^[\+]?[1-9][\d]{0,15}$/,
-              message: 'Invalid phone number'
-            }
+              message: 'Invalid phone number',
+            },
           }}
           render={({ field }) => (
             <Input
               {...field}
-              id="phone"
-              type="tel"
-              placeholder="Enter your phone number"
+              id='phone'
+              type='tel'
+              placeholder='Enter your phone number'
               error={errors.phone?.message}
             />
           )}
@@ -140,17 +155,23 @@ export const Form: React.FC<FormProps> = ({
 
       {/* Country Field */}
       <div>
-        <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-2">
+        <label
+          htmlFor='country'
+          className='block text-sm font-medium text-gray-700 mb-2'
+        >
           Country
         </label>
         <Controller
-          name="country"
+          name='country'
           control={control}
           render={({ field }) => (
             <Select
-              value={countryOptions.find(option => option.value === field.value) || null}
-              onChange={(option) => field.onChange((option as any)?.value || '')}
-              placeholder="Select your country"
+              value={
+                countryOptions.find(option => option.value === field.value) ||
+                null
+              }
+              onChange={option => field.onChange((option as any)?.value || '')}
+              placeholder='Select your country'
               options={countryOptions}
               error={errors.country?.message}
             />
@@ -160,21 +181,27 @@ export const Form: React.FC<FormProps> = ({
 
       {/* Message Field */}
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+        <label
+          htmlFor='message'
+          className='block text-sm font-medium text-gray-700 mb-2'
+        >
           Message
         </label>
         <Controller
-          name="message"
+          name='message'
           control={control}
           rules={{
-            maxLength: { value: 500, message: 'Message must be less than 500 characters' }
+            maxLength: {
+              value: 500,
+              message: 'Message must be less than 500 characters',
+            },
           }}
           render={({ field }) => (
             <textarea
               {...field}
-              id="message"
+              id='message'
               rows={4}
-              placeholder="Enter your message"
+              placeholder='Enter your message'
               className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                 errors.message ? 'border-red-500' : 'border-gray-300'
               }`}
@@ -182,62 +209,58 @@ export const Form: React.FC<FormProps> = ({
           )}
         />
         {errors.message && (
-          <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
+          <p className='mt-1 text-sm text-red-600'>{errors.message.message}</p>
         )}
-        <p className="mt-1 text-sm text-gray-500">
+        <p className='mt-1 text-sm text-gray-500'>
           {control._formValues.message?.length || 0}/500 characters
         </p>
       </div>
 
       {/* Agreement Checkbox */}
-      <div className="flex items-start">
+      <div className='flex items-start'>
         <Controller
-          name="agree"
+          name='agree'
           control={control}
           rules={{ required: 'You must agree to the terms' }}
           render={({ field }) => (
             <input
-              type="checkbox"
-              id="agree"
+              type='checkbox'
+              id='agree'
               checked={field.value}
-              onChange={(e) => field.onChange(e.target.checked)}
+              onChange={e => field.onChange(e.target.checked)}
               onBlur={field.onBlur}
               name={field.name}
               ref={field.ref}
-              className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className='mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
             />
           )}
         />
-        <label htmlFor="agree" className="ml-2 block text-sm text-gray-700">
+        <label htmlFor='agree' className='ml-2 block text-sm text-gray-700'>
           I agree to the{' '}
-          <a href="#" className="text-blue-600 hover:text-blue-500">
+          <a href='/terms' className='text-blue-600 hover:text-blue-500'>
             Terms and Conditions
           </a>{' '}
           and{' '}
-          <a href="#" className="text-blue-600 hover:text-blue-500">
+          <a href='/privacy' className='text-blue-600 hover:text-blue-500'>
             Privacy Policy
           </a>
         </label>
       </div>
       {errors.agree && (
-        <p className="text-sm text-red-600">{errors.agree.message}</p>
+        <p className='text-sm text-red-600'>{errors.agree.message}</p>
       )}
 
       {/* Submit Button */}
-      <div className="flex justify-end space-x-3">
+      <div className='flex justify-end space-x-3'>
         <Button
-          type="button"
-          variant="outline"
+          type='button'
+          variant='outline'
           onClick={() => reset()}
           disabled={isSubmitting}
         >
           Reset
         </Button>
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          className="min-w-[120px]"
-        >
+        <Button type='submit' disabled={isSubmitting} className='min-w-[120px]'>
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>
       </div>

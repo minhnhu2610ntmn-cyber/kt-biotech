@@ -51,23 +51,26 @@ export const WithCustomItems: Story = {
     items: [
       { label: 'Trang chủ', href: '/' },
       { label: 'Giới thiệu', href: '/about' },
-      { 
-        label: 'Sản phẩm', 
+      {
+        label: 'Sản phẩm',
         href: '/products',
         children: [
           { label: 'Thiết bị y tế', href: '/products/medical-devices' },
-          { label: 'Dụng cụ phòng thí nghiệm', href: '/products/lab-equipment' },
+          {
+            label: 'Dụng cụ phòng thí nghiệm',
+            href: '/products/lab-equipment',
+          },
           { label: 'Hóa chất', href: '/products/chemicals' },
-        ]
+        ],
       },
-      { 
-        label: 'Dịch vụ', 
+      {
+        label: 'Dịch vụ',
         href: '/services',
         children: [
           { label: 'Tư vấn kỹ thuật', href: '/services/technical-consulting' },
           { label: 'Bảo trì thiết bị', href: '/services/maintenance' },
           { label: 'Đào tạo', href: '/services/training' },
-        ]
+        ],
       },
       { label: 'Blog', href: '/blogs' },
       { label: 'Liên hệ', href: '/contact' },
@@ -80,11 +83,11 @@ export const WithCustomRightContent: Story = {
     logo: 'logo.png',
     logoAlt: 'KTBioTech Logo',
     rightContent: (
-      <div className="flex items-center space-x-4">
-        <button className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">
+      <div className='flex items-center space-x-4'>
+        <button className='text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium'>
           Đăng nhập
         </button>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
+        <button className='bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700'>
           Liên hệ ngay
         </button>
       </div>
