@@ -1,0 +1,53 @@
+{
+  "navbar": {
+    "home": "Home",
+    "about": "About",
+    "products": "Products",
+    "news": "News",
+    "research": "Research",
+    "careers": "Careers",
+    "contact": "Contact",
+    "searchPlaceholder": "Search...",
+    "hotline": "Hotline"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close"
+  },
+  "form": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "country": "Country",
+    "required": "This field is required",
+    "invalidEmail": "Invalid email address",
+    "invalidPhone": "Invalid phone number"
+  },
+  "table": {
+    "noData": "No data available",
+    "loading": "Loading...",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of",
+    "items": "items"
+  },
+  "slider": {
+    "previous": "Previous slide",
+    "next": "Next slide",
+    "goToSlide": "Go to slide"
+  },
+  "step": {
+    "completed": "Completed",
+    "current": "Current",
+    "upcoming": "Upcoming"
+  }
+}

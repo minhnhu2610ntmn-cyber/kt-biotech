@@ -1,39 +1,24 @@
 import React from 'react';
 import { NextIntlClientProvider } from 'next-intl';
+import mockMessagesEn from './mock-messages.json';
+import mockMessagesVi from './mock-messages-vi.json';
 
-// Mock messages for Storybook
-const mockMessages = {
-  navbar: {
-    home: 'Home',
-    about: 'About',
-    products: 'Products',
-    news: 'News',
-    research: 'Research',
-    careers: 'Careers',
-    contact: 'Contact',
-    searchPlaceholder: 'Search...',
-    hotline: 'Hotline',
-  },
-  common: {
-    loading: 'Loading...',
-    error: 'Error',
-    success: 'Success',
-    cancel: 'Cancel',
-    submit: 'Submit',
-    save: 'Save',
-    delete: 'Delete',
-    edit: 'Edit',
-    close: 'Close',
-  },
+// Available locales and their messages
+const messagesByLocale = {
+  en: mockMessagesEn,
+  vi: mockMessagesVi,
 };
 
 // Decorator to provide NextIntl context
-export const withNextIntl = (Story: any) => {
+export const withNextIntl = (Story: any, context: any) => {
+  const locale = context.globals?.locale || 'en';
+  const messages = messagesByLocale[locale as keyof typeof messagesByLocale] || mockMessagesEn;
+
   return React.createElement(
     NextIntlClientProvider,
     {
-      locale: 'en',
-      messages: mockMessages,
+      locale,
+      messages,
     },
     React.createElement(Story)
   );

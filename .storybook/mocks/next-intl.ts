@@ -1,39 +1,32 @@
 // Mock for next-intl in Storybook
-export const useTranslations = (namespace?: string) => {
-  const mockTranslations = {
-    navbar: {
-      home: 'Home',
-      about: 'About',
-      products: 'Products',
-      news: 'News',
-      research: 'Research',
-      careers: 'Careers',
-      contact: 'Contact',
-      searchPlaceholder: 'Search...',
-      hotline: 'Hotline',
-    },
-    common: {
-      loading: 'Loading...',
-      error: 'Error',
-      success: 'Success',
-      cancel: 'Cancel',
-      submit: 'Submit',
-      save: 'Save',
-      delete: 'Delete',
-      edit: 'Edit',
-      close: 'Close',
-    },
-  };
+import mockMessagesEn from '../mock-messages.json';
+import mockMessagesVi from '../mock-messages-vi.json';
 
+const messagesByLocale = {
+  en: mockMessagesEn,
+  vi: mockMessagesVi,
+};
+
+// Global locale state
+let currentLocale = 'en';
+
+export const useTranslations = (namespace?: string) => {
   return (key: string) => {
-    if (namespace && mockTranslations[namespace as keyof typeof mockTranslations]) {
-      const nested = mockTranslations[namespace as keyof typeof mockTranslations] as any;
+    const messages = messagesByLocale[currentLocale as keyof typeof messagesByLocale] || mockMessagesEn;
+    
+    if (namespace && messages[namespace as keyof typeof messages]) {
+      const nested = messages[namespace as keyof typeof messages] as any;
       return nested[key] || key;
     }
     return key;
   };
 };
 
-export const useLocale = () => 'en';
+export const useLocale = () => currentLocale;
+
+// Function to update locale (for testing)
+export const setLocale = (locale: string) => {
+  currentLocale = locale;
+};
 
 export const NextIntlClientProvider = ({ children, ...props }: any) => children;
