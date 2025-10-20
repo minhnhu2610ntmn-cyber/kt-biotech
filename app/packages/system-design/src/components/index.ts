@@ -1,28 +1,29 @@
-export { default as Select } from './Select';
 export { Button } from './Button';
+export { Form } from './Form';
+export * from './Icons';
 export { Input } from './Input';
-export { default as LoadingSpinner } from './LoadingSpinner';
-export { default as SimpleLoading } from './SimpleLoading';
-export { Navbar } from './Navbar';
 export { LanguageSwitcher } from './LanguageSwitcher';
+export { default as LoadingSpinner } from './LoadingSpinner';
+export { Navbar } from './Navbar';
+export { default as Select } from './Select';
+export { default as SimpleLoading } from './SimpleLoading';
 export { Slider, SliderPresets } from './Slider';
 export { Step, StepPresets } from './Step';
-export { Form } from './Form';
 export { Table } from './Table';
 export type { TableColumn, TableProps } from './Table';
 export {
-  Typography,
-  Heading,
-  Text,
-  Link,
-  Code,
   Blockquote,
+  Code,
+  Heading,
+  Link,
   List,
   ListItem,
+  Text,
+  Typography,
 } from './Typography';
 export type {
-  TypographyProps,
   HeadingProps,
-  TextProps,
   LinkProps,
+  TextProps,
+  TypographyProps,
 } from './Typography';
