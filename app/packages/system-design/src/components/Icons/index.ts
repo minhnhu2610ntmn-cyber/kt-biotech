@@ -1,4 +1,5 @@
 export { default as AboutIcon } from './About';
+export { default as AddressIcon } from './Address';
 export { default as CambodiaFlagIcon } from './CambodiaFlag';
 export { default as ChevronDownIcon } from './ChevronDown';
 export { default as ChevronRightIcon } from './ChevronRight';
@@ -13,8 +14,12 @@ export { default as InstagramIcon } from './Instagram';
 export { default as JapanFlagIcon } from './JapanFlag';
 export { default as MalaysiaFlagIcon } from './MalaysiaFlag';
 export { default as MenuIcon } from './Menu';
+export { default as OClockIcon } from './OClock';
+export { default as PhoneIcon } from './Phone';
+export { default as PinterestIcon } from './Pinterest';
 export { default as PrintIcon } from './Print';
 export { default as SearchIcon } from './Search';
+export { default as TimelineItemIcon } from './TimelineItem';
 export { default as TwitterIcon } from './Twitter';
 export { default as UnitedKingdomFlagIcon } from './UnitedKingdomFlag';
 export { default as UnitedStatesFlagIcon } from './UnitedStatesFlag';

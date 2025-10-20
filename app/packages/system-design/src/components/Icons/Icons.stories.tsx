@@ -1,26 +1,32 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   AboutIcon,
+  AddressIcon,
   CambodiaFlagIcon,
   ChevronDownIcon,
   ChevronRightIcon,
+  ChevronRightLargeIcon,
   ChinaFlagIcon,
   EmailIcon,
   FacebookCircleIcon,
   FacebookIcon,
-  InstagramIcon,
   HeartIcon,
   HelpIcon,
+  InstagramIcon,
   JapanFlagIcon,
   MalaysiaFlagIcon,
   MenuIcon,
+  OClockIcon,
+  PhoneIcon,
+  PinterestIcon,
   PrintIcon,
   SearchIcon,
+  TimelineItemIcon,
   TwitterIcon,
-  YouTubeIcon,
   UnitedKingdomFlagIcon,
   UnitedStatesFlagIcon,
   VietnamFlagIcon,
+  YouTubeIcon,
 } from '..';
 
 const meta: Meta = {
@@ -199,6 +205,54 @@ export const Icons: Story = {
           <MenuIcon width={24} height={24} />
         </div>
         <span className='text-xs text-gray-900'>Menu</span>
+      </div>
+
+      {/* Address */}
+      <div className='flex flex-col items-center gap-2'>
+        <div className='bg-white size-12 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600'>
+          <AddressIcon width={24} height={24} stroke='currentColor' />
+        </div>
+        <span className='text-xs text-gray-900'>Address</span>
+      </div>
+
+      {/* Phone */}
+      <div className='flex flex-col items-center gap-2'>
+        <div className='bg-white size-12 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600'>
+          <PhoneIcon width={24} height={24} stroke='currentColor' />
+        </div>
+        <span className='text-xs text-gray-900'>Phone</span>
+      </div>
+
+      {/* OClock */}
+      <div className='flex flex-col items-center gap-2'>
+        <div className='bg-white size-12 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600'>
+          <OClockIcon width={24} height={24} stroke='currentColor' />
+        </div>
+        <span className='text-xs text-gray-900'>OClock</span>
+      </div>
+
+      {/* Pinterest */}
+      <div className='flex flex-col items-center gap-2'>
+        <div className='bg-white size-12 flex items-center justify-center rounded-lg border border-gray-200'>
+          <PinterestIcon width={24} height={24} />
+        </div>
+        <span className='text-xs text-gray-900'>Pinterest</span>
+      </div>
+
+      {/* Timeline Item */}
+      <div className='flex flex-col items-center gap-2'>
+        <div className='bg-white size-12 flex items-center justify-center rounded-lg border border-gray-200'>
+          <TimelineItemIcon width={18} height={18} />
+        </div>
+        <span className='text-xs text-gray-900'>Timeline Item</span>
+      </div>
+
+      {/* Chevron Right Large */}
+      <div className='flex flex-col items-center gap-2'>
+        <div className='bg-white size-12 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600'>
+          <ChevronRightLargeIcon stroke='currentColor' />
+        </div>
+        <span className='text-xs text-gray-900'>Chevron Right Lg</span>
       </div>
     </div>
   ),

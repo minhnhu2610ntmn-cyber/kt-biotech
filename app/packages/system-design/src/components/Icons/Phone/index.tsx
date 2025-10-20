@@ -1,16 +1,20 @@
-import type { SVGProps } from 'react';
+import React from 'react';
 
-export interface PhoneIconProps extends SVGProps<SVGSVGElement> {
-  title?: string;
+interface PhoneIconProps {
+  width?: number;
+  height?: number;
+  className?: string;
+  stroke?: string;
+  strokeWidth?: number;
 }
 
-export default function PhoneIcon({
+const PhoneIcon: React.FC<PhoneIconProps> = ({
   width = 32,
   height = 32,
+  className = '',
   stroke = '#E7E8E9',
-  title = 'Phone',
-  ...props
-}: PhoneIconProps) {
+  strokeWidth = 2,
+}) => {
   return (
     <svg
       width={width}
@@ -18,15 +22,13 @@ export default function PhoneIcon({
       viewBox='0 0 32 32'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
-      aria-label={title}
-      role='img'
-      {...props}
+      className={className}
     >
       <g clipPath='url(#clip0_302_6089)'>
         <path
           d='M6.66667 5.33203H12L14.6667 11.9987L11.3333 13.9987C12.7613 16.8941 15.1046 19.2374 18 20.6654L20 17.332L26.6667 19.9987V25.332C26.6667 26.0393 26.3857 26.7176 25.8856 27.2176C25.3855 27.7177 24.7072 27.9987 24 27.9987C18.799 27.6826 13.8935 25.474 10.2091 21.7896C6.52467 18.1052 4.31607 13.1997 4 7.9987C4 7.29145 4.28095 6.61318 4.78105 6.11308C5.28115 5.61298 5.95942 5.33203 6.66667 5.33203'
           stroke={stroke}
-          strokeWidth='2'
+          strokeWidth={strokeWidth}
           strokeLinecap='round'
           strokeLinejoin='round'
         />
@@ -38,4 +40,6 @@ export default function PhoneIcon({
       </defs>
     </svg>
   );
-}
+};
+
+export default PhoneIcon;
