@@ -46,71 +46,85 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: #ffffff;
+  --foreground: #333333;
+  --card: #ffffff;
+  --card-foreground: #333333;
+  --popover: #ffffff;
+  --popover-foreground: #333333;
+  /* KTBioTech brand primary */
+  --primary: #3691c9;
+  --primary-foreground: #ffffff;
+  /* Secondary - Light gray */
+  --secondary: #f5f5f5;
+  --secondary-foreground: #333333;
+  /* Muted - Light gray */
+  --muted: #f5f5f5;
+  --muted-foreground: #666666;
+  /* Accent - Light blue */
+  --accent: #60a5fa;
+  --accent-foreground: #ffffff;
+  /* Destructive - Red */
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  /* Border - Light gray */
+  --border: #e5e7eb;
+  --input: #ffffff;
+  --ring: #3691c9;
+  --chart-1: #1e40af;
+  --chart-2: #60a5fa;
+  --chart-3: #10b981;
+  --chart-4: #f59e0b;
+  --chart-5: #ef4444;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #333333;
+  --sidebar-primary: #1e40af;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f5f5f5;
+  --sidebar-accent-foreground: #333333;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #1e40af;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #1f2937;
+  --foreground: #ffffff;
+  --card: #374151;
+  --card-foreground: #ffffff;
+  --popover: #374151;
+  --popover-foreground: #ffffff;
+  /* KTBioTech brand primary (dark mode) */
+  --primary: #5daddb;
+  --primary-foreground: #0b2533;
+  /* Secondary - Dark gray */
+  --secondary: #374151;
+  --secondary-foreground: #ffffff;
+  /* Muted - Dark gray */
+  --muted: #374151;
+  --muted-foreground: #9ca3af;
+  /* Accent - Light blue */
+  --accent: #3b82f6;
+  --accent-foreground: #ffffff;
+  /* Destructive - Red */
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  /* Border - Dark gray */
+  --border: #4b5563;
+  --input: #374151;
+  --ring: #5daddb;
+  --chart-1: #60a5fa;
+  --chart-2: #3b82f6;
+  --chart-3: #10b981;
+  --chart-4: #f59e0b;
+  --chart-5: #ef4444;
+  --sidebar: #1f2937;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #60a5fa;
+  --sidebar-primary-foreground: #1f2937;
+  --sidebar-accent: #374151;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #4b5563;
+  --sidebar-ring: #60a5fa;
 }
 
 @layer base {

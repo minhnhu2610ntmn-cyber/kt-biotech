@@ -11,7 +11,92 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // KTBioTech Brand Colors
+        // Override default colors with KTBioTech design colors
+        primary: {
+          50: '#eaf5fb',
+          100: '#d5eaf7',
+          200: '#add6ee',
+          300: '#84c2e5',
+          400: '#5daddb',
+          500: '#3691c9', // brand primary
+          600: '#308fc5',
+          700: '#2f83b6',
+          800: '#2a78a7',
+          900: '#226389',
+          950: '#184864',
+          DEFAULT: '#3691c9',
+        },
+        secondary: {
+          50: '#f9fafb',
+          100: '#f3f4f6',
+          200: '#e5e7eb',
+          300: '#d1d5db',
+          400: '#9ca3af',
+          500: '#6b7280',
+          600: '#4b5563',
+          700: '#374151',
+          800: '#1f2937',
+          900: '#111827',
+          950: '#030712',
+          DEFAULT: '#6b7280',
+        },
+        accent: {
+          purple: '#8b5cf6',
+          teal: '#14b8a6',
+          orange: '#f59e0b',
+          green: '#10b981',
+          DEFAULT: '#8b5cf6',
+        },
+        success: {
+          DEFAULT: '#10b981',
+          light: '#34d399',
+          dark: '#059669',
+        },
+        warning: {
+          DEFAULT: '#f59e0b',
+          light: '#fbbf24',
+          dark: '#d97706',
+        },
+        error: {
+          DEFAULT: '#ef4444',
+          light: '#f87171',
+          dark: '#dc2626',
+        },
+        info: {
+          DEFAULT: '#06b6d4',
+          light: '#22d3ee',
+          dark: '#0891b2',
+        },
+        // Icon colors from design
+        icon: {
+          primary: '#86bddf',
+          secondary: '#cccfd1',
+          muted: '#e7e8e9',
+          DEFAULT: '#86bddf',
+        },
+        // Design specific colors
+        'kt-light-blue': '#60a5fa',
+        'kt-dark-gray': '#333333',
+        'kt-light-gray': '#f5f5f5',
+        'kt-medium-gray': '#666666',
+        'kt-border-gray': '#e5e7eb',
+        'kt-gold': '#ffd700',
+        // Footer specific colors
+        footer: {
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',
+          600: '#475569',
+          700: '#334155',
+          800: '#1e293b',
+          900: '#0f172a',
+          950: '#020617',
+          DEFAULT: '#1e293b',
+        },
+        // Legacy KTBioTech colors (for backward compatibility)
         'kt-blue': {
           50: '#eff6ff',
           100: '#dbeafe',
@@ -25,7 +110,6 @@ const config: Config = {
           900: '#1e3a8a',
           950: '#172554',
         },
-        // KTBioTech Gray Scale
         'kt-gray': {
           50: '#f9fafb',
           100: '#f3f4f6',
@@ -39,7 +123,6 @@ const config: Config = {
           900: '#111827',
           950: '#030712',
         },
-        // KTBioTech Footer Colors
         'kt-footer': {
           50: '#f8fafc',
           100: '#f1f5f9',
@@ -53,36 +136,35 @@ const config: Config = {
           900: '#0f172a',
           950: '#020617',
         },
-        // Semantic Colors
         'kt-primary': {
-          DEFAULT: '#1e40af', // kt-blue-800
-          light: '#3b82f6', // kt-blue-500
-          dark: '#1e3a8a', // kt-blue-900
+          DEFAULT: '#1e40af',
+          light: '#3b82f6',
+          dark: '#1e3a8a',
         },
         'kt-secondary': {
-          DEFAULT: '#6b7280', // kt-gray-500
-          light: '#9ca3af', // kt-gray-400
-          dark: '#4b5563', // kt-gray-600
+          DEFAULT: '#6b7280',
+          light: '#9ca3af',
+          dark: '#4b5563',
         },
         'kt-success': {
-          DEFAULT: '#10b981', // emerald-500
-          light: '#34d399', // emerald-400
-          dark: '#059669', // emerald-600
+          DEFAULT: '#10b981',
+          light: '#34d399',
+          dark: '#059669',
         },
         'kt-warning': {
-          DEFAULT: '#f59e0b', // amber-500
-          light: '#fbbf24', // amber-400
-          dark: '#d97706', // amber-600
+          DEFAULT: '#f59e0b',
+          light: '#fbbf24',
+          dark: '#d97706',
         },
         'kt-error': {
-          DEFAULT: '#ef4444', // red-500
-          light: '#f87171', // red-400
-          dark: '#dc2626', // red-600
+          DEFAULT: '#ef4444',
+          light: '#f87171',
+          dark: '#dc2626',
         },
         'kt-info': {
-          DEFAULT: '#06b6d4', // cyan-500
-          light: '#22d3ee', // cyan-400
-          dark: '#0891b2', // cyan-600
+          DEFAULT: '#06b6d4',
+          light: '#22d3ee',
+          dark: '#0891b2',
         },
       },
       fontFamily: {
@@ -118,6 +200,15 @@ const config: Config = {
         '3xl': '1.5rem',
         full: '9999px',
       },
+      backgroundImage: {
+        'gradient-primary': 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+        'gradient-hero': 'linear-gradient(135deg, #1e40af, #1e3a8a)',
+        'gradient-accent': 'linear-gradient(135deg, #8b5cf6, #14b8a6)',
+        'gradient-success': 'linear-gradient(135deg, #10b981, #059669)',
+        'gradient-warning': 'linear-gradient(135deg, #f59e0b, #d97706)',
+        'gradient-error': 'linear-gradient(135deg, #ef4444, #dc2626)',
+        'gradient-footer': 'linear-gradient(135deg, #1e293b, #0f172a)',
+      },
       boxShadow: {
         sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
         DEFAULT:
@@ -128,6 +219,12 @@ const config: Config = {
         '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
         inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
         kt: '0 4px 6px -1px rgba(30, 64, 175, 0.1), 0 2px 4px -1px rgba(30, 64, 175, 0.06)',
+        'kt-primary':
+          '0 4px 6px -1px rgba(30, 64, 175, 0.1), 0 2px 4px -1px rgba(30, 64, 175, 0.06)',
+        'kt-accent':
+          '0 4px 6px -1px rgba(139, 92, 246, 0.1), 0 2px 4px -1px rgba(139, 92, 246, 0.06)',
+        'kt-success':
+          '0 4px 6px -1px rgba(16, 185, 129, 0.1), 0 2px 4px -1px rgba(16, 185, 129, 0.06)',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

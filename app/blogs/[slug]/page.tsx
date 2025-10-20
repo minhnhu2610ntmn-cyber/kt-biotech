@@ -188,12 +188,11 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
             <article className='lg:col-span-3'>
               <div className='bg-white rounded-lg shadow-sm p-8'>
                 <Suspense fallback={<LoadingSpinner />}>
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    className='prose prose-lg max-w-none'
-                  >
-                    {post.content}
-                  </ReactMarkdown>
+                  <div className='prose prose-lg max-w-none'>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {post.content}
+                    </ReactMarkdown>
+                  </div>
                 </Suspense>
               </div>
             </article>

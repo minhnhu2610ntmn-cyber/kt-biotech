@@ -47,10 +47,10 @@ export default function BlogPage({
     }
   };
 
-  const categoryOptions = categories.map(category => ({
-    value: category.name,
-    label: category.name,
-  }));
+  // const categoryOptions = categories.map(category => ({
+  //   value: category.name,
+  //   label: category.name,
+  // }));
 
   return (
     <div className='container mx-auto px-4 py-8'>

@@ -80,6 +80,14 @@
   --icon-muted: #e7e8e9;
   --icon: #86bddf;
 
+  /* Design Specific Colors */
+  --kt-light-blue: #60a5fa;
+  --kt-dark-gray: #333333;
+  --kt-light-gray: #f5f5f5;
+  --kt-medium-gray: #666666;
+  --kt-border-gray: #e5e7eb;
+  --kt-gold: #ffd700;
+
   /* Footer Colors */
   --footer-50: #f8fafc;
   --footer-100: #f1f5f9;
