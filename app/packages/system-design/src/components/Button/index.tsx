@@ -9,34 +9,34 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Primary - KTBioTech brand blue
+        // Primary - Brand blue #3691C9
         default:
-          'bg-primary text-white hover:bg-primary-700 focus-visible:ring-primary-500 shadow-kt-primary',
-        // Secondary - Gray variant
+          'bg-primary text-white hover:bg-primary-600 active:bg-primary-700 focus-visible:ring-primary-300 shadow-kt-primary',
+        // Secondary - Light gray background with dark text
         secondary:
-          'bg-secondary text-white hover:bg-secondary-600 focus-visible:ring-secondary-500',
-        // Outline - Border with hover
+          'bg-kt-light-gray text-kt-dark-gray hover:bg-kt-border-gray active:bg-kt-light-gray focus-visible:ring-primary-200',
+        // Outline - Primary border, fill on hover
         outline:
-          'border border-primary text-primary bg-transparent hover:bg-primary hover:text-white focus-visible:ring-primary-500',
-        // Destructive - Error/Delete actions
+          'border border-primary text-primary bg-transparent hover:bg-primary hover:text-white active:bg-primary-700 focus-visible:ring-primary-300',
+        // Destructive - Error palette
         destructive:
-          'bg-error text-white hover:bg-error-dark focus-visible:ring-error-500 shadow-kt-success',
-        // Success - Success actions
+          'bg-error text-white hover:bg-error-dark active:bg-error-dark focus-visible:ring-error-light',
+        // Success
         success:
-          'bg-success text-white hover:bg-success-dark focus-visible:ring-success-500 shadow-kt-success',
-        // Warning - Warning actions
+          'bg-success text-white hover:bg-success-dark active:bg-success-dark focus-visible:ring-success-light',
+        // Warning
         warning:
-          'bg-warning text-white hover:bg-warning-dark focus-visible:ring-warning-500',
-        // Info - Information actions
-        info: 'bg-info text-white hover:bg-info-dark focus-visible:ring-info-500',
-        // Ghost - Transparent with hover
+          'bg-warning text-white hover:bg-warning-dark active:bg-warning-dark focus-visible:ring-warning-light',
+        // Info
+        info: 'bg-info text-white hover:bg-info-dark active:bg-info-dark focus-visible:ring-info-light',
+        // Ghost - subtle primary
         ghost:
-          'text-primary hover:bg-primary-50 hover:text-primary-700 focus-visible:ring-primary-500',
-        // Link - Text link style
-        link: 'text-primary underline-offset-4 hover:underline focus-visible:ring-primary-500',
-        // Accent - Purple accent color
+          'text-primary hover:bg-primary/10 hover:text-primary-700 active:bg-primary/20 focus-visible:ring-primary-200',
+        // Link - text style
+        link: 'text-primary underline-offset-4 hover:underline active:text-primary-700 focus-visible:ring-primary-200',
+        // Accent - Purple accent
         accent:
-          'bg-accent-purple text-white hover:bg-accent-purple/90 focus-visible:ring-accent-purple/50 shadow-kt-accent',
+          'bg-accent-purple text-white hover:bg-accent-purple/90 active:bg-accent-purple/95 focus-visible:ring-accent-purple/40 shadow-kt-accent',
       },
       size: {
         sm: 'h-8 rounded-md gap-1.5 px-3 text-xs has-[>svg]:px-2.5',

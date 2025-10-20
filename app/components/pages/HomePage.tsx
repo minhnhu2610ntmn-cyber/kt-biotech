@@ -1,4 +1,3 @@
-import { Button } from '@/app/packages/system-design/src';
 import {
   CountriesSection,
   HeroSection,
@@ -11,7 +10,7 @@ import {
 export default function HomePage() {
   return (
     <div className='min-h-screen'>
-      <Button>Click me</Button>
+      <div className='bg-success text-white p-3'>OK</div>
       <HeroSection />
       <MilestonesSection />
       <TechnologySection />
