@@ -25,17 +25,14 @@
   "tryComponents": "Thử các component bên dưới:",
   "searchExample": "Thử tìm kiếm một cái gì đó...",
   "formExample": "Ví dụ Form",
-  "navbar": {
-    "home": "Trang chủ",
-    "about": "Giới thiệu",
-    "products": "Sản phẩm",
-    "news": "Tin tức",
-    "research": "Nghiên cứu Khoa học",
-    "careers": "Tuyển Dụng",
-    "contact": "Liên hệ",
-    "searchPlaceholder": "Tìm kiếm...",
-    "blog": "Blog",
-    "aboutUs": "About Us",
-    "helpCenter": "Help Center"
+  "sidebar": {
+    "category": "Danh mục",
+    "importedKit": "Kit nhập khẩu",
+    "humanKit": "Kit trên người",
+    "animalKit": "Kit trên động vật",
+    "aquaticKit": "Kit trên thủy sản",
+    "foodKit": "Kit trên thực phẩm",
+    "extractionKit": "Kit tách chiết",
+    "otherProducts": "Sản phẩm khác"
   }
 }

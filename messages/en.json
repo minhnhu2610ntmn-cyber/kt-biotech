@@ -25,18 +25,14 @@
   "tryComponents": "Try the components below:",
   "searchExample": "Try searching for something...",
   "formExample": "Form Example",
-  "navbar": {
-    "home": "Home",
-    "about": "About",
-    "products": "Products",
-    "services": "Services",
-    "news": "News",
-    "research": "Research",
-    "careers": "Careers",
-    "contact": "Contact",
-    "searchPlaceholder": "Search...",
-    "blog": "Blog",
-    "aboutUs": "About Us",
-    "helpCenter": "Help Center"
+  "sidebar": {
+    "category": "Category",
+    "importedKit": "Imported Kit",
+    "humanKit": "Human Kit",
+    "animalKit": "Animal Kit",
+    "aquaticKit": "Aquatic Kit",
+    "foodKit": "Food Kit",
+    "extractionKit": "Extraction Kit",
+    "otherProducts": "Other Products"
   }
 }
