@@ -29,11 +29,14 @@
     "home": "Home",
     "about": "About",
     "products": "Products",
+    "services": "Services",
     "news": "News",
     "research": "Research",
     "careers": "Careers",
     "contact": "Contact",
     "searchPlaceholder": "Search...",
-    "hotline": "Hotline"
+    "blog": "Blog",
+    "aboutUs": "About Us",
+    "helpCenter": "Help Center"
   }
 }

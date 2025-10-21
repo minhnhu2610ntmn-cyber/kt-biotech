@@ -4,6 +4,7 @@ import { Navbar } from '@ktbiotech/system-design';
 import React from 'react';
 import { NavbarConfig, useNavbarConfig } from '../../hooks';
 import Footer from '../containers/Footer';
+import Topbar from '../containers/Topbar';
 
 interface MasterLayoutProps {
   children: React.ReactNode;
@@ -19,6 +20,9 @@ export default function MasterLayout({
 
   return (
     <>
+      {/* Topbar */}
+      <Topbar />
+
       {/* Navbar */}
       <Navbar
         logo='/logo.png'

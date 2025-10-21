@@ -5,3 +5,4 @@ export { default as MilestonesSection } from './MilestonesSection';
 export { default as NewsSection } from './NewsSection';
 export { default as PartnersSection } from './PartnersSection';
 export { default as TechnologySection } from './TechnologySection';
+export { default as Topbar } from './Topbar';

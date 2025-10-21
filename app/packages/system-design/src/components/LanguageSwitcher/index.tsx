@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { ChevronDown } from 'lucide-react';
-import { cn } from '../../utils';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { cn } from '../../utils';
+import { UnitedKingdomFlagIcon, VietnamFlagIcon } from '../Icons';
 
 interface LanguageSwitcherProps {
   className?: string;
@@ -16,11 +16,10 @@ export function LanguageSwitcher({
 }: LanguageSwitcherProps) {
   const router = useRouter();
   const [currentLocale, setCurrentLocale] = useState('vi');
-  const [isOpen, setIsOpen] = useState(false);
 
   const options = [
-    { value: 'vi', label: '🇻🇳 Tiếng Việt' },
-    { value: 'en', label: '🇺🇸 English' },
+    { value: 'vi', label: 'Tiếng Việt', flag: VietnamFlagIcon },
+    { value: 'en', label: 'English', flag: UnitedKingdomFlagIcon },
   ];
 
   // Get locale from cookie and set html lang attribute on mount
@@ -51,79 +50,60 @@ export function LanguageSwitcher({
 
     // Update local state
     setCurrentLocale(newLocale);
-    setIsOpen(false);
 
     // Use router refresh to update the page with new locale
     router.refresh();
   };
 
-  const currentOption = options.find(option => option.value === currentLocale);
-
   if (variant === 'compact') {
     return (
-      <div className={cn('relative', className)}>
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className='flex items-center justify-between px-3 py-2 text-sm text-gray-700 hover:text-blue-600 transition-colors duration-200 bg-gray-100 hover:bg-gray-200 rounded-md cursor-pointer w-32'
-        >
-          <span className='truncate'>{currentOption?.label}</span>
-          <ChevronDown className='h-4 w-4 flex-shrink-0' />
-        </button>
+      <div className={cn('flex items-center gap-2', className)}>
+        {options.map(option => {
+          const FlagIcon = option.flag;
+          const isActive = currentLocale === option.value;
 
-        {isOpen && (
-          <div className='absolute right-0 top-full mt-1 w-48 bg-white rounded-md shadow-lg ring-1 ring-gray-200 z-50'>
-            <div className='py-1'>
-              {options.map(option => (
-                <button
-                  key={option.value}
-                  onClick={() => switchLanguage(option.value)}
-                  className={cn(
-                    'w-full text-left px-4 py-2 text-sm transition-colors duration-200',
-                    currentLocale === option.value
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  )}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+          return (
+            <button
+              key={option.value}
+              onClick={() => switchLanguage(option.value)}
+              className={cn(
+                'w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer',
+                isActive
+                  ? 'border-2 border-[#245575] bg-white shadow-sm'
+                  : 'bg-white hover:shadow-sm'
+              )}
+              title={option.label}
+            >
+              <FlagIcon width={20} height={20} />
+            </button>
+          );
+        })}
       </div>
     );
   }
 
   return (
-    <div className={cn('relative', className)}>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className='flex items-center justify-between px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-md text-sm text-gray-700 transition-colors duration-200 cursor-pointer w-40'
-      >
-        <span className='truncate'>{currentOption?.label}</span>
-        <ChevronDown className='h-4 w-4 flex-shrink-0' />
-      </button>
+    <div className={cn('flex items-center gap-2', className)}>
+      {options.map(option => {
+        const FlagIcon = option.flag;
+        const isActive = currentLocale === option.value;
 
-      {isOpen && (
-        <div className='absolute right-0 top-full mt-1 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50'>
-          <div className='py-1'>
-            {options.map(option => (
-              <button
-                key={option.value}
-                onClick={() => switchLanguage(option.value)}
-                className={cn(
-                  'w-full text-left px-4 py-2 text-sm transition-colors duration-200',
-                  currentLocale === option.value
-                    ? 'bg-blue-50 text-blue-600'
-                    : 'text-gray-700 hover:bg-gray-50'
-                )}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+        return (
+          <button
+            key={option.value}
+            onClick={() => switchLanguage(option.value)}
+            className={cn(
+              'w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer',
+              isActive
+                ? 'border-2 border-[#245575] bg-white shadow-sm'
+                : 'bg-white hover:shadow-sm'
+            )}
+            title={option.label}
+          >
+            <FlagIcon width={24} height={24} />
+          </button>
+        );
+      })}
     </div>
   );
 }

@@ -1,10 +1,12 @@
 export { Button } from './Button';
+export { default as Container } from './Container';
 export { Form } from './Form';
 export * from './Icons';
 export { Input } from './Input';
 export { LanguageSwitcher } from './LanguageSwitcher';
 export { default as LoadingSpinner } from './LoadingSpinner';
 export { Navbar } from './Navbar';
+export { SearchBar } from './SearchBar';
 export { default as Select } from './Select';
 export { default as SimpleLoading } from './SimpleLoading';
 export { Slider, SliderPresets } from './Slider';
