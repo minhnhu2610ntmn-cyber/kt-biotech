@@ -1,92 +1,10 @@
+import { SidebarMenu } from '@ktbiotech/system-design';
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
-// Mock translations for Storybook
-const mockTranslations = {
-  category: 'Danh mục',
-  importedKit: 'Kit nhập khẩu',
-  humanKit: 'Kit trên người',
-  animalKit: 'Kit trên động vật',
-  aquaticKit: 'Kit trên thủy sản',
-  foodKit: 'Kit trên thực phẩm',
-  extractionKit: 'Kit tách chiết',
-  otherProducts: 'Sản phẩm khác',
-};
-
-// Mock SidebarMenu component for Storybook
-const SidebarMenuStorybook = (props: any) => {
-  // Override the component to use mock translations
-  const defaultItems = [
-    { id: 'category', label: mockTranslations.category, href: '/category' },
-    {
-      id: 'imported-kit',
-      label: mockTranslations.importedKit,
-      href: '/imported-kit',
-    },
-    { id: 'human-kit', label: mockTranslations.humanKit, href: '/human-kit' },
-    {
-      id: 'animal-kit',
-      label: mockTranslations.animalKit,
-      href: '/animal-kit',
-    },
-    {
-      id: 'aquatic-kit',
-      label: mockTranslations.aquaticKit,
-      href: '/aquatic-kit',
-    },
-    { id: 'food-kit', label: mockTranslations.foodKit, href: '/food-kit' },
-    {
-      id: 'extraction-kit',
-      label: mockTranslations.extractionKit,
-      href: '/extraction-kit',
-    },
-    {
-      id: 'other-products',
-      label: mockTranslations.otherProducts,
-      href: '/other-products',
-    },
-  ];
-
-  const menuItems = props.items?.length > 0 ? props.items : defaultItems;
-
-  return (
-    <div className='fixed left-0 top-0 h-full w-64 bg-white shadow-lg border-r border-gray-200 z-40'>
-      <div className='p-4'>
-        <div className='space-y-2'>
-          {menuItems.map((item: any) => {
-            const isActive = props.activeItem === item.id || item.isActive;
-
-            return (
-              <a
-                key={item.id}
-                href={item.href}
-                onClick={e => {
-                  e.preventDefault();
-                  props.onItemClick?.(item);
-                }}
-                className={`flex items-center justify-between px-4 py-3 rounded-lg transition-colors duration-200 hover:bg-gray-50 ${
-                  isActive
-                    ? 'bg-blue-100 text-blue-900'
-                    : 'text-gray-700 hover:text-gray-900'
-                }`}
-              >
-                <div className='flex items-center gap-3'>
-                  <div className='w-4 h-4 bg-gray-600 rounded-sm'></div>
-                  <span className='text-sm font-medium'>{item.label}</span>
-                </div>
-                <div className='w-3 h-3 bg-gray-400 rounded-sm'></div>
-              </a>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const meta: Meta<typeof SidebarMenuStorybook> = {
+const meta: Meta<typeof SidebarMenu> = {
   title: 'components/SidebarMenu',
-  component: SidebarMenuStorybook,
+  component: SidebarMenu,
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -151,24 +69,120 @@ export const WithActiveItem: Story = {
   },
 };
 
-export const CustomItems: Story = {
+export const VietnameseItems: Story = {
   args: {
     items: [
-      { id: 'custom-1', label: 'Custom Item 1', href: '/custom-1' },
+      { id: 'danh-muc', label: 'Danh mục', href: '/danh-muc' },
+      { id: 'kit-nhap-khau', label: 'Kit nhập khẩu', href: '/kit-nhap-khau' },
       {
-        id: 'custom-2',
-        label: 'Custom Item 2',
-        href: '/custom-2',
+        id: 'kit-tren-nguoi',
+        label: 'Kit trên người',
+        href: '/kit-tren-nguoi',
+      },
+      {
+        id: 'kit-tren-dong-vat',
+        label: 'Kit trên động vật',
+        href: '/kit-tren-dong-vat',
         isActive: true,
       },
-      { id: 'custom-3', label: 'Custom Item 3', href: '/custom-3' },
+      {
+        id: 'kit-tren-thuy-san',
+        label: 'Kit trên thủy sản',
+        href: '/kit-tren-thuy-san',
+      },
+      {
+        id: 'kit-tren-thuc-pham',
+        label: 'Kit trên thực phẩm',
+        href: '/kit-tren-thuc-pham',
+      },
+      {
+        id: 'kit-tach-chiet',
+        label: 'Kit tách chiết',
+        href: '/kit-tach-chiet',
+      },
+      { id: 'san-pham-khac', label: 'Sản phẩm khác', href: '/san-pham-khac' },
     ],
   },
   parameters: {
     docs: {
       description: {
-        story:
-          'Sidebar with custom menu items instead of default translations.',
+        story: 'Sidebar with Vietnamese menu items matching the design.',
+      },
+    },
+  },
+};
+
+export const EnglishItems: Story = {
+  args: {
+    items: [
+      { id: 'category', label: 'Category', href: '/category' },
+      { id: 'imported-kit', label: 'Imported Kit', href: '/imported-kit' },
+      { id: 'human-kit', label: 'Human Kit', href: '/human-kit' },
+      {
+        id: 'animal-kit',
+        label: 'Animal Kit',
+        href: '/animal-kit',
+        isActive: true,
+      },
+      { id: 'aquatic-kit', label: 'Aquatic Kit', href: '/aquatic-kit' },
+      { id: 'food-kit', label: 'Food Kit', href: '/food-kit' },
+      {
+        id: 'extraction-kit',
+        label: 'Extraction Kit',
+        href: '/extraction-kit',
+      },
+      {
+        id: 'other-products',
+        label: 'Other Products',
+        href: '/other-products',
+      },
+    ],
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Sidebar with English menu items.',
+      },
+    },
+  },
+};
+
+export const MixedItems: Story = {
+  args: {
+    items: [
+      { id: 'home', label: 'Trang chủ', href: '/' },
+      { id: 'about', label: 'About Us', href: '/about' },
+      { id: 'products', label: 'Sản phẩm', href: '/products' },
+      { id: 'services', label: 'Services', href: '/services', isActive: true },
+      { id: 'news', label: 'Tin tức', href: '/news' },
+      { id: 'contact', label: 'Contact', href: '/contact' },
+    ],
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Sidebar with mixed Vietnamese and English items.',
+      },
+    },
+  },
+};
+
+export const NavigationItems: Story = {
+  args: {
+    items: [
+      { id: 'home', label: 'Trang chủ', href: '/' },
+      { id: 'about', label: 'Giới thiệu', href: '/about' },
+      { id: 'products', label: 'Sản phẩm', href: '/products' },
+      { id: 'services', label: 'Dịch vụ', href: '/services' },
+      { id: 'news', label: 'Tin tức', href: '/news' },
+      { id: 'contact', label: 'Liên hệ', href: '/contact' },
+    ],
+    activeItem: 'services',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Sidebar with main navigation items and active state.',
       },
     },
   },
@@ -177,10 +191,10 @@ export const CustomItems: Story = {
 export const AllActiveStates: Story = {
   render: () => (
     <div className='flex h-screen'>
-      <SidebarMenuStorybook activeItem='category' />
-      <SidebarMenuStorybook activeItem='imported-kit' />
-      <SidebarMenuStorybook activeItem='human-kit' />
-      <SidebarMenuStorybook activeItem='animal-kit' />
+      <SidebarMenu activeItem='category' />
+      <SidebarMenu activeItem='imported-kit' />
+      <SidebarMenu activeItem='human-kit' />
+      <SidebarMenu activeItem='animal-kit' />
     </div>
   ),
   parameters: {
@@ -204,10 +218,7 @@ export const InteractiveDemo: Story = {
 
     return (
       <div className='min-h-screen bg-gray-50'>
-        <SidebarMenuStorybook
-          activeItem={activeItem}
-          onItemClick={handleItemClick}
-        />
+        <SidebarMenu activeItem={activeItem} onItemClick={handleItemClick} />
 
         <div className='ml-64 p-8'>
           <div className='max-w-4xl'>
