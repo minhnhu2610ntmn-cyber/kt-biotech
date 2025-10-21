@@ -8,9 +8,7 @@ interface ContainerProps {
 const Container: React.FC<ContainerProps> = ({ children, className = '' }) => {
   return (
     <div className={`w-full flex justify-center items-center h-full`}>
-      <div className={`w-full max-w-[1275px] px-4 ${className}`}>
-        {children}
-      </div>
+      <div className={`w-full max-w-[1280px] ${className}`}>{children}</div>
     </div>
   );
 };

@@ -218,7 +218,7 @@ export const InteractiveDemo: Story = {
 
     return (
       <div className='min-h-screen bg-gray-50'>
-        <SidebarMenu activeItem={activeItem} onItemClick={handleItemClick} />
+        <SidebarMenu activeItem={activeItem} />
 
         <div className='ml-64 p-8'>
           <div className='max-w-4xl'>

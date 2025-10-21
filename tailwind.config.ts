@@ -81,6 +81,12 @@ const config: Config = {
         'kt-medium-gray': '#666666',
         'kt-border-gray': '#e5e7eb',
         'kt-gold': '#ffd700',
+        // Hero Section specific colors
+        'kt-hero-gray': '#4B5053', // Title and description color
+        'kt-hero-blue': '#215778', // Subtitle color
+        'kt-hero-button': '#3691C9', // Button primary color
+        'kt-hero-button-hover': '#2a7ba3', // Button hover color
+        'kt-hero-gradient': '#F7FBFD', // Gradient color
         // Footer specific colors
         footer: {
           50: '#f8fafc',

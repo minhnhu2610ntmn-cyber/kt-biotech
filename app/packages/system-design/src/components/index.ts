@@ -11,7 +11,8 @@ export { default as SidebarMenu } from './SidebarMenu';
 export type { SidebarMenuItem, SidebarMenuProps } from './SidebarMenu';
 export { default as SimpleLoading } from './SimpleLoading';
 export { Slider, SliderPresets } from './Slider';
-export { Step, StepPresets } from './Step';
+export { Step, Timeline } from './Step';
+export type { TimelineItem, TimelineProps } from './Step';
 export { Table } from './Table';
 export type { TableColumn, TableProps } from './Table';
 export {

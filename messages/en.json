@@ -25,6 +25,28 @@
   "tryComponents": "Try the components below:",
   "searchExample": "Try searching for something...",
   "formExample": "Form Example",
+  "navbar": {
+    "home": "Home",
+    "about": "About Us",
+    "products": "Products",
+    "services": "Services",
+    "news": "News",
+    "research": "Research",
+    "careers": "Careers",
+    "contact": "Contact",
+    "searchPlaceholder": "Search...",
+    "hotline": "Hotline",
+    "blog": "Blog",
+    "aboutUs": "About Us",
+    "helpCenter": "Help Center"
+  },
+  "hero": {
+    "title": "BIOTECHNOLOGY COMPANY LIMITED",
+    "subtitle": "KHOA THUONG",
+    "description": "The predecessor of the Company was a research group on infectious diseases belonging to the Molecular Biology Laboratory – Department of Genetics – University of Natural Sciences – Vietnam National University Ho Chi Minh City. This research group was formed and developed since 2005 with the goal of researching and developing biotechnology products for disease diagnosis and treatment.",
+    "buttonLabel": "About Us >",
+    "buttonHref": "/about"
+  },
   "sidebar": {
     "category": "Category",
     "importedKit": "Imported Kit",

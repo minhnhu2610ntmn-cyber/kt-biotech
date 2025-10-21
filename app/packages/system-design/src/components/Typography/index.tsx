@@ -14,7 +14,8 @@ export interface TypographyProps {
     | 'error'
     | 'info'
     | 'muted'
-    | 'white';
+    | 'white'
+    | string; // Allow hex colors
   weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold';
   align?: 'left' | 'center' | 'right' | 'justify';
   transform?: 'uppercase' | 'lowercase' | 'capitalize' | 'normal-case';
@@ -113,8 +114,15 @@ export const Typography: React.FC<TypographyProps> = ({
     6: 'line-clamp-6',
   };
 
+  // Handle hex colors
+  const isHexColor = typeof color === 'string' && color.startsWith('#');
+  const colorStyle = isHexColor ? { color } : {};
+  const colorClass = isHexColor
+    ? ''
+    : colorClasses[color as keyof typeof colorClasses];
+
   const classes = cn(
-    colorClasses[color],
+    colorClass,
     weightClasses[weight],
     alignClasses[align],
     transformClasses[transform],
@@ -125,7 +133,11 @@ export const Typography: React.FC<TypographyProps> = ({
     className
   );
 
-  return <span className={classes}>{children || ''}</span>;
+  return (
+    <span className={classes} style={colorStyle}>
+      {children || ''}
+    </span>
+  );
 };
 
 // Heading component

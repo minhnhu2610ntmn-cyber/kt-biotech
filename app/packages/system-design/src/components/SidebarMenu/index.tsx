@@ -49,46 +49,39 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
   const menuItems = items.length > 0 ? items : defaultItems;
 
   return (
-    <div
-      className={cn(
-        'fixed left-0 top-0 h-full w-64 bg-white shadow-lg border-r border-gray-200 z-40',
-        className
-      )}
-    >
-      <div className='p-4'>
-        <div className='space-y-2'>
-          {menuItems.map(item => {
-            const isActive = activeItem === item.id || item.isActive;
+    <div className={cn(' h-full w-64 bg-white  z-40', className)}>
+      <div className='space-y-2'>
+        {menuItems.map(item => {
+          const isActive = activeItem === item.id || item.isActive;
 
-            return (
-              <Link
-                key={item.id}
-                href={item.href}
-                className={cn(
-                  'flex items-center justify-between px-4 py-3 rounded-lg transition-colors duration-200',
-                  'hover:bg-gray-50',
-                  isActive
-                    ? 'bg-blue-100 text-blue-900'
-                    : 'text-gray-700 hover:text-gray-900'
-                )}
-              >
-                <div className='flex items-center gap-3'>
-                  <MenuIcon
-                    width={16}
-                    height={16}
-                    className={cn('text-gray-600', isActive && 'text-blue-700')}
-                  />
-                  <span className='text-sm font-medium'>{item.label}</span>
-                </div>
-                <ChevronRightIcon
-                  width={12}
-                  height={12}
-                  className={cn('text-gray-400', isActive && 'text-blue-600')}
+          return (
+            <Link
+              key={item.id}
+              href={item.href}
+              className={cn(
+                'flex items-center justify-between px-4 py-3 rounded-lg transition-colors duration-200',
+                'hover:bg-gray-50',
+                isActive
+                  ? 'bg-blue-100 text-blue-900'
+                  : 'text-gray-700 hover:text-gray-900'
+              )}
+            >
+              <div className='flex items-center gap-3'>
+                <MenuIcon
+                  width={16}
+                  height={16}
+                  className={cn('text-gray-600', isActive && 'text-blue-700')}
                 />
-              </Link>
-            );
-          })}
-        </div>
+                <span className='text-sm font-medium'>{item.label}</span>
+              </div>
+              <ChevronRightIcon
+                width={12}
+                height={12}
+                className={cn('text-gray-400', isActive && 'text-blue-600')}
+              />
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

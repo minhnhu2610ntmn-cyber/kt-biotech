@@ -5,7 +5,7 @@ export interface MalaysiaFlagIconProps extends SVGProps<SVGSVGElement> {
 }
 
 export default function MalaysiaFlagIcon({
-  width = 115,
+  width = 140,
   height = 105,
   title = 'Malaysia Flag',
   ...props
