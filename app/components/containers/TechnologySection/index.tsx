@@ -87,7 +87,7 @@ export default function TechnologySection() {
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-16'>
           {/* Left Column - Timeline */}
           <div
-            className={`flex flex-col order-1 lg:order-1 transition-all duration-800 ease-out delay-200 ${
+            className={`flex flex-col order-2 lg:order-1 transition-all duration-800 ease-out delay-200 ${
               isVisible
                 ? 'opacity-100 translate-x-0'
                 : 'opacity-0 -translate-x-8'
@@ -114,7 +114,7 @@ export default function TechnologySection() {
 
           {/* Right Column - Content */}
           <div
-            className={`flex flex-col gap-10 order-2 lg:order-2 transition-all duration-800 ease-out delay-400 ${
+            className={`flex flex-col gap-10 order-1 lg:order-2 transition-all duration-800 ease-out delay-400 ${
               isVisible
                 ? 'opacity-100 translate-x-0'
                 : 'opacity-0 translate-x-8'
