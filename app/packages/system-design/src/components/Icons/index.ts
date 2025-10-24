@@ -5,6 +5,7 @@ export { default as ChevronDownIcon } from './ChevronDown';
 export { default as ChevronRightIcon } from './ChevronRight';
 export { default as ChevronRightLargeIcon } from './ChevronRightLarge';
 export { default as ChinaFlagIcon } from './ChinaFlag';
+export { default as DownloadIcon } from './Download';
 export { default as EmailIcon } from './Email';
 export { default as FacebookIcon } from './Facebook';
 export { default as FacebookCircleIcon } from './FacebookCircle';

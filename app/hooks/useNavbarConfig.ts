@@ -24,12 +24,42 @@ export function useNavbarConfig(customConfig?: NavbarConfig): NavbarConfig {
 
   const defaultConfig: NavbarConfig = {
     items: [
-      { label: tNavbar('home'), href: '/' },
-      { label: tNavbar('about'), href: '/about' },
-      { label: tNavbar('products'), href: '/products' },
-      { label: tNavbar('services'), href: '/services' },
-      { label: tNavbar('news'), href: '/blogs' },
-      { label: tNavbar('contact'), href: '/contact' },
+      { label: 'Trang chủ', href: '/', children: [] },
+      {
+        label: 'Giới thiệu',
+        href: '/about',
+        children: [
+          { label: 'Về chúng tôi', href: '/about/company' },
+          { label: 'Lịch sử', href: '/about/history' },
+          { label: 'Đội ngũ', href: '/about/team' },
+          { label: 'Tầm nhìn', href: '/about/vision' },
+          { label: 'Sứ mệnh', href: '/about/mission' },
+        ],
+      },
+      {
+        label: 'Sản phẩm',
+        href: '/products',
+        children: [
+          { label: 'Thiết bị', href: '/products/equipment' },
+          { label: 'Kit test PRC', href: '/products/pcr-kit' },
+          { label: 'Elisa', href: '/products/elisa' },
+          { label: 'Tế bào học', href: '/products/cytology' },
+          { label: 'NGS', href: '/products/ngs' },
+          { label: 'Vật liệu tiêu hao', href: '/products/consumables' },
+        ],
+      },
+      {
+        label: 'Dịch vụ',
+        href: '/services',
+        children: [
+          { label: 'Dịch vụ 1', href: '/services/service-1' },
+          { label: 'Dịch vụ 2', href: '/services/service-2' },
+          { label: 'Dịch vụ 3', href: '/services/service-3' },
+          { label: 'Tư vấn', href: '/services/consultation' },
+        ],
+      },
+      { label: 'Tin tức', href: '/blogs', children: [] },
+      { label: 'Liên hệ', href: '/contact', children: [] },
     ],
     showSearch: true,
     searchPlaceholder: tNavbar('searchPlaceholder'),
