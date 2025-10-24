@@ -48,8 +48,8 @@ export default function BlogCard({
     >
       <div
         className={cn(
-          'flex gap-4',
-          direction === 'row' && 'flex-row',
+          'flex gap-3 sm:gap-4',
+          direction === 'row' && 'flex-col sm:flex-row',
           direction === 'column' && 'flex-col'
         )}
       >
@@ -65,7 +65,9 @@ export default function BlogCard({
             badgeTextColor={badgeTextColor}
             badgeArrowColor={badgeArrowColor}
             imageClassName={cn(
-              direction === 'column' ? 'w-full h-full' : 'w-48 h-36',
+              direction === 'column'
+                ? 'w-full h-full'
+                : 'w-full sm:w-48 h-32 sm:h-36',
               imageClassName
             )}
             priority={_priority}
@@ -78,29 +80,33 @@ export default function BlogCard({
           <Heading
             level={3}
             color='#1B1C1D'
-            className='!text-lg font-semibold mb-1 line-clamp-2'
+            className='text-base sm:text-lg font-semibold mb-1 line-clamp-2'
           >
             {title}
           </Heading>
 
           {/* Author and Date */}
-          <Text color='#7C8388' className='!text-sm mb-3'>
+          <Text color='#7C8388' className='text-xs sm:text-sm mb-2 sm:mb-3'>
             by<span className=' text-[#4B5053]'> {author}</span> on{' '}
             <span className=' text-[#4B5053]'>{date}</span>
           </Text>
 
           {/* Description */}
-          <Text color='#636A6E' className='!text-sm mb-4 pr-4' lineClamp={3}>
+          <Text
+            color='#636A6E'
+            className='text-xs sm:text-sm mb-3 sm:mb-4 pr-0 sm:pr-4'
+            lineClamp={3}
+          >
             {description}
           </Text>
 
           {/* Read More Link */}
           <Link
             href={href}
-            className='inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm'
+            className='inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-xs sm:text-sm'
           >
             See All
-            <ChevronRightLargeIcon className='w-4 h-4 ml-1' />
+            <ChevronRightLargeIcon className='w-3 h-3 sm:w-4 sm:h-4 ml-1' />
           </Link>
         </div>
       </div>

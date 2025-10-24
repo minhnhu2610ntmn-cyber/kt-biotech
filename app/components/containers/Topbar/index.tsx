@@ -23,20 +23,13 @@ const Topbar: React.FC<TopbarProps> = ({
 }) => {
   return (
     <div className='w-full'>
-      {/* Top dark grey strip */}
-      <div className='w-full bg-[#4A4A4A] h-2 sm:h-3'>
-        <Container className='h-full !max-w-[1340px]'>
-          <div></div>
-        </Container>
-      </div>
-
       {/* Main dark blue bar */}
       <div className='w-full bg-[#34658C] text-white'>
-        <Container className='!max-w-[1340px] py-2 sm:py-3'>
+        <Container className='!max-w-[1340px] px-4 sm:px-6 py-2 sm:py-3'>
           <div className='flex items-center justify-between gap-2'>
             {/* Left side - Message */}
             <Text
-              className='text-xs sm:text-sm font-normal truncate flex-shrink-0 max-w-[200px] sm:max-w-[300px] md:max-w-[400px] lg:max-w-none'
+              className='text-xs sm:text-sm font-normal truncate flex-1 min-w-0'
               color='white'
             >
               {message}
@@ -47,13 +40,13 @@ const Topbar: React.FC<TopbarProps> = ({
               {/* Phone */}
               <div className='flex items-center gap-1 group'>
                 <PhoneIcon
-                  width={30}
-                  height={30}
-                  className='text-white hover:scale-110 group-hover:scale-110 transition-transform duration-200 cursor-pointer'
+                  width={16}
+                  height={16}
+                  className='text-white hover:scale-110 group-hover:scale-110 transition-transform duration-200 cursor-pointer sm:w-5 sm:h-5'
                 />
                 <Link
                   href={`tel:${phoneNumber}`}
-                  className='text-white hover:opacity-80 font-normal'
+                  className='hidden md:inline text-white hover:opacity-80 font-normal'
                 >
                   {phoneNumber}
                 </Link>
@@ -62,27 +55,27 @@ const Topbar: React.FC<TopbarProps> = ({
               {/* Email Info */}
               <div className='flex items-center gap-1 group'>
                 <EmailIcon
-                  width={24}
-                  height={24}
-                  className='text-white hover:scale-110 group-hover:scale-110 transition-transform duration-200 cursor-pointer'
+                  width={16}
+                  height={16}
+                  className='text-white hover:scale-110 group-hover:scale-110 transition-transform duration-200 cursor-pointer sm:w-5 sm:h-5'
                 />
                 <Link
                   href={`mailto:${emailInfo}`}
-                  className='text-white hover:opacity-80 font-normal'
+                  className='hidden md:inline text-white hover:opacity-80 font-normal'
                 >
                   {emailInfo}
                 </Link>
               </div>
 
               {/* Separator */}
-              <Text color='white' className='font-normal'>
+              <Text color='white' className='hidden md:inline font-normal'>
                 |
               </Text>
 
               {/* Email Sales */}
               <Link
                 href={`mailto:${emailSales}`}
-                className='text-white hover:opacity-80 font-normal'
+                className='hidden md:inline text-white hover:opacity-80 font-normal'
               >
                 {emailSales}
               </Link>

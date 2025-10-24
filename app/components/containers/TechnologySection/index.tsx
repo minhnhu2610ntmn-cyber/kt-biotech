@@ -37,12 +37,12 @@ export default function TechnologySection() {
       <div className='container mx-auto px-4'>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-16'>
           {/* Left Column - Timeline */}
-          <div className='flex flex-col'>
+          <div className='flex flex-col order-1 lg:order-1'>
             <Timeline items={timelineItems} />
           </div>
 
           {/* Right Column - Content */}
-          <div className='flex flex-col gap-10'>
+          <div className='flex flex-col gap-10 order-2 lg:order-2'>
             <Heading
               level={2}
               color='#215778'

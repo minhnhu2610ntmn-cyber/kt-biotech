@@ -28,23 +28,26 @@ export default function Footer({
   return (
     <footer className='bg-gray-900 !text-white'>
       {/* Main Footer Content */}
-      <div className='container mx-auto px-4 py-12'>
+      <div className='container mx-auto px-4 py-8 sm:py-12'>
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8'>
           {/* Company Info & Social Media */}
           <div className='lg:col-span-1'>
             {/* Logo */}
-            <div className='flex items-center mb-4'>
+            <div className='flex items-center mb-4 sm:mb-6'>
               <Image
                 src='/logo.png'
                 alt='KT BIOTECH Logo'
                 width={120}
                 height={40}
-                className='h-10 w-auto'
+                className='h-8 sm:h-10 w-auto'
               />
             </div>
 
             {/* Description */}
-            <Text color='gray-300' className='mb-6 text-sm leading-relaxed'>
+            <Text
+              color='gray-300'
+              className='mb-4 sm:mb-6 text-xs sm:text-sm leading-relaxed'
+            >
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
               nonummy nibh euismod tincidunt
             </Text>
@@ -99,50 +102,50 @@ export default function Footer({
             <Heading
               level={4}
               color='white'
-              className='font-semibold mb-6 text-lg'
+              className='font-semibold mb-4 sm:mb-6 text-base sm:text-lg'
             >
               Sản phẩm
             </Heading>
             <div className='space-y-2 sm:space-y-3'>
               <Link
                 href='/products/kit-nhap-khau'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
                 Kit nhập khẩu
               </Link>
               <Link
                 href='/products/kit-tren-nguoi'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
                 Kit trên người
               </Link>
               <Link
                 href='/products/kit-tren-dong-vat'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
                 Kit trên động vật
               </Link>
               <Link
                 href='/products/kit-tren-thuy-san'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
                 Kit trên thủy sản
               </Link>
               <Link
                 href='/products/kit-tren-thuc-pham'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
                 Kit trên thực phẩm
               </Link>
               <Link
                 href='/products/kit-tach-chiet'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
                 Kit tách chiết
               </Link>
               <Link
                 href='/products/san-pham-khac'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
                 Sản phẩm khác
               </Link>
@@ -154,38 +157,38 @@ export default function Footer({
             <Heading
               level={4}
               color='white'
-              className='font-semibold mb-6 text-lg'
+              className='font-semibold mb-4 sm:mb-6 text-base sm:text-lg'
             >
               Chúng tôi
             </Heading>
             <div className='space-y-2 sm:space-y-3'>
               <Link
                 href='/about'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
                 Giới thiệu
               </Link>
               <Link
                 href='/careers'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
                 Tuyển dụng
               </Link>
               <Link
                 href='/partners'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
                 Đối tác
               </Link>
               <Link
                 href='/contact'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
                 Liên hệ
               </Link>
               <Link
                 href='/awards'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
                 Giải thưởng
               </Link>
@@ -197,7 +200,7 @@ export default function Footer({
             <Heading
               level={4}
               color='white'
-              className='font-semibold mb-6 text-lg'
+              className='font-semibold mb-4 sm:mb-6 text-base sm:text-lg'
             >
               Thông tin
             </Heading>
@@ -280,23 +283,26 @@ export default function Footer({
         </div>
 
         {/* Footer Bottom */}
-        <div className='border-t border-gray-700 mt-8 sm:mt-12 pt-6 sm:pt-8'>
+        <div className='border-t border-gray-700 mt-6 sm:mt-8 lg:mt-12 pt-4 sm:pt-6 lg:pt-8'>
           <div className='flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4'>
-            <div className='flex items-center gap-4 sm:gap-6 text-xs sm:text-sm'>
+            <div className='flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-xs sm:text-sm'>
               <Link
                 href='/terms'
-                className='text-gray-400 hover:text-white hover:-translate-y-0.5 transition-all duration-200'
+                className='text-gray-400 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-center sm:text-left'
               >
                 Terms & conditions
               </Link>
               <Link
                 href='/privacy'
-                className='text-gray-400 hover:text-white hover:-translate-y-0.5 transition-all duration-200'
+                className='text-gray-400 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-center sm:text-left'
               >
                 Privacy policy
               </Link>
             </div>
-            <Text color='gray-400' className='text-xs sm:text-sm text-center'>
+            <Text
+              color='gray-400'
+              className='text-xs sm:text-sm text-center mt-2 sm:mt-0'
+            >
               Copyright © 2025 Khoa Thương. Designed by ParaShine
             </Text>
           </div>

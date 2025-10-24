@@ -54,20 +54,21 @@ export default function NewsSection() {
   ];
 
   return (
-    <section className='py-16 bg-gray-50'>
+    <section className='py-8 sm:py-16 bg-gray-50'>
       <Container>
         {/* Section Title */}
         <Heading
           level={2}
           color='#215778'
-          className='text-center mb-12 font-bold !text-3xl underline decoration-[#215778] decoration-1 underline-offset-4'
+          className='text-center mb-6 sm:mb-12 font-bold text-xl sm:text-2xl lg:text-3xl underline decoration-[#215778] decoration-1 underline-offset-4'
         >
           TIN TỨC
         </Heading>
 
-        {/* Blog Cards Grid */}
-        <div className='flex  gap-6'>
-          <div className='flex-1'>
+        {/* Blog Cards Grid - Mobile: Single Column, Desktop: Two Columns */}
+        <div className='flex flex-col lg:flex-row gap-4 sm:gap-6 pl-3 pr-2 lg:pr-0 lg:pl-0'>
+          {/* Featured Article (Mobile: First, Desktop: Left) */}
+          <div className='w-full lg:flex-1'>
             <BlogCard
               direction='column'
               title={blogPosts[0].title}
@@ -77,42 +78,42 @@ export default function NewsSection() {
               imageSrc={blogPosts[0].imageSrc}
               imageAlt={blogPosts[0].imageAlt}
               badgeText={blogPosts[0].badgeText}
+              badgeBackgroundColor={blogPosts[0].badgeBackgroundColor}
+              badgeTextColor={blogPosts[0].badgeTextColor}
+              badgeArrowColor={blogPosts[0].badgeArrowColor}
+              href={blogPosts[0].href}
             />
           </div>
-          <div className='flex-1 flex flex-col gap-6'>
-            <div className='flex-1 flex flex-col justify-center'>
-              <BlogCard
-                title={blogPosts[1].title}
-                author={blogPosts[1].author}
-                date={blogPosts[1].date}
-                description={blogPosts[1].description}
-                imageSrc={blogPosts[1].imageSrc}
-                imageAlt={blogPosts[1].imageAlt}
-                badgeText={blogPosts[1].badgeText}
-              />
-            </div>
-            <div className='flex-1 flex flex-col justify-center'>
-              <BlogCard
-                title={blogPosts[2].title}
-                author={blogPosts[2].author}
-                date={blogPosts[2].date}
-                description={blogPosts[2].description}
-                imageSrc={blogPosts[2].imageSrc}
-                imageAlt={blogPosts[2].imageAlt}
-                badgeText={blogPosts[2].badgeText}
-              />
-            </div>
-            <div className='flex-1 flex flex-col justify-center'>
-              <BlogCard
-                title={blogPosts[2].title}
-                author={blogPosts[2].author}
-                date={blogPosts[2].date}
-                description={blogPosts[2].description}
-                imageSrc={blogPosts[2].imageSrc}
-                imageAlt={blogPosts[2].imageAlt}
-                badgeText={blogPosts[2].badgeText}
-              />
-            </div>
+
+          {/* Side Articles (Mobile: Below Featured, Desktop: Right Column) */}
+          <div className='w-full lg:flex-1 flex flex-col gap-4 sm:gap-6'>
+            <BlogCard
+              title={blogPosts[1].title}
+              author={blogPosts[1].author}
+              date={blogPosts[1].date}
+              description={blogPosts[1].description}
+              imageSrc={blogPosts[1].imageSrc}
+              imageAlt={blogPosts[1].imageAlt}
+              badgeText={blogPosts[1].badgeText}
+              badgeBackgroundColor={blogPosts[1].badgeBackgroundColor}
+              badgeTextColor={blogPosts[1].badgeTextColor}
+              badgeArrowColor={blogPosts[1].badgeArrowColor}
+              href={blogPosts[1].href}
+            />
+
+            <BlogCard
+              title={blogPosts[2].title}
+              author={blogPosts[2].author}
+              date={blogPosts[2].date}
+              description={blogPosts[2].description}
+              imageSrc={blogPosts[2].imageSrc}
+              imageAlt={blogPosts[2].imageAlt}
+              badgeText={blogPosts[2].badgeText}
+              badgeBackgroundColor={blogPosts[2].badgeBackgroundColor}
+              badgeTextColor={blogPosts[2].badgeTextColor}
+              badgeArrowColor={blogPosts[2].badgeArrowColor}
+              href={blogPosts[2].href}
+            />
           </div>
         </div>
       </Container>

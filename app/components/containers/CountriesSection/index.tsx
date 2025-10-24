@@ -4,6 +4,7 @@ import {
   Heading,
   JapanFlagIcon,
   MalaysiaFlagIcon,
+  SliderV2,
   Text,
   UnitedStatesFlagIcon,
 } from '@ktbiotech/system-design';
@@ -32,25 +33,51 @@ export default function CountriesSection() {
       {/* Main Content */}
       <div className='relative'>
         {/* Background with wave pattern */}
-        <div className='relative flex items-center px-13 bg-gradient-to-r from-[#1e3a8a] to-[#1e40af]  h-[268px] p-8 mb-8'>
-          {/* Country Flags */}
-          <div className='relative z-10 flex justify-center items-center gap-16 flex-wrap'>
-            {countries.map((country, index) => {
-              const FlagIcon = country.flag;
-              return (
-                <div key={index} className='flex flex-col items-center'>
-                  <div className='h-[135px]  rounded-lg  shadow-lg mb-2'>
-                    <FlagIcon className='w-full h-full' />
+        <div className='relative flex items-center px-4 md:px-13 bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] h-[268px] p-8 mb-8'>
+          {/* Country Flags Slider */}
+          <div className='relative z-10 w-full'>
+            <SliderV2
+              slidesPerView={1}
+              spaceBetween={20}
+              breakpoints={{
+                640: {
+                  slidesPerView: 2,
+                  spaceBetween: 30,
+                },
+                768: {
+                  slidesPerView: 3,
+                  spaceBetween: 40,
+                },
+                1024: {
+                  slidesPerView: 5,
+                  spaceBetween: 50,
+                },
+              }}
+              navigation={false}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+              }}
+              loop={true}
+              className='countries-slider'
+            >
+              {countries.map((country, index) => {
+                const FlagIcon = country.flag;
+                return (
+                  <div key={index} className='flex flex-col items-center px-4'>
+                    <div className='h-[135px] rounded-lg shadow-lg mb-2'>
+                      <FlagIcon className='w-full h-full' />
+                    </div>
+                    <Text
+                      color='white'
+                      className='text-sm font-medium text-center'
+                    >
+                      {country.name}
+                    </Text>
                   </div>
-                  <Text
-                    color='white'
-                    className='text-sm font-medium text-center'
-                  >
-                    {country.name}
-                  </Text>
-                </div>
-              );
-            })}
+                );
+              })}
+            </SliderV2>
           </div>
         </div>
 

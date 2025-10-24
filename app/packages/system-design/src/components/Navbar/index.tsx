@@ -131,8 +131,8 @@ export function Navbar({
     >
       {/* Top Row - Logo, Search, Hotline, Language */}
       <div className='bg-gray-50 border-b border-gray-200'>
-        <Container>
-          <div className='flex justify-between items-center  py-2.5'>
+        <Container className='px-4 md:px-6'>
+          <div className='flex justify-between items-center py-2 md:py-2.5'>
             {/* Logo */}
             <div className='flex-shrink-0'>
               <Link href='/' className='flex items-center'>
@@ -141,15 +141,15 @@ export function Navbar({
                   alt={logoAlt}
                   width={logoWidth}
                   height={logoHeight}
-                  className='h-8 w-auto'
+                  className='h-6 md:h-8 w-auto'
                   priority
                 />
               </Link>
             </div>
 
-            {/* Search Bar */}
+            {/* Search Bar - Hidden on mobile */}
             {showSearch && (
-              <div className='flex-1 max-w-2xl mx-8 overflow-visible'>
+              <div className='hidden lg:flex flex-1 max-w-2xl mx-4 lg:mx-8 overflow-visible'>
                 <SearchBar
                   placeholder={t('searchPlaceholder')}
                   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -165,15 +165,50 @@ export function Navbar({
               </div>
             )}
 
-            {/* Language Switcher */}
-            <LanguageSwitcher variant='compact' />
+            {/* Right side - Search (mobile), Language, Menu */}
+            <div className='flex items-center gap-2 md:gap-4'>
+              {/* Search Button (Mobile) */}
+              {showSearch && (
+                <button className='lg:hidden px-3 py-2 rounded-full bg-[#B0C4DE] hover:bg-[#9BB3D1] transition-colors'>
+                  <svg
+                    className='w-4 h-4 text-gray-700'
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth={2}
+                      d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                    />
+                  </svg>
+                </button>
+              )}
+
+              {/* Language Switcher */}
+              <LanguageSwitcher variant='compact' />
+
+              {/* Mobile Menu Toggle */}
+              <button
+                onClick={handleMobileMenuToggle}
+                className='p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors'
+                aria-label='Toggle mobile menu'
+              >
+                {isMobileMenuOpen ? (
+                  <X className='h-4 w-4 text-gray-600' />
+                ) : (
+                  <Menu className='h-4 w-4 text-gray-600' />
+                )}
+              </button>
+            </div>
           </div>
         </Container>
       </div>
 
-      {/* Bottom Row - Navigation Menu */}
-      <Container>
-        <div className='flex justify-between items-center h-14 py-2.5'>
+      {/* Bottom Row - Navigation Menu - Hidden on mobile */}
+      <Container className='hidden lg:block px-4 md:px-6'>
+        <div className='flex justify-between items-center h-12 md:h-14 py-2 md:py-2.5'>
           {/* Desktop Navigation */}
           <div className='hidden md:block'>
             <div className='flex items-center space-x-6'>
@@ -235,22 +270,6 @@ export function Navbar({
             <button className='flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#3691C9] hover:text-[#2a7bb8] transition-colors duration-200 cursor-pointer'>
               <DownloadIcon width={24} height={24} />
               Download Catalogue
-            </button>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className='md:hidden'>
-            <button
-              onClick={handleMobileMenuToggle}
-              className='inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500'
-              aria-expanded={isMobileMenuOpen}
-            >
-              <span className='sr-only'>Mở menu chính</span>
-              {isMobileMenuOpen ? (
-                <X className='block h-6 w-6' aria-hidden='true' />
-              ) : (
-                <Menu className='block h-6 w-6' aria-hidden='true' />
-              )}
             </button>
           </div>
         </div>
