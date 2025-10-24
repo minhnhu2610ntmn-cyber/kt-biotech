@@ -1,6 +1,19 @@
 'use client';
 
-import { Button, Heading, Input, Text } from '@ktbiotech/system-design';
+import {
+  AddressIcon,
+  EmailIcon,
+  FacebookIcon,
+  Heading,
+  InstagramIcon,
+  OClockIcon,
+  PhoneIcon,
+  PinterestIcon,
+  Text,
+  TwitterIcon,
+  YouTubeIcon,
+} from '@ktbiotech/system-design';
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface FooterProps {
@@ -9,139 +22,283 @@ interface FooterProps {
 }
 
 export default function Footer({
-  showNewsletter = true,
+  showNewsletter: _showNewsletter = false,
   onNewsletterSubmit: _onNewsletterSubmit,
 }: FooterProps) {
   return (
-    <footer className='bg-kt-blue-600 text-white'>
-      {/* Newsletter Section */}
-      {showNewsletter && (
-        <div className='border-b border-kt-blue-500'>
-          <div className='container mx-auto px-4 py-8'>
-            <div className='max-w-2xl mx-auto text-center'>
-              <Heading level={3} className='text-2xl font-bold mb-4'>
-                Stay Updated
-              </Heading>
-              <Text className='text-kt-blue-100 mb-6'>
-                Subscribe to our newsletter for the latest insights, research,
-                and innovations in biotechnology.
-              </Text>
-              <div className='flex gap-3 max-w-md mx-auto'>
-                <Input
-                  type='email'
-                  name='email'
-                  placeholder='Enter your email'
-                  required
-                  className='flex-1'
-                />
-                <Button type='submit'>Subscribe</Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
+    <footer className='bg-gray-900 !text-white'>
       {/* Main Footer Content */}
       <div className='container mx-auto px-4 py-12'>
-        <div className='grid grid-cols-1 lg:grid-cols-[1fr_200px_200px] gap-12'>
-          {/* Company Info */}
-          <div>
-            <Heading level={4} className='font-semibold mb-6 text-xl'>
-              KTBioTech
-            </Heading>
-            <div className='space-y-4'>
-              <Text className='text-lg font-bold'>
-                Leading Biotechnology Solutions
-              </Text>
-              <div className='space-y-2 text-kt-blue-100'>
-                <Text>
-                  Địa chỉ: Số 10-12, đường số 3, KDC Gia Hòa, Phường Phong Phú,
-                  tp Hồ Chí Minh
-                </Text>
-                <Text>Email: info@kt-biotech.com</Text>
-                <Text>Phone: +84 123 456 789</Text>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8'>
+          {/* Company Info & Social Media */}
+          <div className='lg:col-span-1'>
+            {/* Logo */}
+            <div className='flex items-center mb-4'>
+              <Image
+                src='/logo.png'
+                alt='KT BIOTECH Logo'
+                width={120}
+                height={40}
+                className='h-10 w-auto'
+              />
+            </div>
+
+            {/* Description */}
+            <Text color='gray-300' className='mb-6 text-sm leading-relaxed'>
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+              nonummy nibh euismod tincidunt
+            </Text>
+
+            {/* Social Media Icons */}
+            <div className='flex flex-wrap gap-3 sm:gap-4'>
+              <div className='w-[20px] h-[20px] bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors cursor-pointer hover:scale-[1.25]'>
+                <FacebookIcon
+                  width={14}
+                  height={14}
+                  stroke='white'
+                  className='h-[14px] w-[14px]'
+                />
+              </div>
+              <div className='flex items-center justify-center hover:scale-[1.25] transition-transform cursor-pointer'>
+                <YouTubeIcon
+                  width={18}
+                  height={18}
+                  stroke='#ff0000'
+                  className='sm:w-5 sm:h-5'
+                />
+              </div>
+              <div className='flex items-center justify-center hover:scale-[1.25] transition-transform cursor-pointer'>
+                <InstagramIcon
+                  width={18}
+                  height={18}
+                  stroke='#e4405f'
+                  className='sm:w-5 sm:h-5'
+                />
+              </div>
+              <div className='flex items-center justify-center hover:scale-[1.25] transition-transform cursor-pointer'>
+                <TwitterIcon
+                  width={18}
+                  height={18}
+                  stroke='#1da1f2'
+                  className='sm:w-5 sm:h-5'
+                />
+              </div>
+              <div className='flex items-center justify-center hover:scale-[1.25] transition-transform cursor-pointer'>
+                <PinterestIcon
+                  width={18}
+                  height={18}
+                  stroke='#bd081c'
+                  className='sm:w-5 sm:h-5'
+                />
               </div>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Products */}
           <div>
-            <Heading level={4} className='font-semibold mb-6 text-xl'>
-              Quick Links
+            <Heading
+              level={4}
+              color='white'
+              className='font-semibold mb-6 text-lg'
+            >
+              Sản phẩm
             </Heading>
-            <div className='space-y-2 text-kt-blue-100'>
+            <div className='space-y-2 sm:space-y-3'>
+              <Link
+                href='/products/kit-nhap-khau'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+              >
+                Kit nhập khẩu
+              </Link>
+              <Link
+                href='/products/kit-tren-nguoi'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+              >
+                Kit trên người
+              </Link>
+              <Link
+                href='/products/kit-tren-dong-vat'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+              >
+                Kit trên động vật
+              </Link>
+              <Link
+                href='/products/kit-tren-thuy-san'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+              >
+                Kit trên thủy sản
+              </Link>
+              <Link
+                href='/products/kit-tren-thuc-pham'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+              >
+                Kit trên thực phẩm
+              </Link>
+              <Link
+                href='/products/kit-tach-chiet'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+              >
+                Kit tách chiết
+              </Link>
+              <Link
+                href='/products/san-pham-khac'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+              >
+                Sản phẩm khác
+              </Link>
+            </div>
+          </div>
+
+          {/* About Us */}
+          <div>
+            <Heading
+              level={4}
+              color='white'
+              className='font-semibold mb-6 text-lg'
+            >
+              Chúng tôi
+            </Heading>
+            <div className='space-y-2 sm:space-y-3'>
               <Link
                 href='/about'
-                className='hover:text-white transition-colors'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
               >
-                About Us
+                Giới thiệu
               </Link>
               <Link
-                href='/products'
-                className='hover:text-white transition-colors'
+                href='/careers'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
               >
-                Products
+                Tuyển dụng
               </Link>
               <Link
-                href='/services'
-                className='hover:text-white transition-colors'
+                href='/partners'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
               >
-                Services
+                Đối tác
               </Link>
               <Link
                 href='/contact'
-                className='hover:text-white transition-colors'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
               >
-                Contact
+                Liên hệ
+              </Link>
+              <Link
+                href='/awards'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-sm'
+              >
+                Giải thưởng
               </Link>
             </div>
           </div>
 
-          {/* Business Hours */}
+          {/* Contact Information */}
           <div>
-            <Heading level={4} className='font-semibold mb-6 text-xl'>
-              Business Hours
+            <Heading
+              level={4}
+              color='white'
+              className='font-semibold mb-6 text-lg'
+            >
+              Thông tin
             </Heading>
-            <div className='space-y-4 text-kt-blue-100'>
-              <div>
-                <Text className='font-medium mb-2'>Monday - Friday</Text>
-                <Text className='ml-4 space-y-1'>8:00 AM - 6:00 PM</Text>
+            <div className='space-y-3 sm:space-y-4'>
+              {/* Address */}
+              <div className='flex items-start space-x-2 sm:space-x-3'>
+                <AddressIcon
+                  width={14}
+                  height={14}
+                  stroke='white'
+                  className='mt-1 flex-shrink-0 sm:w-4 sm:h-4'
+                />
+                <a
+                  href='https://maps.google.com/?q=Số+10-12,+đường+số+3A,+khu+dân+cư+Gia+Hoà,+phường+Bình+Hưng,+Tp.+Hồ+Chí+Minh'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm leading-relaxed cursor-pointer'
+                >
+                  Số 10-12, đường số 3A, khu dân cư Gia Hoà, phường Bình Hưng,
+                  Tp. Hồ Chí Minh
+                </a>
               </div>
-              <div>
-                <Text className='font-medium'>
-                  Thứ 7 – Chủ nhật không làm việc
-                </Text>
+
+              {/* Phone */}
+              <div className='flex items-center space-x-2 sm:space-x-3'>
+                <PhoneIcon
+                  width={14}
+                  height={14}
+                  stroke='white'
+                  className='sm:w-4 sm:h-4'
+                />
+                <a
+                  href='tel:+842837612606'
+                  className='text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm cursor-pointer'
+                >
+                  (+84) 28.3761.2606
+                </a>
+              </div>
+
+              {/* Email */}
+              <div className='flex items-start space-x-2 sm:space-x-3'>
+                <EmailIcon
+                  width={14}
+                  height={14}
+                  stroke='white'
+                  className='mt-1 flex-shrink-0 sm:w-4 sm:h-4'
+                />
+                <div className='text-gray-300 text-xs sm:text-sm'>
+                  <a
+                    href='mailto:Info@kt-biotech.com'
+                    className='block hover:text-white hover:-translate-y-0.5 transition-all duration-200 cursor-pointer mb-1'
+                  >
+                    Info@kt-biotech.com
+                  </a>
+                  <a
+                    href='mailto:Sales@kt-biotech.com'
+                    className='block hover:text-white hover:-translate-y-0.5 transition-all duration-200 cursor-pointer'
+                  >
+                    Sales@kt-biotech.com
+                  </a>
+                </div>
+              </div>
+
+              {/* Business Hours */}
+              <div className='flex items-start space-x-2 sm:space-x-3'>
+                <OClockIcon
+                  width={14}
+                  height={14}
+                  stroke='white'
+                  className='mt-1 flex-shrink-0 sm:w-4 sm:h-4'
+                />
+                <div className='text-gray-300 text-xs sm:text-sm'>
+                  <div className='font-medium'>Thứ 2 - Thứ 6</div>
+                  <div>Sáng: 07h30 - 12h00</div>
+                  <div>Chiều: 13h30 - 17h00</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Footer Bottom */}
-        <div className='border-t border-kt-blue-500 mt-12 pt-8'>
-          <div className='flex flex-col md:flex-row items-center justify-between gap-4'>
-            <Text className='text-kt-blue-100 text-sm'>
-              © 2024 KTBioTech. All rights reserved.
-            </Text>
-            <div className='flex items-center gap-6 text-sm'>
-              <Link
-                href='/privacy'
-                className='text-kt-blue-100 hover:text-white transition-colors'
-              >
-                Privacy Policy
-              </Link>
+        <div className='border-t border-gray-700 mt-8 sm:mt-12 pt-6 sm:pt-8'>
+          <div className='flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4'>
+            <div className='flex items-center gap-4 sm:gap-6 text-xs sm:text-sm'>
               <Link
                 href='/terms'
-                className='text-kt-blue-100 hover:text-white transition-colors'
+                className='text-gray-400 hover:text-white hover:-translate-y-0.5 transition-all duration-200'
               >
-                Terms of Service
+                Terms & conditions
               </Link>
               <Link
-                href='/cookies'
-                className='text-kt-blue-100 hover:text-white transition-colors'
+                href='/privacy'
+                className='text-gray-400 hover:text-white hover:-translate-y-0.5 transition-all duration-200'
               >
-                Cookie Policy
+                Privacy policy
               </Link>
             </div>
+            <Text color='gray-400' className='text-xs sm:text-sm text-center'>
+              Copyright © 2025 Khoa Thương. Designed by ParaShine
+            </Text>
           </div>
         </div>
       </div>
