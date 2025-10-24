@@ -192,7 +192,7 @@ export function Navbar({
               {/* Mobile Menu Toggle */}
               <button
                 onClick={handleMobileMenuToggle}
-                className='p-2 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors'
+                className='p-2 rounded-full border block lg:hidden border-gray-300 hover:bg-gray-100 transition-colors'
                 aria-label='Toggle mobile menu'
               >
                 {isMobileMenuOpen ? (
