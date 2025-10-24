@@ -1,9 +1,47 @@
 'use client';
 
-import { Heading, Slider } from '@ktbiotech/system-design';
+import { Heading, SliderV2, SliderV2Presets } from '@ktbiotech/system-design';
+import Image from 'next/image';
+import { useState } from 'react';
 import { partners } from '../../../data/mockData';
 
 export default function PartnersSection() {
+  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
+
+  const handleImageError = (partnerId: string) => {
+    setImageErrors(prev => new Set(prev).add(partnerId));
+  };
+
+  const PartnerCard = ({
+    partner,
+  }: {
+    partner: { id: string; name: string; logo: string };
+  }) => {
+    const hasError = imageErrors.has(partner.id);
+    const logoSrc = hasError ? '/images/company.png' : partner.logo;
+    const logoAlt = hasError ? 'KT BIOTECH Logo' : partner.name;
+
+    return (
+      <div className='flex items-center justify-center px-2 flex-col'>
+        <div className=' w-[185px] h-[185px] flex items-center justify-center transition-shadow'>
+          <Image
+            src={logoSrc}
+            alt={logoAlt}
+            width={185}
+            height={185}
+            className=' object-contain filter transition-all duration-200'
+            onError={() => handleImageError(partner.id)}
+          />
+        </div>
+        {partner.name && (
+          <div className='text-kt-gray-800 font-medium text-center mt-2'>
+            {partner.name}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <section className='py-16 bg-white'>
       <div className='container mx-auto px-4'>
@@ -13,46 +51,12 @@ export default function PartnersSection() {
         >
           ĐỐI TÁC
         </Heading>
-        <div className='bg-kt-gray-50 rounded-lg p-8 border border-kt-gray-200'>
-          <style jsx global>{`
-            .partners-swiper .swiper-slide {
-              width: auto !important;
-              flex-shrink: 0;
-            }
-            .partners-swiper .swiper-wrapper {
-              display: flex !important;
-            }
-          `}</style>
-          <Slider
-            slidesPerView={5}
-            spaceBetween={10}
-            loop={true}
-            autoplay={{ delay: 3000 }}
-            navigation={true}
-            pagination={false}
-            breakpoints={{
-              320: { slidesPerView: 2, spaceBetween: 15 },
-              640: { slidesPerView: 3, spaceBetween: 20 },
-              1024: { slidesPerView: 4, spaceBetween: 25 },
-              1280: { slidesPerView: 5, spaceBetween: 30 },
-            }}
-            className='w-full partners-swiper'
-          >
+        <div className='bg-kt-gray-50 rounded-lg p-8 '>
+          <SliderV2 {...SliderV2Presets.partners} className='w-full'>
             {partners.map(partner => (
-              <div
-                key={partner.id}
-                className='flex items-center justify-center px-2'
-              >
-                <div className='bg-white w-40 h-20 rounded-lg flex items-center justify-center hover:shadow-md transition-shadow border border-kt-gray-200'>
-                  <img
-                    src={partner.logo}
-                    alt={partner.name}
-                    className='max-w-full max-h-full object-contain'
-                  />
-                </div>
-              </div>
+              <PartnerCard key={partner.id} partner={partner} />
             ))}
-          </Slider>
+          </SliderV2>
         </div>
       </div>
     </section>
