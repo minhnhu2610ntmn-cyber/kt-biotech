@@ -2,11 +2,30 @@
 
 import { Heading, SliderV2, SliderV2Presets } from '@ktbiotech/system-design';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { partners } from '../../../data/mockData';
 
 export default function PartnersSection() {
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleImageError = (partnerId: string) => {
     setImageErrors(prev => new Set(prev).add(partnerId));
@@ -43,15 +62,21 @@ export default function PartnersSection() {
   };
 
   return (
-    <section className='py-16 bg-white'>
+    <section ref={sectionRef} className='py-16 bg-white'>
       <div className='container mx-auto px-4'>
         <Heading
           level={3}
-          className='text-kt-gray-800 font-semibold text-center mb-8 text-xl'
+          className={`text-kt-gray-800 font-semibold text-center mb-8 text-xl transition-all duration-600 ease-out delay-200 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
         >
           ĐỐI TÁC
         </Heading>
-        <div className='bg-kt-gray-50 rounded-lg p-8 '>
+        <div
+          className={`bg-kt-gray-50 rounded-lg p-8 transition-all duration-800 ease-out delay-400 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
+        >
           <SliderV2 {...SliderV2Presets.partners} className='w-full'>
             {partners.map(partner => (
               <PartnerCard key={partner.id} partner={partner} />

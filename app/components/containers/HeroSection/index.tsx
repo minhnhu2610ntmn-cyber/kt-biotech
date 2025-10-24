@@ -12,7 +12,7 @@ import {
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export interface HeroSectionProps {
   title?: string;
@@ -34,6 +34,25 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   className,
 }) => {
   const t = useTranslations('hero');
+  const [isVisible, setIsVisible] = useState(false);
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (heroRef.current) {
+      observer.observe(heroRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   // Default content from translations
   const defaultTitle = title || t('title');
@@ -44,13 +63,21 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
   return (
     <Container className='px-4 sm:px-6'>
-      <section className='grid grid-cols-1 lg:grid-cols-[250px_1fr] mt-5 gap-4'>
-        <div className='hidden lg:block'>
+      <section
+        ref={heroRef}
+        className='grid grid-cols-1 lg:grid-cols-[250px_1fr] mt-5 gap-4'
+      >
+        <div
+          className={`hidden lg:block transition-all duration-800 ease-out ${
+            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+          }`}
+        >
           <SidebarMenu activeItem='category' />
         </div>
         <div
           className={cn(
-            'relative w-full max-w-full h-[400px] sm:h-[450px] lg:h-[505px] overflow-hidden rounded-2xl',
+            'relative w-full max-w-full h-[400px] sm:h-[450px] lg:h-[505px] overflow-hidden rounded-2xl transition-all duration-800 ease-out',
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
             className
           )}
         >
@@ -81,7 +108,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               {/* Company Name */}
               <Heading
                 level={2}
-                className='text-lg sm:text-xl lg:!text-[28px] font-normal mb-2'
+                className={`text-lg sm:text-xl lg:!text-[28px] font-normal mb-2 transition-all duration-600 ease-out delay-100 ${
+                  isVisible
+                    ? 'opacity-100 translate-y-0'
+                    : 'opacity-0 translate-y-4'
+                }`}
                 color='#4B5053'
               >
                 {defaultTitle}
@@ -90,7 +121,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               {/* Brand Name */}
               <Heading
                 level={1}
-                className='text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:!text-5xl font-bold mb-4 sm:mb-6 leading-tight'
+                className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:!text-5xl font-bold mb-4 sm:mb-6 leading-tight transition-all duration-600 ease-out delay-200 ${
+                  isVisible
+                    ? 'opacity-100 translate-y-0'
+                    : 'opacity-0 translate-y-4'
+                }`}
                 color='#215778'
               >
                 {defaultSubtitle}
@@ -98,7 +133,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
               {/* Description */}
               <Text
-                className='text-white text-sm sm:text-base lg:text-lg leading-relaxed mb-3 sm:mb-4'
+                className={`text-white text-sm sm:text-base lg:text-lg leading-relaxed mb-3 sm:mb-4 transition-all duration-600 ease-out delay-300 ${
+                  isVisible
+                    ? 'opacity-100 translate-y-0'
+                    : 'opacity-0 translate-y-4'
+                }`}
                 lineClamp={3}
                 color='#4B5053'
               >
@@ -110,7 +149,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 <Button
                   variant='default'
                   size='lg'
-                  className='bg-[#3691C9] hover:bg-[#2a7ba3] text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-3 text-sm sm:text-base lg:text-lg font-medium'
+                  className={`bg-[#3691C9] hover:bg-[#2a7ba3] text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-3 text-sm sm:text-base lg:text-lg font-medium transition-all duration-600 ease-out delay-400 hover:scale-105 ${
+                    isVisible
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-4'
+                  }`}
                 >
                   {defaultButtonLabel}{' '}
                   <ChevronRightLargeIcon className='w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6' />
