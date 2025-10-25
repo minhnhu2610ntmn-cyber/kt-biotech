@@ -49,7 +49,7 @@ export function useNavbarConfig(customConfig?: NavbarConfig): NavbarConfig {
         ],
       },
       { label: 'Tin tức', href: '/blogs', children: [] },
-      { label: 'Liên hệ', href: '/contact', children: [] },
+      { label: 'Liên hệ', href: '/lien-he', children: [] },
     ],
     showSearch: true,
     searchPlaceholder: tNavbar('searchPlaceholder'),
