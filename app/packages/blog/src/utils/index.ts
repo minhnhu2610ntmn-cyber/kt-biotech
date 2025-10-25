@@ -1,7 +1,40 @@
 /**
- * Format date to readable string
+ * Format date to Vietnamese locale string
  */
-export const formatDate = (date: Date): string => {
+export const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('vi-VN', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+};
+
+/**
+ * Lighten a hex color by a specified percentage
+ */
+export const lightenColor = (hex: string, percent: number): string => {
+  const color = hex.replace('#', '');
+  const r = parseInt(color.substr(0, 2), 16);
+  const g = parseInt(color.substr(2, 2), 16);
+  const b = parseInt(color.substr(4, 2), 16);
+
+  const newR = Math.round(r + (255 - r) * (percent / 100));
+  const newG = Math.round(g + (255 - g) * (percent / 100));
+  const newB = Math.round(b + (255 - b) * (percent / 100));
+
+  const toHex = (n: number) => {
+    const hex = n.toString(16);
+    return hex.length === 1 ? `0${hex}` : hex;
+  };
+
+  return `#${toHex(newR)}${toHex(newG)}${toHex(newB)}`;
+};
+
+/**
+ * Format date to readable string (US format)
+ */
+export const formatDateUS = (date: Date): string => {
   return new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'long',
@@ -25,7 +58,7 @@ export const generateSlug = (title: string): string => {
  */
 export const truncateText = (text: string, length: number): string => {
   if (text.length <= length) return text;
-  return text.slice(0, length).trim() + '...';
+  return `${text.slice(0, length).trim()}...`;
 };
 
 /**

@@ -23,7 +23,7 @@ export default function HomePage({
       <MilestonesSection />
       <TechnologySection />
       <CountriesSection />
-      <NewsSection latestArticles={latestArticles} />
+      <NewsSection latestArticles={latestArticles} title='Tin Tức' />
       <PartnersSection />
     </div>
   );

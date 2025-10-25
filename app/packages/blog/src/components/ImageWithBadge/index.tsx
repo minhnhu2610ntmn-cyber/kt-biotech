@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { cn } from '../../utils';
-import Badge from '../Badge';
+import { Badge, cn } from '@ktbiotech/system-design';
 
 export interface ImageWithBadgeProps {
   src: string;

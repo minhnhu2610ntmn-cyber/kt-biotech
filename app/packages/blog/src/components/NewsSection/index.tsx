@@ -1,7 +1,10 @@
 'use client';
 
-import { BlogCard, Container, Heading } from '@ktbiotech/system-design';
+import { Container, Heading } from '@ktbiotech/system-design';
 import { useEffect, useRef, useState } from 'react';
+import { mockBlogPosts } from '../../data/mockData';
+import { formatDate, lightenColor } from '../../utils';
+import BlogCard from '../BlogCard';
 
 // Define Article type locally since we can't import from app types
 interface Article {
@@ -24,6 +27,8 @@ interface Article {
 
 interface NewsSectionProps {
   latestArticles: Article[];
+  title?: string;
+  gap?: string;
 }
 
 // Utility functions
@@ -34,25 +39,11 @@ const buildImageUrl = (imagePath?: string): string => {
   return `${baseUrl}${imagePath}`;
 };
 
-const lightenColor = (hex: string, percent: number): string => {
-  const color = hex.replace('#', '');
-  const r = parseInt(color.substr(0, 2), 16);
-  const g = parseInt(color.substr(2, 2), 16);
-  const b = parseInt(color.substr(4, 2), 16);
-
-  const newR = Math.round(r + (255 - r) * (percent / 100));
-  const newG = Math.round(g + (255 - g) * (percent / 100));
-  const newB = Math.round(b + (255 - b) * (percent / 100));
-
-  const toHex = (n: number) => {
-    const hex = n.toString(16);
-    return hex.length === 1 ? `0${hex}` : hex;
-  };
-
-  return `#${toHex(newR)}${toHex(newG)}${toHex(newB)}`;
-};
-
-export default function NewsSection({ latestArticles }: NewsSectionProps) {
+export default function NewsSection({
+  latestArticles,
+  title,
+  gap = 'gap-4 sm:gap-6',
+}: NewsSectionProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -101,15 +92,6 @@ export default function NewsSection({ latestArticles }: NewsSectionProps) {
 
   // Transform API data to BlogCard format
   const transformArticleToBlogCard = (article: Article) => {
-    const formatDate = (dateString: string) => {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('vi-VN', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      });
-    };
-
     return {
       id: article.id,
       title: article.title,
@@ -130,86 +112,25 @@ export default function NewsSection({ latestArticles }: NewsSectionProps) {
   const blogPosts =
     latestArticles.length > 0
       ? latestArticles.map(transformArticleToBlogCard)
-      : [
-          {
-            id: 1,
-            title: 'Where does it come from?',
-            author: 'Geogle Brown',
-            date: 'Mar 8, 2022',
-            description:
-              'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.',
-            imageSrc:
-              'https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=300&fit=crop',
-            imageAlt: 'Research blog image',
-            badgeText: 'Blog nghiên cứu',
-            badgeBackgroundColor: '#F0F0F0',
-            badgeTextColor: '#1B1C1D',
-            badgeArrowColor: '#808080',
-            href: '/blog/research-1',
-          },
-          {
-            id: 2,
-            title: 'Where does it come from?',
-            author: 'Geogle Brown',
-            date: 'Mar 8, 2022',
-            description:
-              'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.',
-            imageSrc:
-              'https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=300&fit=crop',
-            imageAlt: 'Company news image',
-            badgeText: 'Tin Công Ty',
-            badgeBackgroundColor: '#FFE4B5',
-            badgeTextColor: '#1B1C1D',
-            badgeArrowColor: '#FFA500',
-            href: '/blog/company-news-1',
-          },
-          {
-            id: 3,
-            title: 'Where does it come from?',
-            author: 'Geogle Brown',
-            date: 'Mar 8, 2022',
-            description:
-              'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.',
-            imageSrc:
-              'https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=300&fit=crop',
-            imageAlt: 'Knowledge image',
-            badgeText: 'Kiến thức',
-            badgeBackgroundColor: '#E6F3FF',
-            badgeTextColor: '#1B1C1D',
-            badgeArrowColor: '#4A90E2',
-            href: '/blog/knowledge-1',
-          },
-          {
-            id: 4,
-            title: 'Where does it come from?',
-            author: 'Geogle Brown',
-            date: 'Mar 8, 2022',
-            description:
-              'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.',
-            imageSrc:
-              'https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=300&fit=crop',
-            imageAlt: 'Knowledge image',
-            badgeText: 'Kiến thức',
-            badgeBackgroundColor: '#E6F3FF',
-            badgeTextColor: '#1B1C1D',
-            badgeArrowColor: '#4A90E2',
-            href: '/blog/knowledge-1',
-          },
-        ];
+      : mockBlogPosts;
 
   return (
     <section ref={sectionRef}>
       <Container>
         {/* Section Title */}
-        <Heading
-          level={2}
-          color='#215778'
-          className={`font-bold !text-2xl mb-10 pl-4 underline decoration-[#2C3E50] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-300 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          Tin Tức
-        </Heading>
+        {title && (
+          <Heading
+            level={2}
+            color='#215778'
+            className={`font-bold !text-2xl mb-10 pl-4 underline decoration-[#2C3E50] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-300 ${
+              isVisible
+                ? 'opacity-100 translate-y-0'
+                : 'opacity-0 translate-y-4'
+            }`}
+          >
+            {title}
+          </Heading>
+        )}
 
         {/* Blog Cards Grid - Mobile: Single Column, Desktop: Two Columns */}
         <div className='flex flex-col lg:flex-row gap-4 sm:gap-6 pl-3 pr-2 lg:pr-0 lg:pl-0 lg:items-stretch'>
@@ -245,7 +166,9 @@ export default function NewsSection({ latestArticles }: NewsSectionProps) {
           )}
 
           {/* Side Articles (Mobile: Below Featured, Desktop: Right Column) */}
-          <div className='w-full lg:flex-1 flex flex-col gap-4 sm:gap-6 px-3 lg:px-0 lg:h-full'>
+          <div
+            className={`w-full lg:flex-1 flex flex-col ${gap} px-3 lg:px-0 lg:h-full`}
+          >
             {blogPosts.slice(1, 4).map((post, index) => (
               <div
                 key={post.id}

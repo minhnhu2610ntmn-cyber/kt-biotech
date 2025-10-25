@@ -1,26 +1,20 @@
 'use client';
 
 import { Container, Heading } from '@ktbiotech/system-design';
-import BlogList from '../../components/BlogList';
-import { BlogPost } from '../../types';
+import MostViewedSection from '../../components/MostViewedSection';
+import NewsSection from '../../components/NewsSection';
+import { Article, BlogPost } from '../../types';
 
 interface BlogPageProps {
-  posts: BlogPost[];
+  latestArticles: Article[];
+  mostViewedArticles?: Article[];
   onPostClick?: (post: BlogPost) => void;
 }
 
-export default function BlogPage({ onPostClick }: BlogPageProps) {
-  // Filter posts based on search and category
-
-  const handlePostClick = (post: BlogPost) => {
-    if (onPostClick) {
-      onPostClick(post);
-    } else {
-      // Default behavior: navigate to blog detail
-      window.location.href = `/blogs/${post.slug}`;
-    }
-  };
-
+export default function BlogPage({
+  latestArticles,
+  mostViewedArticles = [],
+}: BlogPageProps) {
   return (
     <div className='container mx-auto px-4 py-8'>
       <div className='max-w-7xl mx-auto'>
@@ -35,7 +29,10 @@ export default function BlogPage({ onPostClick }: BlogPageProps) {
 
         {/* Blog List */}
         <Container>
-          <BlogList posts={[]} onPostClick={handlePostClick} gridCols={3} />
+          <NewsSection latestArticles={latestArticles || []} gap='gap-4 ' />
+
+          {/* Most Viewed Section */}
+          <MostViewedSection articles={mostViewedArticles} />
         </Container>
       </div>
     </div>

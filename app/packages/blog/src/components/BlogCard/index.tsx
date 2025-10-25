@@ -1,64 +1,116 @@
-'use client';
+import {
+  ChevronRightLargeIcon,
+  cn,
+  Link,
+  Text,
+} from '@ktbiotech/system-design';
+import ImageWithBadge from '../ImageWithBadge';
 
-import { Heading, Text } from '@ktbiotech/system-design';
-import { BlogPost } from '../../types';
-import { formatDate, truncateText } from '../../utils';
-
-interface BlogCardProps {
-  post: BlogPost;
-  onClick?: (post: BlogPost) => void;
+export interface BlogCardProps {
+  title: string;
+  author: string;
+  date: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  badgeText: string;
+  badgeBackgroundColor?: string;
+  badgeTextColor?: string;
+  badgeArrowColor?: string;
+  href?: string;
   className?: string;
+  imageClassName?: string;
+  priority?: boolean;
+  direction?: 'row' | 'column';
 }
 
 export default function BlogCard({
-  post,
-  onClick,
-  className = '',
+  title,
+  author,
+  date,
+  description,
+  imageSrc,
+  imageAlt,
+  badgeText,
+  badgeBackgroundColor = '#FFD9BD',
+  badgeTextColor = '#1B1C1D',
+  badgeArrowColor = '#FE7B1B',
+  href = '#',
+  className,
+  imageClassName,
+  priority: _priority = false,
+  direction = 'row',
 }: BlogCardProps) {
-  const handleClick = () => {
-    onClick?.(post);
-  };
-
   return (
     <article
-      className={`bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer ${className}`}
-      onClick={handleClick}
+      className={cn(
+        ' duration-300',
+        className,
+        direction === 'column' && 'px-4 lg:px-0'
+      )}
     >
-      <div className='p-6'>
-        <div className='flex items-center justify-between mb-3'>
-          <time className='text-sm text-gray-500'>
-            {formatDate(post.publishedAt)}
-          </time>
-          <span className='text-sm text-blue-600 font-medium'>
-            by {post.author}
-          </span>
+      <div
+        className={cn(
+          'flex gap-3 sm:gap-4',
+          direction === 'row' && 'flex-col sm:flex-row',
+          direction === 'column' && 'flex-col'
+        )}
+      >
+        {/* Image with Badge - Left side */}
+        <div className='flex-shrink-0'>
+          <ImageWithBadge
+            src={imageSrc}
+            alt={imageAlt}
+            width={direction === 'column' ? '100%' : 200}
+            height={direction === 'column' ? '100%' : 150}
+            badgeText={badgeText}
+            badgeBackgroundColor={badgeBackgroundColor}
+            badgeTextColor={badgeTextColor}
+            badgeArrowColor={badgeArrowColor}
+            imageClassName={cn(
+              direction === 'column'
+                ? 'w-full h-full'
+                : 'w-full sm:w-48 h-32 sm:h-36',
+              imageClassName
+            )}
+            priority={_priority}
+          />
         </div>
 
-        <Heading
-          level={3}
-          className='text-xl font-bold text-gray-900 mb-3 line-clamp-2'
-        >
-          {post.title}
-        </Heading>
+        {/* Content - Right side */}
+        <div className='flex-1 '>
+          {/* Title */}
+          <Text
+            color='#1B1C1D'
+            className='!text-xl font-semibold mb-1 line-clamp-2'
+            lineClamp={2}
+          >
+            {title}
+          </Text>
 
-        <Text className='text-gray-600 mb-4 line-clamp-3'>
-          {truncateText(post.excerpt, 150)}
-        </Text>
+          {/* Author and Date */}
+          <Text color='#7C8388' className='text-xs sm:text-sm mb-2 sm:mb-3'>
+            by<span className=' text-[#4B5053]'> {author}</span> on{' '}
+            <span className=' text-[#4B5053]'>{date}</span>
+          </Text>
 
-        <div className='flex flex-wrap gap-2'>
-          {post.tags.slice(0, 3).map(tag => (
-            <span
-              key={tag}
-              className='px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full'
-            >
-              {tag}
-            </span>
-          ))}
-          {post.tags.length > 3 && (
-            <span className='px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full'>
-              +{post.tags.length - 3} more
-            </span>
-          )}
+          {/* Description */}
+          <Text
+            color='#636A6E'
+            className='text-xs sm:text-sm mb-3 sm:mb-4 pr-0 sm:pr-4'
+            lineClamp={3}
+          >
+            {description}
+          </Text>
+
+          {/* Read More Link */}
+          <Link
+            href={href}
+            className='inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-xs sm:text-sm'
+          >
+            See All
+            <ChevronRightLargeIcon className='w-3 h-3 sm:w-4 sm:h-4 ml-1' />
+          </Link>
         </div>
       </div>
     </article>

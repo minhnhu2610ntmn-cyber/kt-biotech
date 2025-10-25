@@ -1,52 +1,55 @@
-'use client';
+import { BlogPage } from '@ktbiotech/blog';
+import type { Article } from '../../types/strapi';
+import { StrapiApi } from '../config/api';
 
-import { BlogPage, BlogPost } from '@ktbiotech/blog';
-import { useRouter } from 'next/navigation';
+// Fetch latest articles from Strapi API
+async function getLatestArticles(): Promise<Article[]> {
+  try {
+    const api = new StrapiApi();
+    const articles = await api.getArticles({
+      sort: 'createdAt:desc',
+      'pagination[limit]': '10',
+      populate: '*',
+      'filters[category][type][$eq]': 'blog',
+    });
+    return articles as Article[];
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error fetching latest articles:', error);
+    // Return empty array as fallback
+    return [];
+  }
+}
 
-// Mock data for testing
-const mockPosts: BlogPost[] = [
-  {
-    id: '1',
-    title: 'Advances in CRISPR Technology',
-    content: 'Full article content...',
-    excerpt:
-      'Recent breakthroughs in CRISPR gene editing technology are revolutionizing biotechnology and opening new possibilities for treating genetic diseases.',
-    slug: 'advances-in-crispr-technology',
-    author: 'Dr. Sarah Johnson',
-    publishedAt: new Date('2024-01-15T10:00:00Z'),
-    tags: ['CRISPR', 'Gene Editing', 'Biotechnology'],
-  },
-  {
-    id: '2',
-    title: 'The Future of Personalized Medicine',
-    content: 'Full article content...',
-    excerpt:
-      'How personalized medicine is transforming healthcare through tailored treatments based on individual genetic profiles.',
-    slug: 'future-personalized-medicine',
-    author: 'Dr. Michael Chen',
-    publishedAt: new Date('2024-01-10T14:30:00Z'),
-    tags: ['Personalized Medicine', 'Genomics', 'Healthcare'],
-  },
-  {
-    id: '3',
-    title: 'Biotech Startup Funding Trends 2024',
-    content: 'Full article content...',
-    excerpt:
-      'An analysis of investment patterns and funding trends in the biotechnology startup ecosystem.',
-    slug: 'biotech-startup-funding-trends-2024',
-    author: 'Alex Rodriguez',
-    publishedAt: new Date('2024-01-05T09:15:00Z'),
-    tags: ['Startups', 'Funding', 'Investment'],
-  },
-];
+// Fetch most viewed articles from Strapi API
+async function getMostViewedArticles(): Promise<Article[]> {
+  try {
+    const api = new StrapiApi();
+    const articles = await api.getArticles({
+      sort: 'createdAt:desc', // For now, using createdAt as proxy for most viewed
+      'pagination[limit]': '4',
+      populate: '*',
+      'filters[category][type][$eq]': 'blog',
+    });
+    return articles as Article[];
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error fetching most viewed articles:', error);
+    // Return empty array as fallback
+    return [];
+  }
+}
 
-export default function BlogsPage() {
-  const router = useRouter();
+export default async function BlogsPage() {
+  const [latestArticles, mostViewedArticles] = await Promise.all([
+    getLatestArticles(),
+    getMostViewedArticles(),
+  ]);
 
-  const handlePostClick = (post: BlogPost) => {
-    // Navigate to the blog detail page using Next.js router
-    router.push(`/blogs/${post.slug}`);
-  };
-
-  return <BlogPage posts={mockPosts} onPostClick={handlePostClick} />;
+  return (
+    <BlogPage
+      latestArticles={latestArticles}
+      mostViewedArticles={mostViewedArticles}
+    />
+  );
 }

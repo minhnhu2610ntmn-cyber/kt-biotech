@@ -1,3 +1,21 @@
+export interface Article {
+  id: number;
+  title: string;
+  description: string;
+  slug: string;
+  createdAt: string;
+  author: {
+    name: string;
+  };
+  cover?: {
+    url: string;
+  };
+  category: {
+    name: string;
+    color: string;
+  };
+}
+
 export interface BlogPost {
   id: string;
   title: string;
