@@ -1,6 +1,11 @@
 'use client';
 
-import { Heading, SliderV2, SliderV2Presets } from '@ktbiotech/system-design';
+import {
+  Container,
+  Heading,
+  SliderV2,
+  SliderV2Presets,
+} from '@ktbiotech/system-design';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { partners } from '../../../data/mockData';
@@ -63,14 +68,15 @@ export default function PartnersSection() {
 
   return (
     <section ref={sectionRef} className='py-16 bg-transparent'>
-      <div className='container mx-auto px-4'>
+      <Container>
         <Heading
           level={3}
-          className={`text-kt-gray-800 font-semibold text-center mb-8 text-xl transition-all duration-600 ease-out delay-200 ${
+          color='#215778'
+          className={`text-kt-gray-800 font-semibold text-left pl-4 !text-2xl transition-all duration-600 ease-out delay-200 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          ĐỐI TÁC
+          KHÁCH HÀNG CỦA KHOA THƯƠNG
         </Heading>
         <div
           className={`bg-kt-gray-50 rounded-lg p-8 transition-all duration-800 ease-out delay-400 ${
@@ -83,7 +89,7 @@ export default function PartnersSection() {
             ))}
           </SliderV2>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

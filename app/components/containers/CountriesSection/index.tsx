@@ -51,7 +51,7 @@ export default function CountriesSection() {
       <Heading
         level={3}
         color='#215778'
-        className={`text-center mb-12 font-bold !text-2xl underline decoration-[#215778] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-200 ${
+        className={`text-left mb-12 font-bold pl-4 !text-2xl underline decoration-[#215778] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-200 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >

@@ -155,17 +155,17 @@ export default function NewsSection({ latestArticles }: NewsSectionProps) {
         ];
 
   return (
-    <section ref={sectionRef} className='py-8 sm:py-16 bg-transparent'>
+    <section ref={sectionRef}>
       <Container>
         {/* Section Title */}
         <Heading
           level={2}
           color='#215778'
-          className={`text-center mb-6 sm:mb-12 font-bold text-xl sm:text-2xl lg:text-3xl underline decoration-[#215778] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-200 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          className={`font-bold !text-2xl mb-10 pl-4 underline decoration-[#2C3E50] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-300 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          TIN TỨC
+          Tin Tức
         </Heading>
 
         {/* Blog Cards Grid - Mobile: Single Column, Desktop: Two Columns */}
@@ -202,7 +202,7 @@ export default function NewsSection({ latestArticles }: NewsSectionProps) {
           )}
 
           {/* Side Articles (Mobile: Below Featured, Desktop: Right Column) */}
-          <div className='w-full lg:flex-1 flex flex-col gap-4 sm:gap-6 lg:h-full'>
+          <div className='w-full lg:flex-1 flex flex-col gap-4 sm:gap-6 px-3 lg:px-0 lg:h-full'>
             {blogPosts.slice(1, 4).map((post, index) => (
               <div
                 key={post.id}

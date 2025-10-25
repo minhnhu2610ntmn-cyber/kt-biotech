@@ -146,14 +146,14 @@ export function Navbar({
   }, [hoverTimeout]);
 
   return (
-    <nav
-      className={cn(
-        'bg-white relative shadow-sm border-b border-gray-200',
-        className
-      )}
-    >
+    <>
       {/* Top Row - Logo, Search, Hotline, Language */}
-      <div className='bg-gray-50 border-b border-gray-200'>
+      <nav
+        className={cn(
+          'bg-gray-50 border-b border-gray-200 sticky top-0 z-50 lg:static',
+          className
+        )}
+      >
         <Container className='px-4 md:px-6'>
           <div className='flex justify-between items-center py-2 md:py-2.5'>
             {/* Logo */}
@@ -227,121 +227,123 @@ export function Navbar({
             </div>
           </div>
         </Container>
-      </div>
+      </nav>
 
-      {/* Bottom Row - Navigation Menu - Hidden on mobile */}
-      <Container className='hidden lg:block px-4 md:px-6'>
-        <div className='flex justify-between items-center h-12 md:h-14 py-2 md:py-2.5'>
-          {/* Desktop Navigation */}
-          <div className='hidden md:block'>
-            <div className='flex items-center space-x-6'>
-              {navItems.map((item, index) => (
-                <div
-                  key={item.label}
-                  className='relative flex items-center'
-                  onMouseEnter={() => {
-                    if (item.label === 'Sản phẩm') {
-                      handleMegaMenuEnter(item);
-                    } else if (item.children && item.children.length > 0) {
-                      handleNestedDropdownEnter(item.label);
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    if (item.label === 'Sản phẩm') {
-                      handleMegaMenuLeave();
-                    } else if (item.children && item.children.length > 0) {
-                      handleNestedDropdownLeave();
-                    }
-                  }}
-                >
-                  <div className='relative group'>
-                    <button
-                      className={cn(
-                        'px-2 py-2 text-sm font-medium transition-all duration-300 ease-in-out flex items-center gap-1 cursor-pointer rounded-md',
-                        isActive(item.href)
-                          ? 'text-[#3691C9]'
-                          : activeMegaMenuItem?.label === item.label
-                            ? 'text-[#3691C9] bg-blue-50'
-                            : nestedDropdownOpen === item.label
+      {/* Bottom Row - Navigation Menu - Hidden on mobile - STICKY */}
+      <nav className='hidden lg:block sticky top-0 z-50 bg-white  border-b border-gray-200'>
+        <Container className='px-4 md:px-6'>
+          <div className='flex justify-between items-center h-12 md:h-14 py-2 md:py-2.5'>
+            {/* Desktop Navigation */}
+            <div className='hidden md:block'>
+              <div className='flex items-center space-x-6'>
+                {navItems.map((item, index) => (
+                  <div
+                    key={item.label}
+                    className='relative flex items-center'
+                    onMouseEnter={() => {
+                      if (item.label === 'Sản phẩm') {
+                        handleMegaMenuEnter(item);
+                      } else if (item.children && item.children.length > 0) {
+                        handleNestedDropdownEnter(item.label);
+                      }
+                    }}
+                    onMouseLeave={() => {
+                      if (item.label === 'Sản phẩm') {
+                        handleMegaMenuLeave();
+                      } else if (item.children && item.children.length > 0) {
+                        handleNestedDropdownLeave();
+                      }
+                    }}
+                  >
+                    <div className='relative group'>
+                      <button
+                        className={cn(
+                          'px-2 py-2 text-sm font-medium transition-all duration-300 ease-in-out flex items-center gap-1 cursor-pointer rounded-md',
+                          isActive(item.href)
+                            ? 'text-[#3691C9]'
+                            : activeMegaMenuItem?.label === item.label
                               ? 'text-[#3691C9] bg-blue-50'
-                              : 'text-[#4B5053] hover:text-[#3691C9] hover:bg-gray-50'
-                      )}
-                      onClick={() => {
-                        handleDropdownToggle(item.label);
-                        // Navigate to link if no children or children is empty
-                        if (!item.children || item.children.length === 0) {
-                          router.push(item.href);
-                        }
-                      }}
-                    >
-                      {item.label}
-                      {item.children && item.children.length > 0 && (
-                        <ChevronRight
-                          className={cn(
-                            'h-4 w-4 transition-transform duration-200',
-                            activeMegaMenuItem?.label === item.label
-                              ? 'rotate-0'
                               : nestedDropdownOpen === item.label
+                                ? 'text-[#3691C9] bg-blue-50'
+                                : 'text-[#4B5053] hover:text-[#3691C9] hover:bg-gray-50'
+                        )}
+                        onClick={() => {
+                          handleDropdownToggle(item.label);
+                          // Navigate to link if no children or children is empty
+                          if (!item.children || item.children.length === 0) {
+                            router.push(item.href);
+                          }
+                        }}
+                      >
+                        {item.label}
+                        {item.children && item.children.length > 0 && (
+                          <ChevronRight
+                            className={cn(
+                              'h-4 w-4 transition-transform duration-200',
+                              activeMegaMenuItem?.label === item.label
                                 ? 'rotate-0'
-                                : 'rotate-90'
-                          )}
-                        />
-                      )}
-                    </button>
+                                : nestedDropdownOpen === item.label
+                                  ? 'rotate-0'
+                                  : 'rotate-90'
+                            )}
+                          />
+                        )}
+                      </button>
 
-                    {/* Active indicator with animation */}
-                    <span
-                      className={cn(
-                        'absolute bottom-0 left-0 h-0.5 bg-[#3691C9] transition-all duration-300 ease-in-out',
-                        isActive(item.href) ? 'w-full' : 'w-0'
-                      )}
-                    />
+                      {/* Active indicator with animation */}
+                      <span
+                        className={cn(
+                          'absolute bottom-0 left-0 h-0.5 bg-[#3691C9] transition-all duration-300 ease-in-out',
+                          isActive(item.href) ? 'w-full' : 'w-0'
+                        )}
+                      />
 
-                    {/* Nested Dropdown for non-mega menu items */}
-                    {item.children &&
-                      item.children.length > 0 &&
-                      item.label !== 'Sản phẩm' && (
-                        <div
-                          className={cn(
-                            'absolute top-full left-0 mt-1 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-40 transition-all duration-200',
-                            nestedDropdownOpen === item.label
-                              ? 'opacity-100 visible'
-                              : 'opacity-0 invisible'
-                          )}
-                        >
-                          <div className='py-2'>
-                            {item.children.map(child => (
-                              <Link
-                                key={child.label}
-                                href={child.href}
-                                className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#3691C9] transition-colors duration-200'
-                              >
-                                {child.label}
-                              </Link>
-                            ))}
+                      {/* Nested Dropdown for non-mega menu items */}
+                      {item.children &&
+                        item.children.length > 0 &&
+                        item.label !== 'Sản phẩm' && (
+                          <div
+                            className={cn(
+                              'absolute top-full left-0 mt-1 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-40 transition-all duration-200',
+                              nestedDropdownOpen === item.label
+                                ? 'opacity-100 visible'
+                                : 'opacity-0 invisible'
+                            )}
+                          >
+                            <div className='py-2'>
+                              {item.children.map(child => (
+                                <Link
+                                  key={child.label}
+                                  href={child.href}
+                                  className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#3691C9] transition-colors duration-200'
+                                >
+                                  {child.label}
+                                </Link>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
-                  </div>
+                        )}
+                    </div>
 
-                  {/* Separator */}
-                  {index < navItems.length - 1 && (
-                    <div className='w-px h-4 bg-gray-300 ml-3' />
-                  )}
-                </div>
-              ))}
+                    {/* Separator */}
+                    {index < navItems.length - 1 && (
+                      <div className='w-px h-4 bg-gray-300 ml-3' />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Download Catalogue Button */}
+            <div className='hidden md:flex items-center'>
+              <button className='flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#3691C9] hover:text-[#2a7bb8] transition-colors duration-200 cursor-pointer'>
+                <DownloadIcon width={24} height={24} />
+                Download Catalogue
+              </button>
             </div>
           </div>
-
-          {/* Download Catalogue Button */}
-          <div className='hidden md:flex items-center'>
-            <button className='flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#3691C9] hover:text-[#2a7bb8] transition-colors duration-200 cursor-pointer'>
-              <DownloadIcon width={24} height={24} />
-              Download Catalogue
-            </button>
-          </div>
-        </div>
-      </Container>
+        </Container>
+      </nav>
 
       {/* Fixed Mega Menu */}
       <div
@@ -697,7 +699,7 @@ export function Navbar({
           )}
         </div>
       </div>
-    </nav>
+    </>
   );
 }
 

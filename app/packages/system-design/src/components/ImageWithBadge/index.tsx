@@ -41,7 +41,10 @@ export default function ImageWithBadge({
         alt={alt}
         width={width}
         height={height}
-        className={cn('w-full h-full rounded-xl object-cover', imageClassName)}
+        className={cn(
+          'w-full h-full min-h-70 sm:min-h-auto max-h-70 md:max-h-auto rounded-xl object-cover',
+          imageClassName
+        )}
       />
 
       <div className={cn(getBadgePositionClasses(), badgeClassName)}>
