@@ -4,12 +4,22 @@ import { Container, Heading } from '@ktbiotech/system-design';
 import ImportantNewsSection from '../../components/ImportantNewsSection';
 import MostViewedSection from '../../components/MostViewedSection';
 import NewsSection from '../../components/NewsSection';
+import RecruitmentNewsSection from '../../components/RecruitmentNewsSection';
 import { Article, BlogPost } from '../../types';
 
 interface BlogPageProps {
   latestArticles: Article[];
   mostViewedArticles?: Article[];
   importantArticles?: Article[];
+  recruitmentPosts?: Array<{
+    id: number;
+    imageSrc: string;
+    imageAlt: string;
+    date: string;
+    title: string;
+    description: string;
+    href: string;
+  }>;
   onPostClick?: (post: BlogPost) => void;
 }
 
@@ -17,6 +27,7 @@ export default function BlogPage({
   latestArticles,
   mostViewedArticles = [],
   importantArticles = [],
+  recruitmentPosts = [],
 }: BlogPageProps) {
   return (
     <div className='container mx-auto pr-4 py-8'>
@@ -40,6 +51,9 @@ export default function BlogPage({
 
           {/* Important News Section */}
           <ImportantNewsSection articles={importantArticles} />
+
+          {/* Recruitment News Section */}
+          <RecruitmentNewsSection posts={recruitmentPosts} />
         </Container>
       </div>
     </div>

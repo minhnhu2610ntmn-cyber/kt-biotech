@@ -68,3 +68,72 @@ export const mockBlogPosts = [
     href: '/blog/research-2',
   },
 ];
+
+export const mockRecruitmentPosts = [
+  {
+    id: 1,
+    imageSrc:
+      'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&h=300&fit=crop',
+    imageAlt: 'Recruitment position 1',
+    date: '01/01/2025',
+    title: 'Vị trí Tuyển dụng',
+    description:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been',
+    href: '/recruitment/position-1',
+  },
+  {
+    id: 2,
+    imageSrc:
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop',
+    imageAlt: 'Recruitment position 2',
+    date: '02/01/2025',
+    title: 'Vị trí Tuyển dụng',
+    description:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been',
+    href: '/recruitment/position-2',
+  },
+  {
+    id: 3,
+    imageSrc:
+      'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop',
+    imageAlt: 'Recruitment position 3',
+    date: '03/01/2025',
+    title: 'Vị trí Tuyển dụng',
+    description:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been',
+    href: '/recruitment/position-3',
+  },
+  {
+    id: 4,
+    imageSrc:
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop',
+    imageAlt: 'Recruitment position 4',
+    date: '04/01/2025',
+    title: 'Vị trí Tuyển dụng',
+    description:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been',
+    href: '/recruitment/position-4',
+  },
+  {
+    id: 5,
+    imageSrc:
+      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=300&fit=crop',
+    imageAlt: 'Recruitment position 5',
+    date: '05/01/2025',
+    title: 'Vị trí Tuyển dụng',
+    description:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been',
+    href: '/recruitment/position-5',
+  },
+  {
+    id: 6,
+    imageSrc:
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=300&fit=crop',
+    imageAlt: 'Recruitment position 6',
+    date: '06/01/2025',
+    title: 'Vị trí Tuyển dụng',
+    description:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been',
+    href: '/recruitment/position-6',
+  },
+];

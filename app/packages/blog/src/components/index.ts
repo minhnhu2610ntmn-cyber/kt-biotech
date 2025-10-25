@@ -7,5 +7,7 @@ export { default as ImportantNewsSection } from './ImportantNewsSection';
 export { default as MostViewedSection } from './MostViewedSection';
 export { default as NewsSection } from './NewsSection';
 export { default as ReadingProgress } from './ReadingProgress';
+export { default as RecruitmentCard } from './RecruitmentCard';
+export { default as RecruitmentNewsSection } from './RecruitmentNewsSection';
 export { default as SocialShare } from './SocialShare';
 export { default as TableOfContents } from './TableOfContents';
