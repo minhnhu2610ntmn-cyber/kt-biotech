@@ -3,6 +3,7 @@ export { default as BlogCard } from './BlogCard';
 export { default as BlogListLoading } from './BlogListLoading';
 export { default as BlogLoading } from './BlogLoading';
 export { default as ImageWithBadge } from './ImageWithBadge';
+export { default as ImportantNewsSection } from './ImportantNewsSection';
 export { default as MostViewedSection } from './MostViewedSection';
 export { default as NewsSection } from './NewsSection';
 export { default as ReadingProgress } from './ReadingProgress';

@@ -25,13 +25,13 @@ interface Article {
   };
 }
 
-interface MostViewedSectionProps {
+interface ImportantNewsSectionProps {
   articles: Article[];
 }
 
-export default function MostViewedSection({
+export default function ImportantNewsSection({
   articles,
-}: MostViewedSectionProps) {
+}: ImportantNewsSectionProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -113,26 +113,26 @@ export default function MostViewedSection({
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          XEM NHIỀU
+          TIN QUAN TRỌNG
         </Heading>
 
-        {/* Blog Cards Grid - 4 columns on desktop, responsive on mobile */}
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 px-3 lg:px-0'>
-          {blogPosts.slice(0, 4).map((post, index) => (
+        {/* Blog Cards Grid - 2 columns on desktop, 1 column on mobile */}
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 px-3 lg:px-0'>
+          {blogPosts.slice(0, 6).map((post, index) => (
             <div
               key={post.id}
               ref={el => {
                 cardRefs.current[index] = el;
               }}
               data-index={index}
-              className={`transition-all duration-600 ease-out delay-${400 + index * 200} ${
+              className={`transition-all duration-600 ease-out delay-${400 + index * 100} ${
                 visibleCards.has(index)
                   ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-8'
               }`}
             >
               <BlogCard
-                direction='column'
+                direction='row'
                 title={post.title}
                 author={post.author}
                 date={post.date}

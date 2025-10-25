@@ -1,6 +1,7 @@
 'use client';
 
 import { Container, Heading } from '@ktbiotech/system-design';
+import ImportantNewsSection from '../../components/ImportantNewsSection';
 import MostViewedSection from '../../components/MostViewedSection';
 import NewsSection from '../../components/NewsSection';
 import { Article, BlogPost } from '../../types';
@@ -8,15 +9,17 @@ import { Article, BlogPost } from '../../types';
 interface BlogPageProps {
   latestArticles: Article[];
   mostViewedArticles?: Article[];
+  importantArticles?: Article[];
   onPostClick?: (post: BlogPost) => void;
 }
 
 export default function BlogPage({
   latestArticles,
   mostViewedArticles = [],
+  importantArticles = [],
 }: BlogPageProps) {
   return (
-    <div className='container mx-auto px-4 py-8'>
+    <div className='container mx-auto pr-4 py-8'>
       <div className='max-w-7xl mx-auto'>
         {/* Header */}
         <Heading
@@ -28,11 +31,15 @@ export default function BlogPage({
         </Heading>
 
         {/* Blog List */}
-        <Container>
+        <Container className='flex flex-col gap-6'>
+          {/* News Section */}
           <NewsSection latestArticles={latestArticles || []} gap='gap-4 ' />
 
           {/* Most Viewed Section */}
           <MostViewedSection articles={mostViewedArticles} />
+
+          {/* Important News Section */}
+          <ImportantNewsSection articles={importantArticles} />
         </Container>
       </div>
     </div>

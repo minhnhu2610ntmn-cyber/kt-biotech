@@ -95,3 +95,4 @@ export const parseFrontmatter = (
 
 // Export blog-specific utilities
 export * from './blogUtils';
+export * from './imageUtils';

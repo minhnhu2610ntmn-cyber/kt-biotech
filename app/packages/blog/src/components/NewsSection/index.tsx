@@ -3,7 +3,7 @@
 import { Container, Heading } from '@ktbiotech/system-design';
 import { useEffect, useRef, useState } from 'react';
 import { mockBlogPosts } from '../../data/mockData';
-import { formatDate, lightenColor } from '../../utils';
+import { buildImageUrl, formatDate, lightenColor } from '../../utils';
 import BlogCard from '../BlogCard';
 
 // Define Article type locally since we can't import from app types
@@ -30,14 +30,6 @@ interface NewsSectionProps {
   title?: string;
   gap?: string;
 }
-
-// Utility functions
-const buildImageUrl = (imagePath?: string): string => {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_STRAPI_URL || 'http://103.90.225.225:1337';
-  if (!imagePath) return '/images/hero.png';
-  return `${baseUrl}${imagePath}`;
-};
 
 export default function NewsSection({
   latestArticles,
