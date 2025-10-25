@@ -1,0 +1,28 @@
+// Generated categories data for KTBioTech Blog
+// Generated at: 2025-10-25T09:06:34.815Z
+
+export interface BlogCategory {
+  id: string;
+  type: string;
+  name: string;
+  color: string;
+  description: string;
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const blogCategories: BlogCategory[] = [];
+
+export const categoryMetadata = {
+  "generatedAt": "2025-10-25T09:06:34.814Z",
+  "totalCategories": 0,
+  "mode": "online",
+  "apiConfig": {
+    "baseUrl": "http://103.90.225.225:1337",
+    "endpoint": "/api/categories",
+    "token": "10e807beb945d1aac3f34a50e35c4b94eb1fddc4d2a5b817714235552428df72e326fc59334cfd51c2dc3ec772bfff8248f6a2ed0697905d748aaa25b9d29d967fdb36fb10c1318ad932d1d05234e1d333817d05594746a52a67c5892d7791fbd8b0ab8b9f5782fd027bc234c6050db571d049de492f12334ed35f9d473f996b",
+    "timeout": 60000,
+    "retries": 3
+  }
+};

@@ -1,0 +1,23 @@
+{
+  "name": "ktbiotech-fake-data",
+  "version": "1.0.0",
+  "description": "Fake data generator for KTBioTech blog",
+  "main": "create-categories.js",
+  "scripts": {
+    "categories": "node create-categories.js",
+    "articles": "node create-articles.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "form-data": "^4.0.4",
+    "uuid": "^9.0.0"
+  },
+  "keywords": [
+    "fake-data",
+    "blog",
+    "biotechnology",
+    "ktbiotech"
+  ],
+  "author": "KTBioTech Team",
+  "license": "MIT"
+}
