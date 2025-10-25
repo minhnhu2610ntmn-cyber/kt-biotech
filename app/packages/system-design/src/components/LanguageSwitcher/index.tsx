@@ -74,11 +74,7 @@ export function LanguageSwitcher({
               )}
               title={option.label}
             >
-              <FlagIcon
-                style={{ borderRadius: '100%' }}
-                width={20}
-                height={20}
-              />
+              <FlagIcon width={20} height={20} />
             </button>
           );
         })}

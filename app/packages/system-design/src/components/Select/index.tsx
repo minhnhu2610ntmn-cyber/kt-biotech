@@ -1,12 +1,12 @@
 'use client';
 
 import ReactSelect, {
-  StylesConfig,
   ControlProps,
   OptionProps,
+  StylesConfig,
 } from 'react-select';
-import { cn } from '../../utils';
 import { OptionType, SelectProps } from '../../types';
+import { cn } from '../../utils';
 
 export default function Select({
   options,
@@ -112,8 +112,15 @@ export default function Select({
       )}
 
       <ReactSelect
-        value={value}
-        onChange={onChange}
+        value={options.find(option => option.value === value)}
+        onChange={selectedOption => {
+          if (onChange) {
+            const value = Array.isArray(selectedOption)
+              ? selectedOption[0]?.value || ''
+              : (selectedOption as OptionType)?.value || '';
+            onChange(value);
+          }
+        }}
         options={options}
         styles={customStyles}
         placeholder={placeholder}

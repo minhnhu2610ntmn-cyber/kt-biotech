@@ -1,9 +1,9 @@
+import { NewsSection } from '@ktbiotech/blog';
 import type { Article, ProductCategory } from '../../types/strapi';
 import {
   CountriesSection,
   HeroSection,
   MilestonesSection,
-  NewsSection,
   PartnersSection,
   TechnologySection,
 } from '../containers';

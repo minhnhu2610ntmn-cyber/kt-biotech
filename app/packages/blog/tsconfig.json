@@ -25,5 +25,5 @@
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.stories.*"]
+  "exclude": ["node_modules", "dist", "**/*.stories.*", "../system-design/dist"]
 }

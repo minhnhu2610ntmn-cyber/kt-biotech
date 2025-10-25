@@ -2,12 +2,55 @@
 
 import { BlogCard, Container, Heading } from '@ktbiotech/system-design';
 import { useEffect, useRef, useState } from 'react';
-import { buildImageUrl, lightenColor } from '../../../config/api';
-import type { Article } from '../../../types/strapi';
+
+// Define Article type locally since we can't import from app types
+interface Article {
+  id: number;
+  title: string;
+  description: string;
+  slug: string;
+  createdAt: string;
+  author: {
+    name: string;
+  };
+  cover?: {
+    url: string;
+  };
+  category: {
+    name: string;
+    color: string;
+  };
+}
 
 interface NewsSectionProps {
   latestArticles: Article[];
 }
+
+// Utility functions
+const buildImageUrl = (imagePath?: string): string => {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_STRAPI_URL || 'http://103.90.225.225:1337';
+  if (!imagePath) return '/images/hero.png';
+  return `${baseUrl}${imagePath}`;
+};
+
+const lightenColor = (hex: string, percent: number): string => {
+  const color = hex.replace('#', '');
+  const r = parseInt(color.substr(0, 2), 16);
+  const g = parseInt(color.substr(2, 2), 16);
+  const b = parseInt(color.substr(4, 2), 16);
+
+  const newR = Math.round(r + (255 - r) * (percent / 100));
+  const newG = Math.round(g + (255 - g) * (percent / 100));
+  const newB = Math.round(b + (255 - b) * (percent / 100));
+
+  const toHex = (n: number) => {
+    const hex = n.toString(16);
+    return hex.length === 1 ? `0${hex}` : hex;
+  };
+
+  return `#${toHex(newR)}${toHex(newG)}${toHex(newB)}`;
+};
 
 export default function NewsSection({ latestArticles }: NewsSectionProps) {
   const [isVisible, setIsVisible] = useState(false);
@@ -78,7 +121,7 @@ export default function NewsSection({ latestArticles }: NewsSectionProps) {
       badgeText: article.category.name,
       badgeBackgroundColor: lightenColor(article.category.color, 60),
       badgeTextColor: `#1B1C1D`,
-      badgeArrowColor: article.category.color, // Full color
+      badgeArrowColor: article.category.color,
       href: `/blogs/${article.slug}`,
     };
   };

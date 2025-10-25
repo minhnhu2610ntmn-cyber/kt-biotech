@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Button } from '../Button';
 import { Input } from '../Input';
 import Select from '../Select';
@@ -166,11 +166,8 @@ export const Form: React.FC<FormProps> = ({
           control={control}
           render={({ field }) => (
             <Select
-              value={
-                countryOptions.find(option => option.value === field.value) ||
-                null
-              }
-              onChange={option => field.onChange((option as any)?.value || '')}
+              value={field.value}
+              onChange={field.onChange}
               placeholder='Select your country'
               options={countryOptions}
               error={errors.country?.message}

@@ -23,9 +23,9 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
 
   // Convert product categories to menu items
   const categoryItems: SidebarMenuItem[] = productCategories.map(category => ({
-    id: category.slug,
+    id: category.slug || category.id.toString(),
     label: category.name,
-    href: `/products/${category.slug}`,
+    href: `/products/${category.slug || category.id}`,
   }));
 
   // Default menu items based on the design (fallback)

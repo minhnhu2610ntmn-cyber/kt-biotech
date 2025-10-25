@@ -14,7 +14,7 @@ export { default as LoadingSpinner } from './LoadingSpinner';
 export { Navbar } from './Navbar';
 export { default as Select } from './Select';
 export { default as SidebarMenu } from './SidebarMenu';
-export type { SidebarMenuItem, SidebarMenuProps } from './SidebarMenu';
+export type { SidebarMenuProps } from './SidebarMenu';
 export { default as SimpleLoading } from './SimpleLoading';
 export { Slider, SliderPresets } from './Slider';
 export { SliderV2, SliderV2Presets } from './SliderV2';
