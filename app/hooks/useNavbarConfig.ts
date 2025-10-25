@@ -25,7 +25,7 @@ export function useNavbarConfig(customConfig?: NavbarConfig): NavbarConfig {
   const defaultConfig: NavbarConfig = {
     items: [
       { label: 'Trang chủ', href: '/', children: [] },
-      { label: 'Giới thiệu', href: '/about', children: [] },
+      { label: 'Giới thiệu', href: '/gioi-thieu', children: [] },
       {
         label: 'Sản phẩm',
         href: '/products',
