@@ -59,6 +59,9 @@ export function Navbar({
   const [hoverTimeout, setHoverTimeout] = React.useState<NodeJS.Timeout | null>(
     null
   );
+  const [nestedDropdownOpen, setNestedDropdownOpen] = React.useState<
+    string | null
+  >(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -88,10 +91,22 @@ export function Navbar({
       clearTimeout(hoverTimeout);
       setHoverTimeout(null);
     }
-    if (item.children && item.children.length > 0) {
+    // Only show mega menu for "Sản phẩm", others use nested dropdown
+    if (
+      item.children &&
+      item.children.length > 0 &&
+      item.label === 'Sản phẩm'
+    ) {
       setActiveMegaMenuItem(item);
       setActiveLeftItem(item.children[0]); // Set first child as default active
       setIsMegaMenuOpen(true);
+    } else if (
+      item.children &&
+      item.children.length > 0 &&
+      item.label !== 'Sản phẩm'
+    ) {
+      // Show nested dropdown for other items with children
+      setNestedDropdownOpen(item.label);
     }
   };
 
@@ -102,6 +117,14 @@ export function Navbar({
       setActiveLeftItem(null);
     }, 150); // 150ms delay
     setHoverTimeout(timeout);
+  };
+
+  const handleNestedDropdownEnter = (itemLabel: string) => {
+    setNestedDropdownOpen(itemLabel);
+  };
+
+  const handleNestedDropdownLeave = () => {
+    setNestedDropdownOpen(null);
   };
 
   const handleMegaMenuMouseEnter = () => {
@@ -213,7 +236,24 @@ export function Navbar({
           <div className='hidden md:block'>
             <div className='flex items-center space-x-6'>
               {navItems.map((item, index) => (
-                <div key={item.label} className='relative flex items-center'>
+                <div
+                  key={item.label}
+                  className='relative flex items-center'
+                  onMouseEnter={() => {
+                    if (item.label === 'Sản phẩm') {
+                      handleMegaMenuEnter(item);
+                    } else if (item.children && item.children.length > 0) {
+                      handleNestedDropdownEnter(item.label);
+                    }
+                  }}
+                  onMouseLeave={() => {
+                    if (item.label === 'Sản phẩm') {
+                      handleMegaMenuLeave();
+                    } else if (item.children && item.children.length > 0) {
+                      handleNestedDropdownLeave();
+                    }
+                  }}
+                >
                   <div className='relative group'>
                     <button
                       className={cn(
@@ -222,10 +262,10 @@ export function Navbar({
                           ? 'text-[#3691C9]'
                           : activeMegaMenuItem?.label === item.label
                             ? 'text-[#3691C9] bg-blue-50'
-                            : 'text-[#4B5053] hover:text-[#3691C9] hover:bg-gray-50'
+                            : nestedDropdownOpen === item.label
+                              ? 'text-[#3691C9] bg-blue-50'
+                              : 'text-[#4B5053] hover:text-[#3691C9] hover:bg-gray-50'
                       )}
-                      onMouseEnter={() => handleMegaMenuEnter(item)}
-                      onMouseLeave={handleMegaMenuLeave}
                       onClick={() => {
                         handleDropdownToggle(item.label);
                         // Navigate to link if no children or children is empty
@@ -241,7 +281,9 @@ export function Navbar({
                             'h-4 w-4 transition-transform duration-200',
                             activeMegaMenuItem?.label === item.label
                               ? 'rotate-0'
-                              : 'rotate-90'
+                              : nestedDropdownOpen === item.label
+                                ? 'rotate-0'
+                                : 'rotate-90'
                           )}
                         />
                       )}
@@ -254,6 +296,32 @@ export function Navbar({
                         isActive(item.href) ? 'w-full' : 'w-0'
                       )}
                     />
+
+                    {/* Nested Dropdown for non-mega menu items */}
+                    {item.children &&
+                      item.children.length > 0 &&
+                      item.label !== 'Sản phẩm' && (
+                        <div
+                          className={cn(
+                            'absolute top-full left-0 mt-1 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-40 transition-all duration-200',
+                            nestedDropdownOpen === item.label
+                              ? 'opacity-100 visible'
+                              : 'opacity-0 invisible'
+                          )}
+                        >
+                          <div className='py-2'>
+                            {item.children.map(child => (
+                              <Link
+                                key={child.label}
+                                href={child.href}
+                                className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#3691C9] transition-colors duration-200'
+                              >
+                                {child.label}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                   </div>
 
                   {/* Separator */}
