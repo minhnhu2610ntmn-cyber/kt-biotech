@@ -97,6 +97,7 @@ export default function NewsSection({
       badgeTextColor: `#1B1C1D`,
       badgeArrowColor: article.category.color,
       href: `/blogs/${article.slug}`,
+      slug: article.slug,
     };
   };
 
@@ -152,6 +153,7 @@ export default function NewsSection({
                 badgeTextColor={blogPosts[0].badgeTextColor}
                 badgeArrowColor={blogPosts[0].badgeArrowColor}
                 href={blogPosts[0].href}
+                slug={blogPosts[0].slug}
                 className='h-full'
               />
             </div>
@@ -186,6 +188,7 @@ export default function NewsSection({
                   badgeTextColor={post.badgeTextColor}
                   badgeArrowColor={post.badgeArrowColor}
                   href={post.href}
+                  slug={post.slug}
                   className='h-full'
                 />
               </div>

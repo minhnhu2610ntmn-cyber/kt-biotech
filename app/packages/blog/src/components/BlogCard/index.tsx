@@ -1,9 +1,12 @@
+'use client';
+
 import {
   ChevronRightLargeIcon,
   cn,
   Link,
   Text,
 } from '@ktbiotech/system-design';
+import { useRouter } from 'next/navigation';
 import ImageWithBadge from '../ImageWithBadge';
 
 export interface BlogCardProps {
@@ -18,6 +21,7 @@ export interface BlogCardProps {
   badgeTextColor?: string;
   badgeArrowColor?: string;
   href?: string;
+  slug?: string;
   className?: string;
   imageClassName?: string;
   priority?: boolean;
@@ -36,18 +40,26 @@ export default function BlogCard({
   badgeTextColor = '#1B1C1D',
   badgeArrowColor = '#FE7B1B',
   href = '#',
+  slug,
   className,
   imageClassName,
   priority: _priority = false,
   direction = 'row',
 }: BlogCardProps) {
+  const router = useRouter();
+
+  const handleCardClick = () => {
+    const targetUrl = slug ? `/blogs/${slug}` : href;
+    router.push(targetUrl);
+  };
   return (
     <article
       className={cn(
-        ' duration-300',
+        'duration-300 cursor-pointer hover:shadow-lg transition-shadow',
         className,
         direction === 'column' && 'px-4 lg:px-0'
       )}
+      onClick={handleCardClick}
     >
       <div
         className={cn(

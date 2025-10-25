@@ -93,6 +93,7 @@ export default function ImportantNewsSection({
       badgeTextColor: `#1B1C1D`,
       badgeArrowColor: article.category.color,
       href: `/blogs/${article.slug}`,
+      slug: article.slug,
     };
   };
 
@@ -144,6 +145,7 @@ export default function ImportantNewsSection({
                 badgeTextColor={post.badgeTextColor}
                 badgeArrowColor={post.badgeArrowColor}
                 href={post.href}
+                slug={post.slug}
                 className='h-full'
               />
             </div>

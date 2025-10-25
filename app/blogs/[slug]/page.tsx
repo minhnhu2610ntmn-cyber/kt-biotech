@@ -1,20 +1,14 @@
 'use client';
 
 import {
-  AuthorCard,
   BlogPost,
-  ReadingProgress,
-  SocialShare,
-  TableOfContents,
   calculateReadingTime,
   formatMediumDate,
   formatReadingTime,
-  parseTocFromMarkdown,
 } from '@ktbiotech/blog';
 import { Heading, LoadingSpinner, Text } from '@ktbiotech/system-design';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Suspense, useMemo } from 'react';
+import { Suspense, use, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -115,13 +109,13 @@ The journey of CRISPR from a bacterial defense mechanism to a revolutionary gene
 ];
 
 interface BlogDetailPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const { slug } = params;
+  const { slug } = use(params);
 
   const post = blogPosts.find(p => p.slug === slug);
 
@@ -129,7 +123,6 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
     notFound();
   }
 
-  const toc = useMemo(() => parseTocFromMarkdown(post.content), [post.content]);
   const readingTime = useMemo(
     () => calculateReadingTime(post.content),
     [post.content]
@@ -137,18 +130,8 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
 
   return (
     <div className='min-h-screen bg-gray-50'>
-      <ReadingProgress />
-
       <div className='container mx-auto px-4 py-8'>
         <div className='max-w-4xl mx-auto'>
-          {/* Breadcrumb */}
-          <nav className='mb-8'>
-            <Link href='/blogs' className='text-blue-600 hover:text-blue-800'>
-              ← Back to Blog
-            </Link>
-          </nav>
-
-          {/* Article Header */}
           <header className='mb-8'>
             <Heading
               level={1}
@@ -183,56 +166,16 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
             </Text>
           </header>
 
-          <div className='grid grid-cols-1 lg:grid-cols-4 gap-8'>
-            {/* Main Content */}
-            <article className='lg:col-span-3'>
-              <div className='bg-white rounded-lg shadow-sm p-8'>
-                <Suspense fallback={<LoadingSpinner />}>
-                  <div className='prose prose-lg max-w-none'>
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {post.content}
-                    </ReactMarkdown>
-                  </div>
-                </Suspense>
+          {/* Main Content */}
+          <article className=' bg-white rounded-lg shadow-sm p-8'>
+            <Suspense fallback={<LoadingSpinner />}>
+              <div className='prose prose-lg mt-[-80px] max-w-none'>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {post.content}
+                </ReactMarkdown>
               </div>
-            </article>
-
-            {/* Sidebar */}
-            <aside className='lg:col-span-1'>
-              <div className='sticky top-8 space-y-6'>
-                {/* Table of Contents */}
-                {toc.length > 0 && (
-                  <div className='bg-white rounded-lg shadow-sm p-6'>
-                    <Heading level={3} className='text-lg font-semibold mb-4'>
-                      Table of Contents
-                    </Heading>
-                    <TableOfContents items={toc} />
-                  </div>
-                )}
-
-                {/* Author Card */}
-                <div className='bg-white rounded-lg shadow-sm p-6'>
-                  <AuthorCard
-                    name={post.author}
-                    bio='Senior Research Scientist at KTBioTech'
-                    avatar='/avatars/default.jpg'
-                  />
-                </div>
-
-                {/* Social Share */}
-                <div className='bg-white rounded-lg shadow-sm p-6'>
-                  <Heading level={3} className='text-lg font-semibold mb-4'>
-                    Share this article
-                  </Heading>
-                  <SocialShare
-                    url={`/blogs/${post.slug}`}
-                    title={post.title}
-                    description={post.excerpt}
-                  />
-                </div>
-              </div>
-            </aside>
-          </div>
+            </Suspense>
+          </article>
         </div>
       </div>
     </div>
