@@ -78,7 +78,7 @@ export default function MilestonesSection() {
   ];
 
   return (
-    <section ref={sectionRef} className='py-16 bg-white'>
+    <section ref={sectionRef} className='py-16 bg-transparent'>
       <div className='container mx-auto px-4'>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-16'>
           {/* Left Column - Content */}
@@ -137,7 +137,9 @@ export default function MilestonesSection() {
               {timelineItems.map((item, index) => (
                 <div
                   key={item.id}
-                  ref={el => (itemRefs.current[index] = el)}
+                  ref={el => {
+                    itemRefs.current[index] = el;
+                  }}
                   data-index={index}
                   className={`transition-all duration-600 ease-out ${
                     visibleItems.has(index)

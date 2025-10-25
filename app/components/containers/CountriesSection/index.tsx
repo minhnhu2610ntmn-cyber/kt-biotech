@@ -45,7 +45,7 @@ export default function CountriesSection() {
   return (
     <section
       ref={sectionRef}
-      className='py-16 bg-white relative overflow-hidden'
+      className='py-16 bg-transparent relative overflow-hidden'
     >
       {/* Title */}
       <Heading

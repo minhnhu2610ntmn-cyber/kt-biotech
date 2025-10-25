@@ -82,7 +82,7 @@ export default function TechnologySection() {
   ];
 
   return (
-    <section ref={sectionRef} className='py-16 bg-gray-100'>
+    <section ref={sectionRef} className='py-16 '>
       <div className='container mx-auto px-4'>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-16'>
           {/* Left Column - Timeline */}

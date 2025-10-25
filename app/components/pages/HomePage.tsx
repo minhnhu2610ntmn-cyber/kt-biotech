@@ -18,7 +18,7 @@ export default function HomePage({
   latestArticles,
 }: HomePageProps) {
   return (
-    <div className='min-h-screen'>
+    <div className='min-h-screen bg-[#F7FBFD]'>
       <HeroSection productCategories={productCategories} />
       <MilestonesSection />
       <TechnologySection />

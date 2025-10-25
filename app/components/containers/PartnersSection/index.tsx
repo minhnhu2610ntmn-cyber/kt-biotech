@@ -62,7 +62,7 @@ export default function PartnersSection() {
   };
 
   return (
-    <section ref={sectionRef} className='py-16 bg-white'>
+    <section ref={sectionRef} className='py-16 bg-transparent'>
       <div className='container mx-auto px-4'>
         <Heading
           level={3}

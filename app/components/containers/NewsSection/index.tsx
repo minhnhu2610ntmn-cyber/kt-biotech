@@ -155,7 +155,7 @@ export default function NewsSection({ latestArticles }: NewsSectionProps) {
         ];
 
   return (
-    <section ref={sectionRef} className='py-8 sm:py-16 bg-gray-50'>
+    <section ref={sectionRef} className='py-8 sm:py-16 bg-transparent'>
       <Container>
         {/* Section Title */}
         <Heading

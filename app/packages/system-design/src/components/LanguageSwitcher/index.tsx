@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { cn } from '../../utils';
-import { UnitedKingdomFlagIcon, VietnamFlagIcon } from '../Icons';
+import { UnitedKingdomCircleFlagIcon, VietnamCircleFlagIcon } from '../Icons';
 
 interface LanguageSwitcherProps {
   className?: string;
@@ -18,8 +18,8 @@ export function LanguageSwitcher({
   const [currentLocale, setCurrentLocale] = useState('vi');
 
   const options = [
-    { value: 'vi', label: 'Tiếng Việt', flag: VietnamFlagIcon },
-    { value: 'en', label: 'English', flag: UnitedKingdomFlagIcon },
+    { value: 'vi', label: 'Tiếng Việt', flag: VietnamCircleFlagIcon },
+    { value: 'en', label: 'English', flag: UnitedKingdomCircleFlagIcon },
   ];
 
   // Get locale from cookie and set html lang attribute on mount
@@ -74,7 +74,11 @@ export function LanguageSwitcher({
               )}
               title={option.label}
             >
-              <FlagIcon width={20} height={20} />
+              <FlagIcon
+                style={{ borderRadius: '100%' }}
+                width={20}
+                height={20}
+              />
             </button>
           );
         })}
