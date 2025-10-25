@@ -59,6 +59,8 @@ export function Navbar({
   const [hoverTimeout, setHoverTimeout] = React.useState<NodeJS.Timeout | null>(
     null
   );
+  const [nestedDropdownTimeout, setNestedDropdownTimeout] =
+    React.useState<NodeJS.Timeout | null>(null);
   const [nestedDropdownOpen, setNestedDropdownOpen] = React.useState<
     string | null
   >(null);
@@ -91,6 +93,14 @@ export function Navbar({
       clearTimeout(hoverTimeout);
       setHoverTimeout(null);
     }
+    if (nestedDropdownTimeout) {
+      clearTimeout(nestedDropdownTimeout);
+      setNestedDropdownTimeout(null);
+    }
+
+    // Close any open nested dropdown first
+    setNestedDropdownOpen(null);
+
     // Only show mega menu for "Sản phẩm", others use nested dropdown
     if (
       item.children &&
@@ -115,22 +125,51 @@ export function Navbar({
       setIsMegaMenuOpen(false);
       setActiveMegaMenuItem(null);
       setActiveLeftItem(null);
+      setNestedDropdownOpen(null); // Reset nested dropdown state
     }, 150); // 150ms delay
     setHoverTimeout(timeout);
   };
 
   const handleNestedDropdownEnter = (itemLabel: string) => {
+    if (nestedDropdownTimeout) {
+      clearTimeout(nestedDropdownTimeout);
+      setNestedDropdownTimeout(null);
+    }
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      setHoverTimeout(null);
+    }
+
+    // Close mega menu first
+    setIsMegaMenuOpen(false);
+    setActiveMegaMenuItem(null);
+    setActiveLeftItem(null);
+
     setNestedDropdownOpen(itemLabel);
   };
 
   const handleNestedDropdownLeave = () => {
-    setNestedDropdownOpen(null);
+    const timeout = setTimeout(() => {
+      setNestedDropdownOpen(null);
+      // Also close mega menu if open
+      setIsMegaMenuOpen(false);
+      setActiveMegaMenuItem(null);
+      setActiveLeftItem(null);
+    }, 150); // 150ms delay
+    setNestedDropdownTimeout(timeout);
   };
 
   const handleMegaMenuMouseEnter = () => {
     if (hoverTimeout) {
       clearTimeout(hoverTimeout);
       setHoverTimeout(null);
+    }
+  };
+
+  const handleNestedDropdownMouseEnter = () => {
+    if (nestedDropdownTimeout) {
+      clearTimeout(nestedDropdownTimeout);
+      setNestedDropdownTimeout(null);
     }
   };
 
@@ -142,8 +181,11 @@ export function Navbar({
       if (hoverTimeout) {
         clearTimeout(hoverTimeout);
       }
+      if (nestedDropdownTimeout) {
+        clearTimeout(nestedDropdownTimeout);
+      }
     };
-  }, [hoverTimeout]);
+  }, [hoverTimeout, nestedDropdownTimeout]);
 
   return (
     <>
@@ -309,6 +351,8 @@ export function Navbar({
                                 ? 'opacity-100 visible'
                                 : 'opacity-0 invisible'
                             )}
+                            onMouseEnter={handleNestedDropdownMouseEnter}
+                            onMouseLeave={handleNestedDropdownLeave}
                           >
                             <div className='py-2'>
                               {item.children.map(child => (
@@ -343,263 +387,268 @@ export function Navbar({
             </div>
           </div>
         </Container>
-      </nav>
+        {/* Fixed Mega Menu */}
+        <div
+          className={cn(
+            'absolute top-full left-0 right-0 bg-white shadow-sm z-50 transition-all duration-300',
+            'w-full max-w-[1340px] mx-auto',
+            isMegaMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+          )}
+          onMouseEnter={handleMegaMenuMouseEnter}
+          onMouseLeave={handleMegaMenuLeave}
+        >
+          {/* Orange top border */}
+          <div className='h-1 bg-orange-300'></div>
 
-      {/* Fixed Mega Menu */}
-      <div
-        className={cn(
-          'absolute top-full left-0 right-0 bg-white shadow-sm z-50 transition-all duration-300',
-          'w-full max-w-[1340px] mx-auto',
-          isMegaMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-        )}
-        onMouseEnter={handleMegaMenuMouseEnter}
-        onMouseLeave={handleMegaMenuLeave}
-      >
-        {/* Orange top border */}
-        <div className='h-1 bg-orange-300'></div>
-
-        <div className='p-6'>
-          <div className='flex gap-8'>
-            {/* Left Sidebar - Categories */}
-            <div className='w-64 space-y-4'>
-              <div className='flex items-center gap-2'>
-                <h3 className='text-sm font-semibold text-blue-600'>
-                  {activeMegaMenuItem?.label || 'Menu'}
-                </h3>
-                <ChevronRight className='h-4 w-4 text-blue-600' />
-              </div>
-
-              <div className='space-y-2'>
-                {activeMegaMenuItem?.children?.map(child => (
-                  <Link
-                    key={child.label}
-                    href={child.href}
-                    className={cn(
-                      'flex items-center gap-2 py-2 rounded-md cursor-pointer transition-colors duration-200',
-                      activeLeftItem?.label === child.label
-                        ? 'bg-blue-50 text-blue-600'
-                        : 'hover:bg-gray-50 text-gray-700'
-                    )}
-                    onMouseEnter={() => setActiveLeftItem(child)}
-                  >
-                    <ChevronRight
-                      className={cn(
-                        'h-4 w-4',
-                        activeLeftItem?.label === child.label
-                          ? 'text-blue-600'
-                          : 'text-gray-600'
-                      )}
-                    />
-                    <span className='text-sm'>{child.label}</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Section - Dynamic Content */}
-            <div className='flex-1'>
-              {activeMegaMenuItem?.label === 'Sản phẩm' && activeLeftItem && (
-                <div className='space-y-4'>
-                  <h3 className='text-lg font-semibold text-gray-800'>
-                    {activeLeftItem.label}
+          <div className='p-6'>
+            <div className='flex gap-8'>
+              {/* Left Sidebar - Categories */}
+              <div className='w-64 space-y-4'>
+                <div className='flex items-center gap-2'>
+                  <h3 className='text-sm font-semibold text-blue-600'>
+                    {activeMegaMenuItem?.label || 'Menu'}
                   </h3>
-                  {/* Dynamic content based on activeLeftItem */}
-                  {activeLeftItem.label === 'Thiết bị' && (
-                    <div className='grid grid-cols-3 gap-6'>
-                      <div className='space-y-3'>
-                        <h4 className='text-sm font-bold text-gray-800'>
-                          Máy PCR
-                        </h4>
-                        <div className='space-y-2'>
-                          <div className='text-xs text-gray-600'>
-                            Máy PCR Real-time
-                          </div>
-                          <div className='text-xs text-gray-600'>
-                            Máy PCR Gradient
-                          </div>
-                          <div className='text-xs text-gray-600'>
-                            Máy PCR Multiplex
-                          </div>
-                        </div>
-                      </div>
-                      <div className='space-y-3'>
-                        <h4 className='text-sm font-bold text-gray-800'>
-                          Máy ly tâm
-                        </h4>
-                        <div className='space-y-2'>
-                          <div className='text-xs text-gray-600'>
-                            Máy ly tâm mini
-                          </div>
-                          <div className='text-xs text-gray-600'>
-                            Máy ly tâm tốc độ cao
-                          </div>
-                          <div className='text-xs text-gray-600'>
-                            Máy ly tâm lạnh
-                          </div>
-                        </div>
-                      </div>
-                      <div className='space-y-3'>
-                        <h4 className='text-sm font-bold text-gray-800'>
-                          Máy khác
-                        </h4>
-                        <div className='space-y-2'>
-                          <div className='text-xs text-gray-600'>
-                            Máy vortex
-                          </div>
-                          <div className='text-xs text-gray-600'>
-                            Máy pipette
-                          </div>
-                          <div className='text-xs text-gray-600'>
-                            Máy đo quang
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {activeLeftItem.label === 'Kit test PCR' && (
-                    <div className='grid grid-cols-4 gap-4'>
-                      <div className='space-y-3'>
-                        <h4 className='text-sm font-bold text-gray-800'>
-                          Kit COVID-19
-                        </h4>
-                        <div className='space-y-2'>
-                          <div className='text-xs text-gray-600'>
-                            Kit test nhanh
-                          </div>
-                          <div className='text-xs text-gray-600'>
-                            Kit RT-PCR
-                          </div>
-                          <div className='text-xs text-gray-600'>
-                            Kit antigen
-                          </div>
-                        </div>
-                      </div>
-                      <div className='space-y-3'>
-                        <h4 className='text-sm font-bold text-gray-800'>
-                          Kit cúm
-                        </h4>
-                        <div className='space-y-2'>
-                          <div className='text-xs text-gray-600'>
-                            Kit cúm A/B
-                          </div>
-                          <div className='text-xs text-gray-600'>
-                            Kit cúm H1N1
-                          </div>
-                          <div className='text-xs text-gray-600'>
-                            Kit cúm H5N1
-                          </div>
-                        </div>
-                      </div>
-                      <div className='space-y-3'>
-                        <h4 className='text-sm font-bold text-gray-800'>
-                          Kit vi khuẩn
-                        </h4>
-                        <div className='space-y-2'>
-                          <div className='text-xs text-gray-600'>
-                            Kit E.coli
-                          </div>
-                          <div className='text-xs text-gray-600'>
-                            Kit Salmonella
-                          </div>
-                          <div className='text-xs text-gray-600'>
-                            Kit Listeria
-                          </div>
-                        </div>
-                      </div>
-                      <div className='space-y-3'>
-                        <h4 className='text-sm font-bold text-gray-800'>
-                          Kit khác
-                        </h4>
-                        <div className='space-y-2'>
-                          <div className='text-xs text-gray-600'>Kit HPV</div>
-                          <div className='text-xs text-gray-600'>Kit HIV</div>
-                          <div className='text-xs text-gray-600'>Kit HBV</div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Default content for other items */}
-                  {!['Thiết bị', 'Kit test PCR'].includes(
-                    activeLeftItem.label
-                  ) && (
-                    <div className='space-y-4'>
-                      <div className='grid grid-cols-2 gap-6'>
-                        <div className='space-y-3'>
-                          <h4 className='text-sm font-medium text-gray-700'>
-                            Sản phẩm chính
-                          </h4>
-                          <div className='space-y-2'>
-                            <div className='text-xs text-gray-600'>
-                              Sản phẩm 1
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Sản phẩm 2
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Sản phẩm 3
-                            </div>
-                          </div>
-                        </div>
-                        <div className='space-y-3'>
-                          <h4 className='text-sm font-medium text-gray-700'>
-                            Xem thêm
-                          </h4>
-                          <div className='space-y-2'>
-                            <div className='text-xs text-gray-600'>
-                              Sản phẩm 4
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Sản phẩm 5
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Sản phẩm 6
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  <ChevronRight className='h-4 w-4 text-blue-600' />
                 </div>
-              )}
 
-              {/* Default content for other menu items */}
-              {activeMegaMenuItem?.label !== 'Sản phẩm' && activeLeftItem && (
-                <div className='space-y-4'>
-                  <h3 className='text-lg font-semibold text-gray-800'>
-                    {activeLeftItem.label}
-                  </h3>
-                  <div className='grid grid-cols-2 gap-6'>
-                    <div className='space-y-3'>
-                      <h4 className='text-sm font-medium text-gray-700'>
-                        Thông tin chính
-                      </h4>
-                      <div className='space-y-2'>
-                        <div className='text-xs text-gray-600'>Chi tiết 1</div>
-                        <div className='text-xs text-gray-600'>Chi tiết 2</div>
-                        <div className='text-xs text-gray-600'>Chi tiết 3</div>
-                      </div>
-                    </div>
-                    <div className='space-y-3'>
-                      <h4 className='text-sm font-medium text-gray-700'>
-                        Xem thêm
-                      </h4>
-                      <div className='space-y-2'>
-                        <div className='text-xs text-gray-600'>
-                          Thông tin bổ sung
+                <div className='space-y-2'>
+                  {activeMegaMenuItem?.children?.map(child => (
+                    <Link
+                      key={child.label}
+                      href={child.href}
+                      className={cn(
+                        'flex items-center gap-2 py-2 rounded-md cursor-pointer transition-colors duration-200',
+                        activeLeftItem?.label === child.label
+                          ? 'bg-blue-50 text-blue-600'
+                          : 'hover:bg-gray-50 text-gray-700'
+                      )}
+                      onMouseEnter={() => setActiveLeftItem(child)}
+                    >
+                      <ChevronRight
+                        className={cn(
+                          'h-4 w-4',
+                          activeLeftItem?.label === child.label
+                            ? 'text-blue-600'
+                            : 'text-gray-600'
+                        )}
+                      />
+                      <span className='text-sm'>{child.label}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Section - Dynamic Content */}
+              <div className='flex-1'>
+                {activeMegaMenuItem?.label === 'Sản phẩm' && activeLeftItem && (
+                  <div className='space-y-4'>
+                    <h3 className='text-lg font-semibold text-gray-800'>
+                      {activeLeftItem.label}
+                    </h3>
+                    {/* Dynamic content based on activeLeftItem */}
+                    {activeLeftItem.label === 'Thiết bị' && (
+                      <div className='grid grid-cols-3 gap-6'>
+                        <div className='space-y-3'>
+                          <h4 className='text-sm font-bold text-gray-800'>
+                            Máy PCR
+                          </h4>
+                          <div className='space-y-2'>
+                            <div className='text-xs text-gray-600'>
+                              Máy PCR Real-time
+                            </div>
+                            <div className='text-xs text-gray-600'>
+                              Máy PCR Gradient
+                            </div>
+                            <div className='text-xs text-gray-600'>
+                              Máy PCR Multiplex
+                            </div>
+                          </div>
                         </div>
-                        <div className='text-xs text-gray-600'>Liên hệ</div>
-                        <div className='text-xs text-gray-600'>Hỗ trợ</div>
+                        <div className='space-y-3'>
+                          <h4 className='text-sm font-bold text-gray-800'>
+                            Máy ly tâm
+                          </h4>
+                          <div className='space-y-2'>
+                            <div className='text-xs text-gray-600'>
+                              Máy ly tâm mini
+                            </div>
+                            <div className='text-xs text-gray-600'>
+                              Máy ly tâm tốc độ cao
+                            </div>
+                            <div className='text-xs text-gray-600'>
+                              Máy ly tâm lạnh
+                            </div>
+                          </div>
+                        </div>
+                        <div className='space-y-3'>
+                          <h4 className='text-sm font-bold text-gray-800'>
+                            Máy khác
+                          </h4>
+                          <div className='space-y-2'>
+                            <div className='text-xs text-gray-600'>
+                              Máy vortex
+                            </div>
+                            <div className='text-xs text-gray-600'>
+                              Máy pipette
+                            </div>
+                            <div className='text-xs text-gray-600'>
+                              Máy đo quang
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {activeLeftItem.label === 'Kit test PCR' && (
+                      <div className='grid grid-cols-4 gap-4'>
+                        <div className='space-y-3'>
+                          <h4 className='text-sm font-bold text-gray-800'>
+                            Kit COVID-19
+                          </h4>
+                          <div className='space-y-2'>
+                            <div className='text-xs text-gray-600'>
+                              Kit test nhanh
+                            </div>
+                            <div className='text-xs text-gray-600'>
+                              Kit RT-PCR
+                            </div>
+                            <div className='text-xs text-gray-600'>
+                              Kit antigen
+                            </div>
+                          </div>
+                        </div>
+                        <div className='space-y-3'>
+                          <h4 className='text-sm font-bold text-gray-800'>
+                            Kit cúm
+                          </h4>
+                          <div className='space-y-2'>
+                            <div className='text-xs text-gray-600'>
+                              Kit cúm A/B
+                            </div>
+                            <div className='text-xs text-gray-600'>
+                              Kit cúm H1N1
+                            </div>
+                            <div className='text-xs text-gray-600'>
+                              Kit cúm H5N1
+                            </div>
+                          </div>
+                        </div>
+                        <div className='space-y-3'>
+                          <h4 className='text-sm font-bold text-gray-800'>
+                            Kit vi khuẩn
+                          </h4>
+                          <div className='space-y-2'>
+                            <div className='text-xs text-gray-600'>
+                              Kit E.coli
+                            </div>
+                            <div className='text-xs text-gray-600'>
+                              Kit Salmonella
+                            </div>
+                            <div className='text-xs text-gray-600'>
+                              Kit Listeria
+                            </div>
+                          </div>
+                        </div>
+                        <div className='space-y-3'>
+                          <h4 className='text-sm font-bold text-gray-800'>
+                            Kit khác
+                          </h4>
+                          <div className='space-y-2'>
+                            <div className='text-xs text-gray-600'>Kit HPV</div>
+                            <div className='text-xs text-gray-600'>Kit HIV</div>
+                            <div className='text-xs text-gray-600'>Kit HBV</div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Default content for other items */}
+                    {!['Thiết bị', 'Kit test PCR'].includes(
+                      activeLeftItem.label
+                    ) && (
+                      <div className='space-y-4'>
+                        <div className='grid grid-cols-2 gap-6'>
+                          <div className='space-y-3'>
+                            <h4 className='text-sm font-medium text-gray-700'>
+                              Sản phẩm chính
+                            </h4>
+                            <div className='space-y-2'>
+                              <div className='text-xs text-gray-600'>
+                                Sản phẩm 1
+                              </div>
+                              <div className='text-xs text-gray-600'>
+                                Sản phẩm 2
+                              </div>
+                              <div className='text-xs text-gray-600'>
+                                Sản phẩm 3
+                              </div>
+                            </div>
+                          </div>
+                          <div className='space-y-3'>
+                            <h4 className='text-sm font-medium text-gray-700'>
+                              Xem thêm
+                            </h4>
+                            <div className='space-y-2'>
+                              <div className='text-xs text-gray-600'>
+                                Sản phẩm 4
+                              </div>
+                              <div className='text-xs text-gray-600'>
+                                Sản phẩm 5
+                              </div>
+                              <div className='text-xs text-gray-600'>
+                                Sản phẩm 6
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Default content for other menu items */}
+                {activeMegaMenuItem?.label !== 'Sản phẩm' && activeLeftItem && (
+                  <div className='space-y-4'>
+                    <h3 className='text-lg font-semibold text-gray-800'>
+                      {activeLeftItem.label}
+                    </h3>
+                    <div className='grid grid-cols-2 gap-6'>
+                      <div className='space-y-3'>
+                        <h4 className='text-sm font-medium text-gray-700'>
+                          Thông tin chính
+                        </h4>
+                        <div className='space-y-2'>
+                          <div className='text-xs text-gray-600'>
+                            Chi tiết 1
+                          </div>
+                          <div className='text-xs text-gray-600'>
+                            Chi tiết 2
+                          </div>
+                          <div className='text-xs text-gray-600'>
+                            Chi tiết 3
+                          </div>
+                        </div>
+                      </div>
+                      <div className='space-y-3'>
+                        <h4 className='text-sm font-medium text-gray-700'>
+                          Xem thêm
+                        </h4>
+                        <div className='space-y-2'>
+                          <div className='text-xs text-gray-600'>
+                            Thông tin bổ sung
+                          </div>
+                          <div className='text-xs text-gray-600'>Liên hệ</div>
+                          <div className='text-xs text-gray-600'>Hỗ trợ</div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </nav>
 
       {/* Mobile Navigation */}
       <div className={cn('md:hidden', isMobileMenuOpen ? 'block' : 'hidden')}>
