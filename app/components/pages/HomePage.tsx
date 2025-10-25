@@ -1,3 +1,4 @@
+import type { Article, ProductCategory } from '../../types/strapi';
 import {
   CountriesSection,
   HeroSection,
@@ -7,14 +8,22 @@ import {
   TechnologySection,
 } from '../containers';
 
-export default function HomePage() {
+export interface HomePageProps {
+  productCategories: ProductCategory[];
+  latestArticles: Article[];
+}
+
+export default function HomePage({
+  productCategories,
+  latestArticles,
+}: HomePageProps) {
   return (
     <div className='min-h-screen'>
-      <HeroSection />
+      <HeroSection productCategories={productCategories} />
       <MilestonesSection />
       <TechnologySection />
       <CountriesSection />
-      <NewsSection />
+      <NewsSection latestArticles={latestArticles} />
       <PartnersSection />
     </div>
   );

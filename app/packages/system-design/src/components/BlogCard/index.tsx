@@ -1,7 +1,7 @@
 import { cn } from '../../utils';
 import { ChevronRightLargeIcon } from '../Icons';
 import ImageWithBadge from '../ImageWithBadge';
-import { Heading, Link, Text } from '../Typography';
+import { Link, Text } from '../Typography';
 
 export interface BlogCardProps {
   title: string;
@@ -41,7 +41,7 @@ export default function BlogCard({
   return (
     <article
       className={cn(
-        ' hover:shadow-sm transition-shadow duration-300',
+        ' duration-300',
         className,
         direction === 'column' && 'px-4'
       )}
@@ -77,13 +77,13 @@ export default function BlogCard({
         {/* Content - Right side */}
         <div className='flex-1 '>
           {/* Title */}
-          <Heading
-            level={3}
+          <Text
             color='#1B1C1D'
-            className='text-base sm:text-lg font-semibold mb-1 line-clamp-2'
+            className='!text-xl font-semibold mb-1 line-clamp-2'
+            lineClamp={2}
           >
             {title}
-          </Heading>
+          </Text>
 
           {/* Author and Date */}
           <Text color='#7C8388' className='text-xs sm:text-sm mb-2 sm:mb-3'>

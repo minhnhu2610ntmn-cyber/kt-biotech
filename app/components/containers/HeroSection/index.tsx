@@ -13,6 +13,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
+import type { ProductCategory } from '../../../types/strapi';
 
 export interface HeroSectionProps {
   title?: string;
@@ -22,6 +23,7 @@ export interface HeroSectionProps {
   buttonHref?: string;
   backgroundImage?: string;
   className?: string;
+  productCategories?: ProductCategory[];
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
@@ -32,6 +34,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   buttonHref,
   backgroundImage = '/images/hero.png',
   className,
+  productCategories = [],
 }) => {
   const t = useTranslations('hero');
   const [isVisible, setIsVisible] = useState(false);
@@ -72,7 +75,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
           }`}
         >
-          <SidebarMenu activeItem='category' />
+          <SidebarMenu
+            activeItem='danh-muc'
+            productCategories={productCategories}
+          />
         </div>
         <div
           className={cn(
