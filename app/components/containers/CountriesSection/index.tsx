@@ -64,9 +64,15 @@ export default function CountriesSection() {
       <div className='relative'>
         {/* Background with wave pattern */}
         <div
-          className={`relative flex items-center px-4 md:px-13 bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] h-[268px] p-8 mb-8 transition-all duration-800 ease-out delay-400 ${
+          className={`relative flex items-center px-4 md:px-13 h-[318px] p-8 mb-8 transition-all duration-800 ease-out delay-400 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
+          style={{
+            backgroundImage: "url('/background.png')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
         >
           {/* Country Flags Slider */}
           <div className='relative z-10 w-full'>

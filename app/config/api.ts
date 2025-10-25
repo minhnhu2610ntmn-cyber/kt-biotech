@@ -114,22 +114,25 @@ export class StrapiApi {
     const params: Record<string, string> = {
       populate: '*',
     };
-
     if (type) {
       params['filters[type][$eq]'] = type;
     }
 
-    const response = await fetch(buildApiUrl(API_ENDPOINTS.categories), {
-      method: 'GET',
-      headers: getApiHeaders(),
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    });
+    const response = await fetch(
+      `${buildApiUrl(API_ENDPOINTS.categories)}?${new URLSearchParams(params).toString()}`,
+      {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 3600 }, // Cache for 1 hour
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Failed to fetch categories: ${response.statusText}`);
     }
 
     const data = await response.json();
+
     return data.data || [];
   }
 
@@ -154,7 +157,7 @@ export class StrapiApi {
       {
         method: 'GET',
         headers: getApiHeaders(),
-        next: { revalidate: 1800 }, // Cache for 30 minutes
+        // next: { revalidate: 1800 }, // Cache for 30 minutes
       }
     );
 
