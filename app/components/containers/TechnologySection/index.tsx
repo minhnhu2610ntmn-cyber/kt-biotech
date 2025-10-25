@@ -97,7 +97,9 @@ export default function TechnologySection() {
               {timelineItems.map((item, index) => (
                 <div
                   key={item.id}
-                  ref={el => (itemRefs.current[index] = el)}
+                  ref={el => {
+                    itemRefs.current[index] = el;
+                  }}
                   data-index={index}
                   className={`transition-all duration-600 ease-out ${
                     visibleItems.has(index)

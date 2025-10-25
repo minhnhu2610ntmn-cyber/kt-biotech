@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from 'next/font/google';
 import { MessagesProvider, MasterLayout } from './components';
+import { QueryProvider } from './providers';
 import './globals.css';
 
 const geistSans = Geist({
@@ -28,9 +29,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white flex flex-col`}
       >
-        <MessagesProvider>
-          <MasterLayout>{children}</MasterLayout>
-        </MessagesProvider>
+        <QueryProvider>
+          <MessagesProvider>
+            <MasterLayout>{children}</MasterLayout>
+          </MessagesProvider>
+        </QueryProvider>
       </body>
     </html>
   );
