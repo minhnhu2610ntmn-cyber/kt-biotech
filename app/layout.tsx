@@ -1,7 +1,9 @@
 import { Geist, Geist_Mono } from 'next/font/google';
 import { MasterLayout, MessagesProvider } from './components';
+import { StrapiApi } from './config/api';
 import './globals.css';
 import { QueryProvider } from './providers';
+import type { ProductCategory } from './types/strapi';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -19,11 +21,24 @@ export const metadata = {
     'KTBioTech cung cấp các giải pháp công nghệ sinh học tiên tiến, thiết bị y tế và dịch vụ tư vấn chuyên nghiệp.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Fetch data server-side
+  const api = new StrapiApi();
+
+  let productCategories: ProductCategory[] = [];
+  try {
+    const categories = await api.getCategories('product');
+    // Cast to ProductCategory type
+    productCategories = categories as ProductCategory[];
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to fetch product categories:', error);
+  }
+
   return (
     <html>
       <body
@@ -31,7 +46,9 @@ export default function RootLayout({
       >
         <QueryProvider>
           <MessagesProvider>
-            <MasterLayout>{children}</MasterLayout>
+            <MasterLayout productCategories={productCategories}>
+              {children}
+            </MasterLayout>
           </MessagesProvider>
         </QueryProvider>
       </body>

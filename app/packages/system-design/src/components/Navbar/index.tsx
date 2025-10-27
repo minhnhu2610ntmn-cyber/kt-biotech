@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
+import type { ProductCategory } from '../../types';
 import { cn } from '../../utils';
 import { DownloadIcon } from '../Icons';
 import { Container } from '../index';
@@ -30,6 +31,7 @@ export interface NavbarProps {
   showSearch?: boolean;
   searchPlaceholder?: string;
   onSearch?: (value: string) => void;
+  productCategories?: ProductCategory[];
 }
 
 export function Navbar({
@@ -44,8 +46,20 @@ export function Navbar({
   showSearch = true,
   searchPlaceholder = 'Tìm kiếm...',
   onSearch,
+  productCategories = [],
 }: NavbarProps) {
   const t = useTranslations('navbar');
+
+  // Transform product categories to category options
+  const categoryOptions = React.useMemo(() => {
+    const options = productCategories.map((category: ProductCategory) => ({
+      value: `product-${category.slug || category.id}`,
+      label: category.name,
+    }));
+
+    return [{ value: 'all', label: 'Tất cả' }, ...options];
+  }, [productCategories]);
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [activeDropdown, setActiveDropdown] = React.useState<string | null>(
     null
@@ -192,7 +206,7 @@ export function Navbar({
       {/* Top Row - Logo, Search, Hotline, Language */}
       <nav
         className={cn(
-          'bg-gray-50 border-b border-gray-200 sticky top-0 z-50 lg:static',
+          'bg-gray-50 border-b border-gray-200 sticky top-0 z-[51] lg:static',
           className
         )}
       >
@@ -214,18 +228,13 @@ export function Navbar({
 
             {/* Search Bar - Hidden on mobile */}
             {showSearch && (
-              <div className='hidden lg:flex flex-1 max-w-2xl mx-4 lg:mx-8 overflow-visible'>
+              <div className='hidden relative lg:flex flex-1 max-w-2xl mx-4 lg:mx-8 overflow-visible'>
                 <SearchBar
                   placeholder={t('searchPlaceholder')}
                   // eslint-disable-next-line @typescript-eslint/no-unused-vars
                   onSearch={(query, category) => onSearch?.(query)}
                   className='w-full'
-                  categoryOptions={[
-                    { value: 'all', label: 'All Categories' },
-                    { value: 'products', label: 'Products' },
-                    { value: 'news', label: 'News' },
-                    { value: 'services', label: 'Services' },
-                  ]}
+                  categoryOptions={categoryOptions}
                 />
               </div>
             )}
@@ -661,6 +670,7 @@ export function Navbar({
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 onSearch={(query, category) => onSearch?.(query)}
                 className='w-full'
+                categoryOptions={categoryOptions}
               />
             </div>
           )}

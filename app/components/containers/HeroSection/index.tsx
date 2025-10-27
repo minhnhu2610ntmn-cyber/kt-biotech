@@ -14,6 +14,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import type { ProductCategory } from '../../../types/strapi';
+import { useProductCategories } from '../../layout/MasterLayout';
 
 export interface HeroSectionProps {
   title?: string;
@@ -34,11 +35,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   buttonHref,
   backgroundImage = '/images/hero.png',
   className,
-  productCategories = [],
+  productCategories: _productCategories,
 }) => {
   const t = useTranslations('hero');
   const [isVisible, setIsVisible] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
+
+  // Get product categories from context
+  const productCategories = useProductCategories();
 
   useEffect(() => {
     const observer = new IntersectionObserver(

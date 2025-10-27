@@ -1,5 +1,5 @@
 import { NewsSection } from '@ktbiotech/blog';
-import type { Article, ProductCategory } from '../../types/strapi';
+import type { Article } from '../../types/strapi';
 import {
   CountriesSection,
   HeroSection,
@@ -9,17 +9,13 @@ import {
 } from '../containers';
 
 export interface HomePageProps {
-  productCategories: ProductCategory[];
   latestArticles: Article[];
 }
 
-export default function HomePage({
-  productCategories,
-  latestArticles,
-}: HomePageProps) {
+export default function HomePage({ latestArticles }: HomePageProps) {
   return (
     <div className='min-h-screen bg-[#F7FBFD]'>
-      <HeroSection productCategories={productCategories} />
+      <HeroSection />
       <MilestonesSection />
       <TechnologySection />
       <CountriesSection />

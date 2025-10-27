@@ -1,25 +1,42 @@
 'use client';
 
 import { Navbar } from '@ktbiotech/system-design';
-import React from 'react';
+import React, { createContext, useContext } from 'react';
 import { NavbarConfig, useNavbarConfig } from '../../hooks';
+import type { ProductCategory } from '../../types/strapi';
 import Footer from '../containers/Footer';
 import Topbar from '../containers/Topbar';
+
+// Create context for product categories
+interface ProductCategoriesContextType {
+  productCategories: ProductCategory[];
+}
+
+const ProductCategoriesContext = createContext<
+  ProductCategoriesContextType | undefined
+>(undefined);
+
+export function useProductCategories() {
+  const context = useContext(ProductCategoriesContext);
+  return context?.productCategories || [];
+}
 
 interface MasterLayoutProps {
   children: React.ReactNode;
   className?: string;
   navbarConfig?: NavbarConfig;
+  productCategories?: ProductCategory[];
 }
 
 export default function MasterLayout({
   children,
   navbarConfig,
+  productCategories = [],
 }: MasterLayoutProps) {
   const config = useNavbarConfig(navbarConfig);
 
   return (
-    <>
+    <ProductCategoriesContext.Provider value={{ productCategories }}>
       {/* Topbar */}
       <Topbar />
 
@@ -31,9 +48,7 @@ export default function MasterLayout({
         showSearch={config.showSearch}
         searchPlaceholder={config.searchPlaceholder}
         onSearch={config.onSearch}
-        hotlineNumber={config.hotlineNumber}
-        hotlineLabel={config.hotlineLabel}
-        address={config.address}
+        productCategories={productCategories}
       />
 
       {/* Main Content */}
@@ -41,6 +56,6 @@ export default function MasterLayout({
 
       {/* Footer */}
       <Footer />
-    </>
+    </ProductCategoriesContext.Provider>
   );
 }

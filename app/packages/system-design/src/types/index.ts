@@ -37,9 +37,9 @@ export interface SelectProps {
 
 // Local ProductCategory type for system-design package
 export interface ProductCategory {
-  id: number;
+  id: string | number;
   name: string;
-  color: string;
-  type: 'blog' | 'product';
   slug?: string;
+  color?: string;
+  type?: 'blog' | 'product';
 }

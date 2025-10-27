@@ -1,20 +1,6 @@
 import { HomePage } from './components';
 import { StrapiApi } from './config/api';
-import type { Article, ProductCategory } from './types/strapi';
-
-// Fetch product categories from Strapi using StrapiApi
-async function getProductCategories() {
-  try {
-    const api = new StrapiApi();
-    const categories = await api.getCategories('product');
-    return categories as ProductCategory[];
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Error fetching product categories:', error);
-    // Return empty array as fallback
-    return [];
-  }
-}
+import type { Article } from './types/strapi';
 
 // Fetch latest 4 articles with specific fields
 async function getLatestArticles() {
@@ -35,16 +21,9 @@ async function getLatestArticles() {
 }
 
 export default async function Home() {
-  // Fetch both product categories and latest articles on server-side
-  const [productCategories, latestArticles] = await Promise.all([
-    getProductCategories(),
-    getLatestArticles(),
-  ]);
+  // Fetch latest articles on server-side
+  // Product categories are now fetched in layout.tsx
+  const latestArticles = await getLatestArticles();
 
-  return (
-    <HomePage
-      productCategories={productCategories}
-      latestArticles={latestArticles}
-    />
-  );
+  return <HomePage latestArticles={latestArticles} />;
 }
