@@ -33,7 +33,10 @@ export default function MasterLayout({
   navbarConfig,
   productCategories = [],
 }: MasterLayoutProps) {
-  const config = useNavbarConfig(navbarConfig);
+  const config = useNavbarConfig({
+    ...navbarConfig,
+    productCategories,
+  });
 
   return (
     <ProductCategoriesContext.Provider value={{ productCategories }}>

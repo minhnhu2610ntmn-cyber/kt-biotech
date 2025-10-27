@@ -2,6 +2,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import type { ProductCategory } from '../types/strapi';
 
 export interface NavbarItem {
   label: string;
@@ -17,10 +18,21 @@ export interface NavbarConfig {
   hotlineNumber?: string;
   hotlineLabel?: string;
   address?: string;
+  productCategories?: ProductCategory[];
 }
 
 export function useNavbarConfig(customConfig?: NavbarConfig): NavbarConfig {
   const tNavbar = useTranslations('navbar');
+
+  // Generate product menu items from categories
+  const productCategories = customConfig?.productCategories || [];
+  const productMenuItems = [
+    { label: 'Tất cả', href: '/products' },
+    ...productCategories.map(category => ({
+      label: category.name,
+      href: `/products/${category.slug || category.id}`,
+    })),
+  ];
 
   const defaultConfig: NavbarConfig = {
     items: [
@@ -29,14 +41,7 @@ export function useNavbarConfig(customConfig?: NavbarConfig): NavbarConfig {
       {
         label: 'Sản phẩm',
         href: '/products',
-        children: [
-          { label: 'Thiết bị', href: '/products/equipment' },
-          { label: 'Kit test PRC', href: '/products/pcr-kit' },
-          { label: 'Elisa', href: '/products/elisa' },
-          { label: 'Tế bào học', href: '/products/cytology' },
-          { label: 'NGS', href: '/products/ngs' },
-          { label: 'Vật liệu tiêu hao', href: '/products/consumables' },
-        ],
+        children: productMenuItems,
       },
       {
         label: 'Dịch vụ',
