@@ -24,6 +24,6 @@
       "@/*": ["../*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../blog/src/components/BlogCard/BlogCard.stories.tsx", "../blog/src/components/ImageWithBadge/ImageWithBadge.stories.tsx"],
   "exclude": ["node_modules", "dist", "**/*.stories.*"]
 }

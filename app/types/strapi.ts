@@ -101,3 +101,36 @@ export interface Article extends StrapiItem {
 export interface ProductCategory extends Category {
   type: 'product';
 }
+
+export interface ProductBlock {
+  __component:
+    | 'shared.rich-text'
+    | 'shared.quote'
+    | 'shared.media'
+    | 'shared.slider';
+  id: number;
+  body?: string;
+  title?: string;
+  file?: MediaFile | null;
+  files?: MediaFile[];
+}
+
+export interface Product extends StrapiItem {
+  name: string;
+  description: string;
+  slug: string;
+  sku?: string;
+  price?: number;
+  stock?: number;
+  status?: 'available' | 'out-of-stock' | 'discontinued';
+  category: ProductCategory;
+  cover?: MediaFile;
+  images?: MediaFile[];
+  content?: ProductBlock[];
+  specifications?: any;
+  seo?: {
+    id: number;
+    metaTitle: string;
+    metaDescription: string;
+  };
+}
