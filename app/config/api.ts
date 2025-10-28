@@ -140,20 +140,23 @@ export class StrapiApi {
    * Get articles with filters
    */
   async getArticles(filters?: Record<string, string>): Promise<Article[]> {
-    const params = new URLSearchParams();
+    // Build query string manually to handle bracket notation
+    const params: string[] = [];
 
     // Set default populate if not provided
     if (!filters?.populate) {
-      params.append('populate', '*');
+      // params.push('populate=*');
     }
 
     // Add all filters
     Object.entries(filters || {}).forEach(([key, value]) => {
-      params.append(key, value);
+      params.push(`${key}=${value}`);
     });
 
+    const queryString = params.join('&');
+    console.log('queryStringqueryStringqueryString:', queryString);
     const response = await fetch(
-      `${buildApiUrl(API_ENDPOINTS.articles)}?${params}`,
+      `${buildApiUrl(API_ENDPOINTS.articles)}?${queryString}`,
       {
         method: 'GET',
         headers: getApiHeaders(),

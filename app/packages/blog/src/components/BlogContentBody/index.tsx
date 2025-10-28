@@ -1,6 +1,7 @@
 'use client';
 
-import { cn } from '@ktbiotech/system-design';
+import { cn, Text } from '@ktbiotech/system-design';
+import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import type {
@@ -11,10 +12,20 @@ import type {
   SliderBlock,
 } from '../../types';
 
+// Simple helper to build full image URL from Strapi path
+function buildImageUrl(imagePath?: string): string {
+  if (!imagePath) return '';
+  const baseUrl =
+    process.env.NEXT_PUBLIC_STRAPI_URL || 'http://103.90.225.225:1337';
+  return `${baseUrl}${imagePath}`;
+}
+
 function BlockRichText({ block }: { block: RichTextBlock }) {
   return (
-    <div className='prose prose-lg max-w-none'>
-      <style jsx global>{`
+    <div className='prose prose-lg max-w-none blog-content'>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         /* Heading sizes */
         .prose h1 {
           font-size: 2.25rem;
@@ -182,7 +193,9 @@ function BlockRichText({ block }: { block: RichTextBlock }) {
           border-radius: 0.5rem;
           margin: 1.5rem 0;
         }
-      `}</style>
+      `,
+        }}
+      />
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{block.body}</ReactMarkdown>
     </div>
   );
@@ -192,7 +205,7 @@ function BlockQuote({ block }: { block: QuoteBlock }) {
   return (
     <div className='border-l-4 border-blue-500 bg-blue-50 p-6 my-8'>
       <blockquote className='text-lg text-gray-700 italic mb-4'>
-        "{block.body}"
+        &ldquo;{block.body}&rdquo;
       </blockquote>
       <cite className='block text-sm text-gray-600 not-italic'>
         — {block.title}
@@ -203,22 +216,27 @@ function BlockQuote({ block }: { block: QuoteBlock }) {
 
 function BlockMedia({ block }: { block: MediaBlock }) {
   if (!block.file) {
-    return (
-      <div className='bg-gray-200 w-full h-64 rounded-lg flex items-center justify-center my-8'>
-        <p className='text-gray-400'>No image available</p>
-      </div>
-    );
+    return null;
   }
 
-  const imageUrl = block.file.formats?.medium?.url || block.file.url;
+  // Build full image URL
+  const imagePath = block.file.formats?.medium?.url || block.file.url;
+
+  // Don't render if no URL
+  if (!imagePath) {
+    return null;
+  }
+
+  const imageUrl = buildImageUrl(imagePath);
   const imageAlt = block.file.alternativeText || 'Blog image';
 
   return (
-    <div className='my-8'>
-      <img
+    <div className='my-8 relative w-full h-[400px] md:h-[500px]'>
+      <Image
         src={imageUrl}
         alt={imageAlt}
-        className='w-full rounded-lg shadow-md'
+        fill
+        className='object-cover rounded-lg'
       />
     </div>
   );
@@ -226,33 +244,34 @@ function BlockMedia({ block }: { block: MediaBlock }) {
 
 function BlockSlider({ block }: { block: SliderBlock }) {
   if (!block.slides || block.slides.length === 0) {
-    return (
-      <div className='bg-gray-200 w-full h-64 rounded-lg flex items-center justify-center my-8'>
-        <p className='text-gray-400'>No slider content available</p>
-      </div>
-    );
+    return null;
+  }
+
+  // Filter out slides without image URLs
+  const validSlides = block.slides.filter(slide => slide.image?.url);
+
+  // Don't render if no valid slides
+  if (validSlides.length === 0) {
+    return null;
   }
 
   return (
     <div className='my-8'>
       <div className='flex gap-4 overflow-x-auto snap-x snap-mandatory'>
-        {block.slides.map((slide, idx) => (
+        {validSlides.map((slide, idx) => (
           <div key={idx} className='flex-shrink-0 w-full snap-center'>
-            {slide.image?.url ? (
-              <img
-                src={slide.image.url}
+            <div className='relative w-full h-[400px] md:h-[500px]'>
+              <Image
+                src={buildImageUrl(slide.image.url)}
                 alt={slide.caption || `Slide ${idx + 1}`}
-                className='w-full rounded-lg shadow-md'
+                fill
+                className='object-cover rounded-lg'
               />
-            ) : (
-              <div className='bg-gray-200 w-full h-64 rounded-lg flex items-center justify-center'>
-                <p className='text-gray-400'>No image</p>
-              </div>
-            )}
+            </div>
             {slide.caption && (
-              <p className='text-sm text-gray-600 mt-2 text-center'>
+              <Text className='text-sm text-gray-600 mt-2 text-center'>
                 {slide.caption}
-              </p>
+              </Text>
             )}
           </div>
         ))}
@@ -265,7 +284,10 @@ export default function BlogContentBody({
   blocks,
   className,
 }: BlogContentBodyProps) {
-  const renderBlock = (block: any, index: number) => {
+  const renderBlock = (
+    block: RichTextBlock | QuoteBlock | MediaBlock | SliderBlock,
+    index: number
+  ) => {
     switch (block.__component) {
       case 'shared.rich-text':
         return <BlockRichText key={index} block={block as RichTextBlock} />;
@@ -285,7 +307,12 @@ export default function BlogContentBody({
   };
 
   return (
-    <div className={cn('space-y-4', className)}>
+    <div
+      className={cn(
+        'space-y-4 rounded-2xl border border-gray-300 bg-gray-50 p-6',
+        className
+      )}
+    >
       {blocks.map((block, index) => renderBlock(block, index))}
     </div>
   );

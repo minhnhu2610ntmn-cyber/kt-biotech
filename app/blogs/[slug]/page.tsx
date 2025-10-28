@@ -1,112 +1,8 @@
-'use client';
-
-import {
-  BlogPost,
-  calculateReadingTime,
-  formatMediumDate,
-  formatReadingTime,
-} from '@ktbiotech/blog';
-import { Heading, LoadingSpinner, Text } from '@ktbiotech/system-design';
+import { BlogContentBody, BlogHero, type StrapiBlock } from '@ktbiotech/blog';
+import { Container } from '@ktbiotech/system-design';
 import { notFound } from 'next/navigation';
-import { Suspense, use, useMemo } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-
-// Mock blog posts data (in real app, this would come from a CMS or API)
-const blogPosts: BlogPost[] = [
-  {
-    id: '1',
-    title: 'Advances in CRISPR Technology',
-    content: `
-# Advances in CRISPR Technology
-
-The field of biotechnology has witnessed remarkable progress in recent years, with CRISPR (Clustered Regularly Interspaced Short Palindromic Repeats) technology standing at the forefront of this revolution. This groundbreaking gene-editing tool has transformed our ability to modify genetic material with unprecedented precision and efficiency.
-
-## Understanding CRISPR
-
-CRISPR technology functions like molecular scissors, allowing scientists to cut and modify specific DNA sequences within living cells. The system consists of two main components:
-
-1. **Cas9 protein**: Acts as the molecular scissors
-2. **Guide RNA**: Directs the Cas9 protein to the exact location in the genome
-
-## Recent Breakthroughs
-
-### Enhanced Precision
-Recent developments have significantly improved the accuracy of CRISPR systems. New variants like Cas12 and Cas13 offer different cutting mechanisms, while base editing and prime editing technologies enable more precise modifications without creating double-strand breaks.
-
-### Therapeutic Applications
-CRISPR has shown tremendous potential in treating genetic diseases:
-
-- **Sickle Cell Disease**: Clinical trials have demonstrated successful treatment using CRISPR-edited stem cells
-- **Beta-Thalassemia**: Patients have shown sustained therapeutic benefits
-- **Huntington's Disease**: Research is ongoing for neurodegenerative disease treatment
-
-### Agricultural Innovations
-The technology is revolutionizing agriculture by:
-
-- Developing disease-resistant crops
-- Improving nutritional content
-- Reducing pesticide dependency
-- Enhancing crop yields in challenging environments
-
-## Challenges and Considerations
-
-While CRISPR technology holds immense promise, several challenges remain:
-
-### Ethical Concerns
-The ability to edit human embryos raises important ethical questions about the future of human evolution and the potential for creating "designer babies."
-
-### Off-Target Effects
-Despite improvements, there's still a risk of unintended genetic modifications that could have unforeseen consequences.
-
-### Regulatory Hurdles
-Governments worldwide are grappling with how to regulate this powerful technology while ensuring safety and ethical use.
-
-## Future Prospects
-
-The future of CRISPR technology looks incredibly promising. Researchers are working on:
-
-- More precise editing tools
-- Delivery methods for therapeutic applications
-- Applications in environmental conservation
-- Industrial biotechnology applications
-
-## Conclusion
-
-CRISPR technology represents a paradigm shift in biotechnology, offering unprecedented opportunities to address some of humanity's most pressing challenges. As we continue to refine and expand its applications, it's crucial to balance innovation with careful consideration of ethical implications and safety concerns.
-
-The journey of CRISPR from a bacterial defense mechanism to a revolutionary gene-editing tool exemplifies the power of scientific discovery and its potential to transform our world for the better.
-    `,
-    excerpt:
-      'Recent breakthroughs in CRISPR gene editing technology are revolutionizing biotechnology and opening new possibilities for treating genetic diseases.',
-    slug: 'advances-in-crispr-technology',
-    author: 'Dr. Sarah Johnson',
-    publishedAt: new Date('2024-01-15T10:00:00Z'),
-    tags: ['CRISPR', 'Gene Editing', 'Biotechnology'],
-  },
-  {
-    id: '2',
-    title: 'The Future of Personalized Medicine',
-    content: 'Full article content...',
-    excerpt:
-      'How personalized medicine is transforming healthcare through tailored treatments based on individual genetic profiles.',
-    slug: 'future-personalized-medicine',
-    author: 'Dr. Michael Chen',
-    publishedAt: new Date('2024-01-10T14:30:00Z'),
-    tags: ['Personalized Medicine', 'Genomics', 'Healthcare'],
-  },
-  {
-    id: '3',
-    title: 'Biotechnology in Agriculture',
-    content: 'Full article content...',
-    excerpt:
-      'Exploring how biotechnology is revolutionizing agriculture and food production.',
-    slug: 'biotechnology-agriculture',
-    author: 'Dr. Emily Rodriguez',
-    publishedAt: new Date('2024-01-05T09:15:00Z'),
-    tags: ['Agriculture', 'Food Security', 'Sustainability'],
-  },
-];
+import { buildImageUrl, StrapiApi } from '../../config/api';
+import type { Article } from '../../types/strapi';
 
 interface BlogDetailPageProps {
   params: Promise<{
@@ -114,70 +10,99 @@ interface BlogDetailPageProps {
   }>;
 }
 
-export default function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const { slug } = use(params);
+// Fetch article by slug from Strapi API
+async function getArticleBySlug(slug: string): Promise<Article | null> {
+  try {
+    const api = new StrapiApi();
+    const articles = await api.getArticles({
+      'filters[slug][$eq]': slug,
+      'populate[blocks][populate]': '*',
+      'populate[category][fields]': '*',
+      'populate[cover][fields]': '*',
+      'populate[author][fields]': '*',
+    });
+    return articles && articles.length > 0 ? articles[0] : null;
+  } catch (error) {
+    console.error('Error fetching article:', error);
+    return null;
+  }
+}
 
-  const post = blogPosts.find(p => p.slug === slug);
+export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
+  const resolvedParams = await params;
+  const article = await getArticleBySlug(resolvedParams.slug);
 
-  if (!post) {
+  if (!article) {
     notFound();
   }
 
-  const readingTime = useMemo(
-    () => calculateReadingTime(post.content),
-    [post.content]
-  );
+  console.log('ArticleArticleArticle:', article);
+
+  // Convert Strapi blocks to BlogContentBody format
+  const contentBlocks: StrapiBlock[] = article.blocks
+    ?.map(block => {
+      // Debug log for media blocks
+      if (block.__component === 'shared.media') {
+        // eslint-disable-next-line no-console
+        console.log('Media block:', block);
+      }
+
+      switch (block.__component) {
+        case 'shared.rich-text':
+          return {
+            __component: 'shared.rich-text',
+            id: block.id,
+            body: block.body,
+          } as StrapiBlock;
+        case 'shared.quote':
+          return {
+            __component: 'shared.quote',
+            id: block.id,
+            title: block.title || '',
+            body: block.body || '',
+          } as StrapiBlock;
+        case 'shared.media':
+          return {
+            __component: 'shared.media',
+            id: block.id,
+            file: block.file,
+          } as StrapiBlock;
+        case 'shared.slider':
+          return {
+            __component: 'shared.slider',
+            id: block.id,
+            slides: block.slides || [],
+          } as StrapiBlock;
+        default:
+          return null;
+      }
+    })
+    .filter(Boolean) as StrapiBlock[];
+
+  // Get hero image URL
+  const heroImageUrl = article.cover?.url
+    ? buildImageUrl(article.cover.url)
+    : 'https://picsum.photos/1200/600?random=1';
 
   return (
-    <div className='min-h-screen bg-gray-50'>
-      <div className='container mx-auto px-4 py-8'>
-        <div className='max-w-4xl mx-auto'>
-          <header className='mb-8'>
-            <Heading
-              level={1}
-              className='text-4xl font-bold text-gray-900 mb-4'
-            >
-              {post.title}
-            </Heading>
+    <Container>
+      <div className='!pt-10'>
+        {/* Blog Hero Section */}
+        <BlogHero
+          title={article.title}
+          imageUrl={heroImageUrl}
+          imageAlt={article.title}
+        />
 
-            <div className='flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-6'>
-              <span>By {post.author}</span>
-              <span>•</span>
-              <time dateTime={post.publishedAt.toISOString()}>
-                {formatMediumDate(post.publishedAt)}
-              </time>
-              <span>•</span>
-              <span>{formatReadingTime(readingTime)}</span>
-            </div>
+        {/* Content */}
 
-            <div className='flex flex-wrap gap-2 mb-6'>
-              {post.tags.map(tag => (
-                <span
-                  key={tag}
-                  className='px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm'
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            <Text className='text-xl text-gray-700 leading-relaxed'>
-              {post.excerpt}
-            </Text>
-          </header>
-
-          {/* Main Content */}
-          <article className=' bg-white rounded-lg shadow-sm p-8'>
-            <Suspense fallback={<LoadingSpinner />}>
-              <div className='prose prose-lg mt-[-80px] max-w-none'>
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {post.content}
-                </ReactMarkdown>
-              </div>
-            </Suspense>
-          </article>
+        <div className='max-w-4xl mx-auto py-8'>
+          {/* Blog Content Body */}
+          {contentBlocks?.length > 0 && (
+            <BlogContentBody blocks={contentBlocks} />
+          )}
         </div>
       </div>
-    </div>
+    </Container>
   );
 }

@@ -81,6 +81,10 @@ export interface ArticleBlock {
   title?: string;
   file?: MediaFile | null;
   files?: MediaFile[];
+  slides?: Array<{
+    image?: { url: string };
+    caption?: string;
+  }>;
 }
 
 export interface Article extends StrapiItem {
