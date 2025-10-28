@@ -13,6 +13,18 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: '103.90.225.225',
+        port: '1337',
+        pathname: '/uploads/**',
+      },
     ],
   },
   webpack: (config, { dev }) => {
