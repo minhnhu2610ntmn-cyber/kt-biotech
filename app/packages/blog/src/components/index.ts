@@ -1,5 +1,6 @@
 export { default as AuthorCard } from './AuthorCard';
 export { default as BlogCard } from './BlogCard';
+export { default as BlogContentBody } from './BlogContentBody';
 export { default as BlogListLoading } from './BlogListLoading';
 export { default as BlogLoading } from './BlogLoading';
 export { default as ImageWithBadge } from './ImageWithBadge';

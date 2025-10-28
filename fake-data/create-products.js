@@ -34,6 +34,21 @@ const FAKE_PRODUCTS = [
   { title: 'Plant Extraction Kit', sku: 'KC-001', categoryIndex: 5 },
 ];
 
+// Optional: map sẵn image IDs đã upload trên Strapi (song song với FAKE_PRODUCTS)
+// Để trống hoặc null nếu không muốn gán ảnh
+const EXISTING_IMAGE_IDS = [
+  null, // cho PCR Master Mix Kit - Nhập khẩu
+  null, // DNA Extraction Kit Premium
+  null, // RNA Isolation Kit Professional
+  null, // COVID-19 Test Kit
+  null, // HIV Rapid Test Kit
+  null, // Veterinary PCR Kit - Canine
+  null, // Animal Disease Diagnostic Kit
+  null, // Shrimp Disease Detection Kit
+  null, // Food Safety Test Kit
+  null, // Plant Extraction Kit
+];
+
 const SPECS_TEMPLATE = [
   'Thành phần: Chỉ định kỹ thuật chi tiết. Ứng dụng: Áp dụng trong nhiều lĩnh vực. Độ nhạy: Cao, phát hiện chính xác. Thời gian: Kết quả trong 30-60 phút. Bảo quản: 2-8 độ C.',
   'Độ chính xác: >99%. Phạm vi phát hiện: Wide detection range. Thời gian phản ứng: 60-90 phút. Yêu cầu thiết bị: Minimal equipment required. Hướng dẫn: Dễ sử dụng, có hướng dẫn đầy đủ.',
@@ -202,18 +217,8 @@ async function main() {
     console.log(`   Category: ${category.name} (id: ${category.id})`);
     console.log(`   SKU: ${fakeProduct.sku}`);
 
-    // Skip image upload - will use existing images or none
-    // const imageUrl = generateImageUrl(i);
-    // const imageFilename = `${createSlug(fakeProduct.title, i)}-${i}.jpg`;
-    // const imageResult = await uploadImageToStrapi(imageUrl, imageFilename);
-    // let imageId = null;
-    // if (imageResult.success) {
-    //   imageId = imageResult.data.id;
-    // } else {
-    //   imageFailCount++;
-    //   console.log('⚠️ Creating product without image');
-    // }
-    const imageId = null; // No images for now
+    // Dùng image đã upload sẵn (nếu có) từ EXISTING_IMAGE_IDS
+    const imageId = EXISTING_IMAGE_IDS[i] ?? null;
 
     // Tạo product data với structure đúng
     const baseDescription = createDescription(fakeProduct.title, category.name);
@@ -275,7 +280,11 @@ async function main() {
       seo: {
         metaTitle: fakeProduct.title,
         metaDescription: baseDescription,
+        ...(imageId ? { shareImage: imageId } : {}), // single-media expects an ID
       },
+      ...(imageId ? { images: [imageId] } : {}), // multi-media expects an array of IDs
+      // Note: category field is not valid for this schema
+      // category: category.id,
       publishedAt: new Date().toISOString(),
     };
 
