@@ -217,3 +217,73 @@ export const MultipleRichTextBlocks: Story = {
     ] as StrapiBlock[],
   },
 };
+
+export const WithLinks: Story = {
+  args: {
+    blocks: [
+      {
+        __component: 'shared.rich-text',
+        id: 100,
+        body: `# Links in Blog Content
+
+This article demonstrates various types of links used in blog content.
+
+## Internal and External Links
+
+Visit our [homepage](https://ktbiotech.com) to learn more about our services.
+
+For detailed information, check out our [products page](https://ktbiotech.com/products).
+
+You can also read more on [Wikipedia](https://en.wikipedia.org/wiki/Biotechnology) about biotechnology.
+
+## Links with Inline Code
+
+Here's how to create a link in markdown: [Example Link](https://example.com)
+
+Visit [GitHub](https://github.com) for open source projects.
+
+## Links in Lists
+
+Important resources:
+- [React Documentation](https://react.dev)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS](https://tailwindcss.com)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs)
+
+## External Link Indicators
+
+Notice how external links show a ↗ symbol to indicate they open in a new window.
+
+Internal links without the symbol are local pages.`,
+      },
+    ] as StrapiBlock[],
+  },
+};
+
+export const WithCodeAndLinks: Story = {
+  args: {
+    blocks: [
+      {
+        __component: 'shared.rich-text',
+        id: 101,
+        body: `# Technical Content with Links and Code
+
+Learn more about [our API](https://api.ktbiotech.com) or check out this code example:
+
+\`\`\`javascript
+// Example API call
+const response = await fetch('https://api.example.com/data');
+const data = await response.json();
+\`\`\`
+
+For more information, visit the [official documentation](https://docs.ktbiotech.com).
+
+## Inline Code with Links
+
+Visit \`https://example.com\` or learn more about [Next.js](https://nextjs.org) framework.
+
+You can also check [this article](https://blog.example.com/article) for detailed explanation.`,
+      },
+    ] as StrapiBlock[],
+  },
+};

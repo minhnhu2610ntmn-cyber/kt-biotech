@@ -100,6 +100,88 @@ function BlockRichText({ block }: { block: RichTextBlock }) {
         .prose table tr:last-child {
           border-bottom: none;
         }
+
+        /* Code block styles */
+        .prose pre {
+          background-color: #1e293b;
+          color: #e2e8f0;
+          padding: 1.25rem;
+          border-radius: 0.5rem;
+          overflow-x: auto;
+          margin: 1rem 0;
+        }
+        .prose code {
+          background-color: #f1f5f9;
+          padding: 0.25rem 0.5rem;
+          border-radius: 0.25rem;
+          font-size: 0.875em;
+          color: #dc2626;
+          font-weight: 500;
+        }
+        .prose pre code {
+          background-color: transparent;
+          padding: 0;
+          color: inherit;
+          font-weight: normal;
+        }
+
+        /* Text emphasis */
+        .prose strong {
+          font-weight: 700;
+          color: #1e293b;
+        }
+        .prose em {
+          font-style: italic;
+          color: #64748b;
+        }
+
+        /* Links */
+        .prose a {
+          color: #3b82f6;
+          text-decoration: underline;
+          text-underline-offset: 2px;
+          transition: color 0.2s ease;
+          word-break: break-word;
+        }
+        .prose a:hover {
+          color: #2563eb;
+          text-decoration-thickness: 2px;
+        }
+        .prose a:visited {
+          color: #7c3aed;
+        }
+
+        /* External link indicator */
+        .prose
+          a[href^='http']:not([href*='localhost']):not(
+            [href*='127.0.0.1']
+          ):after {
+          content: ' ↗';
+          font-size: 0.875em;
+          margin-left: 2px;
+        }
+
+        /* Paragraphs */
+        .prose p {
+          margin-top: 1rem;
+          margin-bottom: 1rem;
+          line-height: 1.75;
+        }
+
+        /* Horizontal rules */
+        .prose hr {
+          border: none;
+          border-top: 2px solid #e5e7eb;
+          margin: 2rem 0;
+        }
+
+        /* Images in markdown */
+        .prose img {
+          width: 100%;
+          height: auto;
+          border-radius: 0.5rem;
+          margin: 1.5rem 0;
+        }
       `}</style>
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{block.body}</ReactMarkdown>
     </div>
