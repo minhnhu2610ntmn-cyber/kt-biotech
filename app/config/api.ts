@@ -16,8 +16,12 @@ export interface ApiConfig {
  */
 export function getApiConfig(): ApiConfig {
   return {
-    baseUrl: process.env.STRAPI_URL || 'http://103.90.225.225:1337',
-    token: process.env.STRAPI_TOKEN || '',
+    baseUrl:
+      process.env.STRAPI_URL ||
+      process.env.NEXT_PUBLIC_STRAPI_URL ||
+      'http://103.90.225.225:1337',
+    token:
+      process.env.STRAPI_TOKEN || process.env.NEXT_PUBLIC_STRAPI_TOKEN || '',
     timeout: 10000, // 10 seconds
   };
 }
@@ -51,6 +55,7 @@ export const API_ENDPOINTS = {
   categories: '/api/categories',
   articles: '/api/articles',
   authors: '/api/authors',
+  brands: '/api/brands',
   upload: '/api/upload',
 } as const;
 
@@ -154,13 +159,12 @@ export class StrapiApi {
     });
 
     const queryString = params.join('&');
-    console.log('queryStringqueryStringqueryString:', queryString);
     const response = await fetch(
       `${buildApiUrl(API_ENDPOINTS.articles)}?${queryString}`,
       {
         method: 'GET',
         headers: getApiHeaders(),
-        // next: { revalidate: 1800 }, // Cache for 30 minutes
+        next: { revalidate: 1800 }, // Cache for 30 minutes
       }
     );
 
@@ -188,5 +192,24 @@ export class StrapiApi {
 
     const data = await response.json();
     return data.data || [];
+  }
+
+  /**
+   * Get brands (manufacturers)
+   */
+  async getBrands(): Promise<Array<{ id: number; name: string }>> {
+    const response = await fetch(buildApiUrl(API_ENDPOINTS.brands), {
+      method: 'GET',
+      headers: getApiHeaders(),
+      next: { revalidate: 1800 }, // Cache for 30 minutes
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch brands: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    const list = Array.isArray(data?.data) ? (data.data as any[]) : [];
+    return list.map((b: any) => ({ id: b.id, name: b.name }));
   }
 }

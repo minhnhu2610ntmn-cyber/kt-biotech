@@ -34,20 +34,7 @@ const FAKE_PRODUCTS = [
   { title: 'Plant Extraction Kit', sku: 'KC-001', categoryIndex: 5 },
 ];
 
-// Optional: map sẵn image IDs đã upload trên Strapi (song song với FAKE_PRODUCTS)
-// Để trống hoặc null nếu không muốn gán ảnh
-const EXISTING_IMAGE_IDS = [
-  null, // cho PCR Master Mix Kit - Nhập khẩu
-  null, // DNA Extraction Kit Premium
-  null, // RNA Isolation Kit Professional
-  null, // COVID-19 Test Kit
-  null, // HIV Rapid Test Kit
-  null, // Veterinary PCR Kit - Canine
-  null, // Animal Disease Diagnostic Kit
-  null, // Shrimp Disease Detection Kit
-  null, // Food Safety Test Kit
-  null, // Plant Extraction Kit
-];
+// Ảnh sẽ được lấy từ Media Library qua API thay vì mapping sẵn
 
 const SPECS_TEMPLATE = [
   'Thành phần: Chỉ định kỹ thuật chi tiết. Ứng dụng: Áp dụng trong nhiều lĩnh vực. Độ nhạy: Cao, phát hiện chính xác. Thời gian: Kết quả trong 30-60 phút. Bảo quản: 2-8 độ C.',
@@ -87,59 +74,6 @@ function createDescription(name, categoryName) {
   return descriptions[Math.floor(Math.random() * descriptions.length)];
 }
 
-// Hàm tạo content blocks
-function generateProductContent(name, description) {
-  return [
-    {
-      __component: 'shared.rich-text',
-      body: `# ${name}\n\n${description}\n\n## Tổng quan sản phẩm\n\n${name} là một trong những sản phẩm chất lượng cao được phát triển bởi KTBioTech. Sản phẩm này được thiết kế để đáp ứng nhu cầu nghiên cứu và chẩn đoán trong lĩnh vực công nghệ sinh học.\n\n### Đặc điểm nổi bật\n\n- **Độ chính xác cao**: Cung cấp kết quả chính xác và đáng tin cậy\n- **Dễ sử dụng**: Quy trình đơn giản, dễ dàng thao tác\n- **Hiệu suất cao**: Tối ưu hóa cho hiệu suất tối đa\n- **Tin cậy**: Đã được kiểm chứng và chứng nhận\n\n### Ứng dụng\n\nSản phẩm có thể được sử dụng trong:\n- Nghiên cứu và phát triển\n- Chẩn đoán và xét nghiệm\n- Kiểm tra chất lượng\n- Phân tích và đánh giá`,
-    },
-  ];
-}
-
-// Hàm tạo image URL
-function generateImageUrl(index) {
-  return `https://picsum.photos/800/600?random=${index}`;
-}
-
-// Hàm upload image
-async function uploadImageToStrapi(imageUrl, filename, retries = 2) {
-  for (let attempt = 1; attempt <= retries; attempt++) {
-    try {
-      const imageResponse = await axios.get(imageUrl, {
-        responseType: 'arraybuffer',
-        timeout: 3000,
-      });
-
-      const FormData = require('form-data');
-      const form = new FormData();
-      form.append('files', imageResponse.data, {
-        filename,
-        contentType: 'image/jpeg',
-      });
-
-      const uploadResponse = await axios.post(
-        `${API_CONFIG.baseUrl}${API_CONFIG.uploadEndpoint}`,
-        form,
-        {
-          headers: {
-            ...form.getHeaders(),
-            Authorization: `Bearer ${API_CONFIG.token}`,
-          },
-          timeout: 8000,
-        }
-      );
-
-      return { success: true, data: uploadResponse.data[0] };
-    } catch (error) {
-      if (attempt === retries) {
-        return { success: false, error: error.message };
-      }
-      await new Promise(resolve => setTimeout(resolve, 3000 * attempt));
-    }
-  }
-}
-
 // Hàm load categories
 async function loadCategories() {
   try {
@@ -153,6 +87,24 @@ async function loadCategories() {
     return response.data.data || [];
   } catch (error) {
     console.log('❌ Failed to load categories:', error.message);
+    return [];
+  }
+}
+
+// Hàm load images có sẵn từ Media Library
+async function loadExistingImages() {
+  try {
+    const response = await axios.get(
+      `${API_CONFIG.baseUrl}/api/upload/files?pagination[pageSize]=100`,
+      {
+        headers: { Authorization: `Bearer ${API_CONFIG.token}` },
+        timeout: API_CONFIG.timeout,
+      }
+    );
+    console.log(response.data);
+    return Array.isArray(response.data) ? response.data : [];
+  } catch (error) {
+    console.log('❌ Failed to load images:', error.message);
     return [];
   }
 }
@@ -201,6 +153,17 @@ async function main() {
   let failedCount = 0;
   let imageFailCount = 0;
 
+  // Load images từ Media Library
+  const images = await loadExistingImages();
+  const imageIds = images.map(img => img.id).filter(Boolean);
+  if (imageIds.length === 0) {
+    console.log(
+      '⚠️ No images found in Media Library. Products will be created without images.'
+    );
+  } else {
+    console.log(`🖼️ Loaded ${imageIds.length} images from Media Library.`);
+  }
+
   // Create fake products
   for (let i = 0; i < FAKE_PRODUCTS.length; i++) {
     const fakeProduct = FAKE_PRODUCTS[i];
@@ -213,12 +176,13 @@ async function main() {
       continue;
     }
 
-    console.log(`📝 Creating: ${fakeProduct.title}`);
-    console.log(`   Category: ${category.name} (id: ${category.id})`);
-    console.log(`   SKU: ${fakeProduct.sku}`);
-
-    // Dùng image đã upload sẵn (nếu có) từ EXISTING_IMAGE_IDS
-    const imageId = EXISTING_IMAGE_IDS[i] ?? null;
+    // Chọn 6 images ngẫu nhiên từ Media Library
+    const selectedImageIds = [];
+    if (imageIds.length > 0) {
+      const shuffled = [...imageIds].sort(() => 0.5 - Math.random());
+      const count = Math.min(6, shuffled.length);
+      selectedImageIds.push(...shuffled.slice(0, count));
+    }
 
     // Tạo product data với structure đúng
     const baseDescription = createDescription(fakeProduct.title, category.name);
@@ -277,14 +241,21 @@ async function main() {
       specification:
         SPECS_TEMPLATE[Math.floor(Math.random() * SPECS_TEMPLATE.length)],
       tags: `${category.name}, kit, ${fakeProduct.sku}`,
-      seo: {
-        metaTitle: fakeProduct.title,
-        metaDescription: baseDescription,
-        ...(imageId ? { shareImage: imageId } : {}), // single-media expects an ID
-      },
-      ...(imageId ? { images: [imageId] } : {}), // multi-media expects an array of IDs
+      // seo: {
+      //   metaTitle: fakeProduct.title,
+      //   metaDescription: baseDescription,
+      //   ...(selectedImageIds.length > 0 ? { shareImage: selectedImageIds[0] } : {}), // single-media expects an ID
+      // },
+      ...(selectedImageIds.length > 0
+        ? {
+            images: selectedImageIds.map(id => ({
+              id,
+              alternativeText: fakeProduct.title,
+            })),
+          }
+        : {}), // multi-media expects an array of objects with id
       // Note: category field is not valid for this schema
-      // category: category.id,
+      categories: [category.id],
       publishedAt: new Date().toISOString(),
     };
 

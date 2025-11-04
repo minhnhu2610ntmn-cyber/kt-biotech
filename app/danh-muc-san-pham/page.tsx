@@ -1,0 +1,117 @@
+// Server Component: fetch product categories from Strapi
+
+import { Container, Heading, Text } from '@ktbiotech/system-design';
+import Image from 'next/image';
+import Link from 'next/link';
+import { StrapiApi, buildImageUrl } from '../config/api';
+
+interface PageCategory {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string;
+  color?: string;
+  cover?: { url?: string } | null;
+}
+
+// Blur placeholder utils (LQIP)
+const shimmer = (w: number, h: number) => `
+  <svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="g">
+        <stop stop-color="#f3f4f6" offset="20%" />
+        <stop stop-color="#e5e7eb" offset="50%" />
+        <stop stop-color="#f3f4f6" offset="70%" />
+      </linearGradient>
+    </defs>
+    <rect width="${w}" height="${h}" fill="#f3f4f6" />
+    <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+    <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+  </svg>`;
+
+const toBase64 = (str: string) =>
+  typeof window === 'undefined'
+    ? Buffer.from(str).toString('base64')
+    : window.btoa(str);
+
+async function getProductCategories(): Promise<PageCategory[]> {
+  const api = new StrapiApi();
+  try {
+    const categories = await api.getCategories('product');
+    // Map to minimal shape used by the UI
+    const list = Array.isArray(categories) ? (categories as any[]) : [];
+    return list.map((c: any) => ({
+      id: c.id,
+      name: c.name,
+      slug: c.slug,
+      description: c.description,
+      color: c.color,
+      cover: c.cover || null,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export default async function ProductCategoriesPage() {
+  const categories = await getProductCategories();
+
+  return (
+    <Container>
+      <div className='pt-6 pb-10'>
+        <Heading level={2} className='!text-2xl md:!text-3xl mb-6'>
+          SẢN PHẨM
+        </Heading>
+
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
+          {categories.map(category => {
+            const imageUrl = category.cover?.url
+              ? buildImageUrl(category.cover.url)
+              : '';
+            return (
+              <Link
+                key={category.id}
+                href={`/san-pham/${category.slug}`}
+                className='group block'
+              >
+                <div className='rounded-xl overflow-hidden bg-gray-100 border border-gray-200'>
+                  <div className='relative w-full h-[200px] md:h-[220px]'>
+                    {imageUrl ? (
+                      <Image
+                        src={imageUrl}
+                        alt={category.name}
+                        fill
+                        className='object-cover'
+                        placeholder='blur'
+                        blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                          shimmer(700, 400)
+                        )}`}
+                        sizes='(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
+                      />
+                    ) : (
+                      <div className='w-full h-full bg-slate-100' />
+                    )}
+                  </div>
+                </div>
+                <div className='mt-3'>
+                  <Text className='font-semibold text-gray-900'>
+                    {category.name}
+                  </Text>
+                  <Text className='text-gray-600'>
+                    {category.description || 'description'}
+                  </Text>
+                </div>
+              </Link>
+            );
+          })}
+
+          {categories.length === 0 && (
+            <div className='col-span-full'>
+              <Text className='text-gray-600'>Không có danh mục sản phẩm</Text>
+            </div>
+          )}
+        </div>
+      </div>
+    </Container>
+  );
+}
