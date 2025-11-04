@@ -17,6 +17,7 @@ type CategoryHeaderProps = {
   onDownloadClick?: () => void;
   searchParamKey?: string;
   debounceMs?: number;
+  onOpenFilter?: () => void;
 };
 
 export function CategoryHeader({
@@ -27,6 +28,7 @@ export function CategoryHeader({
   onDownloadClick,
   searchParamKey = 'q',
   debounceMs = 300,
+  onOpenFilter,
 }: CategoryHeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -59,10 +61,10 @@ export function CategoryHeader({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, searchParamKey, debounceMs]);
   return (
-    <div className='flex items-center gap-4 flex-wrap md:flex-nowrap'>
+    <div className='flex items-center gap-4 mb-4 flex-nowrap'>
       <Heading
         level={2}
-        className='!text-2xl md:!text-3xl shrink-0 '
+        className='!text-xl md:!text-3xl shrink-0 '
         color='#215778'
       >
         {title}
@@ -70,7 +72,7 @@ export function CategoryHeader({
 
       {/* Right group: search + download aligned to right */}
       <div className='ml-auto flex items-center gap-4 w-full md:w-auto flex-1 justify-end'>
-        <div className='relative w-full max-w-[400px]'>
+        <div className='relative w-full max-w-[400px] hidden min-[1080px]:block'>
           <Input
             placeholder={searchPlaceholder}
             aria-label='Tìm kiếm sản phẩm'
@@ -83,21 +85,55 @@ export function CategoryHeader({
             <SearchIcon width={18} height={18} />
           </span>
         </div>
-        <Button
-          variant='outline'
-          className='group rounded-full h-12 px-5 shrink-0 cursor-pointer text-[#215778] border-[#215778] hover:bg-[#215778] hover:text-white'
-          onClick={onDownloadClick}
-        >
-          <span className='inline-flex items-center gap-2'>
-            <DownloadIcon
-              width={18}
-              height={18}
-              color='currentColor'
-              className='text-[#215778] group-hover:text-white group-hover:scale-[1.2] transition-colors'
-            />
-            <span>{downloadLabel}</span>
-          </span>
-        </Button>
+        {/* Desktop download button */}
+        <div className='hidden min-[1080px]:block'>
+          <Button
+            variant='outline'
+            className='group rounded-full h-12 px-5 shrink-0 cursor-pointer text-[#215778] border-[#215778] hover:bg-[#215778] hover:text-white'
+            onClick={onDownloadClick}
+          >
+            <span className='inline-flex items-center gap-2'>
+              <DownloadIcon
+                width={18}
+                height={18}
+                color='currentColor'
+                className='text-[#215778] group-hover:text-white group-hover:scale-[1.2] transition-colors'
+              />
+              <span>{downloadLabel}</span>
+            </span>
+          </Button>
+        </div>
+
+        {/* Mobile filter button */}
+        {onOpenFilter && (
+          <div className='min-[1080px]:hidden'>
+            <Button
+              variant='outline'
+              onClick={onOpenFilter}
+              className='group rounded-full h-10 px-4 text-[#215778] border-[#215778] hover:bg-[#215778] hover:text-white'
+            >
+              <span className='inline-flex items-center gap-2'>
+                {/* filter icon inline */}
+                <svg
+                  width='18'
+                  height='18'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  className='text-current group-hover:text-white transition-all group-hover:scale-[1.2]'
+                >
+                  <path
+                    d='M3 5h18l-7 8v5l-4 2v-7L3 5z'
+                    stroke='currentColor'
+                    strokeWidth='2'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                </svg>
+                <span>Bộ lọc</span>
+              </span>
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import { Text } from '@ktbiotech/system-design';
 import Image from 'next/image';
-import { memo } from 'react';
+import { memo, useState } from 'react';
 
 export type ProductRow = {
   id: number;
@@ -19,6 +19,7 @@ interface ProductTableProps {
 }
 
 function ProductTableBase({ products, className = '' }: ProductTableProps) {
+  const [activeTab, setActiveTab] = useState<'image' | 'product'>('image');
   const truncate = (text: string, max = 20) =>
     (text || '').length > max ? `${text.slice(0, max)}…` : text || '';
 
@@ -60,49 +61,136 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
   }
 
   return (
-    <div
-      className={`rounded-lg overflow-hidden border border-[#E3EEF5] ${className}`}
-    >
-      <div className='bg-[#D9EDF7] text-[#1B1C1D] font-medium px-4 py-3 grid grid-cols-[120px_1fr_140px_160px]'>
-        <span>Hình ảnh</span>
-        <span>Sản phẩm</span>
-        <span>Mã SKU</span>
-        <span>Quy cách</span>
-      </div>
-      <div className='divide-y divide-[#EAF3F8]'>
-        {products.map(p => (
-          <div
-            key={p.id}
-            className='px-4 py-4 grid grid-cols-[120px_1fr_140px_160px] items-start'
-          >
-            {p.imageUrl ? (
-              <div className='relative w-16 h-16 rounded-md overflow-hidden bg-gray-100'>
-                <Image
-                  src={p.imageUrl}
-                  alt={p.name}
-                  fill
-                  className='object-cover'
-                />
+    <>
+      {/* Desktop Table View */}
+      <div
+        className={`hidden md:block rounded-lg overflow-hidden border border-[#E3EEF5] ${className}`}
+      >
+        <div className='bg-[#D9EDF7] text-[#1B1C1D] font-medium px-4 py-3 grid grid-cols-[120px_1fr_140px_160px]'>
+          <span>Hình ảnh</span>
+          <span>Sản phẩm</span>
+          <span>Mã SKU</span>
+          <span>Quy cách</span>
+        </div>
+        <div className='divide-y divide-[#EAF3F8]'>
+          {products.map(p => (
+            <div
+              key={p.id}
+              className='px-4 py-4 grid grid-cols-[120px_1fr_140px_160px] items-start'
+            >
+              {p.imageUrl ? (
+                <div className='relative w-16 h-16 rounded-md overflow-hidden bg-gray-100'>
+                  <Image
+                    src={p.imageUrl}
+                    alt={p.name}
+                    fill
+                    className='object-cover'
+                  />
+                </div>
+              ) : (
+                <div className='w-16 h-16 rounded-md bg-gray-200' />
+              )}
+              <div>
+                <Text className='font-bold text-[#1B1C1D]' weight='bold'>
+                  {p.name}
+                </Text>
+                <Text
+                  color='#636A6E'
+                  className='text-sm pr-4 mt-1'
+                  lineClamp={2}
+                >
+                  {p.description}
+                </Text>
               </div>
-            ) : (
-              <div className='w-16 h-16 rounded-md bg-gray-200' />
-            )}
-            <div>
-              <Text className='font-bold text-[#1B1C1D]' weight='bold'>
-                {p.name}
-              </Text>
-              <Text color='#636A6E' className='text-sm pr-4 mt-1' lineClamp={2}>
-                {p.description}
-              </Text>
+              <div className='font-semibold'>{p.sku}</div>
+              <div className='truncate font-semibold' title={p.spec}>
+                {truncate(p.spec, 20)}
+              </div>
             </div>
-            <div className='font-semibold'>{p.sku}</div>
-            <div className='truncate font-semibold' title={p.spec}>
-              {truncate(p.spec, 20)}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+
+      {/* Mobile Card View (< 768px) */}
+      <div
+        className={`md:hidden rounded-lg overflow-hidden border border-[#E3EEF5] ${className}`}
+      >
+        {/* Tab Header */}
+        <div className='flex bg-[#D9EDF7]'>
+          <button
+            onClick={() => setActiveTab('image')}
+            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+              activeTab === 'image'
+                ? 'bg-[#86BDDF] text-[#1B1C1D] rounded-tl-lg'
+                : 'text-[#1B1C1D]'
+            }`}
+          >
+            Hình ảnh
+          </button>
+          <button
+            onClick={() => setActiveTab('product')}
+            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+              activeTab === 'product'
+                ? 'bg-[#86BDDF] text-[#1B1C1D] rounded-tr-lg'
+                : 'text-[#1B1C1D]'
+            }`}
+          >
+            Sản phẩm
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className='bg-white divide-y divide-[#EAF3F8]'>
+          {products.map(p => (
+            <div key={p.id} className='p-4 flex gap-4'>
+              {/* Image - Large square on left */}
+              <div className='flex-shrink-0'>
+                {p.imageUrl ? (
+                  <div className='relative w-[150px] h-[150px] rounded-md overflow-hidden bg-gray-100'>
+                    <Image
+                      src={p.imageUrl}
+                      alt={p.name}
+                      fill
+                      className='object-cover'
+                    />
+                  </div>
+                ) : (
+                  <div className='w-[150px] h-[150px] rounded-md bg-gray-200' />
+                )}
+              </div>
+
+              {/* Content - Right side */}
+              <div className='flex-1 min-w-0'>
+                <Text
+                  className='font-bold text-[#1B1C1D]'
+                  weight='bold'
+                  style={{
+                    display: '-webkit-box',
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {p.name}
+                </Text>
+                <Text
+                  color='#636A6E'
+                  className='text-sm mt-1'
+                  style={{
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {p.description}
+                </Text>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
 

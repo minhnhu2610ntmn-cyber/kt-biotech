@@ -1,30 +1,7 @@
-import BrandFilters from '@/app/components/containers/BrandFilters';
-import { CategoryHeader } from '@/app/components/containers/CategoryHeader';
-import PaginationControls from '@/app/components/containers/PaginationControls';
-import ProductTable from '@/app/components/containers/ProductTable';
-import {
-  ChevronRightIcon,
-  Container,
-  MenuIcon,
-  SidebarMenu,
-} from '@ktbiotech/system-design';
+import CategoryLayout from '@/app/components/containers/CategoryLayout';
+import { Container } from '@ktbiotech/system-design';
 import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
 import { StrapiApi, buildImageUrl } from '../../config/api';
-
-type CategoryGridProps = {
-  left?: ReactNode;
-  right?: ReactNode;
-};
-
-function CategoryGrid({ left, right }: CategoryGridProps) {
-  return (
-    <div className=' min-h-[calc(100vh-100px)] grid grid-cols-1 gap-6 md:grid-cols-[266px_1fr]'>
-      <div>{left}</div>
-      <div>{right}</div>
-    </div>
-  );
-}
 
 interface PageCategory {
   id: number;
@@ -42,28 +19,6 @@ async function getProductCategories(): Promise<PageCategory[]> {
     return [];
   }
 }
-
-function FiltersPanel({
-  brands,
-}: {
-  brands: Array<{ id: number; name: string }>;
-}) {
-  return <BrandFilters brands={brands} />;
-}
-
-function FilterHeader() {
-  return (
-    <div className='mt-4 w-full rounded-lg bg-[#86BDDF] text-[#1B1C1D] px-4 py-3 flex items-center justify-between'>
-      <div className='flex w-full items-center gap-3'>
-        <MenuIcon width={18} height={18} className='text-[#1B1C1D]' />
-        <span className='text-sm font-medium'>Bộ lọc</span>
-      </div>
-      <ChevronRightIcon width={16} height={16} className='text-[#1B1C1D]' />
-    </div>
-  );
-}
-
-// ProductTable moved to containers/ProductTable
 
 export default async function CategoryListingPage({
   params,
@@ -108,32 +63,17 @@ export default async function CategoryListingPage({
   });
   return (
     <Container className='space-y-4 mt-6 px-4'>
-      <CategoryHeader title='DANH SÁCH SẢN PHẨM' />
-      <CategoryGrid
-        left={
-          <div>
-            <SidebarMenu
-              activeItem={active}
-              productCategories={categories as unknown as any}
-              className='w-full [&_.space-y-1>*:first-child]:hidden'
-              hrefPrefix='/danh-muc-san-pham'
-            />
-            <FilterHeader />
-            <FiltersPanel brands={brands} />
-          </div>
-        }
-        right={
-          <div>
-            <ProductTable products={productRows} />
-            <PaginationControls
-              total={(productsRes.meta?.pagination?.total as number) || 0}
-              page={(productsRes.meta?.pagination?.page as number) || page}
-              pageSize={
-                (productsRes.meta?.pagination?.pageSize as number) || pageSize
-              }
-            />
-          </div>
-        }
+      <CategoryLayout
+        categories={categories as unknown as any}
+        activeCategory={active}
+        brands={brands}
+        products={productRows}
+        pagination={{
+          total: (productsRes.meta?.pagination?.total as number) || 0,
+          page: (productsRes.meta?.pagination?.page as number) || page,
+          pageSize:
+            (productsRes.meta?.pagination?.pageSize as number) || pageSize,
+        }}
       />
     </Container>
   );
