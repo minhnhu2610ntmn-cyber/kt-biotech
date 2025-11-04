@@ -55,6 +55,7 @@ export const API_ENDPOINTS = {
   categories: '/api/categories',
   articles: '/api/articles',
   authors: '/api/authors',
+  products: '/api/products',
   brands: '/api/brands',
   upload: '/api/upload',
 } as const;
@@ -211,5 +212,87 @@ export class StrapiApi {
     const data = await response.json();
     const list = Array.isArray(data?.data) ? (data.data as any[]) : [];
     return list.map((b: any) => ({ id: b.id, name: b.name }));
+  }
+
+  /**
+   * Get single category by slug
+   */
+  async getCategoryBySlug(slug: string): Promise<Category | null> {
+    const params = new URLSearchParams({
+      'filters[slug][$eq]': slug,
+      populate: '*',
+    });
+    const response = await fetch(
+      `${buildApiUrl(API_ENDPOINTS.categories)}?${params.toString()}`,
+      {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 300 },
+      }
+    );
+    if (!response.ok) {
+      return null;
+    }
+    const data = await response.json();
+    const list = Array.isArray(data?.data) ? (data.data as Category[]) : [];
+    return list[0] || null;
+  }
+
+  /**
+   * Get products with optional filters: q (search), brandIds (comma), categorySlug
+   */
+  async getProducts(filters?: {
+    q?: string;
+    brandIds?: string; // comma-separated ids
+    categorySlug?: string;
+    page?: number;
+    pageSize?: number;
+  }): Promise<{ data: any[]; meta: any }> {
+    const params: string[] = [];
+    // populate images and brands
+    params.push('populate[images][fields]=*');
+    params.push('[populate[brand][fields]=*');
+
+    if (filters?.q) {
+      const qEncoded = encodeURIComponent(filters.q);
+      params.push(`filters[$or][0][title][$containsi]=${qEncoded}`);
+      params.push(`filters[$or][1][description][$containsi]=${qEncoded}`);
+    }
+
+    if (filters?.brandIds) {
+      // relation key is "brands" in Strapi (plural)
+      params.push(
+        `filters[brand][id][$in]=${encodeURIComponent(filters.brandIds)}`
+      );
+    }
+
+    if (filters?.categorySlug) {
+      // assuming product has relation categories.slug (many-to-one or many-to-many)
+      params.push(
+        `filters[categories][slug][$eq]=${encodeURIComponent(filters.categorySlug)}`
+      );
+    }
+
+    if (filters?.page) params.push(`pagination[page]=${filters.page}`);
+    if (filters?.pageSize)
+      params.push(`pagination[pageSize]=${filters.pageSize}`);
+
+    const query = params.join('&');
+    const response = await fetch(
+      `${buildApiUrl(API_ENDPOINTS.products)}${query ? `?${query}` : ''}`,
+      {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 60 },
+      }
+    );
+    if (!response.ok) {
+      const body = await response.text().catch(() => '');
+      throw new Error(
+        `Failed to fetch products: ${response.status} ${response.statusText} ${body}`
+      );
+    }
+    const json = await response.json();
+    return { data: json?.data || [], meta: json?.meta || {} };
   }
 }

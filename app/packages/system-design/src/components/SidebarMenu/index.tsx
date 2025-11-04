@@ -12,12 +12,14 @@ export interface SidebarMenuProps {
   activeItem?: string;
   className?: string;
   productCategories?: ProductCategory[];
+  hrefPrefix?: string; // base path for category links
 }
 
 const SidebarMenu: React.FC<SidebarMenuProps> = ({
   activeItem,
   className,
   productCategories = [],
+  hrefPrefix = '/products',
 }) => {
   const t = useTranslations('sidebar');
 
@@ -25,7 +27,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
   const categoryItems: SidebarMenuItem[] = productCategories.map(category => ({
     id: category.slug || category.id.toString(),
     label: category.name,
-    href: `/products/${category.slug || category.id}`,
+    href: `${hrefPrefix}/${category.slug || category.id}`,
   }));
 
   // Default menu items based on the design (fallback)

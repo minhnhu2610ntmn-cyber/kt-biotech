@@ -6,6 +6,8 @@ import {
   Input,
   SearchIcon,
 } from '@ktbiotech/system-design';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
 
 type CategoryHeaderProps = {
   title: string;
@@ -13,6 +15,8 @@ type CategoryHeaderProps = {
   onSearchChange?: (value: string) => void;
   downloadLabel?: string;
   onDownloadClick?: () => void;
+  searchParamKey?: string;
+  debounceMs?: number;
 };
 
 export function CategoryHeader({
@@ -21,7 +25,39 @@ export function CategoryHeader({
   onSearchChange,
   downloadLabel = 'Download Catalogue',
   onDownloadClick,
+  searchParamKey = 'q',
+  debounceMs = 300,
 }: CategoryHeaderProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const initial = useMemo(
+    () => searchParams.get(searchParamKey) || '',
+    [searchParams, searchParamKey]
+  );
+  const [value, setValue] = useState(initial);
+
+  useEffect(() => {
+    setValue(initial);
+  }, [initial]);
+
+  useEffect(() => {
+    if (onSearchChange) onSearchChange(value);
+
+    const handle = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (value && value.trim()) {
+        params.set(searchParamKey, value.trim());
+      } else {
+        params.delete(searchParamKey);
+      }
+      router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    }, debounceMs);
+
+    return () => clearTimeout(handle);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, searchParamKey, debounceMs]);
   return (
     <div className='flex items-center gap-4 flex-wrap md:flex-nowrap'>
       <Heading
@@ -39,7 +75,8 @@ export function CategoryHeader({
             placeholder={searchPlaceholder}
             aria-label='Tìm kiếm sản phẩm'
             className='h-12 pl-4 pr-14 rounded-full border border-gray-200'
-            onChange={e => onSearchChange?.(e.target.value)}
+            value={value}
+            onChange={e => setValue(e.target.value)}
           />
           <span className='pointer-events-none absolute right-11 top-1/2 -translate-y-1/2 h-6 w-px bg-gray-300 z-10' />
           <span className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 z-10'>
