@@ -7,6 +7,7 @@ interface AboutItem {
   title: string;
   description: string;
   link: string;
+  imageUrl?: string;
 }
 
 interface AboutSectionProps {
@@ -114,22 +115,41 @@ export default function AboutSection({ items = [] }: AboutSectionProps) {
                 transitionDelay: `${index * 150}ms`,
               }}
             >
-              {/* Image Placeholder */}
+              {/* Image */}
               <div className='w-full lg:w-1/2'>
-                <div
-                  className={`bg-gray-300 rounded-lg h-64 lg:h-80 flex items-center justify-center transition-all duration-500 ease-out ${
-                    visibleItems.has(index)
-                      ? 'scale-100 opacity-100'
-                      : 'scale-95 opacity-70'
-                  }`}
-                  style={{
-                    transitionDelay: `${index * 150 + 200}ms`,
-                  }}
-                >
-                  <Text variant='caption' color='muted' className='text-lg'>
-                    Image Placeholder
-                  </Text>
-                </div>
+                {item.imageUrl ? (
+                  <div
+                    className={`rounded-lg h-64 lg:h-80 overflow-hidden transition-all duration-500 ease-out ${
+                      visibleItems.has(index)
+                        ? 'scale-100 opacity-100'
+                        : 'scale-95 opacity-70'
+                    }`}
+                    style={{
+                      transitionDelay: `${index * 150 + 200}ms`,
+                    }}
+                  >
+                    <img
+                      src={item.imageUrl}
+                      alt={item.title}
+                      className='w-full h-full object-cover'
+                    />
+                  </div>
+                ) : (
+                  <div
+                    className={`bg-gray-300 rounded-lg h-64 lg:h-80 flex items-center justify-center transition-all duration-500 ease-out ${
+                      visibleItems.has(index)
+                        ? 'scale-100 opacity-100'
+                        : 'scale-95 opacity-70'
+                    }`}
+                    style={{
+                      transitionDelay: `${index * 150 + 200}ms`,
+                    }}
+                  >
+                    <Text variant='caption' color='muted' className='text-lg'>
+                      Image Placeholder
+                    </Text>
+                  </div>
+                )}
               </div>
 
               {/* Content */}

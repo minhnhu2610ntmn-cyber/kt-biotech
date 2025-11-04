@@ -1,38 +1,36 @@
 // eslint-disable-next-line no-restricted-imports
 import { AboutSection } from '../components/containers';
+import { buildImageUrl, StrapiApi } from '../config/api';
 
-export default function AboutPage() {
-  const items = [
-    {
-      title: 'Về chúng tôi',
-      description:
-        'KTBioTech là công ty công nghệ sinh học hàng đầu tại Việt Nam, chuyên cung cấp các giải pháp và dịch vụ nghiên cứu khoa học tiên tiến. Với đội ngũ chuyên gia giàu kinh nghiệm và trang thiết bị hiện đại.',
-      link: '/about/company',
-    },
-    {
-      title: 'Đội ngũ chuyên gia',
-      description:
-        'Chúng tôi có đội ngũ hơn 50 chuyên gia với kinh nghiệm trung bình 15 năm trong lĩnh vực công nghệ sinh học. Đội ngũ của chúng tôi được đào tạo bài bản và có kinh nghiệm làm việc tại nhiều quốc gia.',
-      link: '/about/team',
-    },
-    {
-      title: 'Sứ mệnh & Tầm nhìn',
-      description:
-        'Sứ mệnh của chúng tôi là mang đến những giải pháp công nghệ sinh học tiên tiến, góp phần nâng cao chất lượng chăm sóc sức khỏe. Tầm nhìn là trở thành công ty hàng đầu tại Việt Nam và khu vực Đông Nam Á.',
-      link: '/about/mission',
-    },
-    {
-      title: 'Cơ cấu',
-      description:
-        'Sứ mệnh của chúng tôi là mang đến những giải pháp công nghệ sinh học tiên tiến, góp phần nâng cao chất lượng chăm sóc sức khỏe. Tầm nhìn là trở thành công ty hàng đầu tại Việt Nam và khu vực Đông Nam Á.',
-      link: '/about/mission',
-    },
-    {
-      title: 'CHỨNG NHẬN',
-      description:
-        'Sứ mệnh của chúng tôi là mang đến những giải pháp công nghệ sinh học tiên tiến, góp phần nâng cao chất lượng chăm sóc sức khỏe. Tầm nhìn là trở thành công ty hàng đầu tại Việt Nam và khu vực Đông Nam Á.',
-      link: '/about/mission',
-    },
-  ];
+export default async function AboutPage() {
+  const api = new StrapiApi();
+  const global = await api.getGlobal();
+
+  // Map data from Strapi global to items format
+  // Assuming global has a structure like { aboutItems: [...] }
+  // Adjust the mapping based on your actual Strapi structure
+  const items =
+    global
+      ?.sort((a: any, b: any) => {
+        const orderA = a.order ?? a.Order ?? 0;
+        const orderB = b.order ?? b.Order ?? 0;
+        return orderA - orderB;
+      })
+      .map((item: any) => {
+        const image = item.image?.[0];
+        const imagePath = image?.url;
+        const imageUrl = imagePath ? buildImageUrl(imagePath) : undefined;
+
+        return {
+          title: item.title || '',
+          description: item.description || '',
+          link: item.link || '',
+          imageUrl,
+        };
+      }) || [];
+
+  console.log(items);
+
+  // Return empty items if global is null/not found
   return <AboutSection items={items} />;
 }

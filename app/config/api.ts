@@ -58,6 +58,8 @@ export const API_ENDPOINTS = {
   products: '/api/products',
   brands: '/api/brands',
   upload: '/api/upload',
+  about: '/api/about',
+  global: '/api/globals',
 } as const;
 
 /**
@@ -294,5 +296,60 @@ export class StrapiApi {
     }
     const json = await response.json();
     return { data: json?.data || [], meta: json?.meta || {} };
+  }
+
+  /**
+   * Get about single type
+   */
+  async getAbout(): Promise<any | null> {
+    const response = await fetch(
+      `${buildApiUrl(API_ENDPOINTS.about)}?populate=*`,
+      {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 300 }, // Cache for 5 minutes
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch about: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    // Single types return data directly, not wrapped in data.data
+    return data?.data || null;
+  }
+
+  /**
+   * Get global single type
+   */
+  async getGlobal(): Promise<any | null> {
+    try {
+      const response = await fetch(
+        `${buildApiUrl(API_ENDPOINTS.global)}?populate[image][fields]=*`,
+        {
+          method: 'GET',
+          headers: getApiHeaders(),
+          next: { revalidate: 300 }, // Cache for 5 minutes
+        }
+      );
+      if (!response.ok) {
+        if (response.status === 404) {
+          console.warn('Global single type not found. Returning null.');
+          return null;
+        }
+        const body = await response.text().catch(() => '');
+        throw new Error(
+          `Failed to fetch global: ${response.status} ${response.statusText} ${body}`
+        );
+      }
+
+      const data = await response.json();
+      // Single types return data directly, not wrapped in data.data
+      return data?.data || null;
+    } catch (error) {
+      console.error('Error fetching global:', error);
+      return null;
+    }
   }
 }

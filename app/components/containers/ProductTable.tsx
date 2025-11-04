@@ -1,6 +1,6 @@
 'use client';
 
-import { Text } from '@ktbiotech/system-design';
+import { Button, Text } from '@ktbiotech/system-design';
 import Image from 'next/image';
 import { memo, useState } from 'react';
 
@@ -117,26 +117,28 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
       >
         {/* Tab Header */}
         <div className='flex bg-[#D9EDF7]'>
-          <button
+          <Button
             onClick={() => setActiveTab('image')}
-            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+            variant='ghost'
+            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors rounded-none ${
               activeTab === 'image'
                 ? 'bg-[#86BDDF] text-[#1B1C1D] rounded-tl-lg'
                 : 'text-[#1B1C1D]'
             }`}
           >
             Hình ảnh
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setActiveTab('product')}
-            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+            variant='ghost'
+            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors rounded-none ${
               activeTab === 'product'
                 ? 'bg-[#86BDDF] text-[#1B1C1D] rounded-tr-lg'
                 : 'text-[#1B1C1D]'
             }`}
           >
             Sản phẩm
-          </button>
+          </Button>
         </div>
 
         {/* Content */}
