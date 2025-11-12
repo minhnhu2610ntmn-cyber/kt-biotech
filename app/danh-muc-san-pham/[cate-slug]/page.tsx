@@ -1,7 +1,11 @@
 import CategoryLayout from '@/app/components/containers/CategoryLayout';
 import { Container } from '@ktbiotech/system-design';
 import type { Metadata } from 'next';
-import { StrapiApi, buildImageUrl } from '../../config/api';
+import {
+  StrapiApi,
+  buildImageUrl,
+  getProductCategoriesCached,
+} from '../../config/api';
 
 interface PageCategory {
   id: number;
@@ -10,9 +14,8 @@ interface PageCategory {
 }
 
 async function getProductCategories(): Promise<PageCategory[]> {
-  const api = new StrapiApi();
   try {
-    const categories = await api.getCategories('product');
+    const categories = await getProductCategoriesCached();
     const list = Array.isArray(categories) ? (categories as any[]) : [];
     return list.map((c: any) => ({ id: c.id, name: c.name, slug: c.slug }));
   } catch {
@@ -46,21 +49,30 @@ export default async function CategoryListingPage({
     page,
     pageSize,
   });
-  const productRows = (productsRes.data as any[]).map(p => {
-    const images = p.images || p.attributes?.images || {};
-    const firstUrl = Array.isArray(images)
-      ? images[0]?.url
-      : images?.data?.[0]?.attributes?.url;
-    const imageUrl = firstUrl ? buildImageUrl(firstUrl) : undefined;
-    return {
-      id: p.id,
-      name: p.title,
-      description: p.description || '',
-      sku: p.sku || '-',
-      spec: p.specification || '-',
-      imageUrl,
-    };
-  });
+  const productRows = (productsRes.data as any[])
+    .map(p => {
+      const productData = p.attributes || p;
+      const images = productData.images || p.images || {};
+      const firstUrl = Array.isArray(images)
+        ? images[0]?.url || images[0]?.attributes?.url
+        : images?.data?.[0]?.attributes?.url;
+      const imageUrl = firstUrl ? buildImageUrl(firstUrl) : undefined;
+      const slug = productData.slug || p.slug;
+
+      // Only include products with slug
+      if (!slug) return null;
+
+      return {
+        id: p.id,
+        name: productData.title || p.title,
+        description: productData.description || p.description || '',
+        sku: productData.sku || p.sku || '-',
+        spec: productData.specification || p.specification || '-',
+        imageUrl,
+        slug,
+      };
+    })
+    .filter((p): p is NonNullable<typeof p> => p !== null);
   return (
     <Container className='space-y-4 mt-6 px-4'>
       <CategoryLayout

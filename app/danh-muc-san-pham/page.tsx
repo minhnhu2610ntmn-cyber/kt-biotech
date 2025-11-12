@@ -3,7 +3,7 @@
 import { Container, Heading, Text } from '@ktbiotech/system-design';
 import Image from 'next/image';
 import Link from 'next/link';
-import { StrapiApi, buildImageUrl } from '../config/api';
+import { buildImageUrl, getProductCategoriesCached } from '../config/api';
 
 interface PageCategory {
   id: number;
@@ -11,7 +11,7 @@ interface PageCategory {
   slug: string;
   description?: string;
   color?: string;
-  cover?: { url?: string } | null;
+  image?: { url?: string } | null;
 }
 
 // Blur placeholder utils (LQIP)
@@ -35,19 +35,19 @@ const toBase64 = (str: string) =>
     : window.btoa(str);
 
 async function getProductCategories(): Promise<PageCategory[]> {
-  const api = new StrapiApi();
   try {
-    const categories = await api.getCategories('product');
-    // Map to minimal shape used by the UI
+    const categories = await getProductCategoriesCached();
     const list = Array.isArray(categories) ? (categories as any[]) : [];
-    return list.map((c: any) => ({
-      id: c.id,
-      name: c.name,
-      slug: c.slug,
-      description: c.description,
-      color: c.color,
-      cover: c.cover || null,
-    }));
+    return list
+      .filter(c => c.parentId == null)
+      .map((c: any) => ({
+        id: c.id,
+        name: c.name,
+        slug: c.slug,
+        description: c.description,
+        color: c.color,
+        image: c.image || null,
+      }));
   } catch {
     return [];
   }
@@ -59,20 +59,30 @@ export default async function ProductCategoriesPage() {
   return (
     <Container>
       <div className='pt-6 pb-10'>
-        <Heading level={2} className='!text-2xl md:!text-3xl mb-6'>
+        <Heading
+          level={2}
+          className='!text-xl md:!text-2xl mb-6'
+          color='#215778'
+          weight='semibold'
+          decoration='underline'
+        >
           SẢN PHẨM
         </Heading>
 
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
-          {categories.map(category => {
-            const imageUrl = category.cover?.url
-              ? buildImageUrl(category.cover.url)
+          {categories.map((category, index) => {
+            const imageUrl = category.image?.url
+              ? buildImageUrl(category.image.url)
               : '';
             return (
               <Link
                 key={category.id}
-                href={`/san-pham/${category.slug}`}
-                className='group block'
+                href={`/danh-muc-san-pham/${category.slug}`}
+                className='group block animate-fade-in-up'
+                style={{
+                  animationDelay: `${index * 100}ms`,
+                  animationFillMode: 'both',
+                }}
               >
                 <div className='rounded-xl overflow-hidden bg-gray-100 border border-gray-200'>
                   <div className='relative w-full h-[200px] md:h-[220px]'>
@@ -87,6 +97,7 @@ export default async function ProductCategoriesPage() {
                           shimmer(700, 400)
                         )}`}
                         sizes='(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
+                        fetchPriority={index < 3 ? 'high' : 'low'}
                       />
                     ) : (
                       <div className='w-full h-full bg-slate-100' />
@@ -94,10 +105,14 @@ export default async function ProductCategoriesPage() {
                   </div>
                 </div>
                 <div className='mt-3'>
-                  <Text className='font-semibold text-gray-900'>
+                  <Text
+                    className='!font-semibold !text-gray-900'
+                    color='#1B1C1D'
+                    weight='semibold'
+                  >
                     {category.name}
                   </Text>
-                  <Text className='text-gray-600'>
+                  <Text className='!text-gray-600' color='#636A6E'>
                     {category.description || 'description'}
                   </Text>
                 </div>

@@ -135,20 +135,20 @@ export default function AboutSection({ items = [] }: AboutSectionProps) {
                     />
                   </div>
                 ) : (
-                  <div
-                    className={`bg-gray-300 rounded-lg h-64 lg:h-80 flex items-center justify-center transition-all duration-500 ease-out ${
-                      visibleItems.has(index)
-                        ? 'scale-100 opacity-100'
-                        : 'scale-95 opacity-70'
-                    }`}
-                    style={{
-                      transitionDelay: `${index * 150 + 200}ms`,
-                    }}
-                  >
-                    <Text variant='caption' color='muted' className='text-lg'>
-                      Image Placeholder
-                    </Text>
-                  </div>
+                <div
+                  className={`bg-gray-300 rounded-lg h-64 lg:h-80 flex items-center justify-center transition-all duration-500 ease-out ${
+                    visibleItems.has(index)
+                      ? 'scale-100 opacity-100'
+                      : 'scale-95 opacity-70'
+                  }`}
+                  style={{
+                    transitionDelay: `${index * 150 + 200}ms`,
+                  }}
+                >
+                  <Text variant='caption' color='muted' className='text-lg'>
+                    Image Placeholder
+                  </Text>
+                </div>
                 )}
               </div>
 

@@ -2,6 +2,7 @@
 
 import { Button, Text } from '@ktbiotech/system-design';
 import Image from 'next/image';
+import Link from 'next/link';
 import { memo, useState } from 'react';
 
 export type ProductRow = {
@@ -11,6 +12,7 @@ export type ProductRow = {
   sku: string;
   spec: string;
   imageUrl?: string;
+  slug: string;
 };
 
 interface ProductTableProps {
@@ -73,41 +75,47 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
           <span>Quy cách</span>
         </div>
         <div className='divide-y divide-[#EAF3F8]'>
-          {products.map(p => (
-            <div
-              key={p.id}
-              className='px-4 py-4 grid grid-cols-[120px_1fr_140px_160px] items-start'
-            >
-              {p.imageUrl ? (
-                <div className='relative w-16 h-16 rounded-md overflow-hidden bg-gray-100'>
-                  <Image
-                    src={p.imageUrl}
-                    alt={p.name}
-                    fill
-                    className='object-cover'
-                  />
+          {products.map(p => {
+            if (!p.slug) return null;
+            const productHref = `/san-pham/${p.slug}`;
+
+            return (
+              <Link
+                key={p.id}
+                href={productHref}
+                className='px-4 py-4 grid grid-cols-[120px_1fr_140px_160px] items-start hover:bg-gray-50 transition-colors cursor-pointer'
+              >
+                {p.imageUrl ? (
+                  <div className='relative w-16 h-16 rounded-md overflow-hidden bg-gray-100'>
+                    <Image
+                      src={p.imageUrl}
+                      alt={p.name}
+                      fill
+                      className='object-cover'
+                    />
+                  </div>
+                ) : (
+                  <div className='w-16 h-16 rounded-md bg-gray-200' />
+                )}
+                <div>
+                  <Text className='font-bold text-[#1B1C1D]' weight='bold'>
+                    {p.name}
+                  </Text>
+                  <Text
+                    color='#636A6E'
+                    className='text-sm pr-4 mt-1'
+                    lineClamp={2}
+                  >
+                    {p.description}
+                  </Text>
                 </div>
-              ) : (
-                <div className='w-16 h-16 rounded-md bg-gray-200' />
-              )}
-              <div>
-                <Text className='font-bold text-[#1B1C1D]' weight='bold'>
-                  {p.name}
-                </Text>
-                <Text
-                  color='#636A6E'
-                  className='text-sm pr-4 mt-1'
-                  lineClamp={2}
-                >
-                  {p.description}
-                </Text>
-              </div>
-              <div className='font-semibold'>{p.sku}</div>
-              <div className='truncate font-semibold' title={p.spec}>
-                {truncate(p.spec, 20)}
-              </div>
-            </div>
-          ))}
+                <div className='font-semibold'>{p.sku}</div>
+                <div className='truncate font-semibold' title={p.spec}>
+                  {truncate(p.spec, 20)}
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
 
@@ -143,53 +151,62 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
 
         {/* Content */}
         <div className='bg-white divide-y divide-[#EAF3F8]'>
-          {products.map(p => (
-            <div key={p.id} className='p-4 flex gap-4'>
-              {/* Image - Large square on left */}
-              <div className='flex-shrink-0'>
-                {p.imageUrl ? (
-                  <div className='relative w-[150px] h-[150px] rounded-md overflow-hidden bg-gray-100'>
-                    <Image
-                      src={p.imageUrl}
-                      alt={p.name}
-                      fill
-                      className='object-cover'
-                    />
-                  </div>
-                ) : (
-                  <div className='w-[150px] h-[150px] rounded-md bg-gray-200' />
-                )}
-              </div>
+          {products.map(p => {
+            if (!p.slug) return null;
+            const productHref = `/san-pham/${p.slug}`;
 
-              {/* Content - Right side */}
-              <div className='flex-1 min-w-0'>
-                <Text
-                  className='font-bold text-[#1B1C1D]'
-                  weight='bold'
-                  style={{
-                    display: '-webkit-box',
-                    WebkitLineClamp: 3,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                  }}
-                >
-                  {p.name}
-                </Text>
-                <Text
-                  color='#636A6E'
-                  className='text-sm mt-1'
-                  style={{
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                  }}
-                >
-                  {p.description}
-                </Text>
-              </div>
-            </div>
-          ))}
+            return (
+              <Link
+                key={p.id}
+                href={productHref}
+                className='p-4 flex gap-4 hover:bg-gray-50 transition-colors cursor-pointer'
+              >
+                {/* Image - Large square on left */}
+                <div className='flex-shrink-0'>
+                  {p.imageUrl ? (
+                    <div className='relative w-[150px] h-[150px] rounded-md overflow-hidden bg-gray-100'>
+                      <Image
+                        src={p.imageUrl}
+                        alt={p.name}
+                        fill
+                        className='object-cover'
+                      />
+                    </div>
+                  ) : (
+                    <div className='w-[150px] h-[150px] rounded-md bg-gray-200' />
+                  )}
+                </div>
+
+                {/* Content - Right side */}
+                <div className='flex-1 min-w-0'>
+                  <Text
+                    className='font-bold text-[#1B1C1D]'
+                    weight='bold'
+                    style={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {p.name}
+                  </Text>
+                  <Text
+                    color='#636A6E'
+                    className='text-sm mt-1'
+                    style={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {p.description}
+                  </Text>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </>

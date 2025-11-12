@@ -38,8 +38,12 @@
     "hotline": "Hotline",
     "blog": "Blog",
     "aboutUs": "Về chúng tôi",
-    "helpCenter": "Trung tâm hỗ trợ"
+    "helpCenter": "Trung tâm hỗ trợ",
+    "all": "Tất cả",
+    "serviceResearch": "Nghiên cứu khoa học",
+    "serviceSequencing": "Giải trình tự gen"
   },
+
   "hero": {
     "title": "Công ty TNHH CÔNG NGHỆ SINH HỌC",
     "subtitle": "KHOA THƯƠNG",

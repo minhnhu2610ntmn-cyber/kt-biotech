@@ -38,8 +38,12 @@
     "hotline": "Hotline",
     "blog": "Blog",
     "aboutUs": "About Us",
-    "helpCenter": "Help Center"
+    "helpCenter": "Help Center",
+    "all": "All Categories",
+    "serviceResearch": "Scientific research",
+    "serviceSequencing": "Genome sequencing"
   },
+
   "hero": {
     "title": "BIOTECHNOLOGY COMPANY LIMITED",
     "subtitle": "KHOA THUONG",

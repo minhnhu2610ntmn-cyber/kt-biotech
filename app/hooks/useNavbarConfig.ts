@@ -7,6 +7,7 @@ import type { ProductCategory } from '../types/strapi';
 export interface NavbarItem {
   label: string;
   href: string;
+  i18nKey?: string;
   children?: NavbarItem[];
 }
 
@@ -27,34 +28,68 @@ export function useNavbarConfig(customConfig?: NavbarConfig): NavbarConfig {
   // Generate product menu items from categories
   const productCategories = customConfig?.productCategories || [];
   const productMenuItems = [
-    { label: 'Tất cả', href: '/products' },
     ...productCategories.map(category => ({
       label: category.name,
-      href: `/products/${category.slug || category.id}`,
+      href: `/danh-muc-san-pham/${category.slug || category.id}`,
+      // map sub categories (children) if provided by API
+      children: Array.isArray((category as any).sub)
+        ? (category as any).sub.map((sc: any) => ({
+            label: sc.name,
+            href: `/danh-muc-san-pham/${sc.slug || sc.id}`,
+          }))
+        : [],
     })),
   ];
 
   const defaultConfig: NavbarConfig = {
     items: [
-      { label: 'Trang chủ', href: '/', children: [] },
-      { label: 'Giới thiệu', href: '/gioi-thieu', children: [] },
       {
-        label: 'Sản phẩm',
-        href: '/products',
+        label: tNavbar('home'),
+        href: '/',
+        i18nKey: 'home',
+        children: [],
+      },
+      {
+        label: tNavbar('about'),
+        href: '/gioi-thieu',
+        i18nKey: 'about',
+        children: [],
+      },
+      {
+        label: tNavbar('products'),
+        href: '/danh-muc-san-pham',
+        i18nKey: 'products',
         children: productMenuItems,
       },
       {
-        label: 'Dịch vụ',
+        label: tNavbar('services'),
         href: '/services',
+        i18nKey: 'services',
         children: [
-          { label: 'Dịch vụ 1', href: '/services/service-1' },
-          { label: 'Dịch vụ 2', href: '/services/service-2' },
-          { label: 'Dịch vụ 3', href: '/services/service-3' },
-          { label: 'Tư vấn', href: '/services/consultation' },
+          {
+            label: tNavbar('serviceResearch'),
+            href: '/dich-vu/nghien-cuu-khoa-hoc',
+            i18nKey: 'serviceResearch',
+          },
+          {
+            label: tNavbar('serviceSequencing'),
+            href: '/dich-vu/giai-trinh-tu-gen',
+            i18nKey: 'serviceSequencing',
+          },
         ],
       },
-      { label: 'Tin tức', href: '/blogs', children: [] },
-      { label: 'Liên hệ', href: '/lien-he', children: [] },
+      {
+        label: tNavbar('news'),
+        href: '/blogs',
+        i18nKey: 'news',
+        children: [],
+      },
+      {
+        label: tNavbar('contact'),
+        href: '/lien-he',
+        i18nKey: 'contact',
+        children: [],
+      },
     ],
     showSearch: true,
     searchPlaceholder: tNavbar('searchPlaceholder'),

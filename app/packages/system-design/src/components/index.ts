@@ -8,6 +8,11 @@ export { Input } from './Input';
 export { LanguageSwitcher } from './LanguageSwitcher';
 export { default as LoadingSpinner } from './LoadingSpinner';
 export { Navbar } from './Navbar';
+export { default as ProductImageGallery } from './ProductImageGallery';
+export type {
+  ProductImage,
+  ProductImageGalleryProps,
+} from './ProductImageGallery';
 export { default as Select } from './Select';
 export { default as SidebarMenu } from './SidebarMenu';
 export type { SidebarMenuProps } from './SidebarMenu';

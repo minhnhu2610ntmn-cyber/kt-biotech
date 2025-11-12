@@ -26,12 +26,16 @@ interface MasterLayoutProps {
   className?: string;
   navbarConfig?: NavbarConfig;
   productCategories?: ProductCategory[];
+  products?: any;
+  global?: any;
 }
 
 export default function MasterLayout({
   children,
   navbarConfig,
   productCategories = [],
+  products,
+  global: _global,
 }: MasterLayoutProps) {
   const config = useNavbarConfig({
     ...navbarConfig,
@@ -52,6 +56,7 @@ export default function MasterLayout({
         searchPlaceholder={config.searchPlaceholder}
         onSearch={config.onSearch}
         productCategories={productCategories}
+        products={products}
       />
 
       {/* Main Content */}

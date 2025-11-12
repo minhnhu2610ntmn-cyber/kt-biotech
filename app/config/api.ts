@@ -60,6 +60,10 @@ export const API_ENDPOINTS = {
   upload: '/api/upload',
   about: '/api/about',
   global: '/api/globals',
+  genServices: '/api/gen-service',
+  researchService: '/api/research-service',
+  vision: '/api/vision',
+  mission: '/api/mission',
 } as const;
 
 /**
@@ -108,19 +112,106 @@ export function lightenColor(hex: string, percent: number): string {
 /**
  * Common API functions for Strapi
  */
-export class StrapiApi {
-  private config: ApiConfig;
+// Strapi API client
 
-  constructor() {
-    this.config = getApiConfig();
+// Cached helpers
+import { cache } from 'react';
+
+/**
+ * Cached fetch for product categories to avoid duplicate requests across layouts/pages
+ */
+export const getProductCategoriesCached = cache(async () => {
+  const api = new StrapiApi();
+  const raw = (await api.getCategories('product')) as unknown as any[];
+
+  // Normalize shape and build parent-child structure
+  const nodes: Record<
+    number | string,
+    {
+      id: number | string;
+      name?: string;
+      slug?: string;
+      description?: string;
+      color?: string;
+      image?: any;
+      // capture the raw parent id for linking
+      parentId?: number | string | null;
+      // resulting children container
+      sub: any[];
+    }
+  > = {};
+
+  const toId = (v: any): number | string | null => {
+    if (!v) return null;
+    if (typeof v === 'number' || typeof v === 'string') return v;
+    // Strapi relation: object or { data: { id } }
+    if (v?.data?.id != null) return v.data.id;
+    if (v?.id != null) return v.id;
+    return null;
+  };
+
+  const list = Array.isArray(raw) ? raw : [];
+
+  // First pass: create node map
+  for (const item of list) {
+    const a = item.attributes || item;
+    const id = item.id ?? a.id;
+    if (id == null) continue;
+    const parentId = toId(a.parent);
+    nodes[id] = {
+      id,
+      name: a.name,
+      slug: a.slug,
+      description: a.description,
+      color: a.color,
+      image: a.image,
+      parentId: parentId ?? null,
+      sub: [],
+    };
   }
 
+  // Second pass: attach children to parent
+  for (const id in nodes) {
+    const node = nodes[id];
+    if (node.parentId != null && nodes[node.parentId]) {
+      nodes[node.parentId].sub.push(node);
+    }
+  }
+
+  // Return only top-level categories (no parent) with sub arrays populated
+  const tree = Object.values(nodes).filter(n => n.parentId == null);
+  return tree as unknown as Category[];
+});
+
+/**
+ * Fetch combined categories-products tree for search/mega menu
+ */
+export async function getCategoriesProducts(depth = 1): Promise<any> {
+  const response = await fetch(
+    `${buildApiUrl('/api/search/categories-products')}?depth=${depth}`,
+    {
+      method: 'GET',
+      headers: getApiHeaders(),
+      next: { revalidate: 300 },
+    }
+  );
+  if (!response.ok) {
+    const body = await response.text().catch(() => '');
+    throw new Error(
+      `Failed to fetch categories-products: ${response.status} ${response.statusText} ${body}`
+    );
+  }
+  return await response.json();
+}
+// Keep StrapiApi methods after cached helpers to avoid circular import issues in some bundlers
+export class StrapiApi {
   /**
    * Get categories by type
    */
   async getCategories(type?: 'blog' | 'product'): Promise<Category[]> {
     const params: Record<string, string> = {
-      populate: '*',
+      'populate[image][fields]': '*',
+      'populate[parent][fields]': '*',
     };
     if (type) {
       params['filters[type][$eq]'] = type;
@@ -247,13 +338,14 @@ export class StrapiApi {
     q?: string;
     brandIds?: string; // comma-separated ids
     categorySlug?: string;
+    excludeSlug?: string;
     page?: number;
     pageSize?: number;
   }): Promise<{ data: any[]; meta: any }> {
     const params: string[] = [];
     // populate images and brands
     params.push('populate[images][fields]=*');
-    params.push('[populate[brand][fields]=*');
+    params.push('populate[categories][fields]=*');
 
     if (filters?.q) {
       const qEncoded = encodeURIComponent(filters.q);
@@ -262,22 +354,27 @@ export class StrapiApi {
     }
 
     if (filters?.brandIds) {
-      // relation key is "brands" in Strapi (plural)
       params.push(
-        `filters[brand][id][$in]=${encodeURIComponent(filters.brandIds)}`
+        `filters[brands][id][$in]=${encodeURIComponent(filters.brandIds)}`
       );
     }
 
     if (filters?.categorySlug) {
       // assuming product has relation categories.slug (many-to-one or many-to-many)
       params.push(
-        `filters[categories][slug][$eq]=${encodeURIComponent(filters.categorySlug)}`
+        `filters[categories][slug][$in]=${encodeURIComponent(filters.categorySlug)}`
       );
     }
 
     if (filters?.page) params.push(`pagination[page]=${filters.page}`);
     if (filters?.pageSize)
       params.push(`pagination[pageSize]=${filters.pageSize}`);
+
+    if (filters?.excludeSlug) {
+      params.push(
+        `filters[slug][$ne]=${encodeURIComponent(filters.excludeSlug)}`
+      );
+    }
 
     const query = params.join('&');
     const response = await fetch(
@@ -296,6 +393,122 @@ export class StrapiApi {
     }
     const json = await response.json();
     return { data: json?.data || [], meta: json?.meta || {} };
+  }
+
+  /**
+   * Search materials by query string
+   */
+  async searchMaterials(query: string): Promise<any[]> {
+    if (!query) {
+      return [];
+    }
+    const params = new URLSearchParams({
+      q: query,
+    });
+    const response = await fetch(
+      `${buildApiUrl('/api/search/materials')}?${params.toString()}`,
+      {
+        method: 'GET',
+        headers: getApiHeaders(),
+        cache: 'no-store',
+      }
+    );
+    if (!response.ok) {
+      const body = await response.text().catch(() => '');
+      throw new Error(
+        `Failed to search materials: ${response.status} ${response.statusText} ${body}`
+      );
+    }
+    const json: { results?: any[]; data?: any[] } = await response
+      .json()
+      .catch(() => null);
+
+    if (Array.isArray(json?.results)) return json.results;
+    return [];
+  }
+
+  /**
+   * Get single product by slug
+   */
+  async getProductBySlug(slug: string): Promise<any | null> {
+    try {
+      const params = new URLSearchParams({
+        'filters[slug][$eq]': slug,
+        'populate[images][fields]': '*',
+        'populate[brand][fields]': '*',
+        'populate[categories][fields]': '*',
+        'populate[sale][fields]': '*',
+        'populate[sale][populate][avatar][fields]': '*',
+      });
+
+      const response = await fetch(
+        `${buildApiUrl(API_ENDPOINTS.products)}?${params.toString()}`,
+        {
+          method: 'GET',
+          headers: getApiHeaders(),
+          next: { revalidate: 300 }, // Cache for 5 minutes
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null;
+        }
+        const body = await response.text().catch(() => '');
+        throw new Error(
+          `Failed to fetch product: ${response.status} ${response.statusText} ${body}`
+        );
+      }
+
+      const json = await response.json();
+      console.log('json', json);
+      const products = json?.data || [];
+      return products.length > 0 ? products[0] : null;
+    } catch (error) {
+      console.error('Error fetching product by slug:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get single product by documentId (alternative to slug)
+   */
+  async getProductByDocumentId(documentId: string): Promise<any | null> {
+    try {
+      const params = new URLSearchParams({
+        'filters[documentId][$eq]': documentId,
+        'populate[images][fields]': '*',
+        'populate[brand][fields]': '*',
+        'populate[categories][fields]': '*',
+        'populate[sale][populate][avatar][fields]': '*',
+      });
+
+      const response = await fetch(
+        `${buildApiUrl(API_ENDPOINTS.products)}?${params.toString()}`,
+        {
+          method: 'GET',
+          headers: getApiHeaders(),
+          next: { revalidate: 300 },
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null;
+        }
+        const body = await response.text().catch(() => '');
+        throw new Error(
+          `Failed to fetch product: ${response.status} ${response.statusText} ${body}`
+        );
+      }
+
+      const json = await response.json();
+      const products = json?.data || [];
+      return products.length > 0 ? products[0] : null;
+    } catch (error) {
+      console.error('Error fetching product by documentId:', error);
+      return null;
+    }
   }
 
   /**
@@ -321,6 +534,70 @@ export class StrapiApi {
   }
 
   /**
+   * Get genome services single type
+   */
+  async getGenServices(): Promise<any | null> {
+    try {
+      const response = await fetch(
+        `${buildApiUrl(API_ENDPOINTS.genServices)}?populate=*`,
+        {
+          method: 'GET',
+          headers: getApiHeaders(),
+          next: { revalidate: 300 },
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null;
+        }
+        const body = await response.text().catch(() => '');
+        throw new Error(
+          `Failed to fetch gen services: ${response.status} ${response.statusText} ${body}`
+        );
+      }
+
+      const data = await response.json();
+      return data?.data || null;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching gen services:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get research service single type
+   */
+  async getResearchService(): Promise<any | null> {
+    try {
+      const response = await fetch(
+        `${buildApiUrl(API_ENDPOINTS.researchService)}?populate=*`,
+        {
+          method: 'GET',
+          headers: getApiHeaders(),
+          next: { revalidate: 300 },
+        }
+      );
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null;
+        }
+        const body = await response.text().catch(() => '');
+        throw new Error(
+          `Failed to fetch research service: ${response.status} ${response.statusText} ${body}`
+        );
+      }
+      const data = await response.json();
+      return data?.data || null;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching research service:', error);
+      return null;
+    }
+  }
+
+  /**
    * Get global single type
    */
   async getGlobal(): Promise<any | null> {
@@ -335,7 +612,6 @@ export class StrapiApi {
       );
       if (!response.ok) {
         if (response.status === 404) {
-          console.warn('Global single type not found. Returning null.');
           return null;
         }
         const body = await response.text().catch(() => '');
@@ -349,6 +625,72 @@ export class StrapiApi {
       return data?.data || null;
     } catch (error) {
       console.error('Error fetching global:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get vision single type
+   */
+  async getVision(): Promise<any | null> {
+    try {
+      const response = await fetch(
+        `${buildApiUrl(API_ENDPOINTS.vision)}?populate=*`,
+        {
+          method: 'GET',
+          headers: getApiHeaders(),
+          next: { revalidate: 300 },
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null;
+        }
+        const body = await response.text().catch(() => '');
+        throw new Error(
+          `Failed to fetch vision: ${response.status} ${response.statusText} ${body}`
+        );
+      }
+
+      const data = await response.json();
+      return data?.data || null;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching vision:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get mission single type
+   */
+  async getMission(): Promise<any | null> {
+    try {
+      const response = await fetch(
+        `${buildApiUrl(API_ENDPOINTS.mission)}?populate=*`,
+        {
+          method: 'GET',
+          headers: getApiHeaders(),
+          next: { revalidate: 300 },
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null;
+        }
+        const body = await response.text().catch(() => '');
+        throw new Error(
+          `Failed to fetch mission: ${response.status} ${response.statusText} ${body}`
+        );
+      }
+
+      const data = await response.json();
+      return data?.data || null;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching mission:', error);
       return null;
     }
   }

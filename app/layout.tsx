@@ -1,6 +1,10 @@
 import { Geist, Geist_Mono } from 'next/font/google';
 import { MasterLayout, MessagesProvider } from './components';
-import { StrapiApi } from './config/api';
+import {
+  getCategoriesProducts,
+  getProductCategoriesCached,
+  StrapiApi,
+} from './config/api';
 import './globals.css';
 import { QueryProvider } from './providers';
 import type { ProductCategory } from './types/strapi';
@@ -26,14 +30,20 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Fetch data server-side
-  const api = new StrapiApi();
-
   let productCategories: ProductCategory[] = [];
+  let categoriesProducts: any = null;
+  let globalData: any = null;
   try {
-    const categories = await api.getCategories('product');
+    const api = new StrapiApi();
+    const [categories, productsTree, globalRes] = await Promise.all([
+      getProductCategoriesCached(),
+      getCategoriesProducts(1),
+      api.getGlobal(),
+    ]);
     // Cast to ProductCategory type
     productCategories = categories as ProductCategory[];
+    categoriesProducts = productsTree;
+    globalData = globalRes;
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Failed to fetch product categories:', error);
@@ -46,7 +56,11 @@ export default async function RootLayout({
       >
         <QueryProvider>
           <MessagesProvider>
-            <MasterLayout productCategories={productCategories}>
+            <MasterLayout
+              productCategories={productCategories}
+              products={categoriesProducts}
+              global={globalData}
+            >
               {children}
             </MasterLayout>
           </MessagesProvider>

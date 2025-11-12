@@ -9,8 +9,10 @@ export interface SearchBarProps {
   categoryOptions?: { value: string; label: string }[];
   defaultCategory?: string;
   onSearch?: (query: string, category?: string) => void;
+  onQueryChange?: (query: string) => void;
   onCategoryChange?: (category: string) => void;
   className?: string;
+  value?: string;
 }
 
 export function SearchBar({
@@ -23,15 +25,25 @@ export function SearchBar({
   ],
   defaultCategory = 'all',
   onSearch,
+  onQueryChange,
   onCategoryChange,
   className,
+  value,
 }: SearchBarProps) {
-  const [query, setQuery] = React.useState('');
+  const [query, setQuery] = React.useState(value ?? '');
   const [selectedCategory, setSelectedCategory] =
     React.useState(defaultCategory);
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
   const [isRippling, setIsRippling] = React.useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+  // Sync external value
+  React.useEffect(() => {
+    if (typeof value === 'string' && value !== query) {
+      setQuery(value);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   // Close dropdown when clicking outside
   React.useEffect(() => {
@@ -86,7 +98,10 @@ export function SearchBar({
             type='text'
             placeholder={placeholder}
             value={query}
-            onChange={e => setQuery(e.target.value)}
+            onChange={e => {
+              setQuery(e.target.value);
+              onQueryChange?.(e.target.value);
+            }}
             onKeyPress={handleKeyPress}
             className='w-full text-gray-700 placeholder-gray-400 focus:outline-none text-sm'
           />
@@ -100,7 +115,7 @@ export function SearchBar({
           <button
             type='button'
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className='px-4 py-[10px] text-gray-700 cursor-pointer hover:bg-gray-50 transition-colors duration-200 flex items-center gap-2 text-sm min-w-[140px]'
+            className='px-4 py-[10px] text-gray-700  w-full justify-between cursor-pointer hover:bg-gray-50 transition-colors duration-200 flex items-center gap-2 text-sm min-w-[140px]'
           >
             <span className='truncate'>{selectedCategoryLabel}</span>
             <ChevronDown

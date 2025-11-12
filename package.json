@@ -61,6 +61,7 @@
     "@storybook/nextjs-vite": "^9.1.10",
     "@storybook/react-webpack5": "^9.1.10",
     "@tailwindcss/postcss": "^4",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

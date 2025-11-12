@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
+import { ABOUT_URL } from '../../../../../config/constants';
 import type { ProductCategory } from '../../types';
 import { cn } from '../../utils';
 import { DownloadIcon } from '../Icons';
@@ -16,6 +17,11 @@ import { SearchBar } from '../SearchBar';
 export interface NavItem {
   label: string;
   href: string;
+  /**
+   * Optional i18n key for this item.
+   * If provided, UI will render t(`navbar.items.${i18nKey}`) instead of raw label.
+   */
+  i18nKey?: string;
   children?: NavItem[];
 }
 
@@ -32,6 +38,7 @@ export interface NavbarProps {
   searchPlaceholder?: string;
   onSearch?: (value: string) => void;
   productCategories?: ProductCategory[];
+  products?: any;
 }
 
 export function Navbar({
@@ -47,6 +54,7 @@ export function Navbar({
   searchPlaceholder = 'Tìm kiếm...',
   onSearch,
   productCategories = [],
+  products: productsTree, // categories-products data (optional)
 }: NavbarProps) {
   const t = useTranslations('navbar');
 
@@ -57,8 +65,8 @@ export function Navbar({
       label: category.name,
     }));
 
-    return [{ value: 'all', label: 'Tất cả' }, ...options];
-  }, [productCategories]);
+    return [{ value: 'all', label: t('all') }, ...options];
+  }, [productCategories, t]);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [activeDropdown, setActiveDropdown] = React.useState<string | null>(
@@ -81,6 +89,44 @@ export function Navbar({
   const pathname = usePathname();
   const router = useRouter();
 
+  const closeMegaMenu = React.useCallback(() => {
+    setIsMegaMenuOpen(false);
+    setActiveMegaMenuItem(null);
+    setActiveLeftItem(null);
+    setNestedDropdownOpen(null);
+  }, []);
+
+  // Helper: determine "Products" item regardless of language
+  const isProductsItem = React.useCallback(
+    (item: NavItem | null | undefined) => {
+      if (!item) return false;
+      const raw = (item.label || '').toLowerCase().trim();
+      return (
+        item.i18nKey === 'products' || raw === 'sản phẩm' || raw === 'products'
+      );
+    },
+    []
+  );
+
+  // Helpers to work with "categories-products" response
+  const getAllProductsArray = React.useCallback((): any[] => {
+    // Try common shapes: { data: [...] }, array, { products: [...] }
+    if (!productsTree) return [];
+    if (Array.isArray(productsTree)) return productsTree;
+    if (Array.isArray(productsTree?.data)) return productsTree.data;
+    if (Array.isArray(productsTree?.products)) return productsTree.products;
+    return [];
+  }, [productsTree]);
+
+  const findCategoryBySlug = React.useCallback(
+    (slug?: string | null) => {
+      if (!slug) return null;
+      const all = getAllProductsArray();
+      return all.find((c: any) => c?.slug === slug) || null;
+    },
+    [getAllProductsArray]
+  );
+
   // Normalize logo path for both Storybook and Next.js
   const logoPath = logo.startsWith('/') ? logo : `/${logo}`;
 
@@ -91,6 +137,23 @@ export function Navbar({
     }
     return pathname.startsWith(href);
   };
+
+  // Resolve display label with i18n (fallback to raw label)
+  const getItemLabel = React.useCallback(
+    (item: NavItem) => {
+      // Prefer explicit i18nKey: expects keys like 'home', 'products', ...
+      if (item.i18nKey) {
+        try {
+          return t(item.i18nKey);
+        } catch {
+          return item.label;
+        }
+      }
+      // For data from server (no i18nKey), return raw label as-is
+      return item.label;
+    },
+    [t]
+  );
 
   const handleMobileMenuToggle = () => {
     const newState = !isMobileMenuOpen;
@@ -115,19 +178,15 @@ export function Navbar({
     // Close any open nested dropdown first
     setNestedDropdownOpen(null);
 
-    // Only show mega menu for "Sản phẩm", others use nested dropdown
-    if (
-      item.children &&
-      item.children.length > 0 &&
-      item.label === 'Sản phẩm'
-    ) {
+    // Only show mega menu for Products (language-agnostic)
+    if (item.children && item.children.length > 0 && isProductsItem(item)) {
       setActiveMegaMenuItem(item);
       setActiveLeftItem(item.children[0]); // Set first child as default active
       setIsMegaMenuOpen(true);
     } else if (
       item.children &&
       item.children.length > 0 &&
-      item.label !== 'Sản phẩm'
+      !isProductsItem(item)
     ) {
       // Show nested dropdown for other items with children
       setNestedDropdownOpen(item.label);
@@ -189,6 +248,63 @@ export function Navbar({
 
   const navItems = items.length > 0 ? items : [];
 
+  // Debounced search (materials)
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const searchDebounceRef = React.useRef<NodeJS.Timeout | null>(null);
+  const [searchResults, setSearchResults] = React.useState<any[]>([]);
+  const [isResultsOpen, setIsResultsOpen] = React.useState(false);
+  const desktopSearchRef = React.useRef<HTMLDivElement | null>(null);
+  const mobileSearchRef = React.useRef<HTMLDivElement | null>(null);
+  const handleSearchEvent = React.useCallback((query: string) => {
+    setSearchQuery(query);
+  }, []);
+
+  React.useEffect(() => {
+    if (!searchQuery) return;
+    if (searchDebounceRef.current) {
+      clearTimeout(searchDebounceRef.current);
+    }
+    searchDebounceRef.current = setTimeout(async () => {
+      try {
+        const res = await fetch(
+          `/api/search/materials?q=${encodeURIComponent(searchQuery)}`,
+          { method: 'GET' }
+        );
+        if (!res.ok) return;
+        const data = await res.json().catch(() => null);
+        const list = (Array.isArray(data) && data) || [];
+        setSearchResults(list);
+        setIsResultsOpen(true);
+      } catch {
+        // ignore
+      }
+    }, 400);
+    return () => {
+      if (searchDebounceRef.current) {
+        clearTimeout(searchDebounceRef.current);
+      }
+    };
+  }, [searchQuery]);
+
+  // Click outside to close results
+  React.useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (
+        desktopSearchRef.current &&
+        !desktopSearchRef.current.contains(target) &&
+        mobileSearchRef.current &&
+        !mobileSearchRef.current.contains(target)
+      ) {
+        setIsResultsOpen(false);
+      }
+    };
+    if (isResultsOpen) {
+      document.addEventListener('mousedown', handler);
+    }
+    return () => document.removeEventListener('mousedown', handler);
+  }, [isResultsOpen]);
+
   // Cleanup timeout on unmount
   React.useEffect(() => {
     return () => {
@@ -228,14 +344,113 @@ export function Navbar({
 
             {/* Search Bar - Hidden on mobile */}
             {showSearch && (
-              <div className='hidden relative lg:flex flex-1 max-w-2xl mx-4 lg:mx-8 overflow-visible'>
+              <div
+                ref={desktopSearchRef}
+                className='hidden relative lg:flex flex-1 max-w-2xl mx-4 lg:mx-8 overflow-visible'
+              >
                 <SearchBar
                   placeholder={t('searchPlaceholder')}
-                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                  onSearch={(query, category) => onSearch?.(query)}
+                  onSearch={(query /*, category */) => handleSearchEvent(query)}
+                  onQueryChange={q => handleSearchEvent(q)}
                   className='w-full'
+                  value={searchQuery}
                   categoryOptions={categoryOptions}
                 />
+                {isResultsOpen && searchResults.length > 0 && (
+                  <div className='absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-[60]'>
+                    <ul className='max-h-[360px] overflow-auto divide-y divide-gray-100'>
+                      {searchResults.map((item: any, idx: number) => {
+                        const title =
+                          item.title || item.name || item.sku || 'Kết quả';
+                        const slug = item.slug || '';
+                        // Resolve href by type: product uses slug, page uses ABOUT_URL[id]
+                        let href: string | undefined = undefined;
+                        const typeInfer =
+                          ((item?.type ||
+                            item?.kind ||
+                            item?.__type) as string) ||
+                          (item?.sku || item?.images
+                            ? 'product'
+                            : String(item?.id || '').startsWith('page-')
+                              ? 'page'
+                              : 'article');
+                        if (
+                          String(typeInfer).toLowerCase().includes('product')
+                        ) {
+                          href = slug ? `/san-pham/${slug}` : undefined;
+                        } else if (
+                          String(typeInfer).toLowerCase().includes('page')
+                        ) {
+                          const pageId = String(item?.id || item?.pageId || '');
+                          const mapped = (ABOUT_URL as any)[pageId];
+                          href = mapped ? `/${mapped}` : undefined;
+                        } else if (
+                          String(typeInfer).toLowerCase().includes('article') ||
+                          String(typeInfer).toLowerCase().includes('blog')
+                        ) {
+                          href = slug ? `/blogs/${slug}` : undefined;
+                        }
+                        const type =
+                          ((item?.type ||
+                            item?.kind ||
+                            item?.__type) as string) ||
+                          (item?.sku || item?.images
+                            ? 'product'
+                            : String(item?.id || '').startsWith('page-')
+                              ? 'page'
+                              : 'article');
+                        const typeLabel = String(type)
+                          .toLowerCase()
+                          .includes('product')
+                          ? 'Product'
+                          : String(type).toLowerCase().includes('page')
+                            ? 'Page'
+                            : 'Article';
+                        const typeCls =
+                          typeLabel === 'Product'
+                            ? 'bg-emerald-100 text-emerald-700'
+                            : typeLabel === 'Page'
+                              ? 'bg-amber-100 text-amber-700'
+                              : 'bg-blue-100 text-blue-700';
+                        return (
+                          <li key={idx} className='p-3 hover:bg-gray-50'>
+                            {href ? (
+                              <Link
+                                href={href}
+                                className='block text-sm text-gray-800'
+                                onClick={() => {
+                                  setIsResultsOpen(false);
+                                  setSearchQuery('');
+                                  setSearchResults([]);
+                                }}
+                              >
+                                <span className='inline-flex items-center gap-2'>
+                                  <span
+                                    className={`inline-flex items-center rounded px-2 py-0.5 text-[10px] font-medium ${typeCls}`}
+                                  >
+                                    {typeLabel}
+                                  </span>
+                                  <span>{title}</span>
+                                </span>
+                              </Link>
+                            ) : (
+                              <span className='block text-sm text-gray-600'>
+                                <span className='inline-flex items-center gap-2'>
+                                  <span
+                                    className={`inline-flex items-center rounded px-2 py-0.5 text-[10px] font-medium ${typeCls}`}
+                                  >
+                                    {typeLabel}
+                                  </span>
+                                  <span>{title}</span>
+                                </span>
+                              </span>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
 
@@ -292,14 +507,14 @@ export function Navbar({
                     key={item.label}
                     className='relative flex items-center'
                     onMouseEnter={() => {
-                      if (item.label === 'Sản phẩm') {
+                      if (isProductsItem(item)) {
                         handleMegaMenuEnter(item);
                       } else if (item.children && item.children.length > 0) {
                         handleNestedDropdownEnter(item.label);
                       }
                     }}
                     onMouseLeave={() => {
-                      if (item.label === 'Sản phẩm') {
+                      if (isProductsItem(item)) {
                         handleMegaMenuLeave();
                       } else if (item.children && item.children.length > 0) {
                         handleNestedDropdownLeave();
@@ -326,7 +541,7 @@ export function Navbar({
                           }
                         }}
                       >
-                        {item.label}
+                        {getItemLabel(item)}
                         {item.children && item.children.length > 0 && (
                           <ChevronRight
                             className={cn(
@@ -352,7 +567,7 @@ export function Navbar({
                       {/* Nested Dropdown for non-mega menu items */}
                       {item.children &&
                         item.children.length > 0 &&
-                        item.label !== 'Sản phẩm' && (
+                        !isProductsItem(item) && (
                           <div
                             className={cn(
                               'absolute top-full left-0 mt-1 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-40 transition-all duration-200',
@@ -370,7 +585,7 @@ export function Navbar({
                                   href={child.href}
                                   className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#3691C9] transition-colors duration-200'
                                 >
-                                  {child.label}
+                                  {getItemLabel(child)}
                                 </Link>
                               ))}
                             </div>
@@ -413,12 +628,18 @@ export function Navbar({
             <div className='flex gap-8'>
               {/* Left Sidebar - Categories */}
               <div className='w-64 space-y-4'>
-                <div className='flex items-center gap-2'>
+                <Link
+                  href='/danh-muc-san-pham'
+                  className='flex items-center gap-2 hover:opacity-80 transition-opacity'
+                  onClick={closeMegaMenu}
+                >
                   <h3 className='text-sm font-semibold text-blue-600'>
-                    {activeMegaMenuItem?.label || 'Menu'}
+                    {activeMegaMenuItem
+                      ? getItemLabel(activeMegaMenuItem)
+                      : 'Menu'}
                   </h3>
                   <ChevronRight className='h-4 w-4 text-blue-600' />
-                </div>
+                </Link>
 
                 <div className='space-y-2'>
                   {activeMegaMenuItem?.children?.map(child => (
@@ -441,7 +662,7 @@ export function Navbar({
                             : 'text-gray-600'
                         )}
                       />
-                      <span className='text-sm'>{child.label}</span>
+                      <span className='text-sm'>{getItemLabel(child)}</span>
                     </Link>
                   ))}
                 </div>
@@ -449,208 +670,106 @@ export function Navbar({
 
               {/* Right Section - Dynamic Content */}
               <div className='flex-1'>
-                {activeMegaMenuItem?.label === 'Sản phẩm' && activeLeftItem && (
+                {isProductsItem(activeMegaMenuItem) && activeLeftItem && (
                   <div className='space-y-4'>
-                    <h3 className='text-lg font-semibold text-gray-800'>
-                      {activeLeftItem.label}
-                    </h3>
-                    {/* Dynamic content based on activeLeftItem */}
-                    {activeLeftItem.label === 'Thiết bị' && (
-                      <div className='grid grid-cols-3 gap-6'>
-                        <div className='space-y-3'>
-                          <h4 className='text-sm font-bold text-gray-800'>
-                            Máy PCR
-                          </h4>
-                          <div className='space-y-2'>
-                            <div className='text-xs text-gray-600'>
-                              Máy PCR Real-time
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Máy PCR Gradient
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Máy PCR Multiplex
-                            </div>
+                    {(() => {
+                      const parentSlug =
+                        (activeLeftItem as any).slug ||
+                        (activeLeftItem.href || '').split('/').pop();
+                      const cat = findCategoryBySlug(parentSlug);
+                      if (!cat) {
+                        return (
+                          <div className='text-sm text-gray-400'>
+                            Không có dữ liệu
                           </div>
-                        </div>
-                        <div className='space-y-3'>
-                          <h4 className='text-sm font-bold text-gray-800'>
-                            Máy ly tâm
-                          </h4>
-                          <div className='space-y-2'>
-                            <div className='text-xs text-gray-600'>
-                              Máy ly tâm mini
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Máy ly tâm tốc độ cao
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Máy ly tâm lạnh
-                            </div>
-                          </div>
-                        </div>
-                        <div className='space-y-3'>
-                          <h4 className='text-sm font-bold text-gray-800'>
-                            Máy khác
-                          </h4>
-                          <div className='space-y-2'>
-                            <div className='text-xs text-gray-600'>
-                              Máy vortex
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Máy pipette
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Máy đo quang
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                        );
+                      }
+                      const subcats: any[] = Array.isArray(cat.subcategories)
+                        ? cat.subcategories
+                        : [];
+                      const parentProducts: any[] = Array.isArray(cat.products)
+                        ? cat.products
+                        : [];
 
-                    {activeLeftItem.label === 'Kit test PCR' && (
-                      <div className='grid grid-cols-4 gap-4'>
-                        <div className='space-y-3'>
-                          <h4 className='text-sm font-bold text-gray-800'>
-                            Kit COVID-19
-                          </h4>
-                          <div className='space-y-2'>
-                            <div className='text-xs text-gray-600'>
-                              Kit test nhanh
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Kit RT-PCR
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Kit antigen
-                            </div>
+                      if (subcats.length > 0) {
+                        return (
+                          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-3 items-start'>
+                            {subcats.map(sc => (
+                              <div key={sc.slug || sc.id} className='space-y-3'>
+                                <div className='text-base px-3 font-bold text-gray-900'>
+                                  {sc.name}
+                                </div>
+                                <div className='space-y-2'>
+                                  {Array.isArray(sc.products) &&
+                                  sc.products.length > 0 ? (
+                                    sc.products.map((p: any, idx: number) =>
+                                      p.slug ? (
+                                        <Link
+                                          key={`${p.slug}-${idx}`}
+                                          href={`/san-pham/${p.slug}`}
+                                          className='block text-sm text-gray-700 px-3 py-2 rounded hover:text-[#215778] hover:bg-gray-50 transition-colors duration-150'
+                                          onClick={closeMegaMenu}
+                                        >
+                                          {p.title}
+                                        </Link>
+                                      ) : (
+                                        <span
+                                          key={`no-slug-${idx}`}
+                                          className='block text-sm text-gray-400 px-3 py-2 rounded'
+                                        >
+                                          {p.title}
+                                        </span>
+                                      )
+                                    )
+                                  ) : (
+                                    <div className='text-sm text-gray-400'>
+                                      Không có sản phẩm
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
                           </div>
-                        </div>
-                        <div className='space-y-3'>
-                          <h4 className='text-sm font-bold text-gray-800'>
-                            Kit cúm
-                          </h4>
-                          <div className='space-y-2'>
-                            <div className='text-xs text-gray-600'>
-                              Kit cúm A/B
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Kit cúm H1N1
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Kit cúm H5N1
-                            </div>
-                          </div>
-                        </div>
-                        <div className='space-y-3'>
-                          <h4 className='text-sm font-bold text-gray-800'>
-                            Kit vi khuẩn
-                          </h4>
-                          <div className='space-y-2'>
-                            <div className='text-xs text-gray-600'>
-                              Kit E.coli
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Kit Salmonella
-                            </div>
-                            <div className='text-xs text-gray-600'>
-                              Kit Listeria
-                            </div>
-                          </div>
-                        </div>
-                        <div className='space-y-3'>
-                          <h4 className='text-sm font-bold text-gray-800'>
-                            Kit khác
-                          </h4>
-                          <div className='space-y-2'>
-                            <div className='text-xs text-gray-600'>Kit HPV</div>
-                            <div className='text-xs text-gray-600'>Kit HIV</div>
-                            <div className='text-xs text-gray-600'>Kit HBV</div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                        );
+                      }
 
-                    {/* Default content for other items */}
-                    {!['Thiết bị', 'Kit test PCR'].includes(
-                      activeLeftItem.label
-                    ) && (
-                      <div className='space-y-4'>
-                        <div className='grid grid-cols-2 gap-6'>
+                      return (
+                        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-3 items-start'>
                           <div className='space-y-3'>
-                            <h4 className='text-sm font-medium text-gray-700'>
-                              Sản phẩm chính
-                            </h4>
+                            <div className='text-base font-bold text-gray-900 px-3'>
+                              {getItemLabel(activeLeftItem)}
+                            </div>
                             <div className='space-y-2'>
-                              <div className='text-xs text-gray-600'>
-                                Sản phẩm 1
-                              </div>
-                              <div className='text-xs text-gray-600'>
-                                Sản phẩm 2
-                              </div>
-                              <div className='text-xs text-gray-600'>
-                                Sản phẩm 3
-                              </div>
+                              {parentProducts.length > 0 ? (
+                                parentProducts.map((p: any, idx: number) =>
+                                  p.slug ? (
+                                    <Link
+                                      key={`${p.slug}-${idx}`}
+                                      href={`/san-pham/${p.slug}`}
+                                      className='block text-sm text-gray-700 px-3 py-2 rounded hover:text-[#215778] hover:bg-gray-50 transition-colors duration-150'
+                                      onClick={closeMegaMenu}
+                                    >
+                                      {p.title}
+                                    </Link>
+                                  ) : (
+                                    <span
+                                      key={`no-slug-${idx}`}
+                                      className='block text-sm text-gray-400 px-3 py-2 rounded'
+                                    >
+                                      {p.title}
+                                    </span>
+                                  )
+                                )
+                              ) : (
+                                <div className='text-sm text-gray-400 px-3 py-2 rounded'>
+                                  Không có sản phẩm
+                                </div>
+                              )}
                             </div>
                           </div>
-                          <div className='space-y-3'>
-                            <h4 className='text-sm font-medium text-gray-700'>
-                              Xem thêm
-                            </h4>
-                            <div className='space-y-2'>
-                              <div className='text-xs text-gray-600'>
-                                Sản phẩm 4
-                              </div>
-                              <div className='text-xs text-gray-600'>
-                                Sản phẩm 5
-                              </div>
-                              <div className='text-xs text-gray-600'>
-                                Sản phẩm 6
-                              </div>
-                            </div>
-                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* Default content for other menu items */}
-                {activeMegaMenuItem?.label !== 'Sản phẩm' && activeLeftItem && (
-                  <div className='space-y-4'>
-                    <h3 className='text-lg font-semibold text-gray-800'>
-                      {activeLeftItem.label}
-                    </h3>
-                    <div className='grid grid-cols-2 gap-6'>
-                      <div className='space-y-3'>
-                        <h4 className='text-sm font-medium text-gray-700'>
-                          Thông tin chính
-                        </h4>
-                        <div className='space-y-2'>
-                          <div className='text-xs text-gray-600'>
-                            Chi tiết 1
-                          </div>
-                          <div className='text-xs text-gray-600'>
-                            Chi tiết 2
-                          </div>
-                          <div className='text-xs text-gray-600'>
-                            Chi tiết 3
-                          </div>
-                        </div>
-                      </div>
-                      <div className='space-y-3'>
-                        <h4 className='text-sm font-medium text-gray-700'>
-                          Xem thêm
-                        </h4>
-                        <div className='space-y-2'>
-                          <div className='text-xs text-gray-600'>
-                            Thông tin bổ sung
-                          </div>
-                          <div className='text-xs text-gray-600'>Liên hệ</div>
-                          <div className='text-xs text-gray-600'>Hỗ trợ</div>
-                        </div>
-                      </div>
-                    </div>
+                      );
+                    })()}
                   </div>
                 )}
               </div>
@@ -664,14 +783,67 @@ export function Navbar({
         <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white'>
           {/* Mobile Search */}
           {showSearch && (
-            <div className='px-3 py-2'>
+            <div ref={mobileSearchRef} className='px-3 py-2 relative'>
               <SearchBar
                 placeholder={searchPlaceholder}
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                onSearch={(query, category) => onSearch?.(query)}
+                onSearch={(query /*, category */) => handleSearchEvent(query)}
+                onQueryChange={q => handleSearchEvent(q)}
                 className='w-full'
+                value={searchQuery}
                 categoryOptions={categoryOptions}
               />
+              {isResultsOpen && searchResults.length > 0 && (
+                <div className='absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-[60]'>
+                  <ul className='max-h-[360px] overflow-auto divide-y divide-gray-100'>
+                    {searchResults.map((item: any, idx: number) => {
+                      const title =
+                        item.title || item.name || item.sku || 'Kết quả';
+                      const slug = item.slug || '';
+                      let href: string | undefined = undefined;
+                      const typeInfer =
+                        ((item?.type ||
+                          item?.kind ||
+                          item?.__type) as string) ||
+                        (item?.sku || item?.images
+                          ? 'product'
+                          : String(item?.id || '').startsWith('page-')
+                            ? 'page'
+                            : 'article');
+                      if (String(typeInfer).toLowerCase().includes('product')) {
+                        href = slug ? `/san-pham/${slug}` : undefined;
+                      } else if (
+                        String(typeInfer).toLowerCase().includes('page')
+                      ) {
+                        const pageId = String(item?.id || item?.pageId || '');
+                        const mapped = (ABOUT_URL as any)[pageId];
+                        href = mapped ? `/${mapped}` : undefined;
+                      } else if (
+                        String(typeInfer).toLowerCase().includes('article') ||
+                        String(typeInfer).toLowerCase().includes('blog')
+                      ) {
+                        href = slug ? `/blogs/${slug}` : undefined;
+                      }
+                      return (
+                        <li key={idx} className='p-3 hover:bg-gray-50'>
+                          {href ? (
+                            <Link
+                              href={href}
+                              className='block text-sm text-gray-800'
+                              onClick={() => setIsResultsOpen(false)}
+                            >
+                              {title}
+                            </Link>
+                          ) : (
+                            <span className='block text-sm text-gray-600'>
+                              {title}
+                            </span>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
             </div>
           )}
 
