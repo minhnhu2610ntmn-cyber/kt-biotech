@@ -1,6 +1,7 @@
 'use client';
 
 import { Heading, SliderV2, Text } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -20,9 +21,11 @@ interface RelatedProductsSectionProps {
 }
 
 export default function RelatedProductsSection({
-  heading = 'Sản phẩm liên quan',
+  heading,
   products,
 }: RelatedProductsSectionProps) {
+  const t = useTranslations('product');
+  const defaultHeading = heading || t('relatedProducts');
   // Use SliderV2 like homepage sections; no external ref needed
 
   if (!products || products.length === 0) {
@@ -37,7 +40,7 @@ export default function RelatedProductsSection({
         className='!text-2xl !font-bold text-[#215778] !uppercase tracking-wide'
         transform='uppercase'
       >
-        {heading}
+        {defaultHeading}
       </Heading>
       <div className='relative'>
         <SliderV2
@@ -75,12 +78,12 @@ export default function RelatedProductsSection({
                     />
                   ) : (
                     <div className='flex h-full w-full items-center justify-center text-sm text-gray-400'>
-                      Không có hình ảnh
+                      {t('noImage')}
                     </div>
                   )}
                   {product.isNew && (
                     <span className='absolute right-4 top-4 rounded-full bg-[#86BDDF] px-3 py-1 text-xs font-semibold text-white'>
-                      New
+                      {t('new')}
                     </span>
                   )}
                 </div>

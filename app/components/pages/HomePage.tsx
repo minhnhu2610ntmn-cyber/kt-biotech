@@ -6,6 +6,7 @@ import {
   Heading,
   Text,
 } from '@ktbiotech/system-design';
+import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import type { Article } from '../../types/strapi';
 import {
@@ -20,14 +21,15 @@ export interface HomePageProps {
   latestArticles: Article[];
 }
 
-export default function HomePage({ latestArticles }: HomePageProps) {
+export default async function HomePage({ latestArticles }: HomePageProps) {
+  const t = await getTranslations('homepage');
   return (
     <div className='min-h-screen relative z-10 bg-[#F7FBFD]'>
       <HeroSection />
       <MilestonesSection />
       <TechnologySection />
       <CountriesSection />
-      <NewsSection latestArticles={latestArticles} title='Tin Tức' />
+      <NewsSection latestArticles={latestArticles} title={t('newsTitle')} />
       <PartnersSection />
 
       <Container className='relative px-4 sm:px-6 md:px-8 lg:px-10 xl:px-0'>
@@ -45,14 +47,14 @@ export default function HomePage({ latestArticles }: HomePageProps) {
                 color='white'
                 className='!text-[28px] lg:!text-[32px] xl:!text-[36px] font-semibold leading-tight'
               >
-                Need information support
+                {t('banner.title')}
               </Heading>
               <Text
                 color='white'
                 weight='bold'
                 className='text-[28px] xl:!text-[36px] leading-tight'
               >
-                Contact Us Now
+                {t('banner.subtitle')}
               </Text>
             </div>
 
@@ -62,7 +64,7 @@ export default function HomePage({ latestArticles }: HomePageProps) {
                 variant='default'
                 className='w-auto bg-[#3691C9] hover:bg-[#2a7ba3] text-white !px-8 !py-6 rounded-lg flex items-center justify-center gap-2 font-medium transition-colors text-sm sm:text-base'
               >
-                <span>Liên hệ</span>
+                <span>{t('banner.button')}</span>
                 <ChevronRightIcon
                   width={14}
                   height={14}

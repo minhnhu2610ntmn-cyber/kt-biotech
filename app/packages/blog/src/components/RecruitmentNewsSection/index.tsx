@@ -1,6 +1,7 @@
 'use client';
 
 import { Container, Heading } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 import { mockRecruitmentPosts } from '../../data/mockData';
 import RecruitmentCard from '../RecruitmentCard';
@@ -23,6 +24,7 @@ interface RecruitmentNewsSectionProps {
 export default function RecruitmentNewsSection({
   posts,
 }: RecruitmentNewsSectionProps) {
+  const t = useTranslations('blog');
   const [isVisible, setIsVisible] = useState(false);
   const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -83,7 +85,7 @@ export default function RecruitmentNewsSection({
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          TIN TUYỂN DỤNG
+          {t('recruitment')}
         </Heading>
 
         {/* Recruitment Cards Grid - 3 columns on desktop, 1 column on mobile */}

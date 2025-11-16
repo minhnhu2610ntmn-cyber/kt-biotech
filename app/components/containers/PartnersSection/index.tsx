@@ -6,11 +6,13 @@ import {
   SliderV2,
   SliderV2Presets,
 } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { partners } from '../../../data/mockData';
 
 export default function PartnersSection() {
+  const t = useTranslations('homepage.partners');
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -76,7 +78,7 @@ export default function PartnersSection() {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          KHÁCH HÀNG CỦA KHOA THƯƠNG
+          {t('title')}
         </Heading>
         <div
           className={`bg-kt-gray-50 rounded-lg p-8 transition-all duration-800 ease-out delay-400 ${

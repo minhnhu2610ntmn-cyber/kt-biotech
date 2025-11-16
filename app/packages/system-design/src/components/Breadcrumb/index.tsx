@@ -28,6 +28,11 @@ export function Breadcrumb({ items, className, separator }: BreadcrumbProps) {
 
   // Auto-generate breadcrumb from pathname if items not provided
   const breadcrumbItems = React.useMemo(() => {
+    // Hide breadcrumb on home page
+    if (pathname === '/') {
+      return [];
+    }
+
     // Priority: props items > context items > auto-generated
     if (items) return items;
     if (contextItems) return contextItems;
@@ -89,6 +94,11 @@ export function Breadcrumb({ items, className, separator }: BreadcrumbProps) {
 
     return result;
   }, [pathname, items, contextItems, t, tNavbar]);
+
+  // Hide breadcrumb on home page or if no items
+  if (pathname === '/' || breadcrumbItems.length === 0) {
+    return null;
+  }
 
   const defaultSeparator = <span className='text-[#215778] mx-1'>/</span>;
 

@@ -1,6 +1,7 @@
 // Server Component: fetch product categories from Strapi
 
 import { Container, Heading, Text } from '@ktbiotech/system-design';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import Link from 'next/link';
 import { buildImageUrl, getProductCategoriesCached } from '../config/api';
@@ -54,6 +55,7 @@ async function getProductCategories(): Promise<PageCategory[]> {
 }
 
 export default async function ProductCategoriesPage() {
+  const t = await getTranslations('category');
   const categories = await getProductCategories();
 
   return (
@@ -66,7 +68,7 @@ export default async function ProductCategoriesPage() {
           weight='semibold'
           decoration='underline'
         >
-          SẢN PHẨM
+          {t('title')}
         </Heading>
 
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
@@ -122,7 +124,7 @@ export default async function ProductCategoriesPage() {
 
           {categories.length === 0 && (
             <div className='col-span-full'>
-              <Text className='text-gray-600'>Không có danh mục sản phẩm</Text>
+              <Text className='text-gray-600'>{t('noCategories')}</Text>
             </div>
           )}
         </div>

@@ -1,4 +1,5 @@
 import { Container, Heading, SliderV2, Text } from '@ktbiotech/system-design';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import ScrollAnimationWrapper from '../../components/containers/ScrollAnimationWrapper';
 import { StrapiApi, buildImageUrl } from '../../config/api';
@@ -85,6 +86,7 @@ function normalizeAwardItems(rawAward: unknown): AwardItem[] {
 }
 
 export default async function AwardPage() {
+  const t = await getTranslations('common');
   const api = new StrapiApi();
   const award = await api.getAward();
   const awardData = award?.attributes || award || null;
@@ -145,10 +147,10 @@ export default async function AwardPage() {
               className='!text-base text-[#215778] mb-2'
               weight='semibold'
             >
-              Thông tin đang được cập nhật
+              {t('updating')}
             </Heading>
             <Text className='text-sm text-[#4B5053]'>
-              Nội dung chứng nhận sẽ được cập nhật trong thời gian sớm nhất.
+              {t('updatingCertificate')}
             </Text>
           </div>
         )}
@@ -227,10 +229,10 @@ export default async function AwardPage() {
               className='!text-base text-[#215778] mb-2'
               weight='semibold'
             >
-              Thông tin đang được cập nhật
+              {t('updating')}
             </Heading>
             <Text className='text-sm text-[#4B5053]'>
-              Nội dung giải thưởng sẽ được cập nhật trong thời gian sớm nhất.
+              {t('updatingAward')}
             </Text>
           </div>
         )}

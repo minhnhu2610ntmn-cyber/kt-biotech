@@ -69,6 +69,131 @@
     "dichvu": "Services",
     "nghiencuukhoahoc": "Scientific Research",
     "blogs": "News",
-    "lienhe": "Contact"
+    "lienhe": "Contact",
+    "tamnhinsumenh": "Vision & Mission",
+    "quanhehoptac": "Cooperation",
+    "giaithuong": "Awards",
+    "cocautochuc": "Organizational Structure"
+  },
+  "footer": {
+    "products": "Products",
+    "aboutUs": "About Us",
+    "information": "Information",
+    "about": "About",
+    "awards": "Awards",
+    "cooperation": "Cooperation",
+    "news": "News",
+    "contact": "Contact",
+    "productCategories": "Product Categories",
+    "businessHours": "Monday - Friday",
+    "morning": "Morning: 07:30 - 12:00",
+    "afternoon": "Afternoon: 13:30 - 17:00",
+    "terms": "Terms & conditions",
+    "privacy": "Privacy policy",
+    "copyright": "Copyright © 2025 Khoa Thương. Designed by ParaShine",
+    "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt"
+  },
+  "homepage": {
+    "banner": {
+      "title": "Need information support",
+      "subtitle": "Contact Us Now",
+      "button": "Contact"
+    },
+    "newsTitle": "News",
+    "milestones": {
+      "title": "HISTORICAL DEPTH",
+      "description": "Timeline description Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+    },
+    "technology": {
+      "title": "TECHNOLOGY EXCELLENCE",
+      "description": "Timeline description Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+    },
+    "countries": {
+      "title": "COUNTRIES KHOA THUONG HAS EXPORTED TO",
+      "china": "China",
+      "cambodia": "Cambodia",
+      "japan": "Japan",
+      "usa": "United States",
+      "malaysia": "Malaysia"
+    },
+    "partners": {
+      "title": "KHOA THUONG'S CUSTOMERS"
+    }
+  },
+  "contact": {
+    "title": "CONTACT",
+    "companyTitle": "KHOA THUONG BIOTECHNOLOGY COMPANY LIMITED",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "addressValue": "No. 10-12, Street 3A, Gia Hoa Residential Area, Binh Hung Ward, Ho Chi Minh City",
+    "form": {
+      "firstName": "Full Name",
+      "firstNamePlaceholder": "Full Name",
+      "company": "Company/Organization",
+      "companyPlaceholder": "Company name",
+      "phone": "Phone number",
+      "phonePlaceholder": "Phone number",
+      "email": "Email",
+      "emailPlaceholder": "Email",
+      "message": "Message",
+      "messagePlaceholder": "Message",
+      "submit": "Send",
+      "submitting": "Sending...",
+      "success": "Thank you! Your message has been sent successfully.",
+      "error": "An error occurred. Please try again later."
+    }
+  },
+  "product": {
+    "manufacturer": "Manufacturer",
+    "specification": "Specification",
+    "sku": "SKU",
+    "tags": "Tags",
+    "details": "PRODUCT DETAILS",
+    "relatedProducts": "Related Products",
+    "noImage": "No image",
+    "new": "New",
+    "contactCard": {
+      "title": "CONTACT NOW FOR CONSULTATION"
+    }
+  },
+  "category": {
+    "title": "PRODUCTS",
+    "noCategories": "No product categories",
+    "filter": "Filter",
+    "productList": "PRODUCT LIST",
+    "downloadCatalogue": "Download Catalogue",
+    "category": "Category",
+    "manufacturer": "Manufacturer"
+  },
+  "blog": {
+    "latest": "LATEST NEWS",
+    "mostViewed": "MOST VIEWED",
+    "important": "IMPORTANT NEWS",
+    "recruitment": "RECRUITMENT NEWS",
+    "unknownAuthor": "Unknown Author",
+    "uncategorized": "Uncategorized"
+  },
+  "common": {
+    "noProducts": "No products",
+    "noData": "No data",
+    "adjustFilters": "Please adjust filters or try different keywords",
+    "image": "Image",
+    "product": "Product",
+    "sku": "SKU Code",
+    "specification": "Specification",
+    "close": "Close",
+    "searchProducts": "Search products",
+    "viewAll": "View all",
+    "updating": "Information is being updated",
+    "updatingSoon": "Content will be updated soon.",
+    "updatingCertificate": "Certificate content will be updated soon.",
+    "updatingAward": "Award content will be updated soon.",
+    "updatingVision": "Vision content will be updated soon.",
+    "updatingMission": "Mission content will be updated soon.",
+    "catalogueUnavailable": "Catalogue is currently unavailable",
+    "productNotFound": "Product not found",
+    "productDetails": "Product details",
+    "productsOfKTBioTech": "KTBioTech Products"
   }
 }

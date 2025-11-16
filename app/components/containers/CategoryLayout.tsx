@@ -1,6 +1,7 @@
 'use client';
 
 import { SidebarMenu } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import { useCallback, useState } from 'react';
 import BrandFilters from './BrandFilters';
 import { CategoryHeader } from './CategoryHeader';
@@ -35,6 +36,7 @@ export default function CategoryLayout({
   catalogue = null,
   pagination,
 }: CategoryLayoutProps) {
+  const t = useTranslations('category');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const primaryCatalogue =
     catalogue && catalogue.downloadUrl ? catalogue : null;
@@ -96,7 +98,7 @@ export default function CategoryLayout({
           <div className='mt-4 w-full rounded-lg bg-[#86BDDF] text-[#1B1C1D] px-4 py-3 flex items-center justify-between'>
             <div className='flex w-full items-center gap-3'>
               <FilterIcon className='text-[#1B1C1D]' />
-              <span className='text-sm font-medium'>Bộ lọc</span>
+              <span className='text-sm font-medium'>{t('filter')}</span>
             </div>
           </div>
           <BrandFilters brands={brands} />
@@ -105,8 +107,8 @@ export default function CategoryLayout({
         {/* Right Content */}
         <div>
           <CategoryHeader
-            title='DANH SÁCH SẢN PHẨM'
-            downloadLabel={primaryCatalogue?.title || 'Download Catalogue'}
+            title={t('productList')}
+            downloadLabel={primaryCatalogue?.title || t('downloadCatalogue')}
             onDownloadClick={
               primaryCatalogue?.downloadUrl
                 ? handleDownloadCatalogue

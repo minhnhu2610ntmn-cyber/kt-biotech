@@ -69,6 +69,131 @@
     "dichvu": "Dịch vụ",
     "nghiencuukhoahoc": "Nghiên cứu khoa học",
     "blogs": "Tin tức",
-    "lienhe": "Liên hệ"
+    "lienhe": "Liên hệ",
+    "tamnhinsumenh": "Tầm nhìn sứ mệnh",
+    "quanhehoptac": "Quan hệ hợp tác",
+    "giaithuong": "Giải thưởng",
+    "cocautochuc": "Cơ cấu tổ chức"
+  },
+  "footer": {
+    "products": "Sản phẩm",
+    "aboutUs": "Chúng tôi",
+    "information": "Thông tin",
+    "about": "Giới thiệu",
+    "awards": "Giải thưởng",
+    "cooperation": "Quan hệ hợp tác",
+    "news": "Tin tức",
+    "contact": "Liên hệ",
+    "productCategories": "Danh mục sản phẩm",
+    "businessHours": "Thứ 2 - Thứ 6",
+    "morning": "Sáng: 07h30 - 12h00",
+    "afternoon": "Chiều: 13h30 - 17h00",
+    "terms": "Terms & conditions",
+    "privacy": "Privacy policy",
+    "copyright": "Copyright © 2025 Khoa Thương. Designed by ParaShine",
+    "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt"
+  },
+  "homepage": {
+    "banner": {
+      "title": "Cần hỗ trợ thông tin",
+      "subtitle": "Liên hệ ngay",
+      "button": "Liên hệ"
+    },
+    "newsTitle": "Tin Tức",
+    "milestones": {
+      "title": "BỀ DÀY LỊCH SỬ",
+      "description": "Mô tả mốc thời gian Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+    },
+    "technology": {
+      "title": "ĐỈNH CAO CÔNG NGHỆ",
+      "description": "Mô tả mốc thời gian Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+    },
+    "countries": {
+      "title": "QUỐC GIA KHOA THƯƠNG ĐÃ XUẤT KHẨU ĐẾN",
+      "china": "Trung Quốc",
+      "cambodia": "Campuchia",
+      "japan": "Nhật Bản",
+      "usa": "Hoa Kỳ",
+      "malaysia": "Malaysia"
+    },
+    "partners": {
+      "title": "KHÁCH HÀNG CỦA KHOA THƯƠNG"
+    }
+  },
+  "contact": {
+    "title": "LIÊN HỆ",
+    "companyTitle": "CÔNG TY TNHH CÔNG NGHỆ SINH HỌC KHOA THƯƠNG",
+    "address": "Địa chỉ",
+    "phone": "Điện thoại",
+    "email": "Email",
+    "addressValue": "Số 10-12, đường số 3A, khu dân cư Gia Hoà, phường Bình Hưng, thành phố Hồ Chí Minh",
+    "form": {
+      "firstName": "Họ và tên",
+      "firstNamePlaceholder": "Họ và tên",
+      "company": "Đơn vị/công ty",
+      "companyPlaceholder": "Tên công ty",
+      "phone": "Số điện thoại",
+      "phonePlaceholder": "Số điện thoại",
+      "email": "Email",
+      "emailPlaceholder": "Email",
+      "message": "Tin nhắn",
+      "messagePlaceholder": "Tin nhắn",
+      "submit": "Gửi",
+      "submitting": "Đang gửi...",
+      "success": "Cảm ơn bạn! Tin nhắn đã được gửi thành công.",
+      "error": "Có lỗi xảy ra. Vui lòng thử lại sau."
+    }
+  },
+  "product": {
+    "manufacturer": "Nhà Sản Xuất",
+    "specification": "Quy Cách",
+    "sku": "SKU",
+    "tags": "Tags",
+    "details": "CHI TIẾT SẢN PHẨM",
+    "relatedProducts": "Sản phẩm liên quan",
+    "noImage": "Không có hình ảnh",
+    "new": "Mới",
+    "contactCard": {
+      "title": "LIÊN HỆ NGAY ĐỂ ĐƯỢC TƯ VẤN"
+    }
+  },
+  "category": {
+    "title": "SẢN PHẨM",
+    "noCategories": "Không có danh mục sản phẩm",
+    "filter": "Bộ lọc",
+    "productList": "DANH SÁCH SẢN PHẨM",
+    "downloadCatalogue": "Download Catalogue",
+    "category": "Danh Mục",
+    "manufacturer": "Hãng Sản Xuất"
+  },
+  "blog": {
+    "latest": "TIN MỚI NHẤT",
+    "mostViewed": "XEM NHIỀU",
+    "important": "TIN QUAN TRỌNG",
+    "recruitment": "TIN TUYỂN DỤNG",
+    "unknownAuthor": "Tác giả không xác định",
+    "uncategorized": "Chưa phân loại"
+  },
+  "common": {
+    "noProducts": "Không có sản phẩm",
+    "noData": "Không có dữ liệu",
+    "adjustFilters": "Hãy điều chỉnh bộ lọc hoặc thử từ khóa khác",
+    "image": "Hình ảnh",
+    "product": "Sản phẩm",
+    "sku": "Mã SKU",
+    "specification": "Quy cách",
+    "close": "Đóng",
+    "searchProducts": "Tìm kiếm sản phẩm",
+    "viewAll": "Xem tất cả",
+    "updating": "Thông tin đang được cập nhật",
+    "updatingSoon": "Nội dung sẽ được cập nhật trong thời gian sớm nhất.",
+    "updatingCertificate": "Nội dung chứng nhận sẽ được cập nhật trong thời gian sớm nhất.",
+    "updatingAward": "Nội dung giải thưởng sẽ được cập nhật trong thời gian sớm nhất.",
+    "updatingVision": "Nội dung tầm nhìn sẽ được cập nhật trong thời gian sớm nhất.",
+    "updatingMission": "Nội dung sứ mệnh sẽ được cập nhật trong thời gian sớm nhất.",
+    "catalogueUnavailable": "Catalogue hiện không khả dụng",
+    "productNotFound": "Sản phẩm không tìm thấy",
+    "productDetails": "Chi tiết sản phẩm",
+    "productsOfKTBioTech": "Sản phẩm của KTBioTech"
   }
 }

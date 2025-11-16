@@ -5,6 +5,7 @@ import {
   ProductImageGallery,
   Text,
 } from '@ktbiotech/system-design';
+import { getTranslations } from 'next-intl/server';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -235,10 +236,14 @@ export default async function ProductDetailPage({
 
   console.log('relatedItems', relatedItems);
 
+  const t = await getTranslations('product');
+  const tBreadcrumb = await getTranslations('breadcrumb');
+  const tCommon = await getTranslations('common');
+
   // Build breadcrumb items
   const breadcrumbItems = [
-    { label: 'Trang Chủ', href: '/' },
-    { label: 'Danh mục sản phẩm', href: '/danh-muc-san-pham' },
+    { label: tBreadcrumb('home'), href: '/' },
+    { label: tBreadcrumb('danhmucsanpham'), href: '/danh-muc-san-pham' },
   ];
 
   // Add category if available
@@ -301,7 +306,7 @@ export default async function ProductDetailPage({
               {brandName && (
                 <div className='flex flex-wrap gap-2'>
                   <Text className='font-semibold text-gray-900 w-32 shrink-0'>
-                    Nhà Sản Xuất:
+                    {t('manufacturer')}:
                   </Text>
                   <Text className='text-gray-700 flex-1'>{brandName}</Text>
                 </div>
@@ -309,7 +314,7 @@ export default async function ProductDetailPage({
               {specification && (
                 <div className='flex flex-wrap gap-2'>
                   <Text className='font-semibold text-gray-900 w-32 shrink-0'>
-                    Quy Cách:
+                    {t('specification')}:
                   </Text>
                   <Text className='text-gray-700 flex-1'>{specification}</Text>
                 </div>
@@ -317,7 +322,7 @@ export default async function ProductDetailPage({
               {sku && (
                 <div className='flex flex-wrap gap-2'>
                   <Text className='font-semibold text-gray-900 w-32 shrink-0'>
-                    SKU:
+                    {t('sku')}:
                   </Text>
                   <Text className='text-gray-700 flex-1'>{sku}</Text>
                 </div>
@@ -325,7 +330,7 @@ export default async function ProductDetailPage({
               {tags && (
                 <div className='flex flex-wrap gap-2'>
                   <Text className='font-semibold text-gray-900 w-32 shrink-0'>
-                    Tags:
+                    {t('tags')}:
                   </Text>
                   <Text className='text-gray-700 flex-1'>{tags}</Text>
                 </div>
@@ -346,14 +351,14 @@ export default async function ProductDetailPage({
         {detailBlocks.length > 0 && (
           <div className='space-y-4'>
             <Heading level={2} className='!text-2xl !font-bold' color='#215778'>
-              CHI TIẾT SẢN PHẨM
+              {t('details')}
             </Heading>
             <ProductDetailContent blocks={detailBlocks} />
           </div>
         )}
         {relatedItems.length > 0 && (
           <RelatedProductsSection
-            heading='Sản phẩm liên quan'
+            heading={t('relatedProducts')}
             products={relatedItems}
             showPagination={(relatedMeta?.pageCount || 1) > 1}
           />
@@ -372,13 +377,13 @@ export async function generateMetadata({
 
   if (!product) {
     return {
-      title: 'Sản phẩm không tìm thấy',
+      title: tCommon('productNotFound'),
     };
   }
 
   const productData = product.attributes || product;
-  const title = productData.title || 'Sản phẩm';
-  const description = productData.description || 'Chi tiết sản phẩm';
+  const title = productData.title || tCommon('product');
+  const description = productData.description || tCommon('productDetails');
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL ||
     process.env.BASE_URL ||

@@ -1,6 +1,7 @@
 'use client';
 
 import { Heading, Input, Text } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export type Brand = { id: number; name: string };
@@ -11,9 +12,11 @@ interface BrandFiltersProps {
 }
 
 export default function BrandFilters({
-  title = 'Hãng Sản Xuất',
+  title,
   brands,
 }: BrandFiltersProps) {
+  const t = useTranslations('category');
+  const defaultTitle = title || t('manufacturer');
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -47,7 +50,7 @@ export default function BrandFilters({
   return (
     <div className='mt-4 w-full rounded-xl bg-[#F7FBFD] p-4'>
       <Heading level={6} className='!text-base mb-3 !text-[#215778]'>
-        {title}
+        {defaultTitle}
       </Heading>
       <div className='space-y-3'>
         {brands.map(brand => {

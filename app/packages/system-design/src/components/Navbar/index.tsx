@@ -63,6 +63,7 @@ export function Navbar({
   catalogueDownload = null,
 }: NavbarProps) {
   const t = useTranslations('navbar');
+  const tCommon = useTranslations('common');
 
   // Transform product categories to category options
   const categoryOptions = React.useMemo(() => {
@@ -693,7 +694,7 @@ export function Navbar({
                 title={
                   isCatalogueAvailable
                     ? downloadLabel
-                    : 'Catalogue hiện không khả dụng'
+                    : tCommon('catalogueUnavailable')
                 }
               >
                 <DownloadIcon width={24} height={24} />
@@ -771,7 +772,7 @@ export function Navbar({
                       if (!cat) {
                         return (
                           <div className='text-sm text-gray-400'>
-                            Không có dữ liệu
+                            {tCommon('noData')}
                           </div>
                         );
                       }
@@ -814,7 +815,7 @@ export function Navbar({
                                     )
                                   ) : (
                                     <div className='text-sm text-gray-400 px-3 py-2 rounded'>
-                                      Không có sản phẩm
+                                      {tCommon('noProducts')}
                                     </div>
                                   )}
                                 </div>
@@ -1101,7 +1102,7 @@ export function Navbar({
               title={
                 isCatalogueAvailable
                   ? downloadLabel
-                  : 'Catalogue hiện không khả dụng'
+                  : tCommon('catalogueUnavailable')
               }
             >
               <DownloadIcon width={18} height={18} />

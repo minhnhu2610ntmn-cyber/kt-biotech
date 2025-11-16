@@ -1,6 +1,7 @@
 'use client';
 
 import { Container, Heading, Text } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
@@ -16,6 +17,7 @@ interface AboutSectionProps {
 }
 
 export default function AboutSection({ items = [] }: AboutSectionProps) {
+  const t = useTranslations('common');
   const displayItems = items.length > 0 ? items : [];
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
@@ -199,7 +201,7 @@ export default function AboutSection({ items = [] }: AboutSectionProps) {
                     href={item.link}
                     className='inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors'
                   >
-                    Xem tất cả
+                    {t('viewAll')}
                     <svg
                       className='w-4 h-4 ml-1'
                       fill='none'

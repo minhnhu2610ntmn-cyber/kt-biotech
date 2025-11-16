@@ -1,6 +1,7 @@
 'use client';
 
 import { Container, Heading } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 import { mockBlogPosts } from '../../data/mockData';
 import { buildImageUrl, formatDate, lightenColor } from '../../utils';
@@ -32,6 +33,7 @@ interface ImportantNewsSectionProps {
 export default function ImportantNewsSection({
   articles,
 }: ImportantNewsSectionProps) {
+  const t = useTranslations('blog');
   const [isVisible, setIsVisible] = useState(false);
   const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -114,7 +116,7 @@ export default function ImportantNewsSection({
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          TIN QUAN TRỌNG
+          {t('important')}
         </Heading>
 
         {/* Blog Cards Grid - 2 columns on desktop, 1 column on mobile */}

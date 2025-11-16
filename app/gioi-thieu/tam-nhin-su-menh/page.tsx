@@ -1,4 +1,5 @@
 import { Container, Heading, Text } from '@ktbiotech/system-design';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import ScrollAnimationWrapper from '../../components/containers/ScrollAnimationWrapper';
 import { StrapiApi, buildImageUrl } from '../../config/api';
@@ -79,6 +80,7 @@ function normalizeMissionBlocks(rawContent: unknown): MissionBlock[] {
 }
 
 export default async function VisionAndMissionPage() {
+  const t = await getTranslations('common');
   const api = new StrapiApi();
   const [vision, mission] = await Promise.all([
     api.getVision(),
@@ -197,10 +199,10 @@ export default async function VisionAndMissionPage() {
                 className='!text-base text-[#215778] mb-2'
                 weight='semibold'
               >
-                Thông tin đang được cập nhật
+                {t('updating')}
               </Heading>
               <Text className='text-sm text-[#4B5053]'>
-                Nội dung tầm nhìn sẽ được cập nhật trong thời gian sớm nhất.
+                {t('updatingVision')}
               </Text>
             </div>
           )}
@@ -328,10 +330,10 @@ export default async function VisionAndMissionPage() {
               className='!text-base text-[#215778] mb-2'
               weight='semibold'
             >
-              Thông tin đang được cập nhật
+              {t('updating')}
             </Heading>
             <Text className='text-sm text-[#4B5053]'>
-              Nội dung sứ mệnh sẽ được cập nhật trong thời gian sớm nhất.
+              {t('updatingMission')}
             </Text>
           </div>
         )}

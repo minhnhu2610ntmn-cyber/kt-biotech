@@ -11,10 +11,12 @@ import {
   Text,
   UnitedStatesFlagIcon,
 } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
 export default function CountriesSection() {
+  const t = useTranslations('homepage.countries');
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -36,11 +38,11 @@ export default function CountriesSection() {
   }, []);
 
   const countries = [
-    { name: 'Trung Quốc', flag: ChinaFlagIcon },
-    { name: 'Campuchia', flag: CambodiaFlagIcon },
-    { name: 'Nhật Bản', flag: JapanFlagIcon },
-    { name: 'Hoa Kỳ', flag: UnitedStatesFlagIcon },
-    { name: 'Malaysia', flag: MalaysiaFlagIcon },
+    { name: t('china'), flag: ChinaFlagIcon },
+    { name: t('cambodia'), flag: CambodiaFlagIcon },
+    { name: t('japan'), flag: JapanFlagIcon },
+    { name: t('usa'), flag: UnitedStatesFlagIcon },
+    { name: t('malaysia'), flag: MalaysiaFlagIcon },
   ];
 
   return (
@@ -57,7 +59,7 @@ export default function CountriesSection() {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          QUỐC GIA KHOA THƯƠNG ĐÃ XUẤT KHẨU ĐẾN
+          {t('title')}
         </Heading>
       </Container>
       {/* Main Content */}

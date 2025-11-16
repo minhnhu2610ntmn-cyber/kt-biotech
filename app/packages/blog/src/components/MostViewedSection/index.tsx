@@ -1,6 +1,7 @@
 'use client';
 
 import { Container, Heading } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 import { mockBlogPosts } from '../../data/mockData';
 import { buildImageUrl, formatDate, lightenColor } from '../../utils';
@@ -32,6 +33,7 @@ interface MostViewedSectionProps {
 export default function MostViewedSection({
   articles,
 }: MostViewedSectionProps) {
+  const t = useTranslations('blog');
   const [isVisible, setIsVisible] = useState(false);
   const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -114,7 +116,7 @@ export default function MostViewedSection({
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          XEM NHIỀU
+          {t('mostViewed')}
         </Heading>
 
         {/* Blog Cards Grid - 4 columns on desktop, responsive on mobile */}

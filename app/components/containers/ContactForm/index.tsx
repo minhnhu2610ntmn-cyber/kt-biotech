@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Input, Text } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { StrapiApi } from '../../../config/api';
 
@@ -13,6 +14,8 @@ interface ContactFormData {
 }
 
 export default function ContactForm() {
+  const t = useTranslations('contact.form');
+  const tContact = useTranslations('contact');
   const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     company: '',
@@ -76,7 +79,7 @@ export default function ContactForm() {
         weight='bold'
         className='!text-3xl  mb-8 underline decoration-[#215778] decoration-1 underline-offset-4'
       >
-        LIÊN HỆ
+        {tContact('title')}
       </Text>
 
       {/* Contact Form */}
@@ -90,13 +93,13 @@ export default function ContactForm() {
                 htmlFor='name'
                 className='block text-sm font-medium text-gray-700 mb-2'
               >
-                First name*
+                {t('firstName')}*
               </label>
               <Input
                 type='text'
                 id='name'
                 name='name'
-                placeholder='First name'
+                placeholder={t('firstNamePlaceholder')}
                 value={formData.name}
                 onChange={handleInputChange}
                 required
@@ -108,13 +111,13 @@ export default function ContactForm() {
                 htmlFor='company'
                 className='block text-sm font-medium text-gray-700 mb-2'
               >
-                Đơn vị/công ty*
+                {t('company')}*
               </label>
               <Input
                 type='text'
                 id='company'
                 name='company'
-                placeholder='Company name'
+                placeholder={t('companyPlaceholder')}
                 value={formData.company}
                 onChange={handleInputChange}
                 required
@@ -130,13 +133,13 @@ export default function ContactForm() {
                 htmlFor='phone'
                 className='block text-sm font-medium text-gray-700 mb-2'
               >
-                Phone number*
+                {t('phone')}*
               </label>
               <Input
                 type='tel'
                 id='phone'
                 name='phone'
-                placeholder='Phone number'
+                placeholder={t('phonePlaceholder')}
                 value={formData.phone}
                 onChange={handleInputChange}
                 required
@@ -148,13 +151,13 @@ export default function ContactForm() {
                 htmlFor='email'
                 className='block text-sm font-medium text-gray-700 mb-2'
               >
-                Email*
+                {t('email')}*
               </label>
               <Input
                 type='email'
                 id='email'
                 name='email'
-                placeholder='Email'
+                placeholder={t('emailPlaceholder')}
                 value={formData.email}
                 onChange={handleInputChange}
                 required
@@ -169,13 +172,13 @@ export default function ContactForm() {
               htmlFor='message'
               className='block text-sm font-medium text-gray-700 mb-2'
             >
-              Message*
+              {t('message')}*
             </label>
             <textarea
               id='message'
               name='message'
               rows={4}
-              placeholder='Message'
+              placeholder={t('messagePlaceholder')}
               value={formData.message}
               onChange={handleInputChange}
               className='w-full px-4 py-5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors resize-none bg-white'
@@ -192,7 +195,7 @@ export default function ContactForm() {
               disabled={isSubmitting}
               className='w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-colors duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 outline-none'
             >
-              {isSubmitting ? 'Đang gửi...' : 'Gửi'}
+              {isSubmitting ? t('submitting') : t('submit')}
             </Button>
           </div>
 
@@ -200,7 +203,7 @@ export default function ContactForm() {
           {submitStatus === 'success' && (
             <div className='p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg'>
               <Text variant='body' className='text-green-700'>
-                Cảm ơn bạn! Tin nhắn đã được gửi thành công.
+                {t('success')}
               </Text>
             </div>
           )}
@@ -208,7 +211,7 @@ export default function ContactForm() {
           {submitStatus === 'error' && (
             <div className='p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg'>
               <Text variant='body' className='text-red-700'>
-                Có lỗi xảy ra. Vui lòng thử lại sau.
+                {t('error')}
               </Text>
             </div>
           )}

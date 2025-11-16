@@ -1,6 +1,7 @@
 'use client';
 
 import { Container, Heading } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import ImportantNewsSection from '../../components/ImportantNewsSection';
 import MostViewedSection from '../../components/MostViewedSection';
 import NewsSection from '../../components/NewsSection';
@@ -29,6 +30,7 @@ export default function BlogPage({
   importantArticles = [],
   recruitmentPosts = [],
 }: BlogPageProps) {
+  const t = useTranslations('blog');
   return (
     <div className=' px-4 py-8 '>
       {/* Header */}
@@ -40,7 +42,7 @@ export default function BlogPage({
           color='#215778'
           className='font-bold !text-2xl mb-[42px] underline decoration-[#2C3E50] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-300'
         >
-          TIN MỚI NHẤT
+          {t('latest')}
         </Heading>
         {/* News Section */}
         <NewsSection latestArticles={latestArticles || []} gap='gap-4 ' />

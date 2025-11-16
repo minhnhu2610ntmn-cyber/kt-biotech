@@ -19,9 +19,9 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
   activeItem,
   className,
   productCategories = [],
-  hrefPrefix = '/products',
+  hrefPrefix = '/danh-muc-san-pham',
 }) => {
-  const t = useTranslations('sidebar');
+  const t = useTranslations('category');
 
   // Convert product categories to menu items
   const categoryItems: SidebarMenuItem[] = productCategories.map(category => ({
@@ -53,8 +53,8 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
   const finalMenuItems: SidebarMenuItem[] = [
     {
       id: 'danh-muc',
-      label: 'Danh Mục',
-      href: '/categories',
+      label: t('category'),
+      href: '/danh-muc-san-pham',
       isActive: true, // Always highlight the first item
     },
     ...(categoryItems.length > 0 ? categoryItems : defaultItems),

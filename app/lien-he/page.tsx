@@ -1,8 +1,10 @@
 import { Container, Heading, Text } from '@ktbiotech/system-design';
+import { getTranslations } from 'next-intl/server';
 // eslint-disable-next-line no-restricted-imports
 import { ContactForm } from '../components/containers';
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const t = await getTranslations('contact');
   return (
     <div className='gap-4 flex flex-col '>
       <Container className='my-6 px-4'>
@@ -15,7 +17,7 @@ export default function ContactPage() {
                 level={2}
                 className='text-xl lg:text-2xl font-bold text-gray-800 mb-8'
               >
-                CÔNG TY TNHH CÔNG NGHỆ SINH HỌC KHOA THƯƠNG
+                {t('companyTitle')}
               </Heading>
             </div>
           </div>
@@ -53,14 +55,13 @@ export default function ContactPage() {
             </svg>
           </div>
           <Text variant='subtitle' weight='bold' className='text-gray-800 mb-3'>
-            Địa chỉ
+            {t('address')}
           </Text>
           <Text
             variant='body'
             className='text-gray-600 text-sm leading-relaxed max-w-[250px]'
           >
-            Số 10-12, đường số 3A, khu dân cư Gia Hoà, phường Bình Hưng, thành
-            phố Hồ Chí Minh
+            {t('addressValue')}
           </Text>
         </div>
 
@@ -86,7 +87,7 @@ export default function ContactPage() {
             weight='bold'
             className=' text-gray-800 mb-3'
           >
-            Điện thoại
+            {t('phone')}
           </Text>
           <Text variant='body' className='text-gray-600 text-sm'>
             +84 123 456 789
@@ -111,7 +112,7 @@ export default function ContactPage() {
             </svg>
           </div>
           <Text variant='subtitle' weight='bold' className='text-gray-800 mb-3'>
-            Email
+            {t('email')}
           </Text>
           <Text variant='body' className='text-gray-600 text-sm'>
             info@ktbiotech.com

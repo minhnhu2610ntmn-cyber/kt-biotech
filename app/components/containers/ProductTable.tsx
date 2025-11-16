@@ -1,6 +1,7 @@
 'use client';
 
 import { Text } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
@@ -21,6 +22,7 @@ interface ProductTableProps {
 }
 
 function ProductTableBase({ products, className = '' }: ProductTableProps) {
+  const t = useTranslations('common');
   const truncate = (text: string, max = 20) =>
     (text || '').length > max ? `${text.slice(0, max)}…` : text || '';
 
@@ -53,10 +55,10 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
             </svg>
           </div>
           <Text className='text-[#1B1C1D] font-medium px-4'>
-            Không có sản phẩm
+            {t('noProducts')}
           </Text>
           <Text className='text-gray-500 text-sm'>
-            Hãy điều chỉnh bộ lọc hoặc thử từ khóa khác
+            {t('adjustFilters')}
           </Text>
         </div>
       </div>
@@ -70,10 +72,10 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
         className={`hidden md:block rounded-lg overflow-hidden border border-[#E3EEF5] ${className}`}
       >
         <div className='bg-[#D9EDF7] text-[#1B1C1D] font-medium px-4 py-3 grid grid-cols-[120px_1fr_140px_160px]'>
-          <span>Hình ảnh</span>
-          <span>Sản phẩm</span>
-          <span>Mã SKU</span>
-          <span>Quy cách</span>
+          <span>{t('image')}</span>
+          <span>{t('product')}</span>
+          <span>{t('sku')}</span>
+          <span>{t('specification')}</span>
         </div>
         <div className='divide-y divide-[#EAF3F8]'>
           {products.map(p => {
@@ -129,12 +131,12 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
           <div
             className={` px-6 py-3 text-sm font-medium transition-colors rounded-none  text-[#1B1C1D]`}
           >
-            Hình ảnh
+            {t('image')}
           </div>
           <div
             className={` text-center  py-3 text-sm font-medium text-[#1B1C1D] transition-colors rounded-none `}
           >
-            Sản phẩm
+            {t('product')}
           </div>
         </div>
 

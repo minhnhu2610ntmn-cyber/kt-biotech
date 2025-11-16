@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, DownloadIcon, Input, MenuIcon, SidebarMenu } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import BrandFilters from './BrandFilters';
@@ -20,6 +21,8 @@ export default function FilterDrawer({
   activeCategory,
   brands,
 }: FilterDrawerProps) {
+  const t = useTranslations('category');
+  const tCommon = useTranslations('common');
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -71,11 +74,11 @@ export default function FilterDrawer({
       >
         <div className='h-full overflow-y-auto'>
           <div className='p-4 border-b flex items-center justify-between'>
-            <span className='font-semibold text-[#1B1C1D]'>Bộ lọc</span>
+            <span className='font-semibold text-[#1B1C1D]'>{t('filter')}</span>
             <button
               onClick={onClose}
               className='p-2 hover:bg-gray-100 rounded'
-              aria-label='Đóng'
+              aria-label={tCommon('close')}
             >
               <MenuIcon width={20} height={20} className='rotate-90' />
             </button>
@@ -85,7 +88,7 @@ export default function FilterDrawer({
             <div className='relative'>
               <Input
                 placeholder='Search here...'
-                aria-label='Tìm kiếm sản phẩm'
+                aria-label={tCommon('searchProducts')}
                 className='h-10 pl-3 pr-12 rounded-full border border-gray-200'
                 value={value}
                 onChange={e => setValue(e.target.value)}
@@ -101,7 +104,7 @@ export default function FilterDrawer({
             </div>
             <Button variant='outline' className='w-full rounded-full h-10 flex items-center justify-center gap-2'>
               <DownloadIcon width={18} height={18} />
-              <span>Download Catalogue</span>
+              <span>{t('downloadCatalogue')}</span>
             </Button>
           </div>
           <div className='p-4 space-y-4'>
@@ -114,7 +117,7 @@ export default function FilterDrawer({
             <div className='rounded-lg bg-[#86BDDF] text-[#1B1C1D] px-4 py-3 flex items-center justify-between'>
               <div className='flex items-center gap-3'>
                 <MenuIcon width={18} height={18} className='text-[#1B1C1D]' />
-                <span className='text-sm font-medium'>Bộ lọc</span>
+                <span className='text-sm font-medium'>{t('filter')}</span>
               </div>
             </div>
             <BrandFilters brands={brands} />

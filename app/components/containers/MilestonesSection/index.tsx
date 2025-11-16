@@ -1,9 +1,11 @@
 'use client';
 
 import { Container, Heading, Text, Timeline } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 
 export default function MilestonesSection() {
+  const t = useTranslations('homepage.milestones');
   const [isVisible, setIsVisible] = useState(false);
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -99,7 +101,7 @@ export default function MilestonesSection() {
                     : 'opacity-0 translate-y-4'
                 }`}
               >
-                BỀ DÀY LỊCH SỬ
+                {t('title')}
               </Heading>
 
               {/* Large Placeholder Box */}
@@ -118,12 +120,7 @@ export default function MilestonesSection() {
                     : 'opacity-0 translate-y-4'
                 }`}
               >
-                Mô tả mốc thời gian Lorem Ipsum is simply dummy text of the
-                printing and typesetting industry. Lorem Ipsum has been the
-                industry&apos;s standard dummy text ever since the 1500s, when
-                an unknown printer took a galley of type and scrambled it to
-                make a type specimen book. It has survived not only five
-                centuries
+                {t('description')}
               </Text>
             </div>
 

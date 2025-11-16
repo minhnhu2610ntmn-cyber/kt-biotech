@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, FacebookIcon, Heading, Text } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 interface ProductContactCardProps {
@@ -24,6 +25,7 @@ export default function ProductContactCard({
   facebookLink,
   whatsappLink,
 }: ProductContactCardProps) {
+  const t = useTranslations('product.contactCard');
   // Helper function to format phone number for Zalo/WhatsApp links
   const formatPhoneForLink = (phoneNumber: string): string => {
     // Remove all non-digit characters except +
@@ -100,7 +102,7 @@ export default function ProductContactCard({
           color='white'
           className='!text-lg !font-bold mb-2 text-white'
         >
-          LIÊN HỆ NGAY ĐỂ ĐƯỢC TƯ VẤN
+          {t('title')}
         </Heading>
 
         {/* Contact Info and Social Icons */}

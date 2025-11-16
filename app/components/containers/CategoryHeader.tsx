@@ -6,6 +6,7 @@ import {
   Input,
   SearchIcon,
 } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -30,6 +31,8 @@ export function CategoryHeader({
   debounceMs = 300,
   onOpenFilter,
 }: CategoryHeaderProps) {
+  const t = useTranslations('category');
+  const tCommon = useTranslations('common');
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -75,7 +78,7 @@ export function CategoryHeader({
         <div className='relative w-full max-w-[400px] hidden min-[1080px]:block'>
           <Input
             placeholder={searchPlaceholder}
-            aria-label='Tìm kiếm sản phẩm'
+            aria-label={tCommon('searchProducts')}
             className='h-12 pl-4 pr-14 rounded-full border border-gray-200'
             value={value}
             onChange={e => setValue(e.target.value)}
@@ -129,7 +132,7 @@ export function CategoryHeader({
                     strokeLinejoin='round'
                   />
                 </svg>
-                <span>Bộ lọc</span>
+                <span>{t('filter')}</span>
               </span>
             </Button>
           </div>

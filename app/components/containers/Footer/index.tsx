@@ -14,6 +14,7 @@ import {
   TwitterIcon,
   YouTubeIcon,
 } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -35,6 +36,7 @@ export default function Footer({
   const isHomePage = pathname === '/';
   const contextCategories = useProductCategories();
   const productCategories = propProductCategories || contextCategories;
+  const t = useTranslations('footer');
 
   return (
     <footer
@@ -61,8 +63,7 @@ export default function Footer({
               color='gray-300'
               className='mb-4 sm:mb-6 text-xs sm:text-sm leading-relaxed'
             >
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-              nonummy nibh euismod tincidunt
+              {t('description')}
             </Text>
 
             {/* Social Media Icons */}
@@ -117,7 +118,7 @@ export default function Footer({
               color='white'
               className='font-semibold mb-4 sm:mb-6 text-base sm:text-lg'
             >
-              Sản phẩm
+              {t('products')}
             </Heading>
             <div className='space-y-2 sm:space-y-3'>
               {productCategories && productCategories.length > 0 ? (
@@ -137,7 +138,7 @@ export default function Footer({
                     href='/danh-muc-san-pham'
                     className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
                   >
-                    Danh mục sản phẩm
+                    {t('productCategories')}
                   </Link>
                 </>
               )}
@@ -151,38 +152,38 @@ export default function Footer({
               color='white'
               className='font-semibold mb-4 sm:mb-6 text-base sm:text-lg'
             >
-              Chúng tôi
+              {t('aboutUs')}
             </Heading>
             <div className='space-y-2 sm:space-y-3'>
               <Link
-                href='/gioi-thieu'
+                href='/gioi-thieu/ve-chung-toi'
                 className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
-                Giới thiệu
+                {t('about')}
               </Link>
               <Link
                 href='/gioi-thieu/giai-thuong'
                 className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
-                Giải thưởng
+                {t('awards')}
               </Link>
               <Link
                 href='/gioi-thieu/quan-he-hop-tac'
                 className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
-                Quan hệ hợp tác
+                {t('cooperation')}
               </Link>
               <Link
                 href='/blogs'
                 className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
-                Tin tức
+                {t('news')}
               </Link>
               <Link
                 href='/lien-he'
                 className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
-                Liên hệ
+                {t('contact')}
               </Link>
             </div>
           </div>
@@ -194,7 +195,7 @@ export default function Footer({
               color='white'
               className='font-semibold mb-4 sm:mb-6 text-base sm:text-lg'
             >
-              Thông tin
+              {t('information')}
             </Heading>
             <div className='space-y-3 sm:space-y-4'>
               {/* Address */}
@@ -265,9 +266,9 @@ export default function Footer({
                   className='mt-1 flex-shrink-0 sm:w-4 sm:h-4'
                 />
                 <div className='text-gray-300 text-xs sm:text-sm'>
-                  <div className='font-medium'>Thứ 2 - Thứ 6</div>
-                  <div>Sáng: 07h30 - 12h00</div>
-                  <div>Chiều: 13h30 - 17h00</div>
+                  <div className='font-medium'>{t('businessHours')}</div>
+                  <div>{t('morning')}</div>
+                  <div>{t('afternoon')}</div>
                 </div>
               </div>
             </div>
@@ -282,20 +283,20 @@ export default function Footer({
                 href='/terms'
                 className='text-gray-400 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-center sm:text-left'
               >
-                Terms & conditions
+                {t('terms')}
               </Link>
               <Link
                 href='/privacy'
                 className='text-gray-400 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-center sm:text-left'
               >
-                Privacy policy
+                {t('privacy')}
               </Link>
             </div>
             <Text
               color='gray-400'
               className='text-xs sm:text-sm text-center mt-2 sm:mt-0'
             >
-              Copyright © 2025 Khoa Thương. Designed by ParaShine
+              {t('copyright')}
             </Text>
           </div>
         </div>

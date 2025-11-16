@@ -1,6 +1,7 @@
 import CategoryLayout from '@/app/components/containers/CategoryLayout';
 import SetBreadcrumb from '@/app/components/containers/SetBreadcrumb';
 import { Container } from '@ktbiotech/system-design';
+import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
 import {
   StrapiApi,
@@ -84,10 +85,14 @@ export default async function CategoryListingPage({
     })
     .filter((p): p is NonNullable<typeof p> => p !== null);
 
+  const t = await getTranslations('breadcrumb');
+  const tCategory = await getTranslations('category');
+  const tCommon = await getTranslations('common');
+
   // Build breadcrumb items
   const breadcrumbItems = [
-    { label: 'Trang Chủ', href: '/' },
-    { label: 'Danh mục sản phẩm', href: '/danh-muc-san-pham' },
+    { label: t('home'), href: '/' },
+    { label: t('danhmucsanpham'), href: '/danh-muc-san-pham' },
     { label: categoryName, href: `/danh-muc-san-pham/${active}` },
   ];
 
@@ -122,11 +127,11 @@ export async function generateMetadata({
   const category = await api.getCategoryBySlug(params['cate-slug']);
   if (!category) {
     return {
-      title: 'Danh mục sản phẩm',
+      title: tCategory('title'),
     };
   }
-  const title = category.name || 'Danh mục sản phẩm';
-  const description = (category as any).description || 'Sản phẩm của KTBioTech';
+  const title = category.name || tCategory('title');
+  const description = (category as any).description || tCommon('productsOfKTBioTech');
   const base =
     process.env.NEXT_PUBLIC_PRODUCTS_BASE_URL ||
     process.env.PRODUCTS_BASE_URL ||

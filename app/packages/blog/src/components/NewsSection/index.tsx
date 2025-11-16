@@ -1,6 +1,7 @@
 'use client';
 
 import { Container, Heading } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 import { mockBlogPosts } from '../../data/mockData';
 import { buildImageUrl, formatDate, lightenColor } from '../../utils';
@@ -36,6 +37,7 @@ export default function NewsSection({
   title,
   gap = 'gap-4 sm:gap-6',
 }: NewsSectionProps) {
+  const t = useTranslations('blog');
   const [isVisible, setIsVisible] = useState(false);
   const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -87,12 +89,12 @@ export default function NewsSection({
     return {
       id: article.id,
       title: article.title,
-      author: article.author?.name || 'Unknown Author',
+      author: article.author?.name || t('unknownAuthor'),
       date: formatDate(article.createdAt),
       description: article.description,
       imageSrc: buildImageUrl(article.cover?.url),
       imageAlt: article.title,
-      badgeText: article.category?.name || 'Uncategorized',
+      badgeText: article.category?.name || t('uncategorized'),
       badgeBackgroundColor: article.category?.color
         ? lightenColor(article.category.color, 60)
         : '#E5E7EB',
