@@ -39,6 +39,11 @@ export interface NavbarProps {
   onSearch?: (value: string) => void;
   productCategories?: ProductCategory[];
   products?: any;
+  catalogueDownload?: {
+    url: string;
+    fileName?: string;
+    label?: string;
+  } | null;
 }
 
 export function Navbar({
@@ -51,10 +56,11 @@ export function Navbar({
   onMobileMenuToggle,
   rightContent,
   showSearch = true,
-  searchPlaceholder = 'Tìm kiếm...',
-  onSearch,
+  searchPlaceholder: _searchPlaceholder = 'Tìm kiếm...',
+  onSearch: _onSearch,
   productCategories = [],
   products: productsTree, // categories-products data (optional)
+  catalogueDownload = null,
 }: NavbarProps) {
   const t = useTranslations('navbar');
 
@@ -248,13 +254,46 @@ export function Navbar({
 
   const navItems = items.length > 0 ? items : [];
 
+  const isCatalogueAvailable = Boolean(catalogueDownload?.url);
+  const downloadLabel = React.useMemo(() => {
+    if (catalogueDownload?.label) return catalogueDownload.label;
+    try {
+      return t('downloadCatalogue');
+    } catch {
+      return 'Download Catalogue';
+    }
+  }, [catalogueDownload?.label, t]);
+
+  const handleCatalogueDownload = React.useCallback(async () => {
+    if (!catalogueDownload?.url) return;
+    try {
+      const response = await fetch(catalogueDownload.url);
+      if (!response.ok) {
+        throw new Error(
+          `Failed to download catalogue: ${response.status} ${response.statusText}`
+        );
+      }
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = catalogueDownload.fileName || 'catalogue.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Catalogue download failed', error);
+    }
+  }, [catalogueDownload]);
+
   // Debounced search (materials)
   const [searchQuery, setSearchQuery] = React.useState('');
   const searchDebounceRef = React.useRef<NodeJS.Timeout | null>(null);
   const [searchResults, setSearchResults] = React.useState<any[]>([]);
   const [isResultsOpen, setIsResultsOpen] = React.useState(false);
   const desktopSearchRef = React.useRef<HTMLDivElement | null>(null);
-  const mobileSearchRef = React.useRef<HTMLDivElement | null>(null);
   const handleSearchEvent = React.useCallback((query: string) => {
     setSearchQuery(query);
   }, []);
@@ -292,9 +331,7 @@ export function Navbar({
       const target = e.target as Node;
       if (
         desktopSearchRef.current &&
-        !desktopSearchRef.current.contains(target) &&
-        mobileSearchRef.current &&
-        !mobileSearchRef.current.contains(target)
+        !desktopSearchRef.current.contains(target)
       ) {
         setIsResultsOpen(false);
       }
@@ -317,16 +354,54 @@ export function Navbar({
     };
   }, [hoverTimeout, nestedDropdownTimeout]);
 
+  // Prevent body scroll when mobile menu is open
+  React.useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
+  // Close mobile menu when clicking outside
+  const mobileMenuRef = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isMobileMenuOpen &&
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node) &&
+        !(event.target as HTMLElement).closest(
+          'button[aria-label="Toggle mobile menu"]'
+        )
+      ) {
+        setIsMobileMenuOpen(false);
+        onMobileMenuToggle?.(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMobileMenuOpen, onMobileMenuToggle]);
+
   return (
     <>
       {/* Top Row - Logo, Search, Hotline, Language */}
       <nav
         className={cn(
-          'bg-gray-50 border-b border-gray-200 sticky top-0 z-[51] lg:static',
+          'bg-[#EBF4F9] border-b border-gray-200 sticky top-0 z-[51] lg:static',
           className
         )}
       >
-        <Container className='px-4 md:px-6'>
+        <Container className='px-4 md:px-0'>
           <div className='flex justify-between items-center py-2 md:py-2.5'>
             {/* Logo */}
             <div className='flex-shrink-0'>
@@ -496,8 +571,8 @@ export function Navbar({
       </nav>
 
       {/* Bottom Row - Navigation Menu - Hidden on mobile - STICKY */}
-      <nav className='hidden lg:block sticky top-0 z-50 bg-white  border-b border-gray-200'>
-        <Container className='px-4 md:px-6'>
+      <nav className='hidden lg:block sticky top-0 z-50 bg-[#EBF4F9]  border-b border-gray-200'>
+        <Container className='px-4 md:px-0'>
           <div className='flex justify-between items-center h-12 md:h-14 py-2 md:py-2.5'>
             {/* Desktop Navigation */}
             <div className='hidden md:block'>
@@ -604,9 +679,25 @@ export function Navbar({
 
             {/* Download Catalogue Button */}
             <div className='hidden md:flex items-center'>
-              <button className='flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#3691C9] hover:text-[#2a7bb8] transition-colors duration-200 cursor-pointer'>
+              <button
+                type='button'
+                onClick={handleCatalogueDownload}
+                disabled={!isCatalogueAvailable}
+                aria-disabled={!isCatalogueAvailable}
+                className={cn(
+                  'flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors duration-200 cursor-pointer',
+                  isCatalogueAvailable
+                    ? 'text-[#3691C9] hover:text-[#2a7bb8]'
+                    : 'text-gray-400 cursor-not-allowed'
+                )}
+                title={
+                  isCatalogueAvailable
+                    ? downloadLabel
+                    : 'Catalogue hiện không khả dụng'
+                }
+              >
                 <DownloadIcon width={24} height={24} />
-                Download Catalogue
+                {downloadLabel}
               </button>
             </div>
           </div>
@@ -722,7 +813,7 @@ export function Navbar({
                                       )
                                     )
                                   ) : (
-                                    <div className='text-sm text-gray-400'>
+                                    <div className='text-sm text-gray-400 px-3 py-2 rounded'>
                                       Không có sản phẩm
                                     </div>
                                   )}
@@ -778,84 +869,77 @@ export function Navbar({
         </div>
       </nav>
 
-      {/* Mobile Navigation */}
-      <div className={cn('md:hidden', isMobileMenuOpen ? 'block' : 'hidden')}>
-        <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white'>
-          {/* Mobile Search */}
-          {showSearch && (
-            <div ref={mobileSearchRef} className='px-3 py-2 relative'>
-              <SearchBar
-                placeholder={searchPlaceholder}
-                onSearch={(query /*, category */) => handleSearchEvent(query)}
-                onQueryChange={q => handleSearchEvent(q)}
-                className='w-full'
-                value={searchQuery}
-                categoryOptions={categoryOptions}
-              />
-              {isResultsOpen && searchResults.length > 0 && (
-                <div className='absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-[60]'>
-                  <ul className='max-h-[360px] overflow-auto divide-y divide-gray-100'>
-                    {searchResults.map((item: any, idx: number) => {
-                      const title =
-                        item.title || item.name || item.sku || 'Kết quả';
-                      const slug = item.slug || '';
-                      let href: string | undefined = undefined;
-                      const typeInfer =
-                        ((item?.type ||
-                          item?.kind ||
-                          item?.__type) as string) ||
-                        (item?.sku || item?.images
-                          ? 'product'
-                          : String(item?.id || '').startsWith('page-')
-                            ? 'page'
-                            : 'article');
-                      if (String(typeInfer).toLowerCase().includes('product')) {
-                        href = slug ? `/san-pham/${slug}` : undefined;
-                      } else if (
-                        String(typeInfer).toLowerCase().includes('page')
-                      ) {
-                        const pageId = String(item?.id || item?.pageId || '');
-                        const mapped = (ABOUT_URL as any)[pageId];
-                        href = mapped ? `/${mapped}` : undefined;
-                      } else if (
-                        String(typeInfer).toLowerCase().includes('article') ||
-                        String(typeInfer).toLowerCase().includes('blog')
-                      ) {
-                        href = slug ? `/blogs/${slug}` : undefined;
-                      }
-                      return (
-                        <li key={idx} className='p-3 hover:bg-gray-50'>
-                          {href ? (
-                            <Link
-                              href={href}
-                              className='block text-sm text-gray-800'
-                              onClick={() => setIsResultsOpen(false)}
-                            >
-                              {title}
-                            </Link>
-                          ) : (
-                            <span className='block text-sm text-gray-600'>
-                              {title}
-                            </span>
-                          )}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              )}
-            </div>
-          )}
+      {/* Mobile Navigation Overlay */}
+      {isMobileMenuOpen && (
+        <div
+          className='fixed inset-0 bg-black/50 z-[4999] lg:hidden transition-opacity duration-300'
+          onClick={() => {
+            setIsMobileMenuOpen(false);
+            onMobileMenuToggle?.(false);
+          }}
+        />
+      )}
 
-          {navItems.map(item => (
-            <div key={item.label}>
-              <div>
+      {/* Mobile Navigation */}
+      <div
+        ref={mobileMenuRef}
+        className={cn(
+          'fixed top-0 right-0 h-full w-[85%] max-w-sm bg-white shadow-xl z-[5000] lg:hidden transform transition-transform duration-300 ease-in-out flex flex-col',
+          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        )}
+      >
+        <div className='flex flex-col h-full px-4 pt-4 pb-2'>
+          {/* Mobile Menu Header */}
+          <div className='flex items-center justify-between mb-4 pb-4 border-b border-gray-200'>
+            <Link
+              href='/'
+              className='flex items-center'
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                onMobileMenuToggle?.(false);
+              }}
+            >
+              <Image
+                src={logoPath}
+                alt={logoAlt}
+                width={logoWidth}
+                height={logoHeight}
+                className='h-8 w-auto'
+                priority
+              />
+            </Link>
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                onMobileMenuToggle?.(false);
+              }}
+              className='p-2 rounded-full hover:bg-gray-100 transition-colors'
+              aria-label='Close mobile menu'
+            >
+              <X className='h-5 w-5 text-gray-600' />
+            </button>
+          </div>
+
+          {/* Mobile Navigation Items */}
+          <div className='flex-1 space-y-1 overflow-y-auto'>
+            {navItems.map((item, index) => (
+              <div
+                key={item.label}
+                className={cn(
+                  'relative transition-all duration-200',
+                  'animate-in slide-in-from-right',
+                  `delay-[${index * 50}ms]`
+                )}
+                style={{
+                  animationDelay: `${index * 50}ms`,
+                }}
+              >
                 <button
                   className={cn(
-                    'px-3 py-2 text-base font-medium w-full text-left flex items-center justify-between transition-all duration-300 ease-in-out rounded-md cursor-pointer',
+                    'relative px-4 py-3 text-base font-medium w-full text-left flex items-center justify-between transition-all duration-200 rounded-lg cursor-pointer',
                     isActive(item.href)
-                      ? 'text-blue-600 bg-blue-50 shadow-sm'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                      ? 'text-[#3691C9] bg-blue-50'
+                      : 'text-gray-700 hover:text-[#3691C9] hover:bg-gray-50'
                   )}
                   onClick={() => {
                     handleDropdownToggle(item.label);
@@ -863,69 +947,172 @@ export function Navbar({
                     if (!item.children || item.children.length === 0) {
                       router.push(item.href);
                       setIsMobileMenuOpen(false);
+                      onMobileMenuToggle?.(false);
                     }
                   }}
                 >
-                  {item.label}
+                  <span>{getItemLabel(item)}</span>
                   {item.children && item.children.length > 0 && (
                     <ChevronRight
                       className={cn(
-                        'h-5 w-5 rotate-90 transition-transform duration-200',
-                        activeDropdown === item.label ? 'rotate-[270deg]' : ''
+                        'h-5 w-5 transition-transform duration-200 flex-shrink-0',
+                        activeDropdown === item.label ? 'rotate-90' : 'rotate-0'
                       )}
                     />
                   )}
                 </button>
 
-                {/* Active indicator with animation */}
-                <span
-                  className={cn(
-                    'absolute left-0 top-0 bottom-0 w-1 bg-blue-600 transition-all duration-300 ease-in-out rounded-r-md',
-                    isActive(item.href) ? 'opacity-100' : 'opacity-0'
-                  )}
-                />
-
-                {/* Mobile Dropdown */}
-                {item.children && item.children.length > 0 && (
-                  <div
-                    className={cn(
-                      'pl-4 space-y-1',
-                      activeDropdown === item.label ? 'block' : 'hidden'
-                    )}
-                  >
-                    {item.children.map(child => (
-                      <Link
-                        key={child.label}
-                        href={child.href}
-                        className='text-gray-600 hover:text-blue-600 block px-3 py-2 text-sm font-medium'
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
-                  </div>
+                {/* Active indicator */}
+                {isActive(item.href) && (
+                  <span className='absolute left-0 top-0 bottom-0 w-1 bg-[#3691C9] rounded-r-md' />
                 )}
-              </div>
-            </div>
-          ))}
 
-          {/* Mobile Download Catalogue Button */}
-          <div className='px-3 py-2 border-t border-gray-200'>
-            <button className='w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-[#3691C9] hover:text-[#2a7bb8] transition-colors duration-200'>
-              <DownloadIcon width={16} height={16} />
-              Download Catalogue
-            </button>
+                {/* Mobile Dropdown - Products Mega Menu */}
+                {item.children &&
+                  item.children.length > 0 &&
+                  isProductsItem(item) &&
+                  activeDropdown === item.label && (
+                    <div className='pl-4 mt-1 space-y-1 border-l-2 border-gray-100'>
+                      {item.children.map(child => {
+                        const parentSlug =
+                          (child as any).slug ||
+                          (child.href || '').split('/').pop();
+                        const cat = findCategoryBySlug(parentSlug);
+                        const subcats: any[] = Array.isArray(cat?.subcategories)
+                          ? cat.subcategories
+                          : [];
+                        const parentProducts: any[] = Array.isArray(
+                          cat?.products
+                        )
+                          ? cat.products
+                          : [];
+
+                        return (
+                          <div key={child.label} className='space-y-2'>
+                            <Link
+                              href={child.href}
+                              className='block px-4 py-2 text-sm font-semibold text-gray-900 hover:text-[#3691C9] transition-colors'
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                onMobileMenuToggle?.(false);
+                              }}
+                            >
+                              {getItemLabel(child)}
+                            </Link>
+
+                            {/* Subcategories */}
+                            {subcats.length > 0 && (
+                              <div className='pl-4 space-y-1'>
+                                {subcats.map(sc => (
+                                  <div
+                                    key={sc.slug || sc.id}
+                                    className='space-y-1'
+                                  >
+                                    <div className='px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase'>
+                                      {sc.name}
+                                    </div>
+                                    {Array.isArray(sc.products) &&
+                                      sc.products.length > 0 &&
+                                      sc.products.map((p: any, idx: number) =>
+                                        p.slug ? (
+                                          <Link
+                                            key={`${p.slug}-${idx}`}
+                                            href={`/san-pham/${p.slug}`}
+                                            className='block px-4 py-1.5 text-sm text-gray-600 hover:text-[#3691C9] transition-colors'
+                                            onClick={() => {
+                                              setIsMobileMenuOpen(false);
+                                              onMobileMenuToggle?.(false);
+                                            }}
+                                          >
+                                            {p.title}
+                                          </Link>
+                                        ) : null
+                                      )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+
+                            {/* Direct Products */}
+                            {subcats.length === 0 &&
+                              parentProducts.length > 0 && (
+                                <div className='pl-4 space-y-1'>
+                                  {parentProducts.map((p: any, idx: number) =>
+                                    p.slug ? (
+                                      <Link
+                                        key={`${p.slug}-${idx}`}
+                                        href={`/san-pham/${p.slug}`}
+                                        className='block px-4 py-1.5 text-sm text-gray-600 hover:text-[#3691C9] transition-colors'
+                                        onClick={() => {
+                                          setIsMobileMenuOpen(false);
+                                          onMobileMenuToggle?.(false);
+                                        }}
+                                      >
+                                        {p.title}
+                                      </Link>
+                                    ) : null
+                                  )}
+                                </div>
+                              )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                {/* Mobile Dropdown - Regular Items */}
+                {item.children &&
+                  item.children.length > 0 &&
+                  !isProductsItem(item) &&
+                  activeDropdown === item.label && (
+                    <div className='pl-4 mt-1 space-y-1 border-l-2 border-gray-100'>
+                      {item.children.map(child => (
+                        <Link
+                          key={child.label}
+                          href={child.href}
+                          className='block px-4 py-2 text-sm text-gray-600 hover:text-[#3691C9] transition-colors'
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            onMobileMenuToggle?.(false);
+                          }}
+                        >
+                          {getItemLabel(child)}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+              </div>
+            ))}
           </div>
 
-          {/* Mobile Language Switcher */}
-          <div className='px-3 py-2 border-t border-gray-200'>
-            <LanguageSwitcher variant='default' />
+          {/* Mobile Download Catalogue Button */}
+          <div className=' border-t border-gray-200'>
+            <button
+              type='button'
+              onClick={handleCatalogueDownload}
+              disabled={!isCatalogueAvailable}
+              aria-disabled={!isCatalogueAvailable}
+              className={cn(
+                'w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200',
+                isCatalogueAvailable
+                  ? 'text-[#3691C9] hover:bg-blue-50'
+                  : 'text-gray-400 cursor-not-allowed'
+              )}
+              title={
+                isCatalogueAvailable
+                  ? downloadLabel
+                  : 'Catalogue hiện không khả dụng'
+              }
+            >
+              <DownloadIcon width={18} height={18} />
+              {downloadLabel}
+            </button>
           </div>
 
           {/* Mobile Right Content */}
           {rightContent && (
-            <div className='pt-4 pb-3 border-t border-gray-200'>
-              <div className='px-3'>{rightContent}</div>
+            <div className='pt-4 border-t border-gray-200'>
+              <div className='px-4'>{rightContent}</div>
             </div>
           )}
         </div>

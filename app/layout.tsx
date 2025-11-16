@@ -4,6 +4,7 @@ import {
   getCategoriesProducts,
   getProductCategoriesCached,
   StrapiApi,
+  type CatalogueEntry,
 } from './config/api';
 import './globals.css';
 import { QueryProvider } from './providers';
@@ -33,17 +34,20 @@ export default async function RootLayout({
   let productCategories: ProductCategory[] = [];
   let categoriesProducts: any = null;
   let globalData: any = null;
+  let catalogue: CatalogueEntry | null = null;
   try {
     const api = new StrapiApi();
-    const [categories, productsTree, globalRes] = await Promise.all([
+    const [categories, productsTree, globalRes, catalogueRes] = await Promise.all([
       getProductCategoriesCached(),
       getCategoriesProducts(1),
       api.getGlobal(),
+      api.getCatalogue(),
     ]);
     // Cast to ProductCategory type
     productCategories = categories as ProductCategory[];
     categoriesProducts = productsTree;
     globalData = globalRes;
+    catalogue = catalogueRes;
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Failed to fetch product categories:', error);
@@ -60,6 +64,7 @@ export default async function RootLayout({
               productCategories={productCategories}
               products={categoriesProducts}
               global={globalData}
+              catalogue={catalogue}
             >
               {children}
             </MasterLayout>

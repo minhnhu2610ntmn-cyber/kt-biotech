@@ -2,6 +2,7 @@
 
 import {
   AddressIcon,
+  cn,
   EmailIcon,
   FacebookIcon,
   Heading,
@@ -15,20 +16,32 @@ import {
 } from '@ktbiotech/system-design';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import type { ProductCategory } from '../../../types/strapi';
+import { useProductCategories } from '../../layout/MasterLayout';
 
 interface FooterProps {
   showNewsletter?: boolean;
   onNewsletterSubmit?: (email: string) => void;
+  productCategories?: ProductCategory[];
 }
 
 export default function Footer({
   showNewsletter: _showNewsletter = false,
   onNewsletterSubmit: _onNewsletterSubmit,
+  productCategories: propProductCategories,
 }: FooterProps) {
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
+  const contextCategories = useProductCategories();
+  const productCategories = propProductCategories || contextCategories;
+
   return (
-    <footer className='bg-gray-900 !text-white'>
+    <footer
+      className={cn('bg-gray-900 !text-white', isHomePage && 'pt-[70px]')}
+    >
       {/* Main Footer Content */}
-      <div className='container mx-auto px-4 py-8 sm:py-12'>
+      <div className=' px-4 py-8 sm:py-12'>
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8'>
           {/* Company Info & Social Media */}
           <div className='lg:col-span-1'>
@@ -107,48 +120,27 @@ export default function Footer({
               Sản phẩm
             </Heading>
             <div className='space-y-2 sm:space-y-3'>
-              <Link
-                href='/products/kit-nhap-khau'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
-              >
-                Kit nhập khẩu
-              </Link>
-              <Link
-                href='/products/kit-tren-nguoi'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
-              >
-                Kit trên người
-              </Link>
-              <Link
-                href='/products/kit-tren-dong-vat'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
-              >
-                Kit trên động vật
-              </Link>
-              <Link
-                href='/products/kit-tren-thuy-san'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
-              >
-                Kit trên thủy sản
-              </Link>
-              <Link
-                href='/products/kit-tren-thuc-pham'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
-              >
-                Kit trên thực phẩm
-              </Link>
-              <Link
-                href='/products/kit-tach-chiet'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
-              >
-                Kit tách chiết
-              </Link>
-              <Link
-                href='/products/san-pham-khac'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
-              >
-                Sản phẩm khác
-              </Link>
+              {productCategories && productCategories.length > 0 ? (
+                productCategories.map(category => (
+                  <Link
+                    key={category.id}
+                    href={`/danh-muc-san-pham/${category.slug || category.id}`}
+                    className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
+                  >
+                    {category.name || 'Unnamed Category'}
+                  </Link>
+                ))
+              ) : (
+                // Fallback nếu không có categories
+                <>
+                  <Link
+                    href='/danh-muc-san-pham'
+                    className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
+                  >
+                    Danh mục sản phẩm
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
@@ -163,34 +155,34 @@ export default function Footer({
             </Heading>
             <div className='space-y-2 sm:space-y-3'>
               <Link
-                href='/about'
+                href='/gioi-thieu'
                 className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
                 Giới thiệu
               </Link>
               <Link
-                href='/careers'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
-              >
-                Tuyển dụng
-              </Link>
-              <Link
-                href='/partners'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
-              >
-                Đối tác
-              </Link>
-              <Link
-                href='/contact'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
-              >
-                Liên hệ
-              </Link>
-              <Link
-                href='/awards'
+                href='/gioi-thieu/giai-thuong'
                 className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
               >
                 Giải thưởng
+              </Link>
+              <Link
+                href='/gioi-thieu/quan-he-hop-tac'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
+              >
+                Quan hệ hợp tác
+              </Link>
+              <Link
+                href='/blogs'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
+              >
+                Tin tức
+              </Link>
+              <Link
+                href='/lien-he'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
+              >
+                Liên hệ
               </Link>
             </div>
           </div>

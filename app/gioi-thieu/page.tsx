@@ -29,8 +29,6 @@ export default async function AboutPage() {
         };
       }) || [];
 
-  console.log(items);
-
   // Return empty items if global is null/not found
   return <AboutSection items={items} />;
 }

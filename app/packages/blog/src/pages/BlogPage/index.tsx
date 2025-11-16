@@ -30,9 +30,11 @@ export default function BlogPage({
   recruitmentPosts = [],
 }: BlogPageProps) {
   return (
-    <div className='container mx-auto pr-4 py-8'>
-      <div className='max-w-7xl mx-auto'>
-        {/* Header */}
+    <div className=' px-4 py-8 '>
+      {/* Header */}
+
+      {/* Blog List */}
+      <Container className='flex flex-col gap-6'>
         <Heading
           level={2}
           color='#215778'
@@ -40,22 +42,18 @@ export default function BlogPage({
         >
           TIN MỚI NHẤT
         </Heading>
+        {/* News Section */}
+        <NewsSection latestArticles={latestArticles || []} gap='gap-4 ' />
 
-        {/* Blog List */}
-        <Container className='flex flex-col gap-6'>
-          {/* News Section */}
-          <NewsSection latestArticles={latestArticles || []} gap='gap-4 ' />
+        {/* Most Viewed Section */}
+        <MostViewedSection articles={mostViewedArticles} />
 
-          {/* Most Viewed Section */}
-          <MostViewedSection articles={mostViewedArticles} />
+        {/* Important News Section */}
+        <ImportantNewsSection articles={importantArticles} />
 
-          {/* Important News Section */}
-          <ImportantNewsSection articles={importantArticles} />
-
-          {/* Recruitment News Section */}
-          <RecruitmentNewsSection posts={recruitmentPosts} />
-        </Container>
-      </div>
+        {/* Recruitment News Section */}
+        <RecruitmentNewsSection posts={recruitmentPosts} />
+      </Container>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { Container, Heading, Text } from '@ktbiotech/system-design';
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
 interface AboutItem {
@@ -119,7 +120,7 @@ export default function AboutSection({ items = [] }: AboutSectionProps) {
               <div className='w-full lg:w-1/2'>
                 {item.imageUrl ? (
                   <div
-                    className={`rounded-lg h-64 lg:h-80 overflow-hidden transition-all duration-500 ease-out ${
+                    className={`relative rounded-lg h-80 overflow-hidden transition-all duration-500 ease-out ${
                       visibleItems.has(index)
                         ? 'scale-100 opacity-100'
                         : 'scale-95 opacity-70'
@@ -128,27 +129,29 @@ export default function AboutSection({ items = [] }: AboutSectionProps) {
                       transitionDelay: `${index * 150 + 200}ms`,
                     }}
                   >
-                    <img
+                    <Image
                       src={item.imageUrl}
                       alt={item.title}
-                      className='w-full h-full object-cover'
+                      fill
+                      className='object-cover'
+                      sizes='(max-width: 1024px) 100vw, 50vw'
                     />
                   </div>
                 ) : (
-                <div
-                  className={`bg-gray-300 rounded-lg h-64 lg:h-80 flex items-center justify-center transition-all duration-500 ease-out ${
-                    visibleItems.has(index)
-                      ? 'scale-100 opacity-100'
-                      : 'scale-95 opacity-70'
-                  }`}
-                  style={{
-                    transitionDelay: `${index * 150 + 200}ms`,
-                  }}
-                >
-                  <Text variant='caption' color='muted' className='text-lg'>
-                    Image Placeholder
-                  </Text>
-                </div>
+                  <div
+                    className={`bg-gray-300 rounded-lg h-64 lg:h-80 flex items-center justify-center transition-all duration-500 ease-out ${
+                      visibleItems.has(index)
+                        ? 'scale-100 opacity-100'
+                        : 'scale-95 opacity-70'
+                    }`}
+                    style={{
+                      transitionDelay: `${index * 150 + 200}ms`,
+                    }}
+                  >
+                    <Text variant='caption' color='muted' className='text-lg'>
+                      Image Placeholder
+                    </Text>
+                  </div>
                 )}
               </div>
 

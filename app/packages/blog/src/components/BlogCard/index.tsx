@@ -55,7 +55,7 @@ export default function BlogCard({
   return (
     <article
       className={cn(
-        'duration-300 cursor-pointer hover:shadow-lg transition-shadow',
+        'duration-300 cursor-pointer hover:shadow-xl transition-shadow group rounded-xl',
         className,
         direction === 'column' && 'px-4 lg:px-0'
       )}
@@ -81,7 +81,7 @@ export default function BlogCard({
             badgeArrowColor={badgeArrowColor}
             imageClassName={cn(
               direction === 'column'
-                ? 'w-full h-full'
+                ? 'w-full h-full group-hover:rounded-b-none'
                 : 'w-full sm:w-48 h-32 sm:h-36',
               imageClassName
             )}
@@ -90,7 +90,14 @@ export default function BlogCard({
         </div>
 
         {/* Content - Right side */}
-        <div className='flex-1 '>
+        <div
+          className={cn(
+            'flex-1 ',
+            direction === 'column'
+              ? 'group-hover:px-4 transition-all duration-300 ease-out'
+              : ''
+          )}
+        >
           {/* Title */}
           <Text
             color='#1B1C1D'

@@ -1,13 +1,11 @@
 'use client';
 
-import React from 'react';
-
 export default function BlogListLoading() {
   return (
     <div className='min-h-screen bg-gray-50'>
       {/* Header skeleton */}
       <div className='bg-white shadow-sm border-b'>
-        <div className='container mx-auto px-4 py-6'>
+        <div className=' px-4 py-6'>
           <div className='flex items-center justify-between'>
             <div className='flex items-center gap-4'>
               <div className='w-10 h-10 bg-gray-200 rounded-lg animate-pulse'></div>
@@ -22,7 +20,7 @@ export default function BlogListLoading() {
       </div>
 
       {/* Main content */}
-      <div className='container mx-auto px-4 py-8'>
+      <div className=' px-4 py-8'>
         <div className='max-w-7xl mx-auto'>
           {/* Title skeleton */}
           <div className='text-center mb-12'>
@@ -65,7 +63,7 @@ export default function BlogListLoading() {
 
       {/* Footer skeleton */}
       <div className='mt-16 bg-white border-t'>
-        <div className='container mx-auto px-4 py-8'>
+        <div className=' px-4 py-8'>
           <div className='h-8 w-48 bg-gray-200 rounded animate-pulse mx-auto mb-4'></div>
           <div className='h-4 w-64 bg-gray-200 rounded animate-pulse mx-auto'></div>
         </div>

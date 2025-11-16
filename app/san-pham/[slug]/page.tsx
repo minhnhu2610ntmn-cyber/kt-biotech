@@ -8,6 +8,7 @@ import {
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import SetBreadcrumb from '../../components/containers/SetBreadcrumb';
 import ProductContactCard from '../../components/containers/ProductContactCard';
 import ProductDetailContent, {
   type ProductDetailBlock,
@@ -233,8 +234,31 @@ export default async function ProductDetailPage({
   }[];
 
   console.log('relatedItems', relatedItems);
+
+  // Build breadcrumb items
+  const breadcrumbItems = [
+    { label: 'Trang Chủ', href: '/' },
+    { label: 'Danh mục sản phẩm', href: '/danh-muc-san-pham' },
+  ];
+
+  // Add category if available
+  if (categoryName && categorySlug) {
+    breadcrumbItems.push({
+      label: categoryName,
+      href: `/danh-muc-san-pham/${categorySlug}`,
+    });
+  }
+
+  // Add product name
+  breadcrumbItems.push({
+    label: title || resolvedParams.slug,
+    href: `/san-pham/${resolvedParams.slug}`,
+  });
+
   return (
-    <Container className='py-8 px-4'>
+    <>
+      <SetBreadcrumb items={breadcrumbItems} />
+      <Container className='py-8 px-4'>
       <div className='space-y-8'>
         {/* Main Product Section */}
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
@@ -336,6 +360,7 @@ export default async function ProductDetailPage({
         )}
       </div>
     </Container>
+    </>
   );
 }
 

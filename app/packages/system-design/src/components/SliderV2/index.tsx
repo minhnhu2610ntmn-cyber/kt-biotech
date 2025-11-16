@@ -41,6 +41,7 @@ export interface SliderV2Props {
     [width: number]: {
       slidesPerView: number;
       spaceBetween: number;
+      centeredSlides?: boolean;
     };
   };
   onSlideChange?: (swiper: any) => void;
@@ -138,8 +139,6 @@ export function SliderV2({
     resistanceRatio,
     breakpoints,
     autoHeight,
-    freeMode,
-    freeModeSticky,
     mousewheel,
     keyboard: keyboard ? { enabled: true } : false,
     parallax,
@@ -165,6 +164,14 @@ export function SliderV2({
       }
     },
   };
+
+  // Configure freeMode properly
+  if (freeMode) {
+    swiperConfig.freeMode = {
+      enabled: true,
+      sticky: freeModeSticky,
+    };
+  }
 
   // Add autoplay config if enabled
   if (autoplay) {
@@ -380,7 +387,11 @@ export const SliderV2Presets = {
     freeMode: true,
     freeModeSticky: true,
     breakpoints: {
-      320: { slidesPerView: 2, spaceBetween: 15 },
+      320: {
+        slidesPerView: 2,
+        spaceBetween: 15,
+        centeredSlides: true,
+      },
       640: { slidesPerView: 3, spaceBetween: 20 },
       1024: { slidesPerView: 4, spaceBetween: 25 },
       1280: { slidesPerView: 5, spaceBetween: 30 },

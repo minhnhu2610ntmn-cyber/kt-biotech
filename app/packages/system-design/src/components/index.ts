@@ -1,5 +1,7 @@
 export { default as Badge } from './Badge';
 export type { BadgeProps } from './Badge';
+export { Breadcrumb, BreadcrumbProvider, useBreadcrumb } from './Breadcrumb';
+export type { BreadcrumbItem, BreadcrumbProps } from './Breadcrumb';
 export { Button } from './Button';
 export { default as Container } from './Container';
 export { Form } from './Form';

@@ -1,6 +1,6 @@
 'use client';
 
-import { cn, Text } from '@ktbiotech/system-design';
+import { cn, Slider, SliderPresets } from '@ktbiotech/system-design';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -247,35 +247,65 @@ function BlockSlider({ block }: { block: SliderBlock }) {
     return null;
   }
 
-  // Filter out slides without image URLs
-  const validSlides = block.slides.filter(slide => slide.image?.url);
+  // Filter out slides without image URLs and normalize data
+  const validSlides = block.slides
+    .map(slide => {
+      // Handle different data structures from Strapi
+      const slideData = slide as {
+        url?: string;
+        image?: {
+          url?: string;
+          alternativeText?: string;
+          data?: { attributes?: { url?: string } };
+        };
+        attributes?: { url?: string };
+        caption?: string;
+        title?: string;
+        alternativeText?: string;
+      };
+      const imageUrl =
+        slideData?.url ||
+        slideData?.image?.url ||
+        slideData?.image?.data?.attributes?.url ||
+        slideData?.attributes?.url;
+      const caption =
+        slideData?.caption ||
+        slideData?.title ||
+        slideData?.alternativeText ||
+        slideData?.image?.alternativeText;
+
+      if (!imageUrl) return null;
+
+      return {
+        url: imageUrl,
+        caption,
+      };
+    })
+    .filter(slide => slide !== null) as Array<{
+    url: string;
+    caption?: string;
+  }>;
 
   // Don't render if no valid slides
   if (validSlides.length === 0) {
     return null;
   }
 
+  // Convert slides to ReactNode array for Slider component
+  const slideElements = validSlides.map((slide, idx) => (
+    <div key={idx} className='relative w-full h-[400px] md:h-[500px]'>
+      <Image
+        src={buildImageUrl(slide.url)}
+        alt={slide.caption || `Slide ${idx + 1}`}
+        fill
+        className='object-cover rounded-lg'
+      />
+    </div>
+  ));
+
   return (
     <div className='my-8'>
-      <div className='flex gap-4 overflow-x-auto snap-x snap-mandatory'>
-        {validSlides.map((slide, idx) => (
-          <div key={idx} className='flex-shrink-0 w-full snap-center'>
-            <div className='relative w-full h-[400px] md:h-[500px]'>
-              <Image
-                src={buildImageUrl(slide.image.url)}
-                alt={slide.caption || `Slide ${idx + 1}`}
-                fill
-                className='object-cover rounded-lg'
-              />
-            </div>
-            {slide.caption && (
-              <Text className='text-sm text-gray-600 mt-2 text-center'>
-                {slide.caption}
-              </Text>
-            )}
-          </div>
-        ))}
-      </div>
+      <Slider {...SliderPresets.gallery}>{slideElements}</Slider>
     </div>
   );
 }

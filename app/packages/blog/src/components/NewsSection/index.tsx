@@ -13,16 +13,16 @@ interface Article {
   description: string;
   slug: string;
   createdAt: string;
-  author: {
+  author?: {
     name: string;
-  };
+  } | null;
   cover?: {
     url: string;
   };
-  category: {
+  category?: {
     name: string;
     color: string;
-  };
+  } | null;
 }
 
 interface NewsSectionProps {
@@ -87,15 +87,17 @@ export default function NewsSection({
     return {
       id: article.id,
       title: article.title,
-      author: article.author.name,
+      author: article.author?.name || 'Unknown Author',
       date: formatDate(article.createdAt),
       description: article.description,
       imageSrc: buildImageUrl(article.cover?.url),
       imageAlt: article.title,
-      badgeText: article.category.name,
-      badgeBackgroundColor: lightenColor(article.category.color, 60),
+      badgeText: article.category?.name || 'Uncategorized',
+      badgeBackgroundColor: article.category?.color
+        ? lightenColor(article.category.color, 60)
+        : '#E5E7EB',
       badgeTextColor: `#1B1C1D`,
-      badgeArrowColor: article.category.color,
+      badgeArrowColor: article.category?.color || '#6B7280',
       href: `/blogs/${article.slug}`,
       slug: article.slug,
     };
@@ -108,14 +110,14 @@ export default function NewsSection({
       : mockBlogPosts;
 
   return (
-    <section ref={sectionRef}>
+    <section ref={sectionRef} className='px-4 xl:px-0'>
       <Container>
         {/* Section Title */}
         {title && (
           <Heading
             level={2}
             color='#215778'
-            className={`font-bold !text-2xl mb-10 pl-4 underline decoration-[#2C3E50] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-300 ${
+            className={`font-bold !text-2xl mb-10 text-center xl:text-left pl-4 underline decoration-[#2C3E50] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-300 ${
               isVisible
                 ? 'opacity-100 translate-y-0'
                 : 'opacity-0 translate-y-4'

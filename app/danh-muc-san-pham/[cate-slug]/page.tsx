@@ -1,10 +1,12 @@
 import CategoryLayout from '@/app/components/containers/CategoryLayout';
+import SetBreadcrumb from '@/app/components/containers/SetBreadcrumb';
 import { Container } from '@ktbiotech/system-design';
 import type { Metadata } from 'next';
 import {
   StrapiApi,
   buildImageUrl,
   getProductCategoriesCached,
+  type CatalogueEntry,
 } from '../../config/api';
 
 interface PageCategory {
@@ -12,6 +14,8 @@ interface PageCategory {
   name: string;
   slug: string;
 }
+
+type CatalogueItem = CatalogueEntry;
 
 async function getProductCategories(): Promise<PageCategory[]> {
   try {
@@ -49,6 +53,12 @@ export default async function CategoryListingPage({
     page,
     pageSize,
   });
+  const catalogue: CatalogueItem | null = await api.getCatalogue();
+
+  // Get category data for breadcrumb
+  const category = await api.getCategoryBySlug(active);
+  const categoryName = category?.name || active;
+
   const productRows = (productsRes.data as any[])
     .map(p => {
       const productData = p.attributes || p;
@@ -73,21 +83,33 @@ export default async function CategoryListingPage({
       };
     })
     .filter((p): p is NonNullable<typeof p> => p !== null);
+
+  // Build breadcrumb items
+  const breadcrumbItems = [
+    { label: 'Trang Chủ', href: '/' },
+    { label: 'Danh mục sản phẩm', href: '/danh-muc-san-pham' },
+    { label: categoryName, href: `/danh-muc-san-pham/${active}` },
+  ];
+
   return (
-    <Container className='space-y-4 mt-6 px-4'>
-      <CategoryLayout
-        categories={categories as unknown as any}
-        activeCategory={active}
-        brands={brands}
-        products={productRows}
-        pagination={{
-          total: (productsRes.meta?.pagination?.total as number) || 0,
-          page: (productsRes.meta?.pagination?.page as number) || page,
-          pageSize:
-            (productsRes.meta?.pagination?.pageSize as number) || pageSize,
-        }}
-      />
-    </Container>
+    <>
+      <SetBreadcrumb items={breadcrumbItems} />
+      <Container className='space-y-4 mt-6 px-4'>
+        <CategoryLayout
+          categories={categories as unknown as any}
+          activeCategory={active}
+          brands={brands}
+          products={productRows}
+          catalogue={catalogue}
+          pagination={{
+            total: (productsRes.meta?.pagination?.total as number) || 0,
+            page: (productsRes.meta?.pagination?.page as number) || page,
+            pageSize:
+              (productsRes.meta?.pagination?.pageSize as number) || pageSize,
+          }}
+        />
+      </Container>
+    </>
   );
 }
 

@@ -2,9 +2,10 @@
 
 import { Button, Input, Text } from '@ktbiotech/system-design';
 import { useState } from 'react';
+import { StrapiApi } from '../../../config/api';
 
 interface ContactFormData {
-  firstName: string;
+  name: string;
   company: string;
   phone: string;
   email: string;
@@ -13,7 +14,7 @@ interface ContactFormData {
 
 export default function ContactForm() {
   const [formData, setFormData] = useState<ContactFormData>({
-    firstName: '',
+    name: '',
     company: '',
     phone: '',
     email: '',
@@ -41,21 +42,23 @@ export default function ContactForm() {
     setSubmitStatus('idle');
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const api = new StrapiApi();
+      const result = await api.submitContact(formData);
 
-      // Here you would typically send the data to your API
-      // eslint-disable-next-line no-console
-      console.log('Form submitted:', formData);
-
-      setSubmitStatus('success');
-      setFormData({
-        firstName: '',
-        company: '',
-        phone: '',
-        email: '',
-        message: '',
-      });
+      if (result.success) {
+        setSubmitStatus('success');
+        setFormData({
+          name: '',
+          company: '',
+          phone: '',
+          email: '',
+          message: '',
+        });
+      } else {
+        // eslint-disable-next-line no-console
+        console.error('Error submitting form:', result.error);
+        setSubmitStatus('error');
+      }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Error submitting form:', error);
@@ -66,12 +69,12 @@ export default function ContactForm() {
   };
 
   return (
-    <div className='max-w-md mx-auto w-full'>
+    <div className=' mx-auto w-full'>
       {/* Header */}
       <Text
-        variant='subtitle'
         color='#215778'
-        className='!text-3xl font-bold mb-8 underline decoration-[#215778] decoration-1 underline-offset-4'
+        weight='bold'
+        className='!text-3xl  mb-8 underline decoration-[#215778] decoration-1 underline-offset-4'
       >
         LIÊN HỆ
       </Text>
@@ -81,23 +84,23 @@ export default function ContactForm() {
       <form onSubmit={handleSubmit}>
         <div className='space-y-4'>
           {/* First Row */}
-          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div>
               <label
-                htmlFor='firstName'
+                htmlFor='name'
                 className='block text-sm font-medium text-gray-700 mb-2'
               >
                 First name*
               </label>
               <Input
                 type='text'
-                id='firstName'
-                name='firstName'
-                placeholder='Your full name'
-                value={formData.firstName}
+                id='name'
+                name='name'
+                placeholder='First name'
+                value={formData.name}
                 onChange={handleInputChange}
                 required
-                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors bg-white'
+                className='w-full px-4 py-5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors bg-white'
               />
             </div>
             <div>
@@ -111,11 +114,11 @@ export default function ContactForm() {
                 type='text'
                 id='company'
                 name='company'
-                placeholder='Your full name'
+                placeholder='Company name'
                 value={formData.company}
                 onChange={handleInputChange}
                 required
-                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors bg-white'
+                className='w-full px-4 py-5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors bg-white'
               />
             </div>
           </div>
@@ -133,11 +136,11 @@ export default function ContactForm() {
                 type='tel'
                 id='phone'
                 name='phone'
-                placeholder='Your full name'
+                placeholder='Phone number'
                 value={formData.phone}
                 onChange={handleInputChange}
                 required
-                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors bg-white'
+                className='w-full px-4 py-5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors bg-white'
               />
             </div>
             <div>
@@ -151,11 +154,11 @@ export default function ContactForm() {
                 type='email'
                 id='email'
                 name='email'
-                placeholder='Your full name'
+                placeholder='Email'
                 value={formData.email}
                 onChange={handleInputChange}
                 required
-                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors bg-white'
+                className='w-full px-4 py-5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors bg-white'
               />
             </div>
           </div>
@@ -172,10 +175,10 @@ export default function ContactForm() {
               id='message'
               name='message'
               rows={4}
-              placeholder='Your full name'
+              placeholder='Message'
               value={formData.message}
               onChange={handleInputChange}
-              className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors resize-none bg-white'
+              className='w-full px-4 py-5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors resize-none bg-white'
               required
             />
           </div>

@@ -4,8 +4,8 @@ import { ContactForm } from '../components/containers';
 
 export default function ContactPage() {
   return (
-    <div className='gap-4 flex flex-col pb-10'>
-      <Container className='my-6'>
+    <div className='gap-4 flex flex-col '>
+      <Container className='my-6 px-4'>
         <div className='flex flex-col gap-4 lg:flex-row '>
           {/* Left Side - Company Information */}
           <div className='lg:w-1/2 bg-gray-200 rounded-2xl flex flex-col justify-center p-8 lg:p-12'>
@@ -21,14 +21,14 @@ export default function ContactPage() {
           </div>
 
           {/* Right Side - Contact Form */}
-          <div className='lg:w-1/2  p-8 lg:p-12 flex flex-col justify-center'>
+          <div className='lg:w-1/2 p-4  flex flex-col justify-center'>
             <ContactForm />
           </div>
         </div>
       </Container>
 
       {/* Three Information Sections */}
-      <Container className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+      <Container className='grid grid-cols-1 md:grid-cols-3 gap-6 px-7'>
         {/* Address Section */}
         <div className='bg-[#E7E8E9] rounded-lg p-6 text-center flex flex-col items-center justify-center shadow-sm'>
           <div className='w-16 h-16 bg-gray-300 rounded-full mx-auto mb-4 flex items-center justify-center'>

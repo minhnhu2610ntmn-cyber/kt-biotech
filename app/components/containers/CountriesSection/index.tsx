@@ -53,7 +53,7 @@ export default function CountriesSection() {
         <Heading
           level={3}
           color='#215778'
-          className={`text-left mb-12 font-bold pl-4 !text-2xl underline decoration-[#215778] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-200 ${
+          className={` mb-12 text-center xl:text-left font-bold pl-4 !text-2xl underline decoration-[#215778] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-200 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
@@ -77,7 +77,7 @@ export default function CountriesSection() {
           {/* Country Flags Slider */}
           <div className='relative z-10 w-full'>
             <SliderV2
-              slidesPerView={1}
+              slidesPerView={2}
               spaceBetween={20}
               breakpoints={{
                 640: {
@@ -123,7 +123,7 @@ export default function CountriesSection() {
 
         {/* KT BIOTECH Logo Card */}
         <div
-          className={`absolute top-5 right-8 h-[268px] scale-[1.6] z-10 overflow-hidden transition-all duration-800 ease-out delay-600 hover:scale-[1.7] ${
+          className={`absolute hidden lg:block top-5 right-8 h-[268px] scale-[1.6] z-10 overflow-hidden transition-all duration-800 ease-out delay-600 hover:scale-[1.7] ${
             isVisible ? 'opacity-100 scale-[1.6]' : 'opacity-0 scale-[1.4]'
           }`}
         >

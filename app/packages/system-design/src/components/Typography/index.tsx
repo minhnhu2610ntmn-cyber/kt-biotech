@@ -23,6 +23,7 @@ export interface TypographyProps {
   italic?: boolean;
   truncate?: boolean;
   lineClamp?: 1 | 2 | 3 | 4 | 5 | 6;
+  style?: React.CSSProperties;
 }
 
 export interface HeadingProps extends TypographyProps {
@@ -64,6 +65,7 @@ export const Typography: React.FC<TypographyProps> = ({
   italic = false,
   truncate = false,
   lineClamp,
+  style,
 }) => {
   const colorClasses = {
     primary: 'text-gray-900',
@@ -134,7 +136,7 @@ export const Typography: React.FC<TypographyProps> = ({
   );
 
   return (
-    <span className={classes} style={colorStyle}>
+    <span className={classes} style={{ ...colorStyle, ...style }}>
       {children || ''}
     </span>
   );
@@ -208,6 +210,7 @@ export const Text: React.FC<TextProps> = ({
   italic = false,
   truncate = false,
   lineClamp,
+  style,
 }) => {
   const sizeClasses = {
     xs: 'text-xs',
@@ -254,6 +257,7 @@ export const Text: React.FC<TextProps> = ({
         italic={italic}
         truncate={truncate}
         lineClamp={lineClamp}
+        style={style}
       >
         {children}
       </Typography>

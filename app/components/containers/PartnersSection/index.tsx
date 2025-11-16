@@ -72,7 +72,7 @@ export default function PartnersSection() {
         <Heading
           level={3}
           color='#215778'
-          className={`text-kt-gray-800 font-semibold text-left pl-4 !text-2xl transition-all duration-600 ease-out delay-200 ${
+          className={`text-kt-gray-800 font-semibold text-center xl:text-left pl-4 !text-2xl transition-all duration-600 ease-out delay-200 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >

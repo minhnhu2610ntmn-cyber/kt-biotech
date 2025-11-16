@@ -61,7 +61,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
   ];
 
   return (
-    <div className={cn(' h-full w-64  z-40', className)}>
+    <div className={cn(' w-64  z-40', className)}>
       <div className='space-y-1'>
         {finalMenuItems.map(item => {
           const isActive = activeItem === item.id || item.isActive;

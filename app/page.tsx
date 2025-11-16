@@ -10,6 +10,7 @@ async function getLatestArticles() {
       sort: 'createdAt:desc',
       'pagination[limit]': '4',
       populate: '*',
+      'filters[category][$notNull]': 'true',
     });
     return articles as Article[];
   } catch (error) {

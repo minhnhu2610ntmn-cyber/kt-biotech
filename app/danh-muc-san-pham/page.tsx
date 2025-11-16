@@ -58,7 +58,7 @@ export default async function ProductCategoriesPage() {
 
   return (
     <Container>
-      <div className='pt-6 pb-10'>
+      <div className='pt-6 pb-10 px-4'>
         <Heading
           level={2}
           className='!text-xl md:!text-2xl mb-6'
@@ -85,7 +85,7 @@ export default async function ProductCategoriesPage() {
                 }}
               >
                 <div className='rounded-xl overflow-hidden bg-gray-100 border border-gray-200'>
-                  <div className='relative w-full h-[200px] md:h-[220px]'>
+                  <div className='relative w-full h-[300px] md:h-[220px]'>
                     {imageUrl ? (
                       <Image
                         src={imageUrl}

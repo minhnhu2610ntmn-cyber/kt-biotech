@@ -1,9 +1,9 @@
 'use client';
 
-import { Button, Text } from '@ktbiotech/system-design';
+import { Text } from '@ktbiotech/system-design';
 import Image from 'next/image';
 import Link from 'next/link';
-import { memo, useState } from 'react';
+import { memo } from 'react';
 
 export type ProductRow = {
   id: number;
@@ -21,7 +21,6 @@ interface ProductTableProps {
 }
 
 function ProductTableBase({ products, className = '' }: ProductTableProps) {
-  const [activeTab, setActiveTab] = useState<'image' | 'product'>('image');
   const truncate = (text: string, max = 20) =>
     (text || '').length > max ? `${text.slice(0, max)}…` : text || '';
 
@@ -53,7 +52,9 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
               <path d='M7 3h10v4H7z' stroke='currentColor' strokeWidth='2' />
             </svg>
           </div>
-          <Text className='text-[#1B1C1D] font-medium'>Không có sản phẩm</Text>
+          <Text className='text-[#1B1C1D] font-medium px-4'>
+            Không có sản phẩm
+          </Text>
           <Text className='text-gray-500 text-sm'>
             Hãy điều chỉnh bộ lọc hoặc thử từ khóa khác
           </Text>
@@ -124,29 +125,17 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
         className={`md:hidden rounded-lg overflow-hidden border border-[#E3EEF5] ${className}`}
       >
         {/* Tab Header */}
-        <div className='flex bg-[#D9EDF7]'>
-          <Button
-            onClick={() => setActiveTab('image')}
-            variant='ghost'
-            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors rounded-none ${
-              activeTab === 'image'
-                ? 'bg-[#86BDDF] text-[#1B1C1D] rounded-tl-lg'
-                : 'text-[#1B1C1D]'
-            }`}
+        <div className='grid grid-cols-[150px_1fr] bg-[#D9EDF7]'>
+          <div
+            className={` px-6 py-3 text-sm font-medium transition-colors rounded-none  text-[#1B1C1D]`}
           >
             Hình ảnh
-          </Button>
-          <Button
-            onClick={() => setActiveTab('product')}
-            variant='ghost'
-            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors rounded-none ${
-              activeTab === 'product'
-                ? 'bg-[#86BDDF] text-[#1B1C1D] rounded-tr-lg'
-                : 'text-[#1B1C1D]'
-            }`}
+          </div>
+          <div
+            className={` text-center  py-3 text-sm font-medium text-[#1B1C1D] transition-colors rounded-none `}
           >
             Sản phẩm
-          </Button>
+          </div>
         </div>
 
         {/* Content */}

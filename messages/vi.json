@@ -60,5 +60,15 @@
     "foodKit": "Kit thực phẩm",
     "extractionKit": "Kit chiết xuất",
     "otherProducts": "Sản phẩm khác"
+  },
+  "breadcrumb": {
+    "home": "Trang Chủ",
+    "gioithieu": "Giới thiệu",
+    "danhmucsanpham": "Danh mục sản phẩm",
+    "sanpham": "Sản phẩm",
+    "dichvu": "Dịch vụ",
+    "nghiencuukhoahoc": "Nghiên cứu khoa học",
+    "blogs": "Tin tức",
+    "lienhe": "Liên hệ"
   }
 }

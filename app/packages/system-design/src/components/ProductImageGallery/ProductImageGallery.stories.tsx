@@ -12,7 +12,8 @@ const meta: Meta<typeof ProductImageGallery> = {
   argTypes: {
     images: {
       control: { type: 'object' },
-      description: 'Array of product images with url, alt, and optional thumbnailUrl',
+      description:
+        'Array of product images with url, alt, and optional thumbnailUrl',
     },
     className: {
       control: { type: 'text' },
@@ -130,4 +131,3 @@ export const CustomClassName: Story = {
     className: 'max-w-md mx-auto',
   },
 };
-

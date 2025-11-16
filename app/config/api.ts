@@ -57,6 +57,7 @@ export const API_ENDPOINTS = {
   authors: '/api/authors',
   products: '/api/products',
   brands: '/api/brands',
+  catalogue: '/api/catalogue',
   upload: '/api/upload',
   about: '/api/about',
   global: '/api/globals',
@@ -64,7 +65,38 @@ export const API_ENDPOINTS = {
   researchService: '/api/research-service',
   vision: '/api/vision',
   mission: '/api/mission',
+  structure: '/api/structure',
+  award: '/api/award',
+  relationship: '/api/relationship',
+  contacts: '/api/contacts',
 } as const;
+
+export type CatalogueEntry = {
+  id: number;
+  title: string;
+  description?: string;
+  downloadUrl?: string;
+  fileName?: string;
+};
+
+export function normalizeCatalogueEntry(raw: any): CatalogueEntry | null {
+  if (!raw) return null;
+  const node = raw?.attributes || raw || {};
+  const file =
+    node?.file?.data?.attributes || node?.file?.data || node?.file || null;
+
+  const downloadUrl = file?.url ? buildImageUrl(file.url) : undefined;
+  const fileName =
+    file?.name || file?.alternativeText || file?.caption || 'catalogue.pdf';
+
+  return {
+    id: raw?.id ?? node?.id ?? 0,
+    title: node?.title || node?.name || 'Product Catalogue',
+    description: node?.description || '',
+    downloadUrl,
+    fileName,
+  };
+}
 
 /**
  * Build full API URL
@@ -308,6 +340,30 @@ export class StrapiApi {
   }
 
   /**
+   * Get catalogues with optional filters
+   */
+  async getCatalogue(): Promise<CatalogueEntry | null> {
+    const response = await fetch(
+      `${buildApiUrl(API_ENDPOINTS.catalogue)}?populate=*`,
+      {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 300 },
+      }
+    );
+
+    if (!response.ok) {
+      const body = await response.text().catch(() => '');
+      throw new Error(
+        `Failed to fetch catalogue: ${response.status} ${response.statusText} ${body}`
+      );
+    }
+
+    const json = await response.json();
+    return normalizeCatalogueEntry(json?.data || null);
+  }
+
+  /**
    * Get single category by slug
    */
   async getCategoryBySlug(slug: string): Promise<Category | null> {
@@ -355,7 +411,7 @@ export class StrapiApi {
 
     if (filters?.brandIds) {
       params.push(
-        `filters[brands][id][$in]=${encodeURIComponent(filters.brandIds)}`
+        `filters[brand][id][$in]=${encodeURIComponent(filters.brandIds)}`
       );
     }
 
@@ -692,6 +748,242 @@ export class StrapiApi {
       // eslint-disable-next-line no-console
       console.error('Error fetching mission:', error);
       return null;
+    }
+  }
+
+  /**
+   * Get structure single type
+   */
+  async getStructure(): Promise<any | null> {
+    try {
+      const response = await fetch(
+        `${buildApiUrl(API_ENDPOINTS.structure)}?populate[content][populate]=*&populate[image][fields]=*`,
+        {
+          method: 'GET',
+          headers: getApiHeaders(),
+          next: { revalidate: 300 },
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null;
+        }
+        const body = await response.text().catch(() => '');
+        throw new Error(
+          `Failed to fetch structure: ${response.status} ${response.statusText} ${body}`
+        );
+      }
+
+      const data = await response.json();
+      return data?.data || null;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching structure:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get award single type
+   */
+  async getAward(): Promise<any | null> {
+    try {
+      const response = await fetch(
+        `${buildApiUrl(API_ENDPOINTS.award)}?populate=*`,
+        {
+          method: 'GET',
+          headers: getApiHeaders(),
+          next: { revalidate: 300 },
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null;
+        }
+        const body = await response.text().catch(() => '');
+        throw new Error(
+          `Failed to fetch award: ${response.status} ${response.statusText} ${body}`
+        );
+      }
+
+      const data = await response.json();
+      return data?.data || null;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching award:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get relationship single type
+   */
+  async getRelationship(): Promise<any | null> {
+    try {
+      const response = await fetch(
+        `${buildApiUrl(API_ENDPOINTS.relationship)}?populate[content][populate]=*&populate[image][fields]=*`,
+        {
+          method: 'GET',
+          headers: getApiHeaders(),
+          next: { revalidate: 300 },
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null;
+        }
+        const body = await response.text().catch(() => '');
+        throw new Error(
+          `Failed to fetch relationship: ${response.status} ${response.statusText} ${body}`
+        );
+      }
+
+      const data = await response.json();
+      return data?.data || null;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching relationship:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Submit contact form
+   * @param data - Contact form data
+   */
+  async submitContact(data: {
+    name: string;
+    company: string;
+    phone: string;
+    email: string;
+    message: string;
+  }): Promise<{ success: boolean; data?: any; error?: string }> {
+    try {
+      const response = await fetch(buildApiUrl(API_ENDPOINTS.contacts), {
+        method: 'POST',
+        headers: {
+          ...getApiHeaders(),
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: {
+            name: data.name,
+            company: data.company,
+            phone: data.phone,
+            email: data.email,
+            message: data.message,
+          },
+        }),
+        cache: 'no-store',
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.text().catch(() => '');
+        return {
+          success: false,
+          error: `Failed to submit contact: ${response.status} ${response.statusText}`,
+        };
+      }
+
+      const result = await response.json();
+      return {
+        success: true,
+        data: result?.data || result,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : 'Unknown error occurred',
+      };
+    }
+  }
+
+  /**
+   * Update article field
+   * @param articleId - Article ID or documentId
+   * @param fieldName - Field name to update
+   * @param fieldValue - New field value
+   * @param publishedAt - Optional publishedAt date to maintain published status
+   */
+  async updateArticleField(
+    articleId: number | string,
+    fieldName: string,
+    fieldValue: any,
+    publishedAt?: string | null
+  ): Promise<void> {
+    try {
+      // For Strapi v5, try documentId in path first, then fallback to id
+      const isDocumentId =
+        typeof articleId === 'string' && articleId.includes('-');
+      const url = `${buildApiUrl(API_ENDPOINTS.articles)}/${articleId}`;
+
+      // If it's a documentId, try using it in path (Strapi v5 supports this)
+      // If that fails, we'll try query parameter approach
+      // Include publishedAt: null to keep it published (or set to current date)
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          ...getApiHeaders(),
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: {
+            [fieldName]: fieldValue,
+            // Keep publishedAt to maintain published status if provided
+            ...(publishedAt !== undefined && { publishedAt }),
+          },
+        }),
+        // No caching for updates
+        cache: 'no-store',
+      });
+
+      if (!response.ok) {
+        // If documentId in path failed, try query parameter approach
+        if (isDocumentId && response.status === 404) {
+          const queryUrl = `${buildApiUrl(API_ENDPOINTS.articles)}?documentId=${articleId}`;
+          const retryResponse = await fetch(queryUrl, {
+            method: 'PUT',
+            headers: {
+              ...getApiHeaders(),
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              data: {
+                [fieldName]: fieldValue,
+                // Keep publishedAt to maintain published status if provided
+                ...(publishedAt !== undefined && { publishedAt }),
+              },
+            }),
+            cache: 'no-store',
+          });
+
+          if (!retryResponse.ok) {
+            const errorBody = await retryResponse.text().catch(() => '');
+            // eslint-disable-next-line no-console
+            console.error(
+              `Failed to update article field: ${retryResponse.status} ${retryResponse.statusText}`,
+              errorBody
+            );
+          }
+          return;
+        }
+
+        const errorBody = await response.text().catch(() => '');
+        // Don't throw error, just log it silently
+        // eslint-disable-next-line no-console
+        console.error(
+          `Failed to update article field: ${response.status} ${response.statusText}`,
+          errorBody
+        );
+      }
+    } catch (error) {
+      // Don't throw error, just log it silently
+      // eslint-disable-next-line no-console
+      console.error('Error updating article field:', error);
     }
   }
 }

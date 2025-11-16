@@ -79,7 +79,7 @@ export interface MediaBlock extends BaseBlock {
 export interface SliderBlock extends BaseBlock {
   __component: 'shared.slider';
   slides?: Array<{
-    image?: { url: string };
+    url?: string;
     caption?: string;
   }>;
 }

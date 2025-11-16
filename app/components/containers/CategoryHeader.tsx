@@ -97,7 +97,7 @@ export function CategoryHeader({
                 width={18}
                 height={18}
                 color='currentColor'
-                className='text-[#215778] group-hover:text-white group-hover:scale-[1.2] transition-colors'
+                className='text-[#215778] scale-[1.2] group-hover:text-white group-hover:scale-[1.4] transition-colors'
               />
               <span>{downloadLabel}</span>
             </span>

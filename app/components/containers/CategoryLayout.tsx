@@ -1,7 +1,7 @@
 'use client';
 
 import { SidebarMenu } from '@ktbiotech/system-design';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import BrandFilters from './BrandFilters';
 import { CategoryHeader } from './CategoryHeader';
 import FilterDrawer from './FilterDrawer';
@@ -13,6 +13,13 @@ type CategoryLayoutProps = {
   activeCategory: string;
   brands: Array<{ id: number; name: string }>;
   products: ProductRow[];
+  catalogue?: {
+    id: number | string;
+    title?: string;
+    description?: string;
+    downloadUrl?: string;
+    fileName?: string;
+  } | null;
   pagination: {
     total: number;
     page: number;
@@ -25,9 +32,36 @@ export default function CategoryLayout({
   activeCategory,
   brands,
   products,
+  catalogue = null,
   pagination,
 }: CategoryLayoutProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const primaryCatalogue =
+    catalogue && catalogue.downloadUrl ? catalogue : null;
+
+  const handleDownloadCatalogue = useCallback(async () => {
+    if (!primaryCatalogue?.downloadUrl) return;
+    try {
+      const response = await fetch(primaryCatalogue.downloadUrl);
+      if (!response.ok) {
+        throw new Error(
+          `Failed to download catalogue: ${response.status} ${response.statusText}`
+        );
+      }
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = primaryCatalogue.fileName || 'catalogue.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Catalogue download failed', error);
+    }
+  }, [primaryCatalogue]);
 
   const FilterIcon = ({ className = '' }: { className?: string }) => (
     <svg
@@ -72,6 +106,12 @@ export default function CategoryLayout({
         <div>
           <CategoryHeader
             title='DANH SÁCH SẢN PHẨM'
+            downloadLabel={primaryCatalogue?.title || 'Download Catalogue'}
+            onDownloadClick={
+              primaryCatalogue?.downloadUrl
+                ? handleDownloadCatalogue
+                : undefined
+            }
             onOpenFilter={() => setIsDrawerOpen(true)}
           />
           <ProductTable products={products} />

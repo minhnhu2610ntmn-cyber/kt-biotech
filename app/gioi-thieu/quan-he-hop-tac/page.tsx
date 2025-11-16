@@ -3,11 +3,12 @@ import { Container } from '@ktbiotech/system-design';
 import AnimatedPageContent from '../../components/containers/AnimatedPageContent';
 import { buildImageUrl, StrapiApi } from '../../config/api';
 
-export default async function CompanyPage() {
+export default async function RelationshipPage() {
   const api = new StrapiApi();
-  const company = await api.getAbout();
+  const relationship = await api.getRelationship();
 
-  const blocks: StrapiBlock[] = ((company?.content as any[]) || [])
+  const relationshipData = relationship?.attributes || relationship || null;
+  const blocks: StrapiBlock[] = ((relationshipData?.content as any[]) || [])
     .map((block: any) => {
       switch (block.__component) {
         case 'shared.rich-text':
@@ -29,22 +30,48 @@ export default async function CompanyPage() {
             id: block.id,
             file: block.file,
           } as StrapiBlock;
-        case 'shared.slider':
+        case 'shared.slider': {
+          // Normalize slides data from Strapi format
+          const rawFiles =
+            block.files?.data ||
+            block.files ||
+            block.slides?.data ||
+            block.slides ||
+            [];
+          const normalizedSlides = Array.isArray(rawFiles)
+            ? rawFiles.map((file: any) => {
+                const fileData = file.attributes || file;
+                const imageData =
+                  fileData?.image?.data?.attributes ||
+                  fileData?.image?.data ||
+                  fileData?.image?.attributes ||
+                  fileData?.image ||
+                  fileData;
+                return {
+                  url: imageData?.url || fileData?.url,
+                  caption:
+                    imageData?.alternativeText ||
+                    fileData?.caption ||
+                    fileData?.title,
+                };
+              })
+            : [];
           return {
             __component: 'shared.slider',
             id: block.id,
-            slides: block.slides || [],
+            slides: normalizedSlides,
           } as StrapiBlock;
+        }
         default:
           return null;
       }
     })
     .filter(Boolean) as StrapiBlock[];
 
-  const heroUrl = company?.image?.url
-    ? buildImageUrl(company.image.url)
+  const heroUrl = relationshipData?.image?.url
+    ? buildImageUrl(relationshipData.image.url)
     : 'https://picsum.photos/1200/600?random=3';
-  const title = company?.title || 'Về chúng tôi';
+  const title = relationshipData?.title || 'Quan hệ hợp tác';
 
   return (
     <Container>

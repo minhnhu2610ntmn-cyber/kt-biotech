@@ -60,5 +60,15 @@
     "foodKit": "Food Kit",
     "extractionKit": "Extraction Kit",
     "otherProducts": "Other Products"
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "gioithieu": "About",
+    "danhmucsanpham": "Products",
+    "sanpham": "Product",
+    "dichvu": "Services",
+    "nghiencuukhoahoc": "Scientific Research",
+    "blogs": "News",
+    "lienhe": "Contact"
   }
 }
