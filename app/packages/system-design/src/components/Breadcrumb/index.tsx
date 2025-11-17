@@ -1,6 +1,6 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import * as React from 'react';
@@ -22,22 +22,86 @@ export interface BreadcrumbProps {
 
 export function Breadcrumb({ items, className, separator }: BreadcrumbProps) {
   const pathname = usePathname();
+  const locale = useLocale();
   const t = useTranslations('breadcrumb');
   const tNavbar = useTranslations('navbar');
   const { items: contextItems } = useBreadcrumb();
 
+  // Default locale (vi) doesn't have prefix
+  const defaultLocale = 'vi';
+
+  // Helper function to build href with locale prefix
+  const buildHref = (href: string) => {
+    if (locale === defaultLocale) {
+      return href;
+    }
+    return `/${locale}${href}`;
+  };
+
   // Auto-generate breadcrumb from pathname if items not provided
   const breadcrumbItems = React.useMemo(() => {
+    // Remove locale prefix from pathname for breadcrumb generation
+    const pathnameWithoutLocale = pathname.replace(/^\/[^/]+/, '') || '/';
+
     // Hide breadcrumb on home page
-    if (pathname === '/') {
+    if (pathnameWithoutLocale === '/') {
       return [];
     }
 
     // Priority: props items > context items > auto-generated
+    // Always prefer context items (from API via SetBreadcrumb) over auto-generation
     if (items) return items;
-    if (contextItems) return contextItems;
+    if (contextItems && contextItems.length > 0) return contextItems;
 
-    const paths = pathname.split('/').filter(Boolean);
+    // List of known static routes that have translations
+    // Only auto-generate for these routes
+    const knownStaticRoutes = [
+      'gioi-thieu',
+      'dich-vu',
+      'lien-he',
+      'blogs',
+      'recruitment',
+      'danh-muc-san-pham',
+      've-chung-toi',
+      'tam-nhin-su-menh',
+      'co-cau-to-chuc',
+      'giai-thuong',
+      'quan-he-hop-tac',
+      'nghien-cuu-khoa-hoc',
+      'giai-trinh-tu-gen',
+    ];
+
+    const paths = pathnameWithoutLocale.split('/').filter(Boolean);
+    
+    // Check if all path segments are known static routes
+    const allSegmentsAreStatic = paths.every(path => knownStaticRoutes.includes(path));
+    
+    // Only auto-generate if all segments are known static routes
+    // Otherwise, wait for API data via SetBreadcrumb
+    if (!allSegmentsAreStatic) {
+      return [];
+    }
+
+    // Helper function to safely get translation without throwing errors
+    const safeTranslate = (
+      translator: (key: string) => string,
+      key: string
+    ): string | null => {
+      try {
+        const translated = translator(key);
+        // Check if translation exists (not the same as key and not empty)
+        if (translated && translated !== key && translated.trim() !== '') {
+          return translated;
+        }
+        return null;
+      } catch (error: any) {
+        // Translation key doesn't exist - next-intl throws error for missing keys
+        // Silently catch and return null to use fallback formatting
+        return null;
+      }
+    };
+
+    // Auto-generate breadcrumb for known static routes only
     const result: BreadcrumbItem[] = [
       {
         label: t('home'),
@@ -51,39 +115,26 @@ export function Breadcrumb({ items, className, separator }: BreadcrumbProps) {
 
       // Try to get translation for this path
       let label = path;
-      try {
-        // Try breadcrumb translations first
-        const translationKey = path.replace(/-/g, '');
-        const translated = t(translationKey);
-        if (translated && translated !== translationKey) {
-          label = translated;
+
+      // Try breadcrumb translations first
+      const translationKey = path.replace(/-/g, '');
+      const breadcrumbTranslation = safeTranslate(t, translationKey);
+      
+      if (breadcrumbTranslation) {
+        label = breadcrumbTranslation;
+      } else {
+        // If breadcrumb translation fails, try navbar translations
+        const navbarTranslation = safeTranslate(tNavbar, path);
+        if (navbarTranslation) {
+          label = navbarTranslation;
         } else {
-          // Try navbar translations
-          try {
-            const navbarLabel = tNavbar(path as any);
-            if (navbarLabel && navbarLabel !== path) {
-              label = navbarLabel;
-            } else {
-              // Format path as label (capitalize first letter, replace hyphens with spaces)
-              label = path
-                .split('-')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
-            }
-          } catch {
-            // Format path as label
-            label = path
-              .split('-')
-              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(' ');
-          }
+          // If all translations fail, format path as label
+          // (capitalize first letter, replace hyphens with spaces)
+          label = path
+            .split('-')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
         }
-      } catch {
-        // If translation fails, format path as label
-        label = path
-          .split('-')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ');
       }
 
       result.push({
@@ -105,17 +156,24 @@ export function Breadcrumb({ items, className, separator }: BreadcrumbProps) {
   return (
     <nav aria-label='Breadcrumb' className={cn('bg-[#EBF4F9] py-3', className)}>
       <Container className=' mx-auto px-2'>
-        <ol className='flex items-center space-x-1 text-sm'>
+        <ol className='flex items-center space-x-1 text-sm overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide'>
           {breadcrumbItems.map((item, index) => {
             const isLast = index === breadcrumbItems.length - 1;
 
             return (
-              <li key={item.href} className='flex items-center'>
-                {index > 0 && <span>{separator || defaultSeparator}</span>}
+              <li
+                key={item.href}
+                className='flex items-center min-w-0 flex-shrink whitespace-nowrap'
+              >
+                {index > 0 && (
+                  <span className='flex-shrink-0'>
+                    {separator || defaultSeparator}
+                  </span>
+                )}
                 {isLast ? (
                   <Text
                     variant='body'
-                    className='text-[#215778] font-medium'
+                    className='text-[#215778] font-medium truncate whitespace-nowrap'
                     aria-current='page'
                     size='sm'
                   >
@@ -123,10 +181,14 @@ export function Breadcrumb({ items, className, separator }: BreadcrumbProps) {
                   </Text>
                 ) : (
                   <Link
-                    href={item.href}
-                    className='text-[#215778] hover:text-[#3691C9] transition-colors'
+                    href={buildHref(item.href)}
+                    className='text-[#215778] hover:text-[#3691C9] transition-colors truncate min-w-0 whitespace-nowrap'
                   >
-                    <Text variant='body' size='sm' className='text-[#215778]'>
+                    <Text
+                      variant='body'
+                      size='sm'
+                      className='text-[#215778] truncate whitespace-nowrap'
+                    >
                       {item.label}
                     </Text>
                   </Link>

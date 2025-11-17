@@ -30,25 +30,6 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
     href: `${hrefPrefix}/${category.slug || category.id}`,
   }));
 
-  // Default menu items based on the design (fallback)
-  const defaultItems: SidebarMenuItem[] = [
-    { id: 'imported-kit', label: t('importedKit'), href: '/imported-kit' },
-    { id: 'human-kit', label: t('humanKit'), href: '/human-kit' },
-    { id: 'animal-kit', label: t('animalKit'), href: '/animal-kit' },
-    { id: 'aquatic-kit', label: t('aquaticKit'), href: '/aquatic-kit' },
-    { id: 'food-kit', label: t('foodKit'), href: '/food-kit' },
-    {
-      id: 'extraction-kit',
-      label: t('extractionKit'),
-      href: '/extraction-kit',
-    },
-    {
-      id: 'other-products',
-      label: t('otherProducts'),
-      href: '/other-products',
-    },
-  ];
-
   // Create final menu items with "Danh Mục" as first item
   const finalMenuItems: SidebarMenuItem[] = [
     {
@@ -57,7 +38,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
       href: '/danh-muc-san-pham',
       isActive: true, // Always highlight the first item
     },
-    ...(categoryItems.length > 0 ? categoryItems : defaultItems),
+    ...(categoryItems.length > 0 ? categoryItems : []),
   ];
 
   return (

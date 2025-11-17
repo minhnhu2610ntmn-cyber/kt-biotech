@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 export interface ProductImage {
   url: string;
@@ -55,7 +55,7 @@ export default function ProductImageGallery({
 
       {/* Thumbnail Row */}
       {thumbnailImages.length > 1 && (
-        <div className='flex gap-3'>
+        <div className='flex gap-3 overflow-x-auto max-w-screen'>
           {thumbnailImages.map((image, index) => {
             const isSelected = index === selectedIndex;
             return (

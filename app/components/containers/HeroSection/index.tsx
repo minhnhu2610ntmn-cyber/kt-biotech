@@ -11,9 +11,9 @@ import {
 } from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import type { ProductCategory } from '../../../types/strapi';
+import { Link } from '../../../utils/link';
 import { useProductCategories } from '../../layout/MasterLayout';
 
 export interface HeroSectionProps {
@@ -66,7 +66,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   const defaultSubtitle = subtitle || t('subtitle');
   const defaultDescription = description || t('description');
   const defaultButtonLabel = buttonLabel || t('buttonLabel');
-  const defaultButtonHref = buttonHref || t('buttonHref');
+  const defaultButtonHref = '/gioi-thieu/ve-chung-toi';
 
   return (
     <Container className='px-4 sm:px-6'>

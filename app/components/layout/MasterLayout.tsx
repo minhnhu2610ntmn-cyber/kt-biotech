@@ -10,6 +10,7 @@ import type { CatalogueEntry } from '../../config/api';
 import { NavbarConfig, useNavbarConfig } from '../../hooks';
 import type { ProductCategory } from '../../types/strapi';
 import Footer from '../containers/Footer';
+import LocaleSwitcher from '../containers/LocaleSwitcher';
 import Topbar from '../containers/Topbar';
 
 // Create context for product categories
@@ -74,6 +75,7 @@ export default function MasterLayout({
                 }
               : null
           }
+          languageSwitcher={<LocaleSwitcher variant='compact' />}
         />
 
         {/* Breadcrumb */}

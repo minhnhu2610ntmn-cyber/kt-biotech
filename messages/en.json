@@ -64,6 +64,7 @@
   "breadcrumb": {
     "home": "Home",
     "gioithieu": "About",
+    "vechungtoi": "About Us",
     "danhmucsanpham": "Products",
     "sanpham": "Product",
     "dichvu": "Services",
@@ -79,6 +80,7 @@
     "products": "Products",
     "aboutUs": "About Us",
     "information": "Information",
+    "address": "No. 10-12, Street 3A, Gia Hoa Residential Area, Binh Hung Ward, Ho Chi Minh City",
     "about": "About",
     "awards": "Awards",
     "cooperation": "Cooperation",

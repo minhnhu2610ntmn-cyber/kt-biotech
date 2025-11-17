@@ -7,8 +7,8 @@ import {
   Text,
 } from '@ktbiotech/system-design';
 import { getTranslations } from 'next-intl/server';
-import Link from 'next/link';
 import type { Article } from '../../types/strapi';
+import { Link } from '../../utils/link';
 import {
   CountriesSection,
   HeroSection,

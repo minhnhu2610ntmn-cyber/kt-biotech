@@ -16,9 +16,9 @@ import {
 } from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { ProductCategory } from '../../../types/strapi';
+import { Link } from '../../../utils/link';
 import { useProductCategories } from '../../layout/MasterLayout';
 
 interface FooterProps {
@@ -33,7 +33,7 @@ export default function Footer({
   productCategories: propProductCategories,
 }: FooterProps) {
   const pathname = usePathname();
-  const isHomePage = pathname === '/';
+  const isHomePage = pathname === '/' || pathname === `/en`;
   const contextCategories = useProductCategories();
   const productCategories = propProductCategories || contextCategories;
   const t = useTranslations('footer');
@@ -207,13 +207,12 @@ export default function Footer({
                   className='mt-1 flex-shrink-0 sm:w-4 sm:h-4'
                 />
                 <a
-                  href='https://maps.google.com/?q=Số+10-12,+đường+số+3A,+khu+dân+cư+Gia+Hoà,+phường+Bình+Hưng,+Tp.+Hồ+Chí+Minh'
+                  href={`https://maps.google.com/?q=${encodeURIComponent(t('address'))}`}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm leading-relaxed cursor-pointer'
                 >
-                  Số 10-12, đường số 3A, khu dân cư Gia Hoà, phường Bình Hưng,
-                  Tp. Hồ Chí Minh
+                  {t('address')}
                 </a>
               </div>
 
@@ -277,26 +276,18 @@ export default function Footer({
 
         {/* Footer Bottom */}
         <div className='border-t border-gray-700 mt-6 sm:mt-8 lg:mt-12 pt-4 sm:pt-6 lg:pt-8'>
-          <div className='flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4'>
-            <div className='flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-xs sm:text-sm'>
+          <div className='flex items-center justify-center'>
+            <Text color='gray-400' className='text-xs sm:text-sm text-center'>
+              Copyright © 2025 <span className='font-bold'>Khoa Thương</span>.
+              Designed by{' '}
               <Link
-                href='/terms'
-                className='text-gray-400 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-center sm:text-left'
+                href='https://parashine.io/'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='font-bold text-gray-400 hover:text-white transition-colors duration-200'
               >
-                {t('terms')}
+                ParaShine
               </Link>
-              <Link
-                href='/privacy'
-                className='text-gray-400 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-center sm:text-left'
-              >
-                {t('privacy')}
-              </Link>
-            </div>
-            <Text
-              color='gray-400'
-              className='text-xs sm:text-sm text-center mt-2 sm:mt-0'
-            >
-              {t('copyright')}
             </Text>
           </div>
         </div>

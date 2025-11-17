@@ -1,19 +1,17 @@
 import { getRequestConfig } from 'next-intl/server';
-import { cookies } from 'next/headers';
+import { routing } from './routing';
 
-// Can be imported from a shared config
-const locales = ['en', 'vi'];
+export default getRequestConfig(async ({ requestLocale }) => {
+  // This typically corresponds to the `[locale]` segment
+  let locale = await requestLocale;
 
-export default getRequestConfig(async () => {
-  // Get locale from cookie, default to 'vi'
-  const cookieStore = await cookies();
-  const locale = cookieStore.get('NEXT_LOCALE')?.value || 'vi';
-  
-  // Validate that the locale is valid
-  const validLocale = locales.includes(locale) ? locale : 'vi';
+  // Ensure that a valid locale is used
+  if (!locale || !routing.locales.includes(locale as any)) {
+    locale = routing.defaultLocale;
+  }
 
   return {
-    locale: validLocale,
-    messages: (await import(`../messages/${validLocale}.json`)).default
+    locale,
+    messages: (await import(`../messages/${locale}.json`)).default,
   };
 });

@@ -3,7 +3,7 @@
 import { Heading, SliderV2, Text } from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '../../utils/link';
 
 export interface RelatedProductItem {
   slug: string;

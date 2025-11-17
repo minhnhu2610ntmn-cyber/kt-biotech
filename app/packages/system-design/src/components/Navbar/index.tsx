@@ -44,6 +44,7 @@ export interface NavbarProps {
     fileName?: string;
     label?: string;
   } | null;
+  languageSwitcher?: React.ReactNode;
 }
 
 export function Navbar({
@@ -61,6 +62,7 @@ export function Navbar({
   productCategories = [],
   products: productsTree, // categories-products data (optional)
   catalogueDownload = null,
+  languageSwitcher,
 }: NavbarProps) {
   const t = useTranslations('navbar');
   const tCommon = useTranslations('common');
@@ -552,7 +554,7 @@ export function Navbar({
               )}
 
               {/* Language Switcher */}
-              <LanguageSwitcher variant='compact' />
+              {languageSwitcher || <LanguageSwitcher variant='compact' />}
 
               {/* Mobile Menu Toggle */}
               <button

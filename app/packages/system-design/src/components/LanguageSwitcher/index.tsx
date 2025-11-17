@@ -1,7 +1,8 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter as useNextRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useLocale } from 'next-intl';
 import { cn } from '../../utils';
 import { UnitedKingdomCircleFlagIcon, VietnamCircleFlagIcon } from '../Icons';
 
@@ -14,45 +15,93 @@ export function LanguageSwitcher({
   className,
   variant = 'default',
 }: LanguageSwitcherProps) {
-  const router = useRouter();
-  const [currentLocale, setCurrentLocale] = useState('vi');
+  const router = useNextRouter();
+  const pathname = usePathname();
+  const locale = useLocale();
+  const [currentLocale, setCurrentLocale] = useState(locale);
+  
+  // Default locale (vi) doesn't have prefix
+  const defaultLocale = 'vi';
 
   const options = [
     { value: 'vi', label: 'Tiếng Việt', flag: VietnamCircleFlagIcon },
     { value: 'en', label: 'English', flag: UnitedKingdomCircleFlagIcon },
   ];
 
-  // Get locale from cookie and set html lang attribute on mount
+  // Update current locale when locale changes
   useEffect(() => {
+    setCurrentLocale(locale);
     if (typeof document !== 'undefined') {
-      // Get locale from cookie
-      const getCookieValue = (name: string) => {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop()?.split(';').shift();
-        return null;
-      };
-
-      const locale = getCookieValue('NEXT_LOCALE') || 'vi';
       document.documentElement.lang = locale;
-      setCurrentLocale(locale);
     }
-  }, []);
+  }, [locale]);
 
   const switchLanguage = (newLocale: string) => {
-    // Set locale cookie
-    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000`;
-
-    // Update html lang attribute
-    if (typeof document !== 'undefined') {
-      document.documentElement.lang = newLocale;
+    // Supported locales
+    const supportedLocales = ['vi', 'en'];
+    
+    // Get actual pathname from window.location if available, otherwise use hook
+    const actualPathname = typeof window !== 'undefined' 
+      ? window.location.pathname 
+      : pathname;
+    
+    // Get current locale from pathname (first segment)
+    const pathSegments = actualPathname.split('/').filter(Boolean);
+    const firstSegment = pathSegments[0] || '';
+    const isCurrentLocaleInPath = supportedLocales.includes(firstSegment);
+    
+    // Remove current locale from pathname if it exists
+    let pathnameWithoutLocale = actualPathname;
+    if (isCurrentLocaleInPath) {
+      // Remove locale prefix - handle both /en and /en/... cases
+      pathnameWithoutLocale = actualPathname.replace(`/${firstSegment}`, '') || '/';
     }
-
-    // Update local state
-    setCurrentLocale(newLocale);
-
-    // Use router refresh to update the page with new locale
-    router.refresh();
+    
+    // Ensure pathnameWithoutLocale starts with /
+    if (!pathnameWithoutLocale || pathnameWithoutLocale === '') {
+      pathnameWithoutLocale = '/';
+    }
+    if (!pathnameWithoutLocale.startsWith('/')) {
+      pathnameWithoutLocale = `/${pathnameWithoutLocale}`;
+    }
+    
+    // Build new path with locale prefix
+    // Default locale (vi) doesn't have prefix
+    let newPath: string;
+    if (newLocale === defaultLocale) {
+      // For default locale, no prefix - just use pathnameWithoutLocale
+      // If pathnameWithoutLocale is empty or just '/', use '/'
+      newPath = pathnameWithoutLocale === '/' ? '/' : pathnameWithoutLocale;
+    } else {
+      // For non-default locale, add prefix
+      // If pathnameWithoutLocale is '/', just use /en
+      // Otherwise use /en/path
+      newPath = pathnameWithoutLocale === '/' 
+        ? `/${newLocale}` 
+        : `/${newLocale}${pathnameWithoutLocale}`;
+    }
+    
+    // Debug logging
+    if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+      console.log('Language switch:', {
+        currentLocale: locale,
+        newLocale,
+        actualPathname,
+        pathnameWithoutLocale,
+        newPath,
+      });
+    }
+    
+    // Use window.location.replace for navigation to avoid redirect loop
+    // This ensures the browser navigates directly without adding to history
+    if (typeof window !== 'undefined') {
+      // Use replace instead of href to avoid redirect issues
+      window.location.replace(newPath);
+    } else {
+      // Fallback to router
+      router.push(newPath);
+      router.refresh();
+    }
   };
 
   if (variant === 'compact') {
