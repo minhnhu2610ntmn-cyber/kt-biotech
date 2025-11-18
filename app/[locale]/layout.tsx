@@ -2,6 +2,7 @@ import { Roboto } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { routing } from '../../i18n/routing';
 import { MasterLayout } from '../components';
 import {
@@ -84,6 +85,7 @@ export default async function LocaleLayout({
             </MasterLayout>
           </NextIntlClientProvider>
         </QueryProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
