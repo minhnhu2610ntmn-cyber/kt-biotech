@@ -36,13 +36,13 @@ export const Timeline: React.FC<TimelineProps> = ({
   return (
     <div className={`timeline-container ${className}`}>
       <div
-        className={`flex ${isVertical ? 'flex-col' : 'flex-row'} ${isVertical ? 'space-y-6' : 'space-x-6'}`}
+        className={`flex items-center ${isVertical ? 'flex-col' : 'flex-row'} ${isVertical ? 'space-y-6' : 'space-x-6'}`}
       >
         {items.map(item => {
           return (
             <div
               key={item.id}
-              className={`flex ${isVertical ? 'flex-row' : 'flex-col'} ${isVertical ? 'items-start' : 'items-center'} ${isVertical ? 'space-x-4' : 'space-y-2'}`}
+              className={`flex max-w-[594px] ${isVertical ? 'flex-row' : 'flex-col'} ${isVertical ? 'items-start' : 'items-center'} ${isVertical ? 'space-x-4' : 'space-y-2'}`}
             >
               {/* Timeline Circle */}
               <div className='flex flex-col items-center'>

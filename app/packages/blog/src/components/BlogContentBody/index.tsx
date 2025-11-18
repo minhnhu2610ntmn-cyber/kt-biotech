@@ -351,7 +351,7 @@ export default function BlogContentBody({
   return (
     <div
       className={cn(
-        'space-y-4 rounded-2xl border border-gray-300 bg-gray-50 p-6',
+        'space-y-4 rounded-2xl border border-[#CCCFD1] pt-10 bg-white px-6',
         className
       )}
     >

@@ -103,7 +103,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
         {/* Content */}
 
-        <div className='max-w-4xl mx-auto px-2 lg:px-0 py-8'>
+        <div className='max-w-5xl relative z-10 mx-auto px-2 mt-4 lg:-mt-[100px] pb-8'>
           {/* Blog Content Body */}
           {contentBlocks?.length > 0 && (
             <BlogContentBody blocks={contentBlocks} />

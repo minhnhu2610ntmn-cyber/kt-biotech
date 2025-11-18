@@ -515,7 +515,7 @@ export function Navbar({
           className
         )}
       >
-        <Container className='px-4 md:px-0'>
+        <Container className='px-4 lg:px-0'>
           <div className='flex justify-between items-center py-2 md:py-2.5'>
             {/* Logo */}
             <div className='flex-shrink-0'>

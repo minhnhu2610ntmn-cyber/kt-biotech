@@ -89,7 +89,17 @@ export default function MasterLayout({
         <Footer productCategories={productCategories} />
 
         {/* Floating Buttons */}
-        <FloatingButtons />
+        <FloatingButtons
+          catalogueDownload={
+            catalogue?.downloadUrl
+              ? {
+                  url: catalogue.downloadUrl,
+                  fileName: catalogue.fileName,
+                  label: catalogue.title,
+                }
+              : null
+          }
+        />
       </BreadcrumbProvider>
     </ProductCategoriesContext.Provider>
   );

@@ -47,9 +47,9 @@ export default function Footer({
     >
       {/* Main Footer Content */}
       <div className=' px-4 py-8 sm:py-12'>
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8'>
           {/* Company Info & Social Media */}
-          <div className='lg:col-span-1'>
+          <div className='col-span-1 sm:col-span-2 md:col-span-3 max-w-[435px] lg:col-span-1'>
             {/* Logo */}
             <div className='flex items-center mb-4 sm:mb-6'>
               <Image
@@ -57,7 +57,7 @@ export default function Footer({
                 alt='KT BIOTECH Logo'
                 width={120}
                 height={40}
-                className='h-8 sm:h-10 w-auto'
+                className='!h-[76px] lg:h-10 w-auto'
               />
             </div>
 
