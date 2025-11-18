@@ -57,7 +57,7 @@ export default function Footer({
                 alt='KT BIOTECH Logo'
                 width={120}
                 height={40}
-                className='!h-[76px] lg:h-10 w-auto'
+                className='!h-[76px] md:!h-10 w-auto'
               />
             </div>
 

@@ -515,7 +515,7 @@ export function Navbar({
           className
         )}
       >
-        <Container className='px-4 lg:px-0'>
+        <Container className='px-4 xl:px-0'>
           <div className='flex justify-between items-center py-2 md:py-2.5'>
             {/* Logo */}
             <div className='flex-shrink-0'>
@@ -603,8 +603,8 @@ export function Navbar({
       </nav>
 
       {/* Bottom Row - Navigation Menu - Hidden on mobile - STICKY */}
-      <nav className='hidden lg:block sticky top-0 z-50 bg-[#EBF4F9] border-b border-gray-200'>
-        <Container className='px-4 md:px-0'>
+      <nav className='hidden lg:block sticky top-0 z-50 bg-[#EBF4F9] border-b border-gray-200 px-4 xl:px-0'>
+        <Container className='px-4 xl:px-0'>
           <div className='flex justify-between items-center h-12 md:h-14 py-2 md:py-2.5'>
             {/* Desktop Navigation */}
             <div className='hidden md:block'>
@@ -750,7 +750,7 @@ export function Navbar({
           <div className='p-6'>
             <div className='flex gap-8'>
               {/* Left Sidebar - Categories */}
-              <div className='w-64 space-y-4'>
+              <div className='w-64 space-y-4 border-r border-gray-300 pr-8'>
                 <Link
                   href='/danh-muc-san-pham'
                   className='flex items-center gap-2 hover:opacity-80 transition-opacity'
@@ -816,9 +816,16 @@ export function Navbar({
 
                       if (subcats.length > 0) {
                         return (
-                          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-3 items-start'>
-                            {subcats.map(sc => (
-                              <div key={sc.slug || sc.id} className='space-y-3'>
+                          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-3 items-stretch'>
+                            {subcats.map((sc, index) => (
+                              <div
+                                key={sc.slug || sc.id}
+                                className={cn(
+                                  'space-y-3 flex flex-col',
+                                  index < subcats.length - 1 &&
+                                    'border-r border-gray-300 pr-8'
+                                )}
+                              >
                                 <div className='text-base px-3 font-bold text-gray-900'>
                                   {sc.name}
                                 </div>
@@ -857,8 +864,8 @@ export function Navbar({
                       }
 
                       return (
-                        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-3 items-start'>
-                          <div className='space-y-3'>
+                        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-3 items-stretch'>
+                          <div className='space-y-3 flex flex-col'>
                             <div className='text-base font-bold text-gray-900 px-3'>
                               {getItemLabel(activeLeftItem)}
                             </div>
