@@ -393,8 +393,9 @@ export async function generateMetadata({
   params,
 }: ProductDetailPageProps): Promise<Metadata> {
   const resolvedParams = await params;
+  const locale = resolvedParams.locale;
   const tCommon = await getTranslations('common');
-  const product = await getProductByIdentifier(resolvedParams.slug);
+  const product = await getProductByIdentifier(resolvedParams.slug, locale);
 
   if (!product) {
     return {
