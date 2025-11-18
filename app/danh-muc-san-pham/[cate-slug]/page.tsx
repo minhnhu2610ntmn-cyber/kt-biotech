@@ -1,8 +1,8 @@
 import CategoryLayout from '@/app/components/containers/CategoryLayout';
 import SetBreadcrumb from '@/app/components/containers/SetBreadcrumb';
 import { Container } from '@ktbiotech/system-design';
-import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 import {
   StrapiApi,
   buildImageUrl,
@@ -86,8 +86,6 @@ export default async function CategoryListingPage({
     .filter((p): p is NonNullable<typeof p> => p !== null);
 
   const t = await getTranslations('breadcrumb');
-  const tCategory = await getTranslations('category');
-  const tCommon = await getTranslations('common');
 
   // Build breadcrumb items
   const breadcrumbItems = [

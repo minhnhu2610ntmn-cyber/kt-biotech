@@ -19,15 +19,19 @@ import { Link } from '../../../utils/link';
 
 interface ProductDetailPageProps {
   params: Promise<{
+    locale: string;
     slug: string;
   }>;
 }
 
 // Fetch product by slug or documentId from Strapi API
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function getProductByIdentifier(identifier: string): Promise<any | null> {
+
+async function getProductByIdentifier(
+  identifier: string,
+  locale: string
+): Promise<any | null> {
   try {
-    const api = new StrapiApi();
+    const api = new StrapiApi(locale);
     // Try slug first
     let product = await api.getProductBySlug(identifier);
     // If not found, try documentId
@@ -46,7 +50,8 @@ export default async function ProductDetailPage({
   params,
 }: ProductDetailPageProps) {
   const resolvedParams = await params;
-  const product = await getProductByIdentifier(resolvedParams.slug);
+  const locale = resolvedParams.locale;
+  const product = await getProductByIdentifier(resolvedParams.slug, locale);
   // eslint-disable-next-line no-console
   console.log('product', product);
   if (!product) {
@@ -192,7 +197,7 @@ export default async function ProductDetailPage({
   }
 
   // Related products: same category or brand, exclude current product
-  const relatedApi = new StrapiApi();
+  const relatedApi = new StrapiApi(locale);
   const relatedRes = await relatedApi.getProducts({
     categorySlug: categorySlug || undefined,
     page: 1,
@@ -347,12 +352,14 @@ export default async function ProductDetailPage({
               </div>
 
               {/* Contact Card */}
-              <ProductContactCard
-                phone={salePhone || '(+84) 28.3761.2606'}
-                contactName={saleName || 'Name'}
-                contactPosition={salePosition || 'Position'}
-                contactImage={saleAvatarUrl}
-              />
+              {saleName && (
+                <ProductContactCard
+                  phone={salePhone || '(+84) 28.3761.2606'}
+                  contactName={saleName || ''}
+                  contactPosition={salePosition || ''}
+                  contactImage={saleAvatarUrl}
+                />
+              )}
             </div>
           </div>
 

@@ -106,8 +106,9 @@ export default function BlogCard({
 
           {/* Author and Date */}
           <Text color='#7C8388' className='text-xs sm:text-sm mb-2 sm:mb-3'>
-            by<span className=' text-[#4B5053]'> {author}</span> on{' '}
-            <span className=' text-[#4B5053]'>{date}</span>
+            {t('by')}{' '}
+            <span className=' text-[#7C8388] font-bold'>{author}</span>{' '}
+            {t('on')} <span className=' text-[#7C8388]'>{date}</span>
           </Text>
 
           {/* Description */}

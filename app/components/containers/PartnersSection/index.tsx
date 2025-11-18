@@ -48,14 +48,14 @@ export default function PartnersSection() {
     const logoAlt = hasError ? 'KT BIOTECH Logo' : partner.name;
 
     return (
-      <div className='flex items-center justify-center px-2 flex-col'>
+      <div className='flex items-center justify-center px-2 flex-col overflow-hidden'>
         <div className=' w-[185px] h-[185px] flex items-center justify-center transition-shadow'>
           <Image
             src={logoSrc}
             alt={logoAlt}
             width={185}
             height={185}
-            className=' object-contain filter transition-all duration-200'
+            className=' object-contain w-full h-full object-center filter transition-all duration-200'
             onError={() => handleImageError(partner.id)}
           />
         </div>

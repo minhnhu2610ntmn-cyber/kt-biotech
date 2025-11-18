@@ -123,7 +123,7 @@ export default async function ContactPage() {
       {/* Map Section */}
       <div className='w-full h-screen'>
         <iframe
-          src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.231314012283!2d106.6301533153368!3d10.823058392304!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752a4b2b2b2b2b%3A0x2b2b2b2b2b2b2b2b!2sKhu%20d%C3%A2n%20c%C6%B0%20Gia%20Ho%C3%A0!5e0!3m2!1svi!2s!4v1234567890123!5m2!1svi!2s'
+          src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3920.3582071081005!2d106.64962417546501!3d10.706829810472723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752e1f78af0283%3A0x61cda586ea8f99a3!2zQ8O0bmcgVHkgVG5oaCBDw7RuZyBOZ2jhu4cgU2luaCBI4buNYyBLaG9hIFRoxrDGoW5n!5e0!3m2!1svi!2s!4v1763486453137!5m2!1svi!2s'
           width='100%'
           height='100%'
           style={{ border: 0 }}
@@ -131,7 +131,7 @@ export default async function ContactPage() {
           loading='lazy'
           referrerPolicy='no-referrer-when-downgrade'
           title='KTBioTech Location Map'
-        />
+        ></iframe>
       </div>
     </div>
   );

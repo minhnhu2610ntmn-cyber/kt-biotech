@@ -7,12 +7,12 @@ export default function FloatingButtons() {
   const t = useTranslations('common');
 
   return (
-    <div className='fixed right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3'>
+    <div className='fixed right-3 md:right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3'>
       {/* Phone Button */}
       <a
         href='tel:+842837612606'
         className={cn(
-          'w-14 h-14 rounded-full bg-[#3691C9] hover:bg-[#2a7ba3]',
+          'w-11 h-11 md:w-14 md:h-14 rounded-full bg-[#3691C9] hover:bg-[#2a7ba3]',
           'flex items-center justify-center',
           'shadow-lg hover:shadow-xl transition-all duration-300',
           'hover:scale-110 active:scale-95',
@@ -21,8 +21,8 @@ export default function FloatingButtons() {
         aria-label={t('phone')}
       >
         <svg
-          width='32'
-          height='32'
+          width='28'
+          height='28'
           viewBox='0 0 41 41'
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
@@ -30,20 +30,20 @@ export default function FloatingButtons() {
           <path
             d='M24.7199 8.33333C26.5106 8.6827 28.1563 9.55847 29.4463 10.8485C30.7364 12.1386 31.6122 13.7843 31.9615 15.575M24.7199 1C28.4402 1.4133 31.9095 3.07932 34.558 5.72451C37.2065 8.36971 38.8769 11.8369 39.2949 15.5567M37.4615 30.1867V35.6867C37.4636 36.1973 37.359 36.7026 37.1545 37.1705C36.9499 37.6383 36.6499 38.0582 36.2737 38.4034C35.8974 38.7486 35.4533 39.0114 34.9696 39.175C34.4859 39.3385 33.9734 39.3993 33.4649 39.3533C27.8234 38.7403 22.4044 36.8126 17.6432 33.725C13.2136 30.9102 9.458 27.1546 6.64321 22.725C3.54484 17.9422 1.61666 12.4968 1.01488 6.83C0.969067 6.32302 1.02932 5.81206 1.1918 5.32964C1.35428 4.84723 1.61543 4.40393 1.95862 4.02797C2.30181 3.65201 2.71952 3.35163 3.18516 3.14596C3.65081 2.94028 4.15417 2.83381 4.66321 2.83333H10.1632C11.0529 2.82458 11.9155 3.13964 12.5901 3.71981C13.2647 4.29998 13.7054 5.10565 13.8299 5.98667C14.062 7.74679 14.4925 9.475 15.1132 11.1383C15.3599 11.7945 15.4133 12.5077 15.267 13.1933C15.1208 13.8789 14.7811 14.5082 14.2882 15.0067L11.9599 17.335C14.5697 21.9248 18.37 25.7251 22.9599 28.335L25.2882 26.0067C25.7867 25.5138 26.416 25.1741 27.1016 25.0278C27.7872 24.8816 28.5004 24.935 29.1565 25.1817C30.8199 25.8023 32.5481 26.2329 34.3082 26.465C35.1988 26.5906 36.0121 27.0392 36.5935 27.7254C37.1749 28.4116 37.4839 29.2876 37.4615 30.1867Z'
             stroke='#F7FBFD'
-            stroke-width='2'
-            stroke-linecap='round'
-            stroke-linejoin='round'
+            strokeWidth='2'
+            strokeLinecap='round'
+            strokeLinejoin='round'
           />
         </svg>
       </a>
 
       {/* Zalo Button */}
       <a
-        href='https://zalo.me/02837612606'
+        href='https://zalo.me/722977074887414014'
         target='_blank'
         rel='noopener noreferrer'
         className={cn(
-          'w-14 h-14 rounded-full bg-[#3691C9] hover:bg-[#2a7ba3]',
+          'w-11 h-11 md:w-14 md:h-14 rounded-full bg-[#3691C9] hover:bg-[#2a7ba3]',
           'flex items-center justify-center',
           'shadow-lg hover:shadow-xl transition-all duration-300',
           'hover:scale-110 active:scale-95',
@@ -51,11 +51,11 @@ export default function FloatingButtons() {
         )}
         aria-label='Zalo'
       >
-        <div className='rounded-full bg-white p-2 scale-[0.85]'>
+        <div className='rounded-full bg-white p-1.5 md:p-2 scale-[0.8] md:scale-[0.85]'>
           {' '}
           <ZaloIcon
-            width={36}
-            height={36}
+            width={30}
+            height={30}
             fill='white'
             className='text-white'
           />

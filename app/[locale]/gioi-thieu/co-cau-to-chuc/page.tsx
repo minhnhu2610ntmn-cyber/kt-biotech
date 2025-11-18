@@ -1,11 +1,18 @@
 import { BlogContentBody, BlogHero, type StrapiBlock } from '@ktbiotech/blog';
 import { Container } from '@ktbiotech/system-design';
+import { getTranslations } from 'next-intl/server';
 import AnimatedPageContent from '../../../components/containers/AnimatedPageContent';
 import { buildImageUrl, StrapiApi } from '../../../config/api';
 
-export default async function CompanyPage() {
-  const api = new StrapiApi();
+export default async function CompanyPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const locale = params.locale;
+  const api = new StrapiApi(locale);
   const company = await api.getStructure();
+  const t = await getTranslations('breadcrumb');
 
   const blocks: StrapiBlock[] = ((company?.content as any[]) || [])
     .map((block: any) => {
@@ -70,7 +77,7 @@ export default async function CompanyPage() {
   const heroUrl = company?.image?.url
     ? buildImageUrl(company.image.url)
     : 'https://picsum.photos/1200/600?random=3';
-  const title = company?.title || 'Cơ cấu tổ chức';
+  const title = company?.title || t('cocautochuc');
 
   return (
     <Container>

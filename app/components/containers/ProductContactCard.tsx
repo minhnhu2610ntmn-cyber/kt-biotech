@@ -51,10 +51,10 @@ export default function ProductContactCard({
     (phone ? `https://wa.me/${formatPhoneForLink(phone)}` : '#');
   const facebookUrl = facebookLink || '#';
   return (
-    <div className={`flex items-center gap-0 ${className}`}>
+    <div className={`flex flex-row items-center gap-0 ${className}`}>
       {/* Profile Picture - Left side with border, overlapping banner */}
       <div className='relative z-10 flex-shrink-0'>
-        <div className='relative w-30 h-30 rounded-full overflow-hidden border-4 border-[#86BDDF] bg-white flex items-center justify-center'>
+        <div className='relative w-[72px] h-[72px] md:w-[144px] md:h-[144px] rounded-full overflow-hidden border-4 border-[#86BDDF] bg-white flex items-center justify-center transition-all duration-300'>
           {contactImage ? (
             <Image
               src={contactImage}
@@ -95,36 +95,42 @@ export default function ProductContactCard({
       </div>
 
       {/* Banner - Right side */}
-      <div className=' rounded-br-lg rounded-tr-lg bg-[#215778] pr-6 py-4 pl-14 text-white -ml-12'>
+      <div className='w-full rounded-l-2xl rounded-r-lg bg-[#215778] px-4 py-3 pl-8 text-white md:rounded-bl-none md:rounded-br-lg md:px-6 md:py-4 md:pl-14 -ml-6 md:-ml-12'>
         {/* Heading */}
         <Heading
           level={3}
           color='white'
-          className='!text-lg !font-bold mb-2 text-white'
+          className='!text-base md:!text-lg !font-bold mb-2 text-white'
         >
           {t('title')}
         </Heading>
 
         {/* Contact Info and Social Icons */}
         <div className='flex items-center gap-2 flex-wrap'>
-          <div className='flex-1 min-w-0'>
+          <div className='flex-1 min-w-0 flex flex-wrap  gap-2 flex-col items-start md:gap-0'>
             {/* Phone Number - Light blue color */}
-            <Text color='#86BDDF' className='!text-[#86BDDF] font-medium mb-1'>
+            <Text
+              color='#86BDDF'
+              className='!text-[#86BDDF] font-medium mb-0 text-base max-md:text-sm max-md:!inline-flex max-md:flex-1 max-md:min-w-0 truncate'
+            >
               {phone}
             </Text>
             {/* Name - Position - White italic */}
-            <Text color='white' className='!text-white text-sm italic'>
+            <Text
+              color='white'
+              className='!text-white text-sm max-md:text-xs italic truncate max-md:!inline-flex max-md:flex-1 max-md:min-w-0'
+            >
               {contactName} - {contactPosition}
             </Text>
           </div>
 
           {/* Social Media Icons */}
-          <div className='flex gap-2'>
+          <div className='flex gap-2 '>
             {/* Zalo Icon - White background, blue logo */}
             <Button
               variant='ghost'
               size='icon'
-              className='w-8 h-8 rounded !bg-white flex items-center justify-center hover:scale-110 transition-transform p-0'
+              className='w-8 h-8 scale-[0.6] relative bottom-[6px] left-[6px] md:bottom-0 md:left-0 md:scale-100 rounded !bg-white flex items-center justify-center hover:scale-110 transition-transform p-0'
               aria-label='Contact via Zalo'
               asChild
             >
@@ -181,7 +187,7 @@ export default function ProductContactCard({
             <Button
               variant='ghost'
               size='icon'
-              className='w-8 h-8 rounded !bg-[#1877F2] flex items-center justify-center hover:scale-110 transition-transform p-0'
+              className='w-5 h-5 md:w-8 md:h-8 rounded !bg-[#1877F2] flex items-center justify-center hover:scale-110 transition-transform p-0'
               aria-label='Contact via Facebook'
               asChild
             >
@@ -203,7 +209,7 @@ export default function ProductContactCard({
             <Button
               variant='ghost'
               size='icon'
-              className='w-8 h-8 rounded !bg-[#25D366] flex items-center justify-center hover:scale-110 transition-transform p-0'
+              className='w-5 h-5 md:w-8 md:h-8 rounded !bg-[#25D366] flex items-center justify-center hover:scale-110 transition-transform p-0'
               aria-label='Contact via WhatsApp'
               asChild
             >

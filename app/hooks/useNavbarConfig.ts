@@ -50,9 +50,9 @@ export function useNavbarConfig(customConfig?: NavbarConfig): NavbarConfig {
         children: [],
       },
       {
-        label: tNavbar('about'),
+        label: tNavbar('introduction'),
         href: '/gioi-thieu',
-        i18nKey: 'about',
+        i18nKey: 'introduction',
         children: [],
       },
       {

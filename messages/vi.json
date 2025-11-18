@@ -28,6 +28,7 @@
   "navbar": {
     "home": "Trang chủ",
     "about": "Về chúng tôi",
+    "introduction": "Giới thiệu",
     "products": "Sản phẩm",
     "services": "Dịch vụ",
     "news": "Tin tức",
@@ -41,7 +42,8 @@
     "helpCenter": "Trung tâm hỗ trợ",
     "all": "Tất cả",
     "serviceResearch": "Nghiên cứu khoa học",
-    "serviceSequencing": "Giải trình tự gen"
+    "serviceSequencing": "Giải trình tự gen",
+    "downloadCatalogue": "Tải Catalogue"
   },
 
   "hero": {
@@ -69,6 +71,7 @@
     "sanpham": "Sản phẩm",
     "dichvu": "Dịch vụ",
     "nghiencuukhoahoc": "Nghiên cứu khoa học",
+    "giaitrinhtugen": "Giải trình tự gen",
     "blogs": "Tin tức",
     "lienhe": "Liên hệ",
     "tamnhinsumenh": "Tầm nhìn sứ mệnh",
@@ -164,7 +167,7 @@
     "noCategories": "Không có danh mục sản phẩm",
     "filter": "Bộ lọc",
     "productList": "DANH SÁCH SẢN PHẨM",
-    "downloadCatalogue": "Download Catalogue",
+    "downloadCatalogue": "Tải Catalogue",
     "category": "Danh Mục",
     "manufacturer": "Hãng Sản Xuất"
   },
@@ -180,6 +183,7 @@
     "noProducts": "Không có sản phẩm",
     "noData": "Không có dữ liệu",
     "adjustFilters": "Hãy điều chỉnh bộ lọc hoặc thử từ khóa khác",
+    "phone": "Số điện thoại",
     "image": "Hình ảnh",
     "product": "Sản phẩm",
     "sku": "Mã SKU",
@@ -196,6 +200,8 @@
     "catalogueUnavailable": "Catalogue hiện không khả dụng",
     "productNotFound": "Sản phẩm không tìm thấy",
     "productDetails": "Chi tiết sản phẩm",
-    "productsOfKTBioTech": "Sản phẩm của KTBioTech"
+    "productsOfKTBioTech": "Sản phẩm của KTBioTech",
+    "by": "bởi",
+    "on": "vào"
   }
 }

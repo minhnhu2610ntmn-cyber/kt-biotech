@@ -179,6 +179,18 @@ function BlockRichText({ block }: { block: RichTextBlock }) {
           line-height: 1.75;
         }
 
+        /* Disable drop-cap styling from global blog typography */
+        .blog-content.prose p:first-of-type::first-letter {
+          float: none;
+          font-size: inherit !important;
+          line-height: inherit !important;
+          padding-right: 0 !important;
+          padding-top: 0 !important;
+          font-weight: inherit !important;
+          color: inherit !important;
+          text-transform: none !important;
+        }
+
         /* Horizontal rules */
         .prose hr {
           border: none;

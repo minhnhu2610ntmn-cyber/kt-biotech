@@ -27,6 +27,7 @@
   "formExample": "Form Example",
   "navbar": {
     "home": "Home",
+    "introduction": "Introduction",
     "about": "About Us",
     "products": "Products",
     "services": "Services",
@@ -41,7 +42,8 @@
     "helpCenter": "Help Center",
     "all": "All Categories",
     "serviceResearch": "Scientific research",
-    "serviceSequencing": "Genome sequencing"
+    "serviceSequencing": "Genome sequencing",
+    "downloadCatalogue": "Download Catalogue"
   },
 
   "hero": {
@@ -69,6 +71,7 @@
     "sanpham": "Product",
     "dichvu": "Services",
     "nghiencuukhoahoc": "Scientific Research",
+    "giaitrinhtugen": "Genome Sequencing",
     "blogs": "News",
     "lienhe": "Contact",
     "tamnhinsumenh": "Vision & Mission",
@@ -180,6 +183,7 @@
     "noProducts": "No products",
     "noData": "No data",
     "adjustFilters": "Please adjust filters or try different keywords",
+    "phone": "Phone",
     "image": "Image",
     "product": "Product",
     "sku": "SKU Code",
@@ -196,6 +200,8 @@
     "catalogueUnavailable": "Catalogue is currently unavailable",
     "productNotFound": "Product not found",
     "productDetails": "Product details",
-    "productsOfKTBioTech": "KTBioTech Products"
+    "productsOfKTBioTech": "KTBioTech Products",
+    "by": "by",
+    "on": "on"
   }
 }

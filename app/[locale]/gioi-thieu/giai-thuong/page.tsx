@@ -85,9 +85,14 @@ function normalizeAwardItems(rawAward: unknown): AwardItem[] {
   return mappedItems.filter(item => item !== null) as AwardItem[];
 }
 
-export default async function AwardPage() {
+export default async function AwardPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
   const t = await getTranslations('common');
-  const api = new StrapiApi();
+  const locale = params.locale;
+  const api = new StrapiApi(locale);
   const award = await api.getAward();
   const awardData = award?.attributes || award || null;
   const witnessItems = normalizeWitnessItems(

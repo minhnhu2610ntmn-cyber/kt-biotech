@@ -259,7 +259,6 @@ export function Navbar({
 
   const isCatalogueAvailable = Boolean(catalogueDownload?.url);
   const downloadLabel = React.useMemo(() => {
-    if (catalogueDownload?.label) return catalogueDownload.label;
     try {
       return t('downloadCatalogue');
     } catch {

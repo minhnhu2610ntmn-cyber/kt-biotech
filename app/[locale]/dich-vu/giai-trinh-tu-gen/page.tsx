@@ -1,11 +1,21 @@
 import { BlogContentBody, BlogHero, type StrapiBlock } from '@ktbiotech/blog';
 import { Container } from '@ktbiotech/system-design';
+import { getTranslations } from 'next-intl/server';
 import AnimatedPageContent from '../../../components/containers/AnimatedPageContent';
+import SetBreadcrumb from '../../../components/containers/SetBreadcrumb';
 import { buildImageUrl, StrapiApi } from '../../../config/api';
 
-export default async function GenomeSequencingServicePage() {
-  const api = new StrapiApi();
+export default async function GenomeSequencingServicePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const resolvedParams = await params;
+  const { locale } = resolvedParams;
+  const api = new StrapiApi(locale);
   const genService = await api.getGenServices();
+  const tNavbar = await getTranslations('navbar');
+  const tBreadcrumb = await getTranslations('breadcrumb');
 
   console.log('genService', genService);
   const blocks: StrapiBlock[] = ((genService?.content as any[]) || [])
@@ -45,10 +55,20 @@ export default async function GenomeSequencingServicePage() {
   const heroUrl = genService?.image?.url
     ? buildImageUrl(genService.image.url)
     : 'https://picsum.photos/1200/600?random=8';
-  const title = genService?.title || 'Giải trình tự gen';
+  const title = genService?.title || tNavbar('serviceSequencing');
+
+  // Build breadcrumb items
+  const baseHref = locale === 'vi' ? '' : `/${locale}`;
+  const breadcrumbItems = [
+    { label: tBreadcrumb('home'), href: baseHref || '/' },
+    { label: tBreadcrumb('dichvu'), href: `${baseHref}/dich-vu` },
+    { label: title || tBreadcrumb('giaitrinhtugen'), href: `${baseHref}/dich-vu/giai-trinh-tu-gen` },
+  ];
 
   return (
-    <Container>
+    <>
+      <SetBreadcrumb items={breadcrumbItems} />
+      <Container>
       <div className='!pt-10'>
         <AnimatedPageContent>
           <BlogHero title={title} imageUrl={heroUrl} imageAlt={title} />
@@ -60,5 +80,6 @@ export default async function GenomeSequencingServicePage() {
         </AnimatedPageContent>
       </div>
     </Container>
+    </>
   );
 }

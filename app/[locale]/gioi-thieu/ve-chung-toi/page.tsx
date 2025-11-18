@@ -1,17 +1,22 @@
 import { BlogContentBody, BlogHero, type StrapiBlock } from '@ktbiotech/blog';
 import { Container } from '@ktbiotech/system-design';
+import { getTranslations } from 'next-intl/server';
 import AnimatedPageContent from '../../../components/containers/AnimatedPageContent';
 import SetBreadcrumb from '../../../components/containers/SetBreadcrumb';
 import { buildImageUrl, StrapiApi } from '../../../config/api';
-import { getTranslations } from 'next-intl/server';
 
 // Disable static generation - fetch data at request time
 export const dynamic = 'force-dynamic';
 
-export default async function CompanyPage() {
+export default async function CompanyPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const locale = params.locale;
   let company: any = null;
   try {
-    const api = new StrapiApi();
+    const api = new StrapiApi(locale);
     company = await api.getAbout();
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -56,14 +61,15 @@ export default async function CompanyPage() {
   const heroUrl = company?.image?.url
     ? buildImageUrl(company.image.url)
     : 'https://picsum.photos/1200/600?random=3';
-  const title = company?.title || 'Về chúng tôi';
 
   // Build breadcrumb items from API data
   const t = await getTranslations('breadcrumb');
+  const title = company?.title || t('vechungtoi');
+  const baseHref = locale === 'vi' ? '' : `/${locale}`;
   const breadcrumbItems = [
-    { label: t('home'), href: '/' },
-    { label: t('gioithieu'), href: '/gioi-thieu' },
-    { label: title, href: '/gioi-thieu/ve-chung-toi' },
+    { label: t('home'), href: baseHref || '/' },
+    { label: t('gioithieu'), href: `${baseHref}/gioi-thieu` },
+    { label: title, href: `${baseHref}/gioi-thieu/ve-chung-toi` },
   ];
 
   return (

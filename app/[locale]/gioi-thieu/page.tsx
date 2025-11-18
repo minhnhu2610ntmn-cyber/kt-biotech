@@ -7,7 +7,12 @@ import { getTranslations } from 'next-intl/server';
 // Disable static generation - fetch data at request time
 export const dynamic = 'force-dynamic';
 
-export default async function AboutPage() {
+export default async function AboutPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const locale = params.locale;
   let items: Array<{
     title: string;
     description: string;
@@ -16,7 +21,7 @@ export default async function AboutPage() {
   }> = [];
 
   try {
-    const api = new StrapiApi();
+    const api = new StrapiApi(locale);
     const global = await api.getGlobal();
 
     // Map data from Strapi global to items format
@@ -49,9 +54,12 @@ export default async function AboutPage() {
 
   // Build breadcrumb items from translation
   const t = await getTranslations('breadcrumb');
+  const homeHref = locale === 'vi' ? '/' : `/${locale}`;
+  const aboutHref =
+    locale === 'vi' ? '/gioi-thieu' : `/${locale}/gioi-thieu`;
   const breadcrumbItems = [
-    { label: t('home'), href: '/' },
-    { label: t('gioithieu'), href: '/gioi-thieu' },
+    { label: t('home'), href: homeHref },
+    { label: t('gioithieu'), href: aboutHref },
   ];
 
   // Return empty items if global is null/not found

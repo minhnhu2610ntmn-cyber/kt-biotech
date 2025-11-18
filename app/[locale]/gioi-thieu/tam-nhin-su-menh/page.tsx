@@ -79,9 +79,14 @@ function normalizeMissionBlocks(rawContent: unknown): MissionBlock[] {
     .filter((block): block is MissionBlock => Boolean(block));
 }
 
-export default async function VisionAndMissionPage() {
+export default async function VisionAndMissionPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
   const t = await getTranslations('common');
-  const api = new StrapiApi();
+  const locale = params.locale;
+  const api = new StrapiApi(locale);
   const [vision, mission] = await Promise.all([
     api.getVision(),
     api.getMission(),

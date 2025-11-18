@@ -7,14 +7,18 @@ import type { Article } from '../../../types/strapi';
 
 interface BlogDetailPageProps {
   params: Promise<{
+    locale: string;
     slug: string;
   }>;
 }
 
 // Fetch article by slug from Strapi API
-async function getArticleBySlug(slug: string): Promise<Article | null> {
+async function getArticleBySlug(
+  slug: string,
+  locale: string
+): Promise<Article | null> {
   try {
-    const api = new StrapiApi();
+    const api = new StrapiApi(locale);
     const articles = await api.getArticles({
       'filters[slug][$eq]': slug,
       'populate[blocks][populate]': '*',
@@ -31,7 +35,10 @@ async function getArticleBySlug(slug: string): Promise<Article | null> {
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const resolvedParams = await params;
-  const article = await getArticleBySlug(resolvedParams.slug);
+  const article = await getArticleBySlug(
+    resolvedParams.slug,
+    resolvedParams.locale
+  );
 
   if (!article) {
     notFound();

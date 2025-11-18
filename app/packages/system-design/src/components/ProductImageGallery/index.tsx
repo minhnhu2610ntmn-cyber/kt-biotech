@@ -41,13 +41,12 @@ export default function ProductImageGallery({
   return (
     <div className={`space-y-4 ${className}`}>
       {/* Main Image Area */}
-      <div className='relative w-full max-h-[417px] rounded-lg overflow-hidden bg-gray-100'>
+      <div className='relative  w-full h-[417px] rounded-lg overflow-hidden'>
         <Image
           src={selectedImage.url}
           alt={selectedImage.alt || 'Product image'}
-          width={800}
-          height={417}
-          className='object-cover w-full h-full'
+          layout='fill'
+          className='object-cover w-full h-full object-center'
           priority={selectedIndex === 0}
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw'
         />
@@ -55,7 +54,7 @@ export default function ProductImageGallery({
 
       {/* Thumbnail Row */}
       {thumbnailImages.length > 1 && (
-        <div className='flex gap-3 overflow-x-auto max-w-screen'>
+        <div className='flex px-2 gap-3 py-2 overflow-x-auto max-w-screen'>
           {thumbnailImages.map((image, index) => {
             const isSelected = index === selectedIndex;
             return (

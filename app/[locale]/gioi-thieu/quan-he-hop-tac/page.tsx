@@ -3,8 +3,13 @@ import { Container } from '@ktbiotech/system-design';
 import AnimatedPageContent from '../../../components/containers/AnimatedPageContent';
 import { buildImageUrl, StrapiApi } from '../../../config/api';
 
-export default async function RelationshipPage() {
-  const api = new StrapiApi();
+export default async function RelationshipPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const locale = params.locale;
+  const api = new StrapiApi(locale);
   const relationship = await api.getRelationship();
 
   const relationshipData = relationship?.attributes || relationship || null;

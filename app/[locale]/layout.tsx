@@ -49,11 +49,11 @@ export default async function LocaleLayout({
   let globalData: any = null;
   let catalogue: CatalogueEntry | null = null;
   try {
-    const api = new StrapiApi();
+    const api = new StrapiApi(locale);
     const [categories, productsTree, globalRes, catalogueRes] =
       await Promise.all([
-        getProductCategoriesCached(),
-        getCategoriesProducts(1),
+        getProductCategoriesCached(locale),
+        getCategoriesProducts(1, locale),
         api.getGlobal(),
         api.getCatalogue(),
       ]);

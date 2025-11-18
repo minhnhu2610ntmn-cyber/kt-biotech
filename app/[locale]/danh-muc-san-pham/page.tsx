@@ -35,9 +35,9 @@ const toBase64 = (str: string) =>
     ? Buffer.from(str).toString('base64')
     : window.btoa(str);
 
-async function getProductCategories(): Promise<PageCategory[]> {
+async function getProductCategories(locale: string): Promise<PageCategory[]> {
   try {
-    const categories = await getProductCategoriesCached();
+    const categories = await getProductCategoriesCached(locale);
     const list = Array.isArray(categories) ? (categories as any[]) : [];
     return list
       .filter(c => c.parentId == null)
@@ -54,9 +54,14 @@ async function getProductCategories(): Promise<PageCategory[]> {
   }
 }
 
-export default async function ProductCategoriesPage() {
+export default async function ProductCategoriesPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const locale = params.locale;
   const t = await getTranslations('category');
-  const categories = await getProductCategories();
+  const categories = await getProductCategories(locale);
 
   return (
     <Container>
@@ -79,7 +84,11 @@ export default async function ProductCategoriesPage() {
             return (
               <Link
                 key={category.id}
-                href={`/danh-muc-san-pham/${category.slug}`}
+                href={
+                  locale === 'vi'
+                    ? `/danh-muc-san-pham/${category.slug}`
+                    : `/${locale}/danh-muc-san-pham/${category.slug}`
+                }
                 className='group block animate-fade-in-up'
                 style={{
                   animationDelay: `${index * 100}ms`,

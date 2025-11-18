@@ -101,11 +101,11 @@ export default function CountriesSection() {
                   spaceBetween: 30,
                 },
                 768: {
-                  slidesPerView: 3,
+                  slidesPerView: 4,
                   spaceBetween: 40,
                 },
                 1024: {
-                  slidesPerView: 5,
+                  slidesPerView: 6,
                   spaceBetween: 50,
                 },
               }}

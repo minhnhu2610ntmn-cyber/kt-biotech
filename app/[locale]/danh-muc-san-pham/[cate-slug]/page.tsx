@@ -18,9 +18,9 @@ interface PageCategory {
 
 type CatalogueItem = CatalogueEntry;
 
-async function getProductCategories(): Promise<PageCategory[]> {
+async function getProductCategories(locale: string): Promise<PageCategory[]> {
   try {
-    const categories = await getProductCategoriesCached();
+    const categories = await getProductCategoriesCached(locale);
     const list = Array.isArray(categories) ? (categories as any[]) : [];
     return list.map((c: any) => ({ id: c.id, name: c.name, slug: c.slug }));
   } catch {
@@ -32,20 +32,23 @@ export default async function CategoryListingPage({
   params,
   searchParams,
 }: {
-  params: { 'cate-slug': string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ locale: string; 'cate-slug': string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const api = new StrapiApi();
+  const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
+  const { locale } = resolvedParams;
+  const api = new StrapiApi(locale);
   const [categories, brands] = await Promise.all([
-    getProductCategories(),
+    getProductCategories(locale),
     api.getBrands(),
   ]);
-  const active = params['cate-slug'];
+  const active = resolvedParams['cate-slug'];
 
-  const q = (searchParams?.q as string) || '';
-  const brandIds = (searchParams?.brands as string) || '';
-  const page = Number(searchParams?.page || 1);
-  const pageSize = Number(searchParams?.pageSize || 20);
+  const q = (resolvedSearchParams?.q as string) || '';
+  const brandIds = (resolvedSearchParams?.brands as string) || '';
+  const page = Number(resolvedSearchParams?.page || 1);
+  const pageSize = Number(resolvedSearchParams?.pageSize || 20);
 
   const productsRes = await api.getProducts({
     q,
@@ -88,10 +91,11 @@ export default async function CategoryListingPage({
   const t = await getTranslations('breadcrumb');
 
   // Build breadcrumb items
+  const baseHref = locale === 'vi' ? '' : `/${locale}`;
   const breadcrumbItems = [
-    { label: t('home'), href: '/' },
-    { label: t('danhmucsanpham'), href: '/danh-muc-san-pham' },
-    { label: categoryName, href: `/danh-muc-san-pham/${active}` },
+    { label: t('home'), href: baseHref || '/' },
+    { label: t('danhmucsanpham'), href: `${baseHref}/danh-muc-san-pham` },
+    { label: categoryName, href: `${baseHref}/danh-muc-san-pham/${active}` },
   ];
 
   return (
@@ -119,14 +123,15 @@ export default async function CategoryListingPage({
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ 'cate-slug': string }>;
+  params: Promise<{ locale: string; 'cate-slug': string }>;
 }): Promise<Metadata> {
   const resolvedParams = await params;
+  const locale = resolvedParams.locale;
 
   const tCategory = await getTranslations('category');
 
   const tCommon = await getTranslations('common');
-  const api = new StrapiApi();
+  const api = new StrapiApi(locale);
   const category = await api.getCategoryBySlug(resolvedParams['cate-slug']);
   if (!category) {
     return {
@@ -137,11 +142,12 @@ export async function generateMetadata({
 
   const description =
     (category as any).description || tCommon('productsOfKTBioTech');
-  const base =
-    process.env.NEXT_PUBLIC_PRODUCTS_BASE_URL ||
-    process.env.PRODUCTS_BASE_URL ||
-    'https://ktbiotech.com/danh-muc-san-pham';
-  const url = `${base}/${resolvedParams['cate-slug']}`;
+  const baseDomain =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    process.env.SITE_URL ||
+    'https://ktbiotech.com';
+  const localePrefix = locale === 'vi' ? '' : `/${locale}`;
+  const url = `${baseDomain}${localePrefix}/danh-muc-san-pham/${resolvedParams['cate-slug']}`;
   return {
     title,
     description,

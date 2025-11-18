@@ -150,10 +150,11 @@ export function lightenColor(hex: string, percent: number): string {
 import { cache } from 'react';
 
 /**
- * Cached fetch for product categories to avoid duplicate requests across layouts/pages
+ * Internal cached function - always receives a locale string (normalized)
  */
-export const getProductCategoriesCached = cache(async () => {
-  const api = new StrapiApi();
+const _getProductCategoriesCachedInternal = cache(async (locale?: string) => {
+  console.log('locale', locale);
+  const api = new StrapiApi(locale);
   const raw = (await api.getCategories('product')) as unknown as any[];
 
   // Normalize shape and build parent-child structure
@@ -216,11 +217,34 @@ export const getProductCategoriesCached = cache(async () => {
 });
 
 /**
- * Fetch combined categories-products tree for search/mega menu
+ * Cached fetch for product categories to avoid duplicate requests across layouts/pages
+ * Normalizes locale to 'vi' if not provided (for pages outside [locale] route)
  */
-export async function getCategoriesProducts(depth = 1): Promise<any> {
+export async function getProductCategoriesCached(
+  locale?: string
+): Promise<Category[]> {
+  // Normalize locale: use 'vi' as default when not provided
+  // This ensures consistent cache keys and proper filtering
+  const normalizedLocale = locale;
+  return _getProductCategoriesCachedInternal(normalizedLocale);
+}
+
+/**
+ * Fetch combined categories-products tree for search/mega menu
+ * Normalizes locale to 'vi' if not provided (for pages outside [locale] route)
+ */
+export async function getCategoriesProducts(
+  depth = 1,
+  locale?: string
+): Promise<any> {
+  // Normalize locale: use 'vi' as default when not provided
+  const normalizedLocale = locale || 'vi';
+  const params = new URLSearchParams({
+    depth: depth.toString(),
+    locale: normalizedLocale,
+  });
   const response = await fetch(
-    `${buildApiUrl('/api/search/categories-products')}?depth=${depth}`,
+    `${buildApiUrl('/api/search/categories-products')}?${params.toString()}`,
     {
       method: 'GET',
       headers: getApiHeaders(),
@@ -237,20 +261,56 @@ export async function getCategoriesProducts(depth = 1): Promise<any> {
 }
 // Keep StrapiApi methods after cached helpers to avoid circular import issues in some bundlers
 export class StrapiApi {
+  private readonly locale: string;
+
+  constructor(locale?: string) {
+    // Normalize locale: use 'vi' as default when not provided
+    // This ensures all API calls filter by locale (default 'vi')
+    this.locale = locale === 'en' ? 'en' : 'vi-VN';
+  }
+
+  private appendLocaleToSearchParams(params: URLSearchParams) {
+    if (!params.has('locale')) {
+      params.set('locale', this.locale);
+    }
+  }
+
+  private appendLocaleToQueryParts(parts: string[]) {
+    if (
+      !parts.some(
+        part =>
+          part.startsWith('locale=') ||
+          part.startsWith('locale%5B') ||
+          part.startsWith('locale[')
+      )
+    ) {
+      parts.push(`locale=${encodeURIComponent(this.locale)}`);
+    }
+  }
+
+  private appendLocaleToUrl(url: string) {
+    if (url.includes('locale=')) {
+      return url;
+    }
+    const separator = url.includes('?') ? '&' : '?';
+    return `${url}${separator}locale=${encodeURIComponent(this.locale)}`;
+  }
+
   /**
    * Get categories by type
    */
   async getCategories(type?: 'blog' | 'product'): Promise<Category[]> {
-    const params: Record<string, string> = {
+    const params = new URLSearchParams({
       'populate[image][fields]': '*',
       'populate[parent][fields]': '*',
-    };
+    });
     if (type) {
-      params['filters[type][$eq]'] = type;
+      params.set('filters[type][$eq]', type);
     }
+    this.appendLocaleToSearchParams(params);
 
     const response = await fetch(
-      `${buildApiUrl(API_ENDPOINTS.categories)}?${new URLSearchParams(params).toString()}`,
+      `${buildApiUrl(API_ENDPOINTS.categories)}?${params.toString()}`,
       {
         method: 'GET',
         headers: getApiHeaders(),
@@ -283,6 +343,7 @@ export class StrapiApi {
     Object.entries(filters || {}).forEach(([key, value]) => {
       params.push(`${key}=${value}`);
     });
+    this.appendLocaleToQueryParts(params);
 
     const queryString = params.join('&');
     const response = await fetch(
@@ -306,7 +367,8 @@ export class StrapiApi {
    * Get authors
    */
   async getAuthors(): Promise<Author[]> {
-    const response = await fetch(buildApiUrl(API_ENDPOINTS.authors), {
+    const url = this.appendLocaleToUrl(buildApiUrl(API_ENDPOINTS.authors));
+    const response = await fetch(url, {
       method: 'GET',
       headers: getApiHeaders(),
       next: { revalidate: 3600 }, // Cache for 1 hour
@@ -324,7 +386,8 @@ export class StrapiApi {
    * Get brands (manufacturers)
    */
   async getBrands(): Promise<Array<{ id: number; name: string }>> {
-    const response = await fetch(buildApiUrl(API_ENDPOINTS.brands), {
+    const url = this.appendLocaleToUrl(buildApiUrl(API_ENDPOINTS.brands));
+    const response = await fetch(url, {
       method: 'GET',
       headers: getApiHeaders(),
       next: { revalidate: 1800 }, // Cache for 30 minutes
@@ -343,24 +406,33 @@ export class StrapiApi {
    * Get catalogues with optional filters
    */
   async getCatalogue(): Promise<CatalogueEntry | null> {
-    const response = await fetch(
-      `${buildApiUrl(API_ENDPOINTS.catalogue)}?populate=*`,
-      {
+    try {
+      const url = this.appendLocaleToUrl(
+        `${buildApiUrl(API_ENDPOINTS.catalogue)}?populate=*`
+      );
+      const response = await fetch(url, {
         method: 'GET',
         headers: getApiHeaders(),
         next: { revalidate: 300 },
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null;
+        }
+        const body = await response.text().catch(() => '');
+        throw new Error(
+          `Failed to fetch catalogue: ${response.status} ${response.statusText} ${body}`
+        );
       }
-    );
 
-    if (!response.ok) {
-      const body = await response.text().catch(() => '');
-      throw new Error(
-        `Failed to fetch catalogue: ${response.status} ${response.statusText} ${body}`
-      );
+      const json = await response.json();
+      return normalizeCatalogueEntry(json?.data || null);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching catalogue:', error);
+      return null;
     }
-
-    const json = await response.json();
-    return normalizeCatalogueEntry(json?.data || null);
   }
 
   /**
@@ -371,6 +443,7 @@ export class StrapiApi {
       'filters[slug][$eq]': slug,
       populate: '*',
     });
+    this.appendLocaleToSearchParams(params);
     const response = await fetch(
       `${buildApiUrl(API_ENDPOINTS.categories)}?${params.toString()}`,
       {
@@ -426,6 +499,8 @@ export class StrapiApi {
     if (filters?.pageSize)
       params.push(`pagination[pageSize]=${filters.pageSize}`);
 
+    this.appendLocaleToQueryParts(params);
+
     if (filters?.excludeSlug) {
       params.push(
         `filters[slug][$ne]=${encodeURIComponent(filters.excludeSlug)}`
@@ -461,6 +536,7 @@ export class StrapiApi {
     const params = new URLSearchParams({
       q: query,
     });
+    this.appendLocaleToSearchParams(params);
     const response = await fetch(
       `${buildApiUrl('/api/search/materials')}?${params.toString()}`,
       {
@@ -496,6 +572,7 @@ export class StrapiApi {
         'populate[sale][fields]': '*',
         'populate[sale][populate][avatar][fields]': '*',
       });
+      this.appendLocaleToSearchParams(params);
 
       const response = await fetch(
         `${buildApiUrl(API_ENDPOINTS.products)}?${params.toString()}`,
@@ -538,6 +615,7 @@ export class StrapiApi {
         'populate[categories][fields]': '*',
         'populate[sale][populate][avatar][fields]': '*',
       });
+      this.appendLocaleToSearchParams(params);
 
       const response = await fetch(
         `${buildApiUrl(API_ENDPOINTS.products)}?${params.toString()}`,
@@ -571,14 +649,14 @@ export class StrapiApi {
    * Get about single type
    */
   async getAbout(): Promise<any | null> {
-    const response = await fetch(
-      `${buildApiUrl(API_ENDPOINTS.about)}?populate=*`,
-      {
-        method: 'GET',
-        headers: getApiHeaders(),
-        next: { revalidate: 300 }, // Cache for 5 minutes
-      }
+    const url = this.appendLocaleToUrl(
+      `${buildApiUrl(API_ENDPOINTS.about)}?populate=*`
     );
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: getApiHeaders(),
+      next: { revalidate: 300 }, // Cache for 5 minutes
+    });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch about: ${response.statusText}`);
@@ -594,14 +672,14 @@ export class StrapiApi {
    */
   async getGenServices(): Promise<any | null> {
     try {
-      const response = await fetch(
-        `${buildApiUrl(API_ENDPOINTS.genServices)}?populate=*`,
-        {
-          method: 'GET',
-          headers: getApiHeaders(),
-          next: { revalidate: 300 },
-        }
+      const url = this.appendLocaleToUrl(
+        `${buildApiUrl(API_ENDPOINTS.genServices)}?populate=*`
       );
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 300 },
+      });
 
       if (!response.ok) {
         if (response.status === 404) {
@@ -627,14 +705,14 @@ export class StrapiApi {
    */
   async getResearchService(): Promise<any | null> {
     try {
-      const response = await fetch(
-        `${buildApiUrl(API_ENDPOINTS.researchService)}?populate=*`,
-        {
-          method: 'GET',
-          headers: getApiHeaders(),
-          next: { revalidate: 300 },
-        }
+      const url = this.appendLocaleToUrl(
+        `${buildApiUrl(API_ENDPOINTS.researchService)}?populate=*`
       );
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 300 },
+      });
       if (!response.ok) {
         if (response.status === 404) {
           return null;
@@ -658,14 +736,14 @@ export class StrapiApi {
    */
   async getGlobal(): Promise<any | null> {
     try {
-      const response = await fetch(
-        `${buildApiUrl(API_ENDPOINTS.global)}?populate[image][fields]=*`,
-        {
-          method: 'GET',
-          headers: getApiHeaders(),
-          next: { revalidate: 300 }, // Cache for 5 minutes
-        }
+      const url = this.appendLocaleToUrl(
+        `${buildApiUrl(API_ENDPOINTS.global)}?populate[image][fields]=*`
       );
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 300 }, // Cache for 5 minutes
+      });
       if (!response.ok) {
         if (response.status === 404) {
           return null;
@@ -690,14 +768,14 @@ export class StrapiApi {
    */
   async getVision(): Promise<any | null> {
     try {
-      const response = await fetch(
-        `${buildApiUrl(API_ENDPOINTS.vision)}?populate=*`,
-        {
-          method: 'GET',
-          headers: getApiHeaders(),
-          next: { revalidate: 300 },
-        }
+      const url = this.appendLocaleToUrl(
+        `${buildApiUrl(API_ENDPOINTS.vision)}?populate=*`
       );
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 300 },
+      });
 
       if (!response.ok) {
         if (response.status === 404) {
@@ -723,14 +801,14 @@ export class StrapiApi {
    */
   async getMission(): Promise<any | null> {
     try {
-      const response = await fetch(
-        `${buildApiUrl(API_ENDPOINTS.mission)}?populate=*`,
-        {
-          method: 'GET',
-          headers: getApiHeaders(),
-          next: { revalidate: 300 },
-        }
+      const url = this.appendLocaleToUrl(
+        `${buildApiUrl(API_ENDPOINTS.mission)}?populate=*`
       );
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 300 },
+      });
 
       if (!response.ok) {
         if (response.status === 404) {
@@ -756,14 +834,14 @@ export class StrapiApi {
    */
   async getStructure(): Promise<any | null> {
     try {
-      const response = await fetch(
-        `${buildApiUrl(API_ENDPOINTS.structure)}?populate[content][populate]=*&populate[image][fields]=*`,
-        {
-          method: 'GET',
-          headers: getApiHeaders(),
-          next: { revalidate: 300 },
-        }
+      const url = this.appendLocaleToUrl(
+        `${buildApiUrl(API_ENDPOINTS.structure)}?populate[content][populate]=*&populate[image][fields]=*`
       );
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 300 },
+      });
 
       if (!response.ok) {
         if (response.status === 404) {
@@ -789,14 +867,14 @@ export class StrapiApi {
    */
   async getAward(): Promise<any | null> {
     try {
-      const response = await fetch(
-        `${buildApiUrl(API_ENDPOINTS.award)}?populate=*`,
-        {
-          method: 'GET',
-          headers: getApiHeaders(),
-          next: { revalidate: 300 },
-        }
+      const url = this.appendLocaleToUrl(
+        `${buildApiUrl(API_ENDPOINTS.award)}?populate=*`
       );
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 300 },
+      });
 
       if (!response.ok) {
         if (response.status === 404) {
@@ -822,14 +900,14 @@ export class StrapiApi {
    */
   async getRelationship(): Promise<any | null> {
     try {
-      const response = await fetch(
-        `${buildApiUrl(API_ENDPOINTS.relationship)}?populate[content][populate]=*&populate[image][fields]=*`,
-        {
-          method: 'GET',
-          headers: getApiHeaders(),
-          next: { revalidate: 300 },
-        }
+      const url = this.appendLocaleToUrl(
+        `${buildApiUrl(API_ENDPOINTS.relationship)}?populate[content][populate]=*&populate[image][fields]=*`
       );
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 300 },
+      });
 
       if (!response.ok) {
         if (response.status === 404) {

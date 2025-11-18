@@ -6,9 +6,9 @@ import type { Article } from '../../types/strapi';
 export const dynamic = 'force-dynamic';
 
 // Fetch latest articles from Strapi API
-async function getLatestArticles(): Promise<Article[]> {
+async function getLatestArticles(locale: string): Promise<Article[]> {
   try {
-    const api = new StrapiApi();
+    const api = new StrapiApi(locale);
     const articles = await api.getArticles({
       sort: 'createdAt:desc',
       'pagination[limit]': '10',
@@ -25,9 +25,9 @@ async function getLatestArticles(): Promise<Article[]> {
 }
 
 // Fetch most viewed articles from Strapi API
-async function getMostViewedArticles(): Promise<Article[]> {
+async function getMostViewedArticles(locale: string): Promise<Article[]> {
   try {
-    const api = new StrapiApi();
+    const api = new StrapiApi(locale);
     const articles = await api.getArticles({
       sort: 'views:desc', // For now, using createdAt as proxy for most viewed
       'pagination[limit]': '6',
@@ -44,9 +44,9 @@ async function getMostViewedArticles(): Promise<Article[]> {
 }
 
 // Fetch important articles from Strapi API (randomized)
-async function getImportantArticles(): Promise<Article[]> {
+async function getImportantArticles(locale: string): Promise<Article[]> {
   try {
-    const api = new StrapiApi();
+    const api = new StrapiApi(locale);
     const articles = await api.getArticles({
       sort: 'createdAt:desc', // Fetch with a base sort, then randomize
       'pagination[limit]': '20', // Fetch more to have better randomization
@@ -72,7 +72,7 @@ async function getImportantArticles(): Promise<Article[]> {
 }
 
 // Fetch recruitment posts from Strapi API
-async function getRecruitmentPosts(): Promise<
+async function getRecruitmentPosts(locale: string): Promise<
   Array<{
     id: number;
     imageSrc: string;
@@ -84,7 +84,7 @@ async function getRecruitmentPosts(): Promise<
   }>
 > {
   try {
-    const api = new StrapiApi();
+    const api = new StrapiApi(locale);
     const articles = await api.getArticles({
       sort: 'createdAt:desc', // For now, using createdAt as proxy for recruitment posts
       'pagination[limit]': '6',
@@ -93,15 +93,16 @@ async function getRecruitmentPosts(): Promise<
     });
 
     // Transform articles to recruitment post format
+    const baseHref = locale === 'vi' ? '' : `/${locale}`;
     return articles.map((article: Article) => ({
       id: article.id,
       imageSrc:
         'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&h=300&fit=crop',
       imageAlt: article.title,
-      date: new Date(article.createdAt).toLocaleDateString('vi-VN'),
+      date: new Date(article.createdAt).toLocaleDateString(locale),
       title: article.title,
       description: article.description,
-      href: `/recruitment/${article.slug}`,
+      href: `${baseHref}/recruitment/${article.slug}`,
     }));
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -111,17 +112,22 @@ async function getRecruitmentPosts(): Promise<
   }
 }
 
-export default async function BlogsPage() {
+export default async function BlogsPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const locale = params.locale;
   const [
     latestArticles,
     mostViewedArticlesRaw,
     importantArticles,
     recruitmentPosts,
   ] = await Promise.all([
-    getLatestArticles(),
-    getMostViewedArticles(),
-    getImportantArticles(),
-    getRecruitmentPosts(),
+    getLatestArticles(locale),
+    getMostViewedArticles(locale),
+    getImportantArticles(locale),
+    getRecruitmentPosts(locale),
   ]);
 
   // Remove duplicates from mostViewedArticles
