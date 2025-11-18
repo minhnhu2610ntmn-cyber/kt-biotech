@@ -292,12 +292,20 @@ export function Navbar({
 
   // Debounced search (materials)
   const [searchQuery, setSearchQuery] = React.useState('');
+  const [selectedCategory, setSelectedCategory] = React.useState('all');
   const searchDebounceRef = React.useRef<NodeJS.Timeout | null>(null);
   const [searchResults, setSearchResults] = React.useState<any[]>([]);
   const [isResultsOpen, setIsResultsOpen] = React.useState(false);
   const desktopSearchRef = React.useRef<HTMLDivElement | null>(null);
   const handleSearchEvent = React.useCallback((query: string) => {
     setSearchQuery(query);
+  }, []);
+
+  const handleCategoryChange = React.useCallback((category: string) => {
+    setSelectedCategory(category);
+    // Reset search results when category changes
+    setSearchResults([]);
+    setIsResultsOpen(false);
   }, []);
 
   React.useEffect(() => {
@@ -307,10 +315,20 @@ export function Navbar({
     }
     searchDebounceRef.current = setTimeout(async () => {
       try {
-        const res = await fetch(
-          `/api/search/materials?q=${encodeURIComponent(searchQuery)}`,
-          { method: 'GET' }
-        );
+        // Extract category slug from selectedCategory (format: "product-{slug}" or "all")
+        let categorySlug: string | undefined;
+        if (selectedCategory && selectedCategory !== 'all') {
+          // Remove "product-" prefix if present
+          categorySlug = selectedCategory.replace(/^product-/, '');
+        }
+
+        // Build API URL with query and optional category
+        let apiUrl = `/api/search/materials?q=${encodeURIComponent(searchQuery)}`;
+        if (categorySlug) {
+          apiUrl += `&category=${encodeURIComponent(categorySlug)}`;
+        }
+
+        const res = await fetch(apiUrl, { method: 'GET' });
         if (!res.ok) return;
         const data = await res.json().catch(() => null);
         const list = (Array.isArray(data) && data) || [];
@@ -325,7 +343,7 @@ export function Navbar({
         clearTimeout(searchDebounceRef.current);
       }
     };
-  }, [searchQuery]);
+  }, [searchQuery, selectedCategory]);
 
   // Click outside to close results
   React.useEffect(() => {
@@ -429,6 +447,8 @@ export function Navbar({
                   placeholder={t('searchPlaceholder')}
                   onSearch={(query /*, category */) => handleSearchEvent(query)}
                   onQueryChange={q => handleSearchEvent(q)}
+                  onCategoryChange={handleCategoryChange}
+                  defaultCategory={selectedCategory}
                   className='w-full'
                   value={searchQuery}
                   categoryOptions={categoryOptions}

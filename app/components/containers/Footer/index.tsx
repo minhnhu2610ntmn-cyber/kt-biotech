@@ -40,7 +40,10 @@ export default function Footer({
 
   return (
     <footer
-      className={cn('bg-gray-900 !text-white', isHomePage && 'pt-[70px]')}
+      className={cn(
+        'bg-gray-900 !text-white px-4 md:px-10',
+        isHomePage && 'pt-[70px]'
+      )}
     >
       {/* Main Footer Content */}
       <div className=' px-4 py-8 sm:py-12'>

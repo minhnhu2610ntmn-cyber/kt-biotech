@@ -4,6 +4,7 @@ import { StrapiApi } from '../../../config/api';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const q = (searchParams.get('q') || '').trim();
+  const category = searchParams.get('category') || undefined;
 
   if (!q) {
     return NextResponse.json([]);
@@ -11,7 +12,7 @@ export async function GET(request: Request) {
 
   try {
     const api = new StrapiApi();
-    const results = await api.searchMaterials(q);
+    const results = await api.searchMaterials(q, category);
     return NextResponse.json(results ?? []);
   } catch (error) {
     console.error('Search materials error:', error);

@@ -529,13 +529,16 @@ export class StrapiApi {
   /**
    * Search materials by query string
    */
-  async searchMaterials(query: string): Promise<any[]> {
+  async searchMaterials(query: string, categorySlug?: string): Promise<any[]> {
     if (!query) {
       return [];
     }
     const params = new URLSearchParams({
       q: query,
     });
+    if (categorySlug) {
+      params.set('category', categorySlug);
+    }
     this.appendLocaleToSearchParams(params);
     const response = await fetch(
       `${buildApiUrl('/api/search/materials')}?${params.toString()}`,
