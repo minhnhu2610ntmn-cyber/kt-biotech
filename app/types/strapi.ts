@@ -54,6 +54,7 @@ export interface MediaFile extends StrapiItem {
   url: string;
   previewUrl?: string;
   provider: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   provider_metadata?: any;
 }
 
@@ -131,6 +132,7 @@ export interface Product extends StrapiItem {
   cover?: MediaFile;
   images?: MediaFile[];
   content?: ProductBlock[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   specifications?: any;
   seo?: {
     id: number;

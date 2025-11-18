@@ -231,9 +231,7 @@ export default async function AwardPage() {
             >
               {t('updating')}
             </Heading>
-            <Text className='text-sm text-[#4B5053]'>
-              {t('updatingAward')}
-            </Text>
+            <Text className='text-sm text-[#4B5053]'>{t('updatingAward')}</Text>
           </div>
         )}
       </div>

@@ -50,12 +50,13 @@ export default async function LocaleLayout({
   let catalogue: CatalogueEntry | null = null;
   try {
     const api = new StrapiApi();
-    const [categories, productsTree, globalRes, catalogueRes] = await Promise.all([
-      getProductCategoriesCached(),
-      getCategoriesProducts(1),
-      api.getGlobal(),
-      api.getCatalogue(),
-    ]);
+    const [categories, productsTree, globalRes, catalogueRes] =
+      await Promise.all([
+        getProductCategoriesCached(),
+        getCategoriesProducts(1),
+        api.getGlobal(),
+        api.getCatalogue(),
+      ]);
     // Cast to ProductCategory type
     productCategories = categories as ProductCategory[];
     categoriesProducts = productsTree;
@@ -87,4 +88,3 @@ export default async function LocaleLayout({
     </html>
   );
 }
-

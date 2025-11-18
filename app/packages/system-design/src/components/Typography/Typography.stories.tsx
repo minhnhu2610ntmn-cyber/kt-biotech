@@ -46,21 +46,6 @@ const meta: Meta<typeof Typography> = {
       control: { type: 'select' },
       options: ['underline', 'line-through', 'no-underline'],
     },
-    as: {
-      control: { type: 'select' },
-      options: [
-        'h1',
-        'h2',
-        'h3',
-        'h4',
-        'h5',
-        'h6',
-        'p',
-        'span',
-        'div',
-        'label',
-      ],
-    },
   },
 };
 

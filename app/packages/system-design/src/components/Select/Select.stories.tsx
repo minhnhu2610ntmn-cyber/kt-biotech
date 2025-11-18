@@ -61,16 +61,8 @@ export const Default: Story = {
     placeholder: 'Select an option...',
   },
   render: args => {
-    const [value, setValue] = useState(null);
-    return (
-      <Select
-        {...args}
-        value={value}
-        onChange={option =>
-          setValue(Array.isArray(option) ? option[0] || null : option)
-        }
-      />
-    );
+    const [value, setValue] = useState<string | undefined>(undefined);
+    return <Select {...args} value={value} onChange={val => setValue(val)} />;
   },
 };
 
@@ -82,16 +74,8 @@ export const WithLabel: Story = {
     required: true,
   },
   render: args => {
-    const [value, setValue] = useState(null);
-    return (
-      <Select
-        {...args}
-        value={value}
-        onChange={option =>
-          setValue(Array.isArray(option) ? option[0] || null : option)
-        }
-      />
-    );
+    const [value, setValue] = useState<string | undefined>(undefined);
+    return <Select {...args} value={value} onChange={val => setValue(val)} />;
   },
 };
 
@@ -103,16 +87,8 @@ export const Searchable: Story = {
     isSearchable: true,
   },
   render: args => {
-    const [value, setValue] = useState(null);
-    return (
-      <Select
-        {...args}
-        value={value}
-        onChange={option =>
-          setValue(Array.isArray(option) ? option[0] || null : option)
-        }
-      />
-    );
+    const [value, setValue] = useState<string | undefined>(undefined);
+    return <Select {...args} value={value} onChange={val => setValue(val)} />;
   },
 };
 
@@ -124,16 +100,8 @@ export const Clearable: Story = {
     isClearable: true,
   },
   render: args => {
-    const [value, setValue] = useState(null);
-    return (
-      <Select
-        {...args}
-        value={value}
-        onChange={option =>
-          setValue(Array.isArray(option) ? option[0] || null : option)
-        }
-      />
-    );
+    const [value, setValue] = useState<string | undefined>(undefined);
+    return <Select {...args} value={value} onChange={val => setValue(val)} />;
   },
 };
 
@@ -147,14 +115,8 @@ export const MultiSelect: Story = {
     isClearable: true,
   },
   render: args => {
-    const [value, setValue] = useState<OptionType[]>([]);
-    return (
-      <Select
-        {...args}
-        value={value}
-        onChange={option => setValue(Array.isArray(option) ? option : [])}
-      />
-    );
+    const [value, setValue] = useState<string | undefined>(undefined);
+    return <Select {...args} value={value} onChange={val => setValue(val)} />;
   },
 };
 
@@ -166,16 +128,8 @@ export const WithError: Story = {
     error: 'Please select a country',
   },
   render: args => {
-    const [value, setValue] = useState(null);
-    return (
-      <Select
-        {...args}
-        value={value}
-        onChange={option =>
-          setValue(Array.isArray(option) ? option[0] || null : option)
-        }
-      />
-    );
+    const [value, setValue] = useState<string | undefined>(undefined);
+    return <Select {...args} value={value} onChange={val => setValue(val)} />;
   },
 };
 
@@ -188,14 +142,8 @@ export const WithHelperText: Story = {
     isMulti: true,
   },
   render: args => {
-    const [value, setValue] = useState<OptionType[]>([]);
-    return (
-      <Select
-        {...args}
-        value={value}
-        onChange={option => setValue(Array.isArray(option) ? option : [])}
-      />
-    );
+    const [value, setValue] = useState<string | undefined>(undefined);
+    return <Select {...args} value={value} onChange={val => setValue(val)} />;
   },
 };
 
@@ -207,16 +155,8 @@ export const Disabled: Story = {
     isDisabled: true,
   },
   render: args => {
-    const [value, setValue] = useState(null);
-    return (
-      <Select
-        {...args}
-        value={value}
-        onChange={option =>
-          setValue(Array.isArray(option) ? option[0] || null : option)
-        }
-      />
-    );
+    const [value, setValue] = useState<string | undefined>(undefined);
+    return <Select {...args} value={value} onChange={val => setValue(val)} />;
   },
 };
 
@@ -228,16 +168,10 @@ export const FullWidth: Story = {
     className: 'w-full',
   },
   render: args => {
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState<string | undefined>(undefined);
     return (
       <div className='w-full max-w-md'>
-        <Select
-          {...args}
-          value={value}
-          onChange={option =>
-            setValue(Array.isArray(option) ? option[0] || null : option)
-          }
-        />
+        <Select {...args} value={value} onChange={val => setValue(val)} />
       </div>
     );
   },

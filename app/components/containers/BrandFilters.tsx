@@ -11,10 +11,7 @@ interface BrandFiltersProps {
   brands: Brand[];
 }
 
-export default function BrandFilters({
-  title,
-  brands,
-}: BrandFiltersProps) {
+export default function BrandFilters({ title, brands }: BrandFiltersProps) {
   const t = useTranslations('category');
   const defaultTitle = title || t('manufacturer');
   const router = useRouter();

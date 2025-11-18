@@ -881,7 +881,7 @@ export class StrapiApi {
       });
 
       if (!response.ok) {
-        const errorBody = await response.text().catch(() => '');
+        await response.text().catch(() => '');
         return {
           success: false,
           error: `Failed to submit contact: ${response.status} ${response.statusText}`,

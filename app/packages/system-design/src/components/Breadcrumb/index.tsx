@@ -72,10 +72,12 @@ export function Breadcrumb({ items, className, separator }: BreadcrumbProps) {
     ];
 
     const paths = pathnameWithoutLocale.split('/').filter(Boolean);
-    
+
     // Check if all path segments are known static routes
-    const allSegmentsAreStatic = paths.every(path => knownStaticRoutes.includes(path));
-    
+    const allSegmentsAreStatic = paths.every(path =>
+      knownStaticRoutes.includes(path)
+    );
+
     // Only auto-generate if all segments are known static routes
     // Otherwise, wait for API data via SetBreadcrumb
     if (!allSegmentsAreStatic) {
@@ -94,7 +96,7 @@ export function Breadcrumb({ items, className, separator }: BreadcrumbProps) {
           return translated;
         }
         return null;
-      } catch (error: any) {
+      } catch {
         // Translation key doesn't exist - next-intl throws error for missing keys
         // Silently catch and return null to use fallback formatting
         return null;
@@ -119,7 +121,7 @@ export function Breadcrumb({ items, className, separator }: BreadcrumbProps) {
       // Try breadcrumb translations first
       const translationKey = path.replace(/-/g, '');
       const breadcrumbTranslation = safeTranslate(t, translationKey);
-      
+
       if (breadcrumbTranslation) {
         label = breadcrumbTranslation;
       } else {

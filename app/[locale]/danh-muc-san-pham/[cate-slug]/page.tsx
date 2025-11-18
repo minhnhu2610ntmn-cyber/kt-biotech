@@ -1,8 +1,8 @@
+import { Container } from '@ktbiotech/system-design';
+import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 import CategoryLayout from '../../../components/containers/CategoryLayout';
 import SetBreadcrumb from '../../../components/containers/SetBreadcrumb';
-import { Container } from '@ktbiotech/system-design';
-import { getTranslations } from 'next-intl/server';
-import type { Metadata } from 'next';
 import {
   StrapiApi,
   buildImageUrl,
@@ -86,8 +86,6 @@ export default async function CategoryListingPage({
     .filter((p): p is NonNullable<typeof p> => p !== null);
 
   const t = await getTranslations('breadcrumb');
-  const tCategory = await getTranslations('category');
-  const tCommon = await getTranslations('common');
 
   // Build breadcrumb items
   const breadcrumbItems = [
@@ -121,24 +119,29 @@ export default async function CategoryListingPage({
 export async function generateMetadata({
   params,
 }: {
-  params: { 'cate-slug': string };
+  params: Promise<{ 'cate-slug': string }>;
 }): Promise<Metadata> {
+  const resolvedParams = await params;
+
   const tCategory = await getTranslations('category');
+
   const tCommon = await getTranslations('common');
   const api = new StrapiApi();
-  const category = await api.getCategoryBySlug(params['cate-slug']);
+  const category = await api.getCategoryBySlug(resolvedParams['cate-slug']);
   if (!category) {
     return {
       title: tCategory('title'),
     };
   }
   const title = category.name || tCategory('title');
-  const description = (category as any).description || tCommon('productsOfKTBioTech');
+
+  const description =
+    (category as any).description || tCommon('productsOfKTBioTech');
   const base =
     process.env.NEXT_PUBLIC_PRODUCTS_BASE_URL ||
     process.env.PRODUCTS_BASE_URL ||
     'https://ktbiotech.com/danh-muc-san-pham';
-  const url = `${base}/${params['cate-slug']}`;
+  const url = `${base}/${resolvedParams['cate-slug']}`;
   return {
     title,
     description,

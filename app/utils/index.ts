@@ -25,11 +25,12 @@ export const getCookieValue = (name: string): string | null => {
  */
 export const loadMessages = async (
   locale: string
-): Promise<Record<string, string>> => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): Promise<Record<string, any>> => {
   try {
     const messages = await import(`../../messages/${locale}.json`);
     return messages.default;
-  } catch (error) {
+  } catch {
     // Fallback to default locale
     const fallbackMessages = await import(`../../messages/vi.json`);
     return fallbackMessages.default;

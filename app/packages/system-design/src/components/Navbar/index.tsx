@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
-import { ABOUT_URL } from '../../../../../config/constants';
+import { ABOUT_URL } from '../../constants';
 import type { ProductCategory } from '../../types';
 import { cn } from '../../utils';
 import { DownloadIcon } from '../Icons';

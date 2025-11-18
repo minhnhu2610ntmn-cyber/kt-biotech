@@ -55,15 +55,15 @@ const completeArticle: StrapiBlock[] = [
     id: 17,
     slides: [
       {
-        image: { url: 'https://picsum.photos/800/600?random=2' },
+        url: 'https://picsum.photos/800/600?random=2',
         caption: 'Laboratory equipment and research tools',
       },
       {
-        image: { url: 'https://picsum.photos/800/600?random=3' },
+        url: 'https://picsum.photos/800/600?random=3',
         caption: 'Advanced biotechnology research facility',
       },
       {
-        image: { url: 'https://picsum.photos/800/600?random=4' },
+        url: 'https://picsum.photos/800/600?random=4',
         caption: 'Innovative biotech solutions in action',
       },
     ],
@@ -138,11 +138,11 @@ const mockSliderBlock: StrapiBlock = {
   id: 4,
   slides: [
     {
-      image: { url: 'https://picsum.photos/800/600?random=1' },
+      url: 'https://picsum.photos/800/600?random=1',
       caption: 'First slide',
     },
     {
-      image: { url: 'https://picsum.photos/800/600?random=2' },
+      url: 'https://picsum.photos/800/600?random=2',
       caption: 'Second slide',
     },
   ],

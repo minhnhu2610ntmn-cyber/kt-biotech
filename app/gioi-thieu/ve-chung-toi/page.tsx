@@ -3,9 +3,19 @@ import { Container } from '@ktbiotech/system-design';
 import AnimatedPageContent from '../../components/containers/AnimatedPageContent';
 import { buildImageUrl, StrapiApi } from '../../config/api';
 
+// Disable static generation - fetch data at request time
+export const dynamic = 'force-dynamic';
+
 export default async function CompanyPage() {
-  const api = new StrapiApi();
-  const company = await api.getAbout();
+  let company: any = null;
+  try {
+    const api = new StrapiApi();
+    company = await api.getAbout();
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error fetching company data:', error);
+    // Continue with null company - will render empty content
+  }
 
   const blocks: StrapiBlock[] = ((company?.content as any[]) || [])
     .map((block: any) => {

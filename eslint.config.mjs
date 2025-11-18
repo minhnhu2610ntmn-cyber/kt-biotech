@@ -23,7 +23,15 @@ const eslintConfig = [
       "build/**",
       "dist/**",
       "**/dist/**",
+      "**/dist/**/*",
       "**/packages/*/dist/**",
+      "**/packages/**/dist/**",
+      "app/packages/**/dist/**",
+      "app/packages/**/dist/**/*",
+      "**/packages/system-design/dist/**",
+      "**/packages/system-design/dist/**/*",
+      "**/packages/blog/dist/**",
+      "**/packages/blog/dist/**/*",
       "next-env.d.ts",
       "**/*.stories.tsx",
       "**/*.stories.ts",
@@ -47,7 +55,7 @@ const eslintConfig = [
       "react/require-default-props": "off",
       
       // TypeScript Rules
-      "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+      "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -166,6 +174,23 @@ const eslintConfig = [
       "no-restricted-syntax": "off", // Allow raw HTML in component definitions
       "@typescript-eslint/no-explicit-any": "off", // Allow any for component props
       "next/no-html-link-for-pages": "off", // Disable for packages
+    }
+  },
+  {
+    files: ["app/components/**/*.{js,jsx,ts,tsx}"],
+    rules: {
+      // Special rules for app components
+      "no-restricted-syntax": "off", // Allow raw HTML in app components
+    }
+  },
+  {
+    files: ["**/*.js"],
+    ignores: ["**/dist/**", "**/node_modules/**"],
+    rules: {
+      // Disable rules for compiled JavaScript files
+      "@typescript-eslint/no-require-imports": "off",
+      "no-var": "off",
+      "object-shorthand": "off",
     }
   }
 ];

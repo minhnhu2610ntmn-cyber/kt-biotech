@@ -57,9 +57,7 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
           <Text className='text-[#1B1C1D] font-medium px-4'>
             {t('noProducts')}
           </Text>
-          <Text className='text-gray-500 text-sm'>
-            {t('adjustFilters')}
-          </Text>
+          <Text className='text-gray-500 text-sm'>{t('adjustFilters')}</Text>
         </div>
       </div>
     );

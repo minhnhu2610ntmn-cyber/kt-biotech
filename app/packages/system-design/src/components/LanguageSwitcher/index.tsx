@@ -19,7 +19,7 @@ export function LanguageSwitcher({
   const pathname = usePathname();
   const locale = useLocale();
   const [currentLocale, setCurrentLocale] = useState(locale);
-  
+
   // Default locale (vi) doesn't have prefix
   const defaultLocale = 'vi';
 
@@ -39,24 +39,24 @@ export function LanguageSwitcher({
   const switchLanguage = (newLocale: string) => {
     // Supported locales
     const supportedLocales = ['vi', 'en'];
-    
+
     // Get actual pathname from window.location if available, otherwise use hook
-    const actualPathname = typeof window !== 'undefined' 
-      ? window.location.pathname 
-      : pathname;
-    
+    const actualPathname =
+      typeof window !== 'undefined' ? window.location.pathname : pathname;
+
     // Get current locale from pathname (first segment)
     const pathSegments = actualPathname.split('/').filter(Boolean);
     const firstSegment = pathSegments[0] || '';
     const isCurrentLocaleInPath = supportedLocales.includes(firstSegment);
-    
+
     // Remove current locale from pathname if it exists
     let pathnameWithoutLocale = actualPathname;
     if (isCurrentLocaleInPath) {
       // Remove locale prefix - handle both /en and /en/... cases
-      pathnameWithoutLocale = actualPathname.replace(`/${firstSegment}`, '') || '/';
+      pathnameWithoutLocale =
+        actualPathname.replace(`/${firstSegment}`, '') || '/';
     }
-    
+
     // Ensure pathnameWithoutLocale starts with /
     if (!pathnameWithoutLocale || pathnameWithoutLocale === '') {
       pathnameWithoutLocale = '/';
@@ -64,7 +64,7 @@ export function LanguageSwitcher({
     if (!pathnameWithoutLocale.startsWith('/')) {
       pathnameWithoutLocale = `/${pathnameWithoutLocale}`;
     }
-    
+
     // Build new path with locale prefix
     // Default locale (vi) doesn't have prefix
     let newPath: string;
@@ -76,13 +76,18 @@ export function LanguageSwitcher({
       // For non-default locale, add prefix
       // If pathnameWithoutLocale is '/', just use /en
       // Otherwise use /en/path
-      newPath = pathnameWithoutLocale === '/' 
-        ? `/${newLocale}` 
-        : `/${newLocale}${pathnameWithoutLocale}`;
+      newPath =
+        pathnameWithoutLocale === '/'
+          ? `/${newLocale}`
+          : `/${newLocale}${pathnameWithoutLocale}`;
     }
-    
+
     // Debug logging
-    if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+    if (
+      typeof window !== 'undefined' &&
+      process.env.NODE_ENV === 'development'
+    ) {
+      // eslint-disable-next-line no-console
       console.log('Language switch:', {
         currentLocale: locale,
         newLocale,
@@ -91,7 +96,7 @@ export function LanguageSwitcher({
         newPath,
       });
     }
-    
+
     // Use window.location.replace for navigation to avoid redirect loop
     // This ensures the browser navigates directly without adding to history
     if (typeof window !== 'undefined') {

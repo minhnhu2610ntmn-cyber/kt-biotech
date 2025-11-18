@@ -2,7 +2,10 @@
 
 import { usePathname, useRouter } from '../../utils/link';
 import { useLocale } from 'next-intl';
-import { UnitedKingdomCircleFlagIcon, VietnamCircleFlagIcon } from '@ktbiotech/system-design';
+import {
+  UnitedKingdomCircleFlagIcon,
+  VietnamCircleFlagIcon,
+} from '@ktbiotech/system-design';
 import { cn } from '@ktbiotech/system-design';
 
 interface LocaleSwitcherProps {
@@ -81,4 +84,3 @@ export default function LocaleSwitcher({
     </div>
   );
 }
-

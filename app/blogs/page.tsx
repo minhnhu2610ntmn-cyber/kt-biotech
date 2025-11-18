@@ -2,6 +2,9 @@ import { BlogPage } from '@ktbiotech/blog';
 import { StrapiApi } from '../config/api';
 import type { Article } from '../types/strapi';
 
+// Disable static generation - fetch data at request time
+export const dynamic = 'force-dynamic';
+
 // Fetch latest articles from Strapi API
 async function getLatestArticles(): Promise<Article[]> {
   try {

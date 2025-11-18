@@ -1,0 +1,11 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import BlogCard from './index';
+declare const meta: Meta<typeof BlogCard>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export declare const Default: Story;
+export declare const CompanyNews: Story;
+export declare const Knowledge: Story;
+export declare const LongTitle: Story;
+export declare const LongDescription: Story;
+export declare const CustomColors: Story;

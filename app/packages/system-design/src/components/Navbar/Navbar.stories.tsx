@@ -39,8 +39,6 @@ export const Default: Story = {
     logoHeight: 40,
     showSearch: true,
     searchPlaceholder: 'Tìm kiếm...',
-    hotlineNumber: '(+84) 28.3761.2606',
-    hotlineLabel: 'Hotline',
   },
 };
 

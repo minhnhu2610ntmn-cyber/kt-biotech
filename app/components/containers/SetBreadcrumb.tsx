@@ -20,4 +20,3 @@ export default function SetBreadcrumb({ items }: SetBreadcrumbProps) {
 
   return null;
 }
-

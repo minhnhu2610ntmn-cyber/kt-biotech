@@ -234,10 +234,11 @@ export const Form: React.FC<FormProps> = ({
         />
         <label htmlFor='agree' className='ml-2 block text-sm text-gray-700'>
           I agree to the{' '}
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a href='/terms' className='text-blue-600 hover:text-blue-500'>
             Terms and Conditions
           </a>{' '}
-          and{' '}
+          and {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a href='/privacy' className='text-blue-600 hover:text-blue-500'>
             Privacy Policy
           </a>

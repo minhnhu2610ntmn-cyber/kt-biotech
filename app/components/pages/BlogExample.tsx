@@ -40,7 +40,8 @@ const mockPosts: BlogPost[] = [
   },
 ];
 
-const mockCategories: BlogCategory[] = [
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _mockCategories: BlogCategory[] = [
   { id: '1', name: 'Biotechnology', slug: 'biotechnology' },
   { id: '2', name: 'Gene Editing', slug: 'gene-editing' },
   { id: '3', name: 'Research', slug: 'research' },
@@ -80,8 +81,9 @@ export default function BlogExample() {
 
       {/* Blog Page Component */}
       <BlogPage
-        posts={mockPosts}
-        categories={mockCategories}
+        latestArticles={mockPosts as any}
+        mostViewedArticles={[]}
+        importantArticles={[]}
         onPostClick={handlePostClick}
       />
     </div>

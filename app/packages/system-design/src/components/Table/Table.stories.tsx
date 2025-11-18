@@ -154,14 +154,14 @@ const columnsWithActions: TableColumn<User>[] = [
 
 export const Default: Story = {
   args: {
-    columns: basicColumns,
+    columns: basicColumns as any,
     dataSource: sampleUsers,
   },
 };
 
 export const WithPagination: Story = {
   args: {
-    columns: basicColumns,
+    columns: basicColumns as any,
     dataSource: sampleUsers,
     pagination: {
       current: 1,
@@ -175,7 +175,7 @@ export const WithPagination: Story = {
 
 export const WithSelection: Story = {
   args: {
-    columns: basicColumns,
+    columns: basicColumns as any,
     dataSource: sampleUsers,
     selectable: true,
     selectedRowKeys: [1, 3],
@@ -184,7 +184,7 @@ export const WithSelection: Story = {
 
 export const WithActions: Story = {
   args: {
-    columns: columnsWithActions,
+    columns: columnsWithActions as any,
     dataSource: sampleUsers,
     hoverable: true,
   },
@@ -192,7 +192,7 @@ export const WithActions: Story = {
 
 export const Bordered: Story = {
   args: {
-    columns: basicColumns,
+    columns: basicColumns as any,
     dataSource: sampleUsers,
     bordered: true,
     striped: true,
@@ -201,7 +201,7 @@ export const Bordered: Story = {
 
 export const SmallSize: Story = {
   args: {
-    columns: basicColumns,
+    columns: basicColumns as any,
     dataSource: sampleUsers,
     size: 'small',
   },
@@ -209,7 +209,7 @@ export const SmallSize: Story = {
 
 export const LargeSize: Story = {
   args: {
-    columns: basicColumns,
+    columns: basicColumns as any,
     dataSource: sampleUsers,
     size: 'large',
   },
@@ -217,7 +217,7 @@ export const LargeSize: Story = {
 
 export const Loading: Story = {
   args: {
-    columns: basicColumns,
+    columns: basicColumns as any,
     dataSource: [],
     loading: true,
   },
@@ -225,7 +225,7 @@ export const Loading: Story = {
 
 export const Empty: Story = {
   args: {
-    columns: basicColumns,
+    columns: basicColumns as any,
     dataSource: [],
     emptyText: 'No users found',
   },
@@ -234,7 +234,7 @@ export const Empty: Story = {
 export const Scrollable: Story = {
   args: {
     columns: [
-      ...basicColumns,
+      ...(basicColumns as any),
       {
         key: 'description',
         title: 'Description',

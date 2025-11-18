@@ -10,7 +10,7 @@ export { default as TechnologySection } from './TechnologySection';
 export { default as Topbar } from './Topbar';
 // Re-export from system-design
 export {
-  default as ProductImageGallery,
+  ProductImageGallery,
   type ProductImage,
   type ProductImageGalleryProps,
 } from '@ktbiotech/system-design';

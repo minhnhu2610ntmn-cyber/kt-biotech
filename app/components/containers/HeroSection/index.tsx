@@ -32,7 +32,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   subtitle,
   description,
   buttonLabel,
-  buttonHref,
+  buttonHref: _buttonHref,
   backgroundImage = '/images/hero.png',
   className,
   productCategories: _productCategories,

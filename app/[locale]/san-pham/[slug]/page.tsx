@@ -5,17 +5,17 @@ import {
   ProductImageGallery,
   Text,
 } from '@ktbiotech/system-design';
-import { getTranslations } from 'next-intl/server';
 import { Metadata } from 'next';
-import { Link } from '../../../utils/link';
+import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import SetBreadcrumb from '../../../components/containers/SetBreadcrumb';
 import ProductContactCard from '../../../components/containers/ProductContactCard';
 import ProductDetailContent, {
   type ProductDetailBlock,
 } from '../../../components/containers/ProductDetailContent';
 import RelatedProductsSection from '../../../components/containers/RelatedProductsSection';
+import SetBreadcrumb from '../../../components/containers/SetBreadcrumb';
 import { buildImageUrl, StrapiApi } from '../../../config/api';
+import { Link } from '../../../utils/link';
 
 interface ProductDetailPageProps {
   params: Promise<{
@@ -24,6 +24,7 @@ interface ProductDetailPageProps {
 }
 
 // Fetch product by slug or documentId from Strapi API
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getProductByIdentifier(identifier: string): Promise<any | null> {
   try {
     const api = new StrapiApi();
@@ -35,6 +36,7 @@ async function getProductByIdentifier(identifier: string): Promise<any | null> {
     }
     return product;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error fetching product:', error);
     return null;
   }
@@ -45,6 +47,7 @@ export default async function ProductDetailPage({
 }: ProductDetailPageProps) {
   const resolvedParams = await params;
   const product = await getProductByIdentifier(resolvedParams.slug);
+  // eslint-disable-next-line no-console
   console.log('product', product);
   if (!product) {
     notFound();
@@ -80,10 +83,6 @@ export default async function ProductDetailPage({
       : brandData?.attributes || brandData || {}
     : {};
   const brandName = brand.name || '';
-  const brandIdRaw = Array.isArray(brandData)
-    ? brandData[0]?.id
-    : (brandData as any)?.id;
-  const brandId = brand?.id || brandIdRaw || '';
 
   // Handle sale - extract sale data for contact card
   const saleData = productData.sale?.data || productData.sale || null;
@@ -105,6 +104,7 @@ export default async function ProductDetailPage({
   const productImages = productData.images?.data || productData.images || [];
 
   if (Array.isArray(productImages) && productImages.length > 0) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     productImages.forEach((img: any) => {
       const imageData = img.attributes || img;
       const imageUrl = imageData.url || imageData.data?.attributes?.url;
@@ -121,50 +121,60 @@ export default async function ProductDetailPage({
   }
 
   // Helper function to convert Strapi rich text format to markdown string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const convertStrapiRichTextToMarkdown = (blocks: any[]): string => {
     if (!Array.isArray(blocks)) return '';
 
-    return blocks
-      .map((block: any) => {
-        if (block.type === 'paragraph' && block.children) {
-          return block.children
-            .map((child: any) => {
-              if (child.type === 'text') {
-                let text = child.text || '';
-                // Handle formatting
-                if (child.bold) text = `**${text}**`;
-                if (child.italic) text = `*${text}*`;
-                if (child.code) text = `\`${text}\``;
-                return text;
-              }
-              if (child.type === 'link') {
-                const linkText = child.children?.[0]?.text || '';
-                return `[${linkText}](${child.url})`;
-              }
-              return '';
-            })
-            .join('');
-        }
-        if (block.type === 'heading') {
-          const level = block.level || 1;
-          const text = block.children?.[0]?.text || '';
-          return `${'#'.repeat(level)} ${text}`;
-        }
-        if (block.type === 'list') {
-          const items = block.children || [];
-          return items
-            .map((item: any, index: number) => {
-              const itemText = item.children?.[0]?.text || '';
-              return block.format === 'ordered'
-                ? `${index + 1}. ${itemText}`
-                : `- ${itemText}`;
-            })
-            .join('\n');
-        }
-        return '';
-      })
-      .filter(Boolean)
-      .join('\n\n');
+    return (
+      blocks
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .map((block: any) => {
+          if (block.type === 'paragraph' && block.children) {
+            return (
+              block.children
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                .map((child: any) => {
+                  if (child.type === 'text') {
+                    let text = child.text || '';
+                    // Handle formatting
+                    if (child.bold) text = `**${text}**`;
+                    if (child.italic) text = `*${text}*`;
+                    if (child.code) text = `\`${text}\``;
+                    return text;
+                  }
+                  if (child.type === 'link') {
+                    const linkText = child.children?.[0]?.text || '';
+                    return `[${linkText}](${child.url})`;
+                  }
+                  return '';
+                })
+                .join('')
+            );
+          }
+          if (block.type === 'heading') {
+            const level = block.level || 1;
+            const text = block.children?.[0]?.text || '';
+            return `${'#'.repeat(level)} ${text}`;
+          }
+          if (block.type === 'list') {
+            const items = block.children || [];
+            return (
+              items
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                .map((item: any, index: number) => {
+                  const itemText = item.children?.[0]?.text || '';
+                  return block.format === 'ordered'
+                    ? `${index + 1}. ${itemText}`
+                    : `- ${itemText}`;
+                })
+                .join('\n')
+            );
+          }
+          return '';
+        })
+        .filter(Boolean)
+        .join('\n\n')
+    );
   };
 
   // Convert detail blocks to BlogContentBody format if available
@@ -189,8 +199,8 @@ export default async function ProductDetailPage({
     pageSize: 8,
     excludeSlug: resolvedParams.slug,
   });
-  console.log('relatedRes', relatedRes);
   const relatedMeta = relatedRes.meta?.pagination || { pageCount: 1, total: 0 };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const relatedItems = (relatedRes.data as any[])
     .map(p => {
       const pd = p.attributes || p;
@@ -234,11 +244,8 @@ export default async function ProductDetailPage({
     isNew?: boolean;
   }[];
 
-  console.log('relatedItems', relatedItems);
-
   const t = await getTranslations('product');
   const tBreadcrumb = await getTranslations('breadcrumb');
-  const tCommon = await getTranslations('common');
 
   // Build breadcrumb items
   const breadcrumbItems = [
@@ -264,107 +271,113 @@ export default async function ProductDetailPage({
     <>
       <SetBreadcrumb items={breadcrumbItems} />
       <Container className='py-8 px-4'>
-      <div className='space-y-8'>
-        {/* Main Product Section */}
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
-          {/* Left Column - Product Images */}
-          <div>
-            <ProductImageGallery images={images} />
-          </div>
-
-          {/* Right Column - Product Information */}
-          <div className='space-y-6'>
-            {/* Category Label */}
-            {categoryName && categorySlug ? (
-              <Link href={`/danh-muc-san-pham/${categorySlug}`}>
-                <Text className='text-gray-500 text-sm uppercase hover:text-[#215778] hover:underline underline-offset-2 decoration-[#215778] transition-colors'>
-                  {categoryName}
-                </Text>
-              </Link>
-            ) : (
-              categoryName && (
-                <Text className='text-gray-500 text-sm uppercase'>
-                  {categoryName}
-                </Text>
-              )
-            )}
-
-            {/* Product Name */}
-            <Heading level={1} className='!text-3xl md:!text-4xl !font-bold'>
-              {title}
-            </Heading>
-
-            {/* Short Description */}
-            {description && (
-              <Text className='text-gray-700 leading-relaxed'>
-                {description}
-              </Text>
-            )}
-
-            {/* Product Attributes */}
-            <div className='space-y-3 border-t border-b border-gray-200 py-4'>
-              {brandName && (
-                <div className='flex flex-wrap gap-2'>
-                  <Text className='font-semibold text-gray-900 w-32 shrink-0'>
-                    {t('manufacturer')}:
-                  </Text>
-                  <Text className='text-gray-700 flex-1'>{brandName}</Text>
-                </div>
-              )}
-              {specification && (
-                <div className='flex flex-wrap gap-2'>
-                  <Text className='font-semibold text-gray-900 w-32 shrink-0'>
-                    {t('specification')}:
-                  </Text>
-                  <Text className='text-gray-700 flex-1'>{specification}</Text>
-                </div>
-              )}
-              {sku && (
-                <div className='flex flex-wrap gap-2'>
-                  <Text className='font-semibold text-gray-900 w-32 shrink-0'>
-                    {t('sku')}:
-                  </Text>
-                  <Text className='text-gray-700 flex-1'>{sku}</Text>
-                </div>
-              )}
-              {tags && (
-                <div className='flex flex-wrap gap-2'>
-                  <Text className='font-semibold text-gray-900 w-32 shrink-0'>
-                    {t('tags')}:
-                  </Text>
-                  <Text className='text-gray-700 flex-1'>{tags}</Text>
-                </div>
-              )}
+        <div className='space-y-8'>
+          {/* Main Product Section */}
+          <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+            {/* Left Column - Product Images */}
+            <div>
+              <ProductImageGallery images={images} />
             </div>
 
-            {/* Contact Card */}
-            <ProductContactCard
-              phone={salePhone || '(+84) 28.3761.2606'}
-              contactName={saleName || 'Name'}
-              contactPosition={salePosition || 'Position'}
-              contactImage={saleAvatarUrl}
-            />
-          </div>
-        </div>
+            {/* Right Column - Product Information */}
+            <div className='space-y-6'>
+              {/* Category Label */}
+              {categoryName && categorySlug ? (
+                <Link href={`/danh-muc-san-pham/${categorySlug}`}>
+                  <Text className='text-gray-500 text-sm uppercase hover:text-[#215778] hover:underline underline-offset-2 decoration-[#215778] transition-colors'>
+                    {categoryName}
+                  </Text>
+                </Link>
+              ) : (
+                categoryName && (
+                  <Text className='text-gray-500 text-sm uppercase'>
+                    {categoryName}
+                  </Text>
+                )
+              )}
 
-        {/* Product Details Section */}
-        {detailBlocks.length > 0 && (
-          <div className='space-y-4'>
-            <Heading level={2} className='!text-2xl !font-bold' color='#215778'>
-              {t('details')}
-            </Heading>
-            <ProductDetailContent blocks={detailBlocks} />
+              {/* Product Name */}
+              <Heading level={1} className='!text-3xl md:!text-4xl !font-bold'>
+                {title}
+              </Heading>
+
+              {/* Short Description */}
+              {description && (
+                <Text className='text-gray-700 leading-relaxed'>
+                  {description}
+                </Text>
+              )}
+
+              {/* Product Attributes */}
+              <div className='space-y-3 border-t border-b border-gray-200 py-4'>
+                {brandName && (
+                  <div className='flex flex-wrap gap-2'>
+                    <Text className='font-semibold text-gray-900 w-32 shrink-0'>
+                      {t('manufacturer')}:
+                    </Text>
+                    <Text className='text-gray-700 flex-1'>{brandName}</Text>
+                  </div>
+                )}
+                {specification && (
+                  <div className='flex flex-wrap gap-2'>
+                    <Text className='font-semibold text-gray-900 w-32 shrink-0'>
+                      {t('specification')}:
+                    </Text>
+                    <Text className='text-gray-700 flex-1'>
+                      {specification}
+                    </Text>
+                  </div>
+                )}
+                {sku && (
+                  <div className='flex flex-wrap gap-2'>
+                    <Text className='font-semibold text-gray-900 w-32 shrink-0'>
+                      {t('sku')}:
+                    </Text>
+                    <Text className='text-gray-700 flex-1'>{sku}</Text>
+                  </div>
+                )}
+                {tags && (
+                  <div className='flex flex-wrap gap-2'>
+                    <Text className='font-semibold text-gray-900 w-32 shrink-0'>
+                      {t('tags')}:
+                    </Text>
+                    <Text className='text-gray-700 flex-1'>{tags}</Text>
+                  </div>
+                )}
+              </div>
+
+              {/* Contact Card */}
+              <ProductContactCard
+                phone={salePhone || '(+84) 28.3761.2606'}
+                contactName={saleName || 'Name'}
+                contactPosition={salePosition || 'Position'}
+                contactImage={saleAvatarUrl}
+              />
+            </div>
           </div>
-        )}
-        {relatedItems.length > 0 && (
-          <RelatedProductsSection
-            heading={t('relatedProducts')}
-            products={relatedItems}
-            showPagination={(relatedMeta?.pageCount || 1) > 1}
-          />
-        )}
-      </div>
-    </Container>
+
+          {/* Product Details Section */}
+          {detailBlocks.length > 0 && (
+            <div className='space-y-4'>
+              <Heading
+                level={2}
+                className='!text-2xl !font-bold'
+                color='#215778'
+              >
+                {t('details')}
+              </Heading>
+              <ProductDetailContent blocks={detailBlocks} />
+            </div>
+          )}
+          {relatedItems.length > 0 && (
+            <RelatedProductsSection
+              heading={t('relatedProducts')}
+              products={relatedItems}
+              showPagination={(relatedMeta?.pageCount || 1) > 1}
+            />
+          )}
+        </div>
+      </Container>
     </>
   );
 }
@@ -373,6 +386,7 @@ export async function generateMetadata({
   params,
 }: ProductDetailPageProps): Promise<Metadata> {
   const resolvedParams = await params;
+  const tCommon = await getTranslations('common');
   const product = await getProductByIdentifier(resolvedParams.slug);
 
   if (!product) {

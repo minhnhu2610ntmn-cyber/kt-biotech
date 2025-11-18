@@ -62,7 +62,11 @@ export default function PaginationControls({
           onClick={() => push({ page: Math.max(1, page - 1) })}
           className='w-8 h-8 grid place-items-center rounded disabled:opacity-50 hover:bg-[#EAF3F8] cursor-pointer disabled:cursor-not-allowed'
         >
-          <ChevronRightIcon width={16} height={16} className='rotate-180 text-[#1B1C1D]' />
+          <ChevronRightIcon
+            width={16}
+            height={16}
+            className='rotate-180 text-[#1B1C1D]'
+          />
         </button>
         {windowFrom > 1 && (
           <>
@@ -111,5 +115,3 @@ export default function PaginationControls({
     </div>
   );
 }
-
-
