@@ -1,11 +1,7 @@
 'use client';
 
-import {
-  ChevronRightLargeIcon,
-  cn,
-  Link,
-  Text,
-} from '@ktbiotech/system-design';
+import { ChevronRightIcon, cn, Link, Text } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import ImageWithBadge from '../ImageWithBadge';
 
@@ -47,6 +43,7 @@ export default function BlogCard({
   direction = 'row',
 }: BlogCardProps) {
   const router = useRouter();
+  const t = useTranslations('common');
 
   const handleCardClick = () => {
     const targetUrl = slug ? `/blogs/${slug}` : href;
@@ -82,7 +79,7 @@ export default function BlogCard({
             imageClassName={cn(
               direction === 'column'
                 ? 'w-full h-full group-hover:rounded-b-none'
-                : 'w-full sm:w-48 h-32 sm:h-36',
+                : 'w-full sm:w-48  ',
               imageClassName
             )}
             priority={_priority}
@@ -125,10 +122,15 @@ export default function BlogCard({
           {/* Read More Link */}
           <Link
             href={href}
-            className='inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-xs sm:text-sm'
+            className='inline-flex !underline-none !no-underline hover:!underline items-center !text-[#3691C9] hover:!text-[#3691C9] font-medium text-xs sm:text-sm'
           >
-            See All
-            <ChevronRightLargeIcon className='w-3 h-3 sm:w-4 sm:h-4 ml-1' />
+            <div className='flex items-center gap-1'>
+              <span className='text-[#3691C9]'>{t('viewAll')}</span>
+              <ChevronRightIcon
+                fill='#1092e3'
+                className='w-3 h-3 sm:w-[14px] sm:h-[14px] text-[#3691C9]'
+              />
+            </div>
           </Link>
         </div>
       </div>

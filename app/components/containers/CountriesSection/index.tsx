@@ -3,6 +3,7 @@
 import {
   CambodiaFlagIcon,
   ChinaFlagIcon,
+  cn,
   Container,
   Heading,
   JapanFlagIcon,
@@ -18,7 +19,20 @@ import { useEffect, useRef, useState } from 'react';
 export default function CountriesSection() {
   const t = useTranslations('homepage.countries');
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Check if mobile on mount and window resize
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024); // lg breakpoint
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -66,7 +80,7 @@ export default function CountriesSection() {
       <div className='relative'>
         {/* Background with wave pattern */}
         <div
-          className={`relative flex items-center px-4 md:px-13 h-[318px] p-8 mb-8 transition-all duration-800 ease-out delay-400 ${
+          className={`relative flex items-center px-4 md:px-13 h-[268px] p-8 mb-8 transition-all duration-800 ease-out delay-400 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
           style={{
@@ -96,10 +110,16 @@ export default function CountriesSection() {
                 },
               }}
               navigation={false}
-              autoplay={{
-                delay: 3000,
-                disableOnInteraction: false,
-              }}
+              autoplay={
+                isMobile
+                  ? {
+                      delay: 3000,
+                      disableOnInteraction: false,
+                    }
+                  : false
+              }
+              allowTouchMove={true}
+              grabCursor={true}
               loop={true}
               className='countries-slider'
             >
@@ -125,16 +145,17 @@ export default function CountriesSection() {
 
         {/* KT BIOTECH Logo Card */}
         <div
-          className={`absolute hidden lg:block top-5 right-8 h-[268px] scale-[1.6] z-10 overflow-hidden transition-all duration-800 ease-out delay-600 hover:scale-[1.7] ${
-            isVisible ? 'opacity-100 scale-[1.6]' : 'opacity-0 scale-[1.4]'
-          }`}
+          className={`absolute  items-center hidden lg:flex top-0 xl:top-3 2xl:top-4 right-8 h-[268px]  z-10  transition-all duration-800 ease-out delay-600  `}
         >
           <Image
             src='/images/company.png'
             alt='KT BIOTECH Company Logo'
             width={320}
             height={256}
-            className='w-full h-full object-cover'
+            className={cn(
+              'w-full h-full object-cover',
+              isVisible ? 'opacity-100 scale-[1.6]' : 'opacity-0 scale-[1.4]'
+            )}
             priority
           />
         </div>

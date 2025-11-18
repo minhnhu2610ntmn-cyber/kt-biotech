@@ -61,7 +61,7 @@ export const Timeline: React.FC<TimelineProps> = ({
 
               {/* Timeline Content */}
               <div
-                className={`flex-1 bg-[#86BDDF] p-4 rounded-lg ${isVertical ? 'min-w-0' : 'text-center'}`}
+                className={`flex-1 bg-[#86BDDF] py-4 px-6 rounded-lg ${isVertical ? 'min-w-0' : 'text-center'}`}
               >
                 {item.date && (
                   <Heading

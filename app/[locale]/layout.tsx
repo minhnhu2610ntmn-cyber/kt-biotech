@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Roboto } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -14,14 +14,10 @@ import '../globals.css';
 import { QueryProvider } from '../providers';
 import type { ProductCategory } from '../types/strapi';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const roboto = Roboto({
+  variable: '--font-roboto',
+  subsets: ['latin', 'vietnamese'],
+  weight: ['300', '400', '500', '700'],
 });
 
 export const metadata = {
@@ -73,7 +69,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white flex flex-col`}
+        className={`${roboto.variable} font-sans antialiased min-h-screen bg-white flex flex-col`}
       >
         <QueryProvider>
           <NextIntlClientProvider messages={messages}>

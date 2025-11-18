@@ -174,9 +174,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-roboto)', 'Roboto', 'system-ui', 'sans-serif'],
         serif: ['Georgia', 'serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'SF Mono', 'Menlo', 'Consolas', 'Liberation Mono', 'monospace'],
       },
       fontSize: {
         xs: ['0.75rem', { lineHeight: '1rem' }],

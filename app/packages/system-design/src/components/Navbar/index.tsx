@@ -50,8 +50,8 @@ export interface NavbarProps {
 export function Navbar({
   logo = '/logo.png',
   logoAlt = 'KTBioTech Logo',
-  logoWidth = 120,
-  logoHeight = 40,
+  logoWidth = 280,
+  logoHeight = 60,
   items = [],
   className,
   onMobileMenuToggle,
@@ -414,7 +414,7 @@ export function Navbar({
                   alt={logoAlt}
                   width={logoWidth}
                   height={logoHeight}
-                  className='h-6 md:h-8 w-auto'
+                  className='w-[180px] h-[38px] sm:w-[220px] sm:h-[48px] md:w-[240px] md:h-[52px] lg:w-[280px] lg:h-[60px] object-contain'
                   priority
                 />
               </Link>

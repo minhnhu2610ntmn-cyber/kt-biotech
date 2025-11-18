@@ -9,6 +9,7 @@ import React, { createContext, useContext } from 'react';
 import type { CatalogueEntry } from '../../config/api';
 import { NavbarConfig, useNavbarConfig } from '../../hooks';
 import type { ProductCategory } from '../../types/strapi';
+import FloatingButtons from '../containers/FloatingButtons';
 import Footer from '../containers/Footer';
 import LocaleSwitcher from '../containers/LocaleSwitcher';
 import Topbar from '../containers/Topbar';
@@ -86,6 +87,9 @@ export default function MasterLayout({
 
         {/* Footer */}
         <Footer productCategories={productCategories} />
+
+        {/* Floating Buttons */}
+        <FloatingButtons />
       </BreadcrumbProvider>
     </ProductCategoriesContext.Provider>
   );

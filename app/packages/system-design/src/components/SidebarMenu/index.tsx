@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React from 'react';
 import type { ProductCategory, SidebarMenuItem } from '../../types';
@@ -21,8 +20,6 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
   productCategories = [],
   hrefPrefix = '/danh-muc-san-pham',
 }) => {
-  const t = useTranslations('category');
-
   // Convert product categories to menu items
   const categoryItems: SidebarMenuItem[] = productCategories.map(category => ({
     id: category.slug || category.id.toString(),
@@ -34,7 +31,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
   const finalMenuItems: SidebarMenuItem[] = [
     {
       id: 'danh-muc',
-      label: t('category'),
+      label: 'Danh mục',
       href: '/danh-muc-san-pham',
       isActive: true, // Always highlight the first item
     },
@@ -54,16 +51,17 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
               <div
                 key={item.id}
                 className={cn(
-                  'flex items-center justify-between px-4 py-3 rounded-lg transition-colors duration-200',
+                  'flex items-center justify-between px-4 py-2 rounded-lg transition-colors duration-200',
                   'cursor-default', // Disable cursor for "Danh Mục"
-                  isActive ? 'bg-blue-100 text-blue-900' : 'text-gray-700'
+                  isActive ? 'bg-[#86BDDF] text-[#1B1C1Dv]' : 'text-[#1B1C1D]'
                 )}
               >
                 <div className='flex items-center gap-3'>
                   <MenuIcon
-                    width={16}
-                    height={16}
-                    className={cn('text-gray-600', isActive && 'text-blue-700')}
+                    width={24}
+                    height={24}
+                    color='#1B1C1D'
+                    className={cn('text-#1B1C1D', isActive && 'text-blue-700')}
                   />
                   <span className='text-sm font-medium'>{item.label}</span>
                 </div>
@@ -82,18 +80,22 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
               key={item.id}
               href={item.href}
               className={cn(
-                'flex items-center justify-between px-4 py-3 group rounded-lg transition-colors duration-200',
-                'hover:bg-blue-50',
+                'flex items-center justify-between px-4 py-2 group rounded-lg transition-colors duration-200',
+                'hover:bg-[#D7E9F4]',
                 isActive
-                  ? 'bg-blue-100 text-blue-900'
-                  : 'text-gray-700 hover:text-gray-900'
+                  ? 'bg-[#D7E9F4] text-[#1B1C1D]'
+                  : 'text-[#1B1C1D] hover:text-[#1B1C1D]'
               )}
             >
               <div className='flex items-center gap-3'>
                 <MenuIcon
-                  width={16}
-                  height={16}
-                  className={cn('text-gray-600 ', isActive && 'text-blue-700')}
+                  width={24}
+                  height={24}
+                  color='#1B1C1D'
+                  className={cn(
+                    'text-[#1B1C1D] ',
+                    isActive && '!text-[#3691C9]'
+                  )}
                 />
                 <span className='text-sm font-medium'>{item.label}</span>
               </div>
@@ -101,8 +103,8 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
                 width={12}
                 height={12}
                 className={cn(
-                  'text-gray-400 group-hover:translate-x-1 transition-transform duration-200',
-                  isActive && 'text-blue-600'
+                  'text-[#1B1C1D] group-hover:translate-x-1 transition-transform duration-200',
+                  isActive && 'text-[#3691C9]'
                 )}
               />
             </Link>
