@@ -10,7 +10,7 @@ import { ABOUT_URL } from '../../constants';
 import type { ProductCategory } from '../../types';
 import { cn } from '../../utils';
 import { DownloadIcon } from '../Icons';
-import { Container } from '../index';
+import { Container, Text } from '../index';
 import { LanguageSwitcher } from '../LanguageSwitcher';
 import { SearchBar } from '../SearchBar';
 
@@ -296,6 +296,7 @@ export function Navbar({
   const searchDebounceRef = React.useRef<NodeJS.Timeout | null>(null);
   const [searchResults, setSearchResults] = React.useState<any[]>([]);
   const [isResultsOpen, setIsResultsOpen] = React.useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = React.useState(false);
   const desktopSearchRef = React.useRef<HTMLDivElement | null>(null);
   const handleSearchEvent = React.useCallback((query: string) => {
     setSearchQuery(query);
@@ -307,6 +308,99 @@ export function Navbar({
     setSearchResults([]);
     setIsResultsOpen(false);
   }, []);
+
+  // Helper function to render search results
+  const renderSearchResults = React.useCallback(
+    (onItemClick?: () => void) => {
+      if (searchResults.length === 0) return null;
+
+      return (
+        <ul className='divide-y divide-gray-100'>
+          {searchResults.map((item: any, idx: number) => {
+            const title = item.title || item.name || item.sku || 'Kết quả';
+            const slug = item.slug || '';
+            // Resolve href by type: product uses slug, page uses ABOUT_URL[id]
+            let href: string | undefined = undefined;
+            const typeInfer =
+              ((item?.type || item?.kind || item?.__type) as string) ||
+              (item?.sku || item?.images
+                ? 'product'
+                : String(item?.id || '').startsWith('page-')
+                  ? 'page'
+                  : 'article');
+            if (String(typeInfer).toLowerCase().includes('product')) {
+              href = slug ? `/san-pham/${slug}` : undefined;
+            } else if (String(typeInfer).toLowerCase().includes('page')) {
+              const pageId = String(item?.id || item?.pageId || '');
+              const mapped = (ABOUT_URL as any)[pageId];
+              href = mapped ? `/${mapped}` : undefined;
+            } else if (
+              String(typeInfer).toLowerCase().includes('article') ||
+              String(typeInfer).toLowerCase().includes('blog')
+            ) {
+              href = slug ? `/blogs/${slug}` : undefined;
+            }
+            const type =
+              ((item?.type || item?.kind || item?.__type) as string) ||
+              (item?.sku || item?.images
+                ? 'product'
+                : String(item?.id || '').startsWith('page-')
+                  ? 'page'
+                  : 'article');
+            const typeLabel = String(type).toLowerCase().includes('product')
+              ? 'Product'
+              : String(type).toLowerCase().includes('page')
+                ? 'Page'
+                : 'Article';
+            const typeCls =
+              typeLabel === 'Product'
+                ? 'bg-emerald-100 text-emerald-700'
+                : typeLabel === 'Page'
+                  ? 'bg-amber-100 text-amber-700'
+                  : 'bg-blue-100 text-blue-700';
+            return (
+              <li key={idx} className='p-3 hover:bg-gray-50'>
+                {href ? (
+                  <Link
+                    href={href}
+                    className='block text-sm text-gray-800'
+                    onClick={() => {
+                      setIsResultsOpen(false);
+                      setSearchQuery('');
+                      setSearchResults([]);
+                      setIsMobileSearchOpen(false);
+                      onItemClick?.();
+                    }}
+                  >
+                    <span className='inline-flex items-center gap-2'>
+                      <span
+                        className={`inline-flex items-center rounded px-2 py-0.5 text-[10px] font-medium ${typeCls}`}
+                      >
+                        {typeLabel}
+                      </span>
+                      <span>{title}</span>
+                    </span>
+                  </Link>
+                ) : (
+                  <span className='block text-sm text-gray-600'>
+                    <span className='inline-flex items-center gap-2'>
+                      <span
+                        className={`inline-flex items-center rounded px-2 py-0.5 text-[10px] font-medium ${typeCls}`}
+                      >
+                        {typeLabel}
+                      </span>
+                      <span>{title}</span>
+                    </span>
+                  </span>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      );
+    },
+    [searchResults]
+  );
 
   React.useEffect(() => {
     if (!searchQuery) return;
@@ -417,7 +511,7 @@ export function Navbar({
       {/* Top Row - Logo, Search, Hotline, Language */}
       <nav
         className={cn(
-          'bg-[#EBF4F9] border-b border-gray-200 sticky top-0 z-[51] lg:static',
+          'bg-[#EBF4F9] border-b  border-gray-200 sticky top-0 z-[51] lg:static',
           className
         )}
       >
@@ -455,97 +549,9 @@ export function Navbar({
                 />
                 {isResultsOpen && searchResults.length > 0 && (
                   <div className='absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-[60]'>
-                    <ul className='max-h-[360px] overflow-auto divide-y divide-gray-100'>
-                      {searchResults.map((item: any, idx: number) => {
-                        const title =
-                          item.title || item.name || item.sku || 'Kết quả';
-                        const slug = item.slug || '';
-                        // Resolve href by type: product uses slug, page uses ABOUT_URL[id]
-                        let href: string | undefined = undefined;
-                        const typeInfer =
-                          ((item?.type ||
-                            item?.kind ||
-                            item?.__type) as string) ||
-                          (item?.sku || item?.images
-                            ? 'product'
-                            : String(item?.id || '').startsWith('page-')
-                              ? 'page'
-                              : 'article');
-                        if (
-                          String(typeInfer).toLowerCase().includes('product')
-                        ) {
-                          href = slug ? `/san-pham/${slug}` : undefined;
-                        } else if (
-                          String(typeInfer).toLowerCase().includes('page')
-                        ) {
-                          const pageId = String(item?.id || item?.pageId || '');
-                          const mapped = (ABOUT_URL as any)[pageId];
-                          href = mapped ? `/${mapped}` : undefined;
-                        } else if (
-                          String(typeInfer).toLowerCase().includes('article') ||
-                          String(typeInfer).toLowerCase().includes('blog')
-                        ) {
-                          href = slug ? `/blogs/${slug}` : undefined;
-                        }
-                        const type =
-                          ((item?.type ||
-                            item?.kind ||
-                            item?.__type) as string) ||
-                          (item?.sku || item?.images
-                            ? 'product'
-                            : String(item?.id || '').startsWith('page-')
-                              ? 'page'
-                              : 'article');
-                        const typeLabel = String(type)
-                          .toLowerCase()
-                          .includes('product')
-                          ? 'Product'
-                          : String(type).toLowerCase().includes('page')
-                            ? 'Page'
-                            : 'Article';
-                        const typeCls =
-                          typeLabel === 'Product'
-                            ? 'bg-emerald-100 text-emerald-700'
-                            : typeLabel === 'Page'
-                              ? 'bg-amber-100 text-amber-700'
-                              : 'bg-blue-100 text-blue-700';
-                        return (
-                          <li key={idx} className='p-3 hover:bg-gray-50'>
-                            {href ? (
-                              <Link
-                                href={href}
-                                className='block text-sm text-gray-800'
-                                onClick={() => {
-                                  setIsResultsOpen(false);
-                                  setSearchQuery('');
-                                  setSearchResults([]);
-                                }}
-                              >
-                                <span className='inline-flex items-center gap-2'>
-                                  <span
-                                    className={`inline-flex items-center rounded px-2 py-0.5 text-[10px] font-medium ${typeCls}`}
-                                  >
-                                    {typeLabel}
-                                  </span>
-                                  <span>{title}</span>
-                                </span>
-                              </Link>
-                            ) : (
-                              <span className='block text-sm text-gray-600'>
-                                <span className='inline-flex items-center gap-2'>
-                                  <span
-                                    className={`inline-flex items-center rounded px-2 py-0.5 text-[10px] font-medium ${typeCls}`}
-                                  >
-                                    {typeLabel}
-                                  </span>
-                                  <span>{title}</span>
-                                </span>
-                              </span>
-                            )}
-                          </li>
-                        );
-                      })}
-                    </ul>
+                    <div className='max-h-[360px] overflow-auto'>
+                      {renderSearchResults()}
+                    </div>
                   </div>
                 )}
               </div>
@@ -555,7 +561,11 @@ export function Navbar({
             <div className='flex items-center gap-2 md:gap-4'>
               {/* Search Button (Mobile) */}
               {showSearch && (
-                <button className='lg:hidden px-3 py-2 rounded-full bg-[#B0C4DE] hover:bg-[#9BB3D1] transition-colors'>
+                <button
+                  onClick={() => setIsMobileSearchOpen(true)}
+                  className='lg:hidden px-3 py-2 rounded-full bg-[#B0C4DE] hover:bg-[#9BB3D1] transition-colors'
+                  aria-label='Open search'
+                >
                   <svg
                     className='w-4 h-4 text-gray-700'
                     fill='none'
@@ -593,7 +603,7 @@ export function Navbar({
       </nav>
 
       {/* Bottom Row - Navigation Menu - Hidden on mobile - STICKY */}
-      <nav className='hidden lg:block sticky top-0 z-50 bg-[#EBF4F9]  border-b border-gray-200'>
+      <nav className='hidden lg:block sticky top-0 z-50 bg-[#EBF4F9] border-b border-gray-200'>
         <Container className='px-4 md:px-0'>
           <div className='flex justify-between items-center h-12 md:h-14 py-2 md:py-2.5'>
             {/* Desktop Navigation */}
@@ -1139,6 +1149,59 @@ export function Navbar({
           )}
         </div>
       </div>
+
+      {/* Mobile Search Bottom Sheet */}
+      {isMobileSearchOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className='fixed inset-0 bg-black/50 z-[9998] lg:hidden'
+            onClick={() => setIsMobileSearchOpen(false)}
+            aria-hidden='true'
+          />
+          {/* Bottom Sheet */}
+          <div
+            className={cn(
+              'fixed bottom-0 left-0 right-0 bg-white z-[9999] shadow-2xl transform transition-transform duration-300 ease-in-out lg:hidden',
+              isMobileSearchOpen ? 'translate-y-0' : 'translate-y-full'
+            )}
+            style={{ minHeight: '60vh' }}
+          >
+            <div className='flex flex-col h-full max-h-[90vh]'>
+              {/* Search Bar */}
+              <div className='p-4 flex-shrink-0'>
+                <SearchBar
+                  placeholder={t('searchPlaceholder')}
+                  onSearch={(query /*, category */) => handleSearchEvent(query)}
+                  onQueryChange={q => handleSearchEvent(q)}
+                  onCategoryChange={handleCategoryChange}
+                  defaultCategory={selectedCategory}
+                  className='w-full'
+                  value={searchQuery}
+                  categoryOptions={categoryOptions}
+                />
+              </div>
+
+              {/* Search Results */}
+              <div className='flex-1 overflow-y-auto px-4 pb-4'>
+                {searchQuery && searchResults.length > 0 ? (
+                  <div className='bg-white border border-gray-200 rounded-lg shadow-sm'>
+                    {renderSearchResults(() => setIsMobileSearchOpen(false))}
+                  </div>
+                ) : searchQuery ? (
+                  <div className='text-center py-8 text-gray-500'>
+                    <Text className='text-sm'>{tCommon('noData')}</Text>
+                  </div>
+                ) : (
+                  <div className='text-center py-8 text-gray-400'>
+                    <Text className='text-sm'>{t('enterSearchQuery')}</Text>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }
