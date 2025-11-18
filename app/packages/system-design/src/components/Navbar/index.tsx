@@ -757,9 +757,7 @@ export function Navbar({
                   onClick={closeMegaMenu}
                 >
                   <h3 className='text-sm font-semibold text-blue-600'>
-                    {activeMegaMenuItem
-                      ? getItemLabel(activeMegaMenuItem)
-                      : 'Menu'}
+                    {activeMegaMenuItem ? t('danhmucsanpham') : 'Menu'}
                   </h3>
                   <ChevronRight className='h-4 w-4 text-blue-600' />
                 </Link>
