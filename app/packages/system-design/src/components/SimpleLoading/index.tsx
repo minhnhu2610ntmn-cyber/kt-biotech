@@ -1,44 +1,92 @@
 'use client';
 
-import React from 'react';
+import Image from 'next/image';
 
-export default function SimpleLoading() {
+export interface SimpleLoadingProps {
+  text?: string;
+  showDots?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+  fullScreen?: boolean;
+  backgroundColor?: string;
+}
+
+export default function SimpleLoading({
+  text = 'Loading...',
+  showDots = true,
+  size = 'md',
+  className = '',
+  fullScreen = true,
+  backgroundColor = 'bg-white',
+}: SimpleLoadingProps) {
+  const sizeConfig = {
+    sm: { logoSize: 48, spinnerSize: 'w-16 h-16' },
+    md: { logoSize: 64, spinnerSize: 'w-20 h-20' },
+    lg: { logoSize: 80, spinnerSize: 'w-24 h-24' },
+  };
+
+  const textSizeClasses = {
+    sm: 'text-base',
+    md: 'text-lg',
+    lg: 'text-xl',
+  };
+
+  const containerClasses = fullScreen
+    ? `fixed inset-0 ${backgroundColor} z-50 flex items-center justify-center`
+    : `flex items-center justify-center ${backgroundColor}`;
+
   return (
-    <div className='fixed inset-0 bg-white z-50 flex items-center justify-center'>
+    <div className={`${containerClasses} ${className}`}>
       <div className='text-center'>
-        {/* Simple animated DNA */}
+        {/* Logo with spinning ring */}
         <div className='mb-6'>
-          <div className='relative w-12 h-16 mx-auto'>
-            <div className='absolute left-2 top-0 w-1 h-full bg-blue-500 rounded-full animate-pulse'></div>
+          <div className='relative mx-auto' style={{ width: 'fit-content' }}>
+            {/* Outer spinning ring */}
             <div
-              className='absolute right-2 top-0 w-1 h-full bg-green-500 rounded-full animate-pulse'
-              style={{ animationDelay: '0.5s' }}
-            ></div>
-            <div className='absolute left-2 top-3 w-8 h-1 bg-blue-400 rounded-full animate-bounce'></div>
-            <div
-              className='absolute right-2 top-6 w-8 h-1 bg-green-400 rounded-full animate-bounce'
-              style={{ animationDelay: '0.3s' }}
-            ></div>
-            <div
-              className='absolute left-2 top-9 w-8 h-1 bg-blue-400 rounded-full animate-bounce'
-              style={{ animationDelay: '0.6s' }}
-            ></div>
+              className={`${sizeConfig[size].spinnerSize} border-4 border-gray-200 rounded-full animate-spin`}
+            >
+              <div className='absolute inset-0 border-4 border-transparent border-t-blue-500 border-r-green-500 rounded-full'></div>
+            </div>
+
+            {/* Logo in center */}
+            <div className='absolute inset-0 flex items-center justify-center p-3'>
+              <div className='relative animate-pulse'>
+                <Image
+                  src='/logo.png'
+                  alt='Loading'
+                  width={sizeConfig[size].logoSize}
+                  height={sizeConfig[size].logoSize}
+                  className='object-contain'
+                  priority
+                />
+              </div>
+            </div>
           </div>
         </div>
 
-        <h3 className='text-lg font-semibold text-gray-900 mb-2'>Loading...</h3>
+        {/* Loading text */}
+        {text && (
+          <h3
+            className={`${textSizeClasses[size]} font-semibold text-gray-900 mb-2`}
+          >
+            {text}
+          </h3>
+        )}
 
-        <div className='flex justify-center space-x-1'>
-          <div className='w-2 h-2 bg-blue-500 rounded-full animate-bounce'></div>
-          <div
-            className='w-2 h-2 bg-green-500 rounded-full animate-bounce'
-            style={{ animationDelay: '0.1s' }}
-          ></div>
-          <div
-            className='w-2 h-2 bg-blue-500 rounded-full animate-bounce'
-            style={{ animationDelay: '0.2s' }}
-          ></div>
-        </div>
+        {/* Animated dots */}
+        {showDots && (
+          <div className='flex justify-center space-x-1'>
+            <div className='w-2 h-2 bg-blue-500 rounded-full animate-bounce'></div>
+            <div
+              className='w-2 h-2 bg-green-500 rounded-full animate-bounce'
+              style={{ animationDelay: '0.1s' }}
+            ></div>
+            <div
+              className='w-2 h-2 bg-blue-500 rounded-full animate-bounce'
+              style={{ animationDelay: '0.2s' }}
+            ></div>
+          </div>
+        )}
       </div>
     </div>
   );

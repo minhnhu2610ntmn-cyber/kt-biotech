@@ -19,8 +19,8 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@ktbiotech/system-design": ["../system-design/dist"],
-      "@ktbiotech/system-design/*": ["../system-design/dist/*"]
+      "@ktbiotech/system-design": ["../system-design/src"],
+      "@ktbiotech/system-design/*": ["../system-design/src/*"]
     }
   },
   "include": ["src/**/*"],

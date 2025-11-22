@@ -153,7 +153,6 @@ import { cache } from 'react';
  * Internal cached function - always receives a locale string (normalized)
  */
 const _getProductCategoriesCachedInternal = cache(async (locale?: string) => {
-  console.log('locale', locale);
   const api = new StrapiApi(locale);
   const raw = (await api.getCategories('product')) as unknown as any[];
 
@@ -323,7 +322,6 @@ export class StrapiApi {
     }
 
     const data = await response.json();
-
     return data.data || [];
   }
 

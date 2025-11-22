@@ -1,8 +1,8 @@
-import { Roboto } from 'next/font/google';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { Roboto } from 'next/font/google';
 import { notFound } from 'next/navigation';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import { routing } from '../../i18n/routing';
 import { MasterLayout } from '../components';
 import {
@@ -67,7 +67,7 @@ export default async function LocaleLayout({
     // eslint-disable-next-line no-console
     console.error('Failed to fetch product categories:', error);
   }
-
+  console.log(productCategories);
   return (
     <html lang={locale}>
       <body

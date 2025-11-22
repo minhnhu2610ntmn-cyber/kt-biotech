@@ -206,7 +206,7 @@ export function SliderV2({
       {showProgressBar && (
         <div className='w-full bg-gray-200 rounded-full h-1 mb-4'>
           <div
-            className='bg-blue-600 h-1 rounded-full transition-all duration-300 ease-out'
+            className='bg-[#3691C9] h-1 rounded-full transition-all duration-300 ease-out'
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -261,7 +261,7 @@ export function SliderV2({
               'slider-button-next flex items-center justify-end pr-2 w-12 h-8 rounded-full transition-all duration-200',
               swiperInstance?.isEnd
                 ? 'bg-gray-100 border border-gray-300 cursor-not-allowed'
-                : 'bg-blue-600 hover:bg-blue-700 cursor-pointer'
+                : 'bg-[#3691C9] hover:bg-[#2a7ba3] cursor-pointer'
             )}
             aria-label='Next slide'
             onClick={goToNext}

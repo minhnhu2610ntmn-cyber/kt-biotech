@@ -145,16 +145,16 @@ export default function CountriesSection() {
 
         {/* KT BIOTECH Logo Card */}
         <div
-          className={`absolute  items-center hidden lg:flex top-0 xl:top-3 2xl:top-4 right-8 h-[268px]  z-10  transition-all duration-800 ease-out delay-600  `}
+          className={`absolute  items-center hidden lg:flex top-0 xl:top-2 2xl:top-3 right-8 h-[268px]  z-10  transition-all duration-800 ease-out delay-600  `}
         >
           <Image
             src='/images/company.png'
             alt='KT BIOTECH Company Logo'
             width={320}
-            height={256}
+            height={226}
             className={cn(
               'w-full h-full object-cover',
-              isVisible ? 'opacity-100 scale-[1.6]' : 'opacity-0 scale-[1.4]'
+              isVisible ? 'opacity-100 scale-[1.4]' : 'opacity-0 scale-[1.4]'
             )}
             priority
           />

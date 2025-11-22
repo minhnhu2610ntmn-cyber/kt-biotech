@@ -9,6 +9,7 @@ export * from './Icons';
 export { Input } from './Input';
 export { LanguageSwitcher } from './LanguageSwitcher';
 export { default as LoadingSpinner } from './LoadingSpinner';
+export type { LoadingSpinnerProps } from './LoadingSpinner';
 export { Navbar } from './Navbar';
 export { default as ProductImageGallery } from './ProductImageGallery';
 export type {
@@ -19,6 +20,7 @@ export { default as Select } from './Select';
 export { default as SidebarMenu } from './SidebarMenu';
 export type { SidebarMenuProps } from './SidebarMenu';
 export { default as SimpleLoading } from './SimpleLoading';
+export type { SimpleLoadingProps } from './SimpleLoading';
 export { Slider, SliderPresets } from './Slider';
 export { SliderV2, SliderV2Presets } from './SliderV2';
 export { Step, Timeline } from './Step';

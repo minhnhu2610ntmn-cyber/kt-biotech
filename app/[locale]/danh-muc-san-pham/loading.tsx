@@ -2,9 +2,10 @@ import { SimpleLoading } from '@ktbiotech/system-design';
 
 export default function ProductCategoriesLoading() {
   return (
-    <div className='min-h-screen bg-gray-50 flex items-center justify-center'>
-      <SimpleLoading />
-    </div>
+    <SimpleLoading
+      text='Loading products...'
+      backgroundColor='bg-gray-50'
+      size='md'
+    />
   );
 }
-

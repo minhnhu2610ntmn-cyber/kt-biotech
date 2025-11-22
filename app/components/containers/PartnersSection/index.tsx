@@ -86,7 +86,7 @@ export default function PartnersSection() {
           }`}
         >
           <SliderV2 {...SliderV2Presets.partners} className='w-full'>
-            {partners.map(partner => (
+            {[...partners, ...partners, ...partners].map(partner => (
               <PartnerCard key={partner.id} partner={partner} />
             ))}
           </SliderV2>
