@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
@@ -11,6 +12,7 @@ import {
   StrapiApi,
   type CatalogueEntry,
 } from '../config/api';
+import { getHomeMetadata, type SupportedLocale } from '../config/metadata';
 import '../globals.css';
 import { QueryProvider } from '../providers';
 import type { ProductCategory } from '../types/strapi';
@@ -21,11 +23,22 @@ const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
 });
 
-export const metadata = {
-  title: 'KTBioTech - Công nghệ sinh học hàng đầu',
-  description:
-    'KTBioTech cung cấp các giải pháp công nghệ sinh học tiên tiến, thiết bị y tế và dịch vụ tư vấn chuyên nghiệp.',
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const requestedLocale = resolvedParams?.locale;
+
+  const normalizedLocale = routing.locales.includes(
+    requestedLocale as SupportedLocale
+  )
+    ? (requestedLocale as SupportedLocale)
+    : (routing.defaultLocale as SupportedLocale);
+
+  return getHomeMetadata(normalizedLocale);
+}
 
 export default async function LocaleLayout({
   children,
