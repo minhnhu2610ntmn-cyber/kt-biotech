@@ -21,6 +21,7 @@ export { default as PinterestIcon } from './Pinterest';
 export { default as PrintIcon } from './Print';
 export { default as SearchIcon } from './Search';
 export { default as TimelineItemIcon } from './TimelineItem';
+export { default as TikTokIcon } from './TikTok';
 export { default as TwitterIcon } from './Twitter';
 export { UnitedKingdomCircleFlagIcon } from './UnitedKingdomCircleFlagIcon';
 export { default as UnitedKingdomFlagIcon } from './UnitedKingdomFlag';

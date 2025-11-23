@@ -6,13 +6,12 @@ import {
   EmailIcon,
   FacebookIcon,
   Heading,
-  InstagramIcon,
   OClockIcon,
   PhoneIcon,
-  PinterestIcon,
   Text,
-  TwitterIcon,
+  TikTokIcon,
   YouTubeIcon,
+  ZaloIcon,
 } from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -71,6 +70,7 @@ export default function Footer({
 
             {/* Social Media Icons */}
             <div className='flex flex-wrap gap-3 sm:gap-4'>
+              {/* Facebook */}
               <div className='w-[20px] h-[20px] bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors cursor-pointer hover:scale-[1.25]'>
                 <FacebookIcon
                   width={14}
@@ -79,35 +79,30 @@ export default function Footer({
                   className='h-[14px] w-[14px]'
                 />
               </div>
+              {/* Zalo */}
+              <div className='w-[20px] h-[20px] bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer hover:scale-[1.25]'>
+                <ZaloIcon
+                  width={14}
+                  height={14}
+                  fill='white'
+                  className='h-[14px] w-[14px]'
+                />
+              </div>
+              {/* TikTok */}
+              <div className='w-[20px] h-[20px] bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer hover:scale-[1.25]'>
+                <TikTokIcon
+                  width={14}
+                  height={14}
+                  stroke='white'
+                  className='h-[14px] w-[14px]'
+                />
+              </div>
+              {/* YouTube */}
               <div className='flex items-center justify-center hover:scale-[1.25] transition-transform cursor-pointer'>
                 <YouTubeIcon
                   width={18}
                   height={18}
                   stroke='#ff0000'
-                  className='sm:w-5 sm:h-5'
-                />
-              </div>
-              <div className='flex items-center justify-center hover:scale-[1.25] transition-transform cursor-pointer'>
-                <InstagramIcon
-                  width={18}
-                  height={18}
-                  stroke='#e4405f'
-                  className='sm:w-5 sm:h-5'
-                />
-              </div>
-              <div className='flex items-center justify-center hover:scale-[1.25] transition-transform cursor-pointer'>
-                <TwitterIcon
-                  width={18}
-                  height={18}
-                  stroke='#1da1f2'
-                  className='sm:w-5 sm:h-5'
-                />
-              </div>
-              <div className='flex items-center justify-center hover:scale-[1.25] transition-transform cursor-pointer'>
-                <PinterestIcon
-                  width={18}
-                  height={18}
-                  stroke='#bd081c'
                   className='sm:w-5 sm:h-5'
                 />
               </div>
@@ -201,7 +196,7 @@ export default function Footer({
               {t('information')}
             </Heading>
             <div className='space-y-3 sm:space-y-4'>
-              {/* Address */}
+              {/* Address HCMC */}
               <div className='flex items-start space-x-2 sm:space-x-3'>
                 <AddressIcon
                   width={14}
@@ -216,6 +211,24 @@ export default function Footer({
                   className='text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm leading-relaxed cursor-pointer'
                 >
                   {t('address')}
+                </a>
+              </div>
+
+              {/* Address Hanoi */}
+              <div className='flex items-start space-x-2 sm:space-x-3'>
+                <AddressIcon
+                  width={14}
+                  height={14}
+                  stroke='white'
+                  className='mt-1 flex-shrink-0 sm:w-4 sm:h-4'
+                />
+                <a
+                  href={`https://maps.google.com/?q=${encodeURIComponent(t('addressHanoi'))}`}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm leading-relaxed cursor-pointer'
+                >
+                  {t('addressHanoi')}
                 </a>
               </div>
 

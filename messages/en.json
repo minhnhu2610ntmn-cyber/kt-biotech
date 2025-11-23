@@ -86,7 +86,8 @@
     "products": "Products",
     "aboutUs": "About Us",
     "information": "Information",
-    "address": "No. 10-12, Street 3A, Gia Hoa Residential Area, Binh Hung Ward, Ho Chi Minh City",
+    "address": "HCMC Office: No. 10-12, Street 3A, Gia Hoa Residential Area, Binh Hung Ward, Ho Chi Minh City",
+    "addressHanoi": "Hanoi Office: 3rd Floor, Building B, Sky Central Building, 176 Dinh Cong, Phuong Liet Ward, Hanoi City",
     "about": "About",
     "awards": "Awards",
     "cooperation": "Cooperation",
@@ -99,7 +100,7 @@
     "terms": "Terms & conditions",
     "privacy": "Privacy policy",
     "copyright": "Copyright © 2025 Khoa Thương. Designed by ParaShine",
-    "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt"
+    "description": "Khoa Thuong is confident to be a reputable manufacturer and distributor of diagnostic solutions such as PCR, Elisa, NGS, etc. in the Vietnamese and international markets."
   },
   "homepage": {
     "banner": {
