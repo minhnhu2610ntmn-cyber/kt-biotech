@@ -37,6 +37,7 @@ export default function CategoryLayout({
   pagination,
 }: CategoryLayoutProps) {
   const t = useTranslations('category');
+  const tSidebar = useTranslations('sidebar');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const primaryCatalogue =
     catalogue && catalogue.downloadUrl ? catalogue : null;
@@ -92,6 +93,7 @@ export default function CategoryLayout({
           <SidebarMenu
             activeItem={activeCategory}
             productCategories={categories}
+            categoryLabel={tSidebar('category')}
             className='w-full [&_.space-y-1>*:first-child]:hidden'
             hrefPrefix='/danh-muc-san-pham'
           />

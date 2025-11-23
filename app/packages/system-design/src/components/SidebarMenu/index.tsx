@@ -12,6 +12,7 @@ export interface SidebarMenuProps {
   className?: string;
   productCategories?: ProductCategory[];
   hrefPrefix?: string; // base path for category links
+  categoryLabel?: string; // Translated label for "Danh mục" / "Category"
 }
 
 const SidebarMenu: React.FC<SidebarMenuProps> = ({
@@ -19,6 +20,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
   className,
   productCategories = [],
   hrefPrefix = '/danh-muc-san-pham',
+  categoryLabel = 'Danh mục', // Default fallback
 }) => {
   // Convert product categories to menu items
   const categoryItems: SidebarMenuItem[] = productCategories.map(category => ({
@@ -27,11 +29,11 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
     href: `${hrefPrefix}/${category.slug || category.id}`,
   }));
 
-  // Create final menu items with "Danh Mục" as first item
+  // Create final menu items with translated category label as first item
   const finalMenuItems: SidebarMenuItem[] = [
     {
       id: 'danh-muc',
-      label: 'Danh mục',
+      label: categoryLabel,
       href: '/danh-muc-san-pham',
       isActive: true, // Always highlight the first item
     },

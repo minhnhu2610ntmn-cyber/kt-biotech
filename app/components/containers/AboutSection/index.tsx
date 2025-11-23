@@ -14,10 +14,13 @@ interface AboutItem {
 
 interface AboutSectionProps {
   items?: AboutItem[];
+  title?: string;
 }
 
-export default function AboutSection({ items = [] }: AboutSectionProps) {
+export default function AboutSection({ items = [], title }: AboutSectionProps) {
   const t = useTranslations('common');
+  const tBreadcrumb = useTranslations('breadcrumb');
+  const pageTitle = title || tBreadcrumb('gioithieuchung');
   const displayItems = items.length > 0 ? items : [];
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
@@ -96,7 +99,7 @@ export default function AboutSection({ items = [] }: AboutSectionProps) {
               color='#215778'
               className='font-bold !text-2xl underline decoration-[#2C3E50] decoration-1 underline-offset-4'
             >
-              GIỚI THIỆU CHUNG
+              {pageTitle.toUpperCase()}
             </Heading>
           </div>
         </div>
@@ -199,7 +202,7 @@ export default function AboutSection({ items = [] }: AboutSectionProps) {
                 >
                   <a
                     href={item.link}
-                    className='inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors'
+                    className='inline-flex items-center text-[#1092e3] hover:text-[#1092e3] font-medium transition-colors'
                   >
                     {t('viewAll')}
                     <svg

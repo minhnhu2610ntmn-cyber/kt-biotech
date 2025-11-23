@@ -17,7 +17,6 @@ export default async function GenomeSequencingServicePage({
   const tNavbar = await getTranslations('navbar');
   const tBreadcrumb = await getTranslations('breadcrumb');
 
-  console.log('genService', genService);
   const blocks: StrapiBlock[] = ((genService?.content as any[]) || [])
     .map((block: any) => {
       switch (block.__component) {
@@ -62,24 +61,27 @@ export default async function GenomeSequencingServicePage({
   const breadcrumbItems = [
     { label: tBreadcrumb('home'), href: baseHref || '/' },
     { label: tBreadcrumb('dichvu'), href: `${baseHref}/dich-vu` },
-    { label: title || tBreadcrumb('giaitrinhtugen'), href: `${baseHref}/dich-vu/giai-trinh-tu-gen` },
+    {
+      label: title || tBreadcrumb('giaitrinhtugen'),
+      href: `${baseHref}/dich-vu/giai-trinh-tu-gen`,
+    },
   ];
 
   return (
     <>
       <SetBreadcrumb items={breadcrumbItems} />
       <Container>
-      <div className='!pt-10'>
-        <AnimatedPageContent>
-          <BlogHero title={title} imageUrl={heroUrl} imageAlt={title} />
-        </AnimatedPageContent>
-        <AnimatedPageContent delay={200}>
-          <div className='max-w-4xl mx-auto px-2 lg:px-0 py-8'>
-            {blocks?.length > 0 && <BlogContentBody blocks={blocks} />}
-          </div>
-        </AnimatedPageContent>
-      </div>
-    </Container>
+        <div className='!pt-10'>
+          <AnimatedPageContent>
+            <BlogHero title={title} imageUrl={heroUrl} imageAlt={title} />
+          </AnimatedPageContent>
+          <AnimatedPageContent delay={200}>
+            <div className='max-w-4xl mx-auto px-2 lg:px-0 py-8'>
+              {blocks?.length > 0 && <BlogContentBody blocks={blocks} />}
+            </div>
+          </AnimatedPageContent>
+        </div>
+      </Container>
     </>
   );
 }

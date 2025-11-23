@@ -38,6 +38,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   productCategories: _productCategories,
 }) => {
   const t = useTranslations('hero');
+  const tSidebar = useTranslations('sidebar');
   const [isVisible, setIsVisible] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
 
@@ -82,6 +83,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           <SidebarMenu
             activeItem='danh-muc'
             productCategories={productCategories}
+            categoryLabel={tSidebar('category')}
           />
         </div>
         <div

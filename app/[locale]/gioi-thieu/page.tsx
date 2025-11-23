@@ -62,11 +62,14 @@ export default async function AboutPage({
     { label: t('gioithieu'), href: aboutHref },
   ];
 
+  // Get page title for AboutSection
+  const pageTitle = t('gioithieuchung');
+
   // Return empty items if global is null/not found
   return (
     <>
       <SetBreadcrumb items={breadcrumbItems} />
-      <AboutSection items={items} />
+      <AboutSection items={items} title={pageTitle} />
     </>
   );
 }

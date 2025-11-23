@@ -28,6 +28,7 @@ export default function FilterDrawer({
   brands,
 }: FilterDrawerProps) {
   const t = useTranslations('category');
+  const tSidebar = useTranslations('sidebar');
   const tCommon = useTranslations('common');
   const router = useRouter();
   const pathname = usePathname();
@@ -141,6 +142,7 @@ export default function FilterDrawer({
             <SidebarMenu
               activeItem={activeCategory}
               productCategories={categories}
+              categoryLabel={tSidebar('category')}
               className='w-full [&_.space-y-1>*:first-child]:hidden'
               hrefPrefix='/danh-muc-san-pham'
             />

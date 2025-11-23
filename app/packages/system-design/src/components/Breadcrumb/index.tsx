@@ -157,7 +157,7 @@ export function Breadcrumb({ items, className, separator }: BreadcrumbProps) {
 
   return (
     <nav aria-label='Breadcrumb' className={cn('bg-[#EBF4F9] py-3', className)}>
-      <Container className=' mx-auto px-2'>
+      <Container className=' mx-auto px-2 md:px-4'>
         <ol className='flex items-center space-x-1 text-sm overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide'>
           {breadcrumbItems.map((item, index) => {
             const isLast = index === breadcrumbItems.length - 1;
