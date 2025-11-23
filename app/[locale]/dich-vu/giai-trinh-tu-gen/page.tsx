@@ -76,7 +76,7 @@ export default async function GenomeSequencingServicePage({
             <BlogHero title={title} imageUrl={heroUrl} imageAlt={title} />
           </AnimatedPageContent>
           <AnimatedPageContent delay={200}>
-            <div className='max-w-4xl mx-auto px-2 lg:px-0 py-8'>
+            <div className='max-w-5xl mx-auto px-2 lg:px-0 py-8 md:!-mt-[120px] mt-0'>
               {blocks?.length > 0 && <BlogContentBody blocks={blocks} />}
             </div>
           </AnimatedPageContent>

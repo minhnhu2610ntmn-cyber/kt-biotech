@@ -238,6 +238,7 @@ const config: Config = {
         'slide-down': 'slideDown 0.3s ease-out',
         'scale-in': 'scaleIn 0.2s ease-out',
         'bounce-subtle': 'bounceSubtle 0.6s ease-in-out',
+        shake: 'shake 2s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -259,6 +260,11 @@ const config: Config = {
         bounceSubtle: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-5px)' },
+        },
+        shake: {
+          '0%, 100%': { transform: 'translateX(0) rotate(0deg)' },
+          '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-3px) rotate(-2deg)' },
+          '20%, 40%, 60%, 80%': { transform: 'translateX(3px) rotate(2deg)' },
         },
       },
       screens: {

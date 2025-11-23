@@ -86,7 +86,8 @@ export default function FloatingButtons({
             'flex items-center justify-center',
             'shadow-lg hover:shadow-xl transition-all duration-300',
             'hover:scale-110 active:scale-95',
-            'group'
+            'group',
+            'animate-shake'
           )}
           aria-label={t('phone')}
         >

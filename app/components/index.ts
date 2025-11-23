@@ -4,6 +4,9 @@ export { Button, Input, Select } from '@ktbiotech/system-design';
 // Layout Components
 export * from './layout';
 
+// Container Components
+export { ScriptInjector } from './containers';
+
 // Page Components
 export * from './pages';
 

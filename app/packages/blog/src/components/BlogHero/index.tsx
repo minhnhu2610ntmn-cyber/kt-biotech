@@ -18,7 +18,7 @@ export default function BlogHero({
 }: BlogHeroProps) {
   return (
     <section className={cn('w-full mb-8', className)}>
-      <div className='container mx-auto px-6 md:px-8'>
+      <div className=' mx-auto px-6 md:px-8'>
         {/* Large light gray container */}
         <div className=' overflow-hidden'>
           {/* Title at top - centered */}
@@ -32,7 +32,7 @@ export default function BlogHero({
           </div>
 
           {/* Hero Image - full width inside gray container */}
-          <div className='w-full h-[300px] md:h-[400px] overflow-hidden rounded-xl lg:h-[500px] relative'>
+          <div className='w-full h-[500px] md:h-[400px] overflow-hidden rounded-xl lg:h-[500px] relative'>
             <Image
               src={imageUrl}
               alt={imageAlt || title}

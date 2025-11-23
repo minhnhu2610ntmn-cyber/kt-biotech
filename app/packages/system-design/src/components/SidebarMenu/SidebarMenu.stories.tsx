@@ -221,7 +221,7 @@ export const InteractiveDemo: Story = {
         <SidebarMenu activeItem={activeItem} />
 
         <div className='ml-64 p-8'>
-          <div className='max-w-4xl'>
+          <div className='max-w-5xl'>
             <h1 className='text-3xl font-bold text-gray-900 mb-6'>
               SidebarMenu Interactive Demo
             </h1>

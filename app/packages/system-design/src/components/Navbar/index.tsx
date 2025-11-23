@@ -1,7 +1,7 @@
 'use client';
 
 import { ChevronRight, Menu, X } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -97,6 +97,7 @@ export function Navbar({
   >(null);
   const pathname = usePathname();
   const router = useRouter();
+  const locale = useLocale();
 
   const closeMegaMenu = React.useCallback(() => {
     setIsMegaMenuOpen(false);
@@ -139,13 +140,35 @@ export function Navbar({
   // Normalize logo path for both Storybook and Next.js
   const logoPath = logo.startsWith('/') ? logo : `/${logo}`;
 
-  // Check if a nav item is active
-  const isActive = (href: string) => {
-    if (href === '/') {
-      return pathname === '/';
-    }
-    return pathname.startsWith(href);
-  };
+  // Normalize pathname by removing locale prefix for comparison
+  const normalizePath = React.useCallback(
+    (path: string) => {
+      // Remove locale prefix if present (e.g., /en/gioi-thieu -> /gioi-thieu)
+      const localePrefix = `/${locale}/`;
+      if (path.startsWith(localePrefix)) {
+        return path.slice(localePrefix.length - 1); // Keep the leading slash
+      }
+      if (path === `/${locale}`) {
+        return '/';
+      }
+      return path;
+    },
+    [locale]
+  );
+
+  // Check if a nav item is active (locale-aware)
+  const isActive = React.useCallback(
+    (href: string) => {
+      const normalizedPathname = normalizePath(pathname);
+      const normalizedHref = normalizePath(href);
+
+      if (normalizedHref === '/') {
+        return normalizedPathname === '/' || normalizedPathname === '';
+      }
+      return normalizedPathname.startsWith(normalizedHref);
+    },
+    [pathname, normalizePath]
+  );
 
   // Resolve display label with i18n (fallback to raw label)
   const getItemLabel = React.useCallback(

@@ -28,18 +28,51 @@ async function getLatestArticles(locale: string): Promise<Article[]> {
 async function getMostViewedArticles(locale: string): Promise<Article[]> {
   try {
     const api = new StrapiApi(locale);
-    const articles = await api.getArticles({
-      sort: 'views:desc', // For now, using createdAt as proxy for most viewed
-      'pagination[limit]': '6',
+
+    // First try to fetch with views:desc sort
+    let articles = await api.getArticles({
+      sort: 'views:desc',
+      'pagination[limit]': '10', // Fetch more to have options after filtering
       populate: '*',
       'filters[category][type][$eq]': 'blog',
     });
-    return articles as Article[];
+
+    // Check if we have articles with valid views (> 0)
+    if (articles && articles.length > 0) {
+      const articlesWithViews = articles;
+      console.log(articlesWithViews);
+      if (articlesWithViews.length > 0) {
+        return articlesWithViews.slice(0, 6) as Article[];
+      }
+    }
+
+    // Fallback: if no articles with views, use createdAt:desc
+    articles = await api.getArticles({
+      sort: 'createdAt:desc',
+      'pagination[limit]': '10',
+      populate: '*',
+      'filters[category][type][$eq]': 'blog',
+    });
+    console.log(articles);
+    return (articles || []).slice(0, 6) as Article[];
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Error fetching most viewed articles:', error);
-    // Return empty array as fallback
-    return [];
+    // Final fallback to createdAt:desc
+    try {
+      const api = new StrapiApi(locale);
+      const fallbackArticles = await api.getArticles({
+        sort: 'createdAt:desc',
+        'pagination[limit]': '6',
+        populate: '*',
+        'filters[category][type][$eq]': 'blog',
+      });
+      return (fallbackArticles || []) as Article[];
+    } catch (fallbackError) {
+      // eslint-disable-next-line no-console
+      console.error('Fallback fetch also failed:', fallbackError);
+      return [];
+    }
   }
 }
 
@@ -115,9 +148,10 @@ async function getRecruitmentPosts(locale: string): Promise<
 export default async function BlogsPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const locale = params.locale;
+  const resolvedParams = await params;
+  const locale = resolvedParams.locale;
   const [
     latestArticles,
     mostViewedArticlesRaw,
@@ -138,7 +172,7 @@ export default async function BlogsPage({
 
   // Then, remove duplicates within mostViewedArticles itself
   const seenIds = new Set<string | number>();
-  const mostViewedArticles = mostViewedArticlesRaw
+  let mostViewedArticles = mostViewedArticlesRaw
     .filter(article => {
       const articleId = article.id || (article as any).documentId;
       // Exclude if already in latestArticles or already seen in this list
@@ -149,6 +183,24 @@ export default async function BlogsPage({
       return true;
     })
     .slice(0, 4); // Ensure we only return 4 articles
+
+  // If after filtering we have no articles, use the raw data (even if duplicates)
+  // This ensures we always show something in most viewed section
+  if (mostViewedArticles.length === 0 && mostViewedArticlesRaw.length > 0) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      'All most viewed articles were filtered out. Using raw data instead.'
+    );
+    mostViewedArticles = mostViewedArticlesRaw.slice(0, 4);
+  }
+
+  // Debug logs
+  // eslint-disable-next-line no-console
+  console.log('mostViewedArticlesRaw:', mostViewedArticlesRaw?.length);
+  // eslint-disable-next-line no-console
+  console.log('latestArticleIds:', Array.from(latestArticleIds));
+  // eslint-disable-next-line no-console
+  console.log('mostViewedArticles after filter:', mostViewedArticles?.length);
 
   return (
     <BlogPage

@@ -8,6 +8,7 @@ export { default as PartnersSection } from './PartnersSection';
 export { default as ProductContactCard } from './ProductContactCard';
 export { default as TechnologySection } from './TechnologySection';
 export { default as Topbar } from './Topbar';
+export { default as ScriptInjector } from './ScriptInjector';
 // Re-export from system-design
 export {
   ProductImageGallery,

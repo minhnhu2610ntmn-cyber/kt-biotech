@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { Roboto } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { routing } from '../../i18n/routing';
-import { MasterLayout } from '../components';
+import { MasterLayout, ScriptInjector } from '../components';
 import {
   getCategoriesProducts,
   getProductCategoriesCached,
@@ -62,30 +62,38 @@ export default async function LocaleLayout({
   let categoriesProducts: any = null;
   let globalData: any = null;
   let catalogue: CatalogueEntry | null = null;
+  let scriptCodes: { codes?: { body: string }[] | null }[] | null = null;
   try {
     const api = new StrapiApi(locale);
-    const [categories, productsTree, globalRes, catalogueRes] =
+    const [categories, productsTree, globalRes, catalogueRes, scriptCodesRes] =
       await Promise.all([
         getProductCategoriesCached(locale),
         getCategoriesProducts(1, locale),
         api.getGlobal(),
         api.getCatalogue(),
+        api.getScriptCodes(),
       ]);
     // Cast to ProductCategory type
     productCategories = categories as ProductCategory[];
     categoriesProducts = productsTree;
     globalData = globalRes;
     catalogue = catalogueRes;
+    scriptCodes = scriptCodesRes;
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Failed to fetch product categories:', error);
   }
-  console.log(productCategories);
+
   return (
     <html lang={locale}>
       <body
         className={`${roboto.variable} font-sans antialiased min-h-screen bg-white flex flex-col`}
       >
+        {/* Script codes from API - Head section (rendered early) */}
+        <ScriptInjector
+          scripts={scriptCodes?.[0]?.codes || null}
+          target='head'
+        />
         <QueryProvider>
           <NextIntlClientProvider messages={messages}>
             <MasterLayout
@@ -99,6 +107,11 @@ export default async function LocaleLayout({
           </NextIntlClientProvider>
         </QueryProvider>
         <SpeedInsights />
+        {/* Script codes from API - Body section (rendered at end) */}
+        <ScriptInjector
+          scripts={scriptCodes?.[1]?.codes || null}
+          target='body'
+        />
       </body>
     </html>
   );

@@ -69,6 +69,7 @@ export const API_ENDPOINTS = {
   award: '/api/award',
   relationship: '/api/relationship',
   contacts: '/api/contacts',
+  scriptCodes: '/api/script-codes',
 } as const;
 
 export type CatalogueEntry = {
@@ -728,6 +729,44 @@ export class StrapiApi {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Error fetching research service:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get script codes for head/body injection
+   */
+  async getScriptCodes(): Promise<
+    | {
+        codes?: { body: string }[] | null;
+      }[]
+    | null
+  > {
+    try {
+      const url = this.appendLocaleToUrl(
+        `${buildApiUrl(API_ENDPOINTS.scriptCodes)}?populate=*`
+      );
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 300 }, // Cache for 5 minutes
+      });
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null;
+        }
+        const body = await response.text().catch(() => '');
+        throw new Error(
+          `Failed to fetch script codes: ${response.status} ${response.statusText} ${body}`
+        );
+      }
+
+      const data = await response.json();
+      // Return script codes structure
+      return data?.data || null;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching script codes:', error);
       return null;
     }
   }

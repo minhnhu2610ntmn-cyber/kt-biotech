@@ -1,8 +1,8 @@
 import { BlogContentBody, BlogHero, type StrapiBlock } from '@ktbiotech/blog';
 import { Container } from '@ktbiotech/system-design';
+import messages from '../../../messages/vi.json';
 import AnimatedPageContent from '../../components/containers/AnimatedPageContent';
 import { buildImageUrl, StrapiApi } from '../../config/api';
-import messages from '../../../messages/vi.json';
 
 export default async function GenomeSequencingServicePage() {
   const api = new StrapiApi();
@@ -55,7 +55,7 @@ export default async function GenomeSequencingServicePage() {
           <BlogHero title={title} imageUrl={heroUrl} imageAlt={title} />
         </AnimatedPageContent>
         <AnimatedPageContent delay={200}>
-          <div className='max-w-4xl mx-auto px-2 lg:px-0 py-8'>
+          <div className='max-w-5xl mx-auto px-2 lg:px-0 py-8'>
             {blocks?.length > 0 && <BlogContentBody blocks={blocks} />}
           </div>
         </AnimatedPageContent>

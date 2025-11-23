@@ -101,9 +101,15 @@ export default function MostViewedSection({
 
   // Use API data or fallback to mock data
   const blogPosts =
-    articles.length > 0
+    articles && articles.length > 0
       ? articles.map(transformArticleToBlogCard)
       : mockBlogPosts;
+
+  // Debug log
+  // eslint-disable-next-line no-console
+  console.log('MostViewedSection - articles:', articles?.length);
+  // eslint-disable-next-line no-console
+  console.log('MostViewedSection - blogPosts:', blogPosts?.length);
 
   return (
     <section ref={sectionRef}>
