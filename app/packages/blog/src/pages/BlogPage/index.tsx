@@ -32,7 +32,7 @@ export default function BlogPage({
 }: BlogPageProps) {
   const t = useTranslations('blog');
   return (
-    <div className=' px-4 py-8 '>
+    <div className=' py-8 '>
       {/* Header */}
 
       {/* Blog List */}

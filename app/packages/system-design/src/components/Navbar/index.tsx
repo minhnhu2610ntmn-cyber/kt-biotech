@@ -944,7 +944,7 @@ export function Navbar({
       <div
         ref={mobileMenuRef}
         className={cn(
-          'fixed top-0 right-0 h-full w-[85%] max-w-sm bg-white shadow-xl z-[5000] lg:hidden transform transition-transform duration-300 ease-in-out flex flex-col',
+          'fixed top-0 right-0 h-full w-screen max-w-sm bg-white shadow-xl z-[5000] lg:hidden transform transition-transform duration-300 ease-in-out flex flex-col',
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         )}
       >

@@ -7,6 +7,7 @@ import {
   Heading,
   JapanFlagIcon,
   MalaysiaFlagIcon,
+  QatarFlagIcon,
   SliderV2,
   Text,
   UnitedStatesFlagIcon,
@@ -55,6 +56,7 @@ export default function CountriesSection() {
     { name: t('japan'), flag: JapanFlagIcon },
     { name: t('usa'), flag: UnitedStatesFlagIcon },
     { name: t('malaysia'), flag: MalaysiaFlagIcon },
+    { name: t('qatar'), flag: QatarFlagIcon },
   ];
 
   return (
@@ -104,7 +106,7 @@ export default function CountriesSection() {
                 },
                 1024: {
                   slidesPerView: 6,
-                  spaceBetween: 80,
+                  spaceBetween: 60,
                 },
               }}
               navigation={false}
@@ -125,7 +127,7 @@ export default function CountriesSection() {
                 const FlagIcon = country.flag;
                 return (
                   <div key={index} className='flex  flex-col items-center px-4'>
-                    <div className='h-[135px] rounded-lg shadow-lg mb-2'>
+                    <div className='h-[135px] w-[180px] rounded-lg shadow-lg mb-2 overflow-hidden'>
                       <FlagIcon className='w-full h-full' />
                     </div>
                     <Text

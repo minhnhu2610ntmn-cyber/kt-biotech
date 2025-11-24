@@ -19,6 +19,7 @@ export { default as OClockIcon } from './OClock';
 export { default as PhoneIcon } from './Phone';
 export { default as PinterestIcon } from './Pinterest';
 export { default as PrintIcon } from './Print';
+export { default as QatarFlagIcon } from './QatarFlag';
 export { default as SearchIcon } from './Search';
 export { default as TimelineItemIcon } from './TimelineItem';
 export { default as TikTokIcon } from './TikTok';

@@ -54,7 +54,7 @@ export default function BlogCard({
       className={cn(
         'duration-300 cursor-pointer hover:shadow-xl transition-shadow group rounded-xl',
         className,
-        direction === 'column' && 'px-4 lg:px-0'
+        direction === 'column' && 'px-0 lg:px-0'
       )}
       onClick={handleCardClick}
     >
