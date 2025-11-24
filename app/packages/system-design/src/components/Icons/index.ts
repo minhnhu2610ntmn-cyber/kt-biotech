@@ -28,5 +28,6 @@ export { default as UnitedKingdomFlagIcon } from './UnitedKingdomFlag';
 export { default as UnitedStatesFlagIcon } from './UnitedStatesFlag';
 export { VietnamCircleFlagIcon } from './VietnamCircleFlagIcon';
 export { default as VietnamFlagIcon } from './VietnamFlag';
+export { default as WhatsAppIcon } from './WhatsApp';
 export { default as YouTubeIcon } from './YouTube';
 export { default as ZaloIcon } from './Zalo';

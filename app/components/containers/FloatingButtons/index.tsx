@@ -1,6 +1,11 @@
 'use client';
 
-import { cn, DownloadIcon, ZaloIcon } from '@ktbiotech/system-design';
+import {
+  cn,
+  DownloadIcon,
+  WhatsAppIcon,
+  ZaloIcon,
+} from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
 
 interface FloatingButtonsProps {
@@ -128,6 +133,30 @@ export default function FloatingButtons({
               width={30}
               height={30}
               fill='white'
+              className='text-white'
+            />
+          </div>
+        </a>
+
+        {/* WhatsApp Button */}
+        <a
+          href='https://wa.me/842837612606'
+          target='_blank'
+          rel='noopener noreferrer'
+          className={cn(
+            'w-11 h-11 md:w-14 md:h-14 rounded-full bg-[#25D366] hover:bg-[#1da851]',
+            'flex items-center justify-center',
+            'shadow-lg hover:shadow-xl transition-all duration-300',
+            'hover:scale-110 active:scale-95',
+            'group'
+          )}
+          aria-label='WhatsApp'
+        >
+          <div className='rounded-full bg-white p-1.5 md:p-2 scale-[0.8] md:scale-[0.85]'>
+            <WhatsAppIcon
+              width={30}
+              height={30}
+              fill='#25D366'
               className='text-white'
             />
           </div>
