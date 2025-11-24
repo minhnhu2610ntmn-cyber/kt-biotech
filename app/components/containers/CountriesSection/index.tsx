@@ -3,7 +3,6 @@
 import {
   CambodiaFlagIcon,
   ChinaFlagIcon,
-  cn,
   Container,
   Heading,
   JapanFlagIcon,
@@ -13,7 +12,6 @@ import {
   UnitedStatesFlagIcon,
 } from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
 export default function CountriesSection() {
@@ -91,7 +89,7 @@ export default function CountriesSection() {
           }}
         >
           {/* Country Flags Slider */}
-          <div className='relative z-10 w-full'>
+          <Container className='relative z-10 w-full'>
             <SliderV2
               slidesPerView={2}
               spaceBetween={20}
@@ -106,7 +104,7 @@ export default function CountriesSection() {
                 },
                 1024: {
                   slidesPerView: 6,
-                  spaceBetween: 50,
+                  spaceBetween: 80,
                 },
               }}
               navigation={false}
@@ -121,12 +119,12 @@ export default function CountriesSection() {
               allowTouchMove={true}
               grabCursor={true}
               loop={true}
-              className='countries-slider'
+              className='countries-slider flex-1 w-full'
             >
               {countries.map((country, index) => {
                 const FlagIcon = country.flag;
                 return (
-                  <div key={index} className='flex flex-col items-center px-4'>
+                  <div key={index} className='flex  flex-col items-center px-4'>
                     <div className='h-[135px] rounded-lg shadow-lg mb-2'>
                       <FlagIcon className='w-full h-full' />
                     </div>
@@ -140,11 +138,11 @@ export default function CountriesSection() {
                 );
               })}
             </SliderV2>
-          </div>
+          </Container>
         </div>
 
         {/* KT BIOTECH Logo Card */}
-        <div
+        {/* <div
           className={`absolute  items-center hidden lg:flex top-0 xl:top-2 2xl:top-3 right-8 h-[268px]  z-10  transition-all duration-800 ease-out delay-600  `}
         >
           <Image
@@ -158,7 +156,7 @@ export default function CountriesSection() {
             )}
             priority
           />
-        </div>
+        </div> */}
       </div>
     </section>
   );

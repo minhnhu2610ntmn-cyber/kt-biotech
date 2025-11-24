@@ -41,7 +41,7 @@ export default function ImageWithBadge({
 
   return (
     <div className={cn('relative w-full rounded-xl', className)}>
-      <div className='relative w-full h-full min-h-70 sm:min-h-auto max-h-70 md:max-h-auto rounded-xl overflow-hidden'>
+      <div className='relative w-full flex items-end h-full min-h-70 sm:min-h-auto max-h-70 md:max-h-auto rounded-xl overflow-hidden'>
         <Image
           src={src}
           alt={alt}
