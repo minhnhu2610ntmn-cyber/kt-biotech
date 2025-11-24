@@ -112,7 +112,7 @@ export default function NewsSection({
       : mockBlogPosts;
 
   return (
-    <section ref={sectionRef} className=' xl:px-0'>
+    <section ref={sectionRef} className='px-4 xl:px-0'>
       <Container>
         {/* Section Title */}
         {title && (

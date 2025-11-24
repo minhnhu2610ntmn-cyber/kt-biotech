@@ -81,7 +81,10 @@ export default function MilestonesSection() {
 
   return (
     <Container>
-      <section ref={sectionRef} className='py-8 xl:py-16 bg-transparent'>
+      <section
+        ref={sectionRef}
+        className='py-8 px-4 xl:px-0 xl:py-16 bg-transparent'
+      >
         <div className=' px-4'>
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-16'>
             {/* Left Column - Content */}

@@ -85,7 +85,7 @@ export default function TechnologySection() {
 
   return (
     <Container className='max-w-screen'>
-      <section ref={sectionRef} className='py-8 xl:py-16 '>
+      <section ref={sectionRef} className='py-8 px-4 xl:px-0 xl:py-16 '>
         <div className=' px-4'>
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-16'>
             {/* Left Column - Timeline */}
