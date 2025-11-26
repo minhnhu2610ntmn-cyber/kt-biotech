@@ -779,7 +779,7 @@ export function Navbar({
                   className='flex items-center gap-2 hover:opacity-80 transition-opacity'
                   onClick={closeMegaMenu}
                 >
-                  <h3 className='text-sm font-semibold text-blue-600'>
+                  <h3 className='text-sm font-semibold text-gray-700'>
                     {activeMegaMenuItem ? t('danhmucsanpham') : 'Menu'}
                   </h3>
                   <ChevronRight className='h-4 w-4 text-blue-600' />

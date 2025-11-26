@@ -2,7 +2,6 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-import { Roboto } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { routing } from '../../i18n/routing';
 import { MasterLayout, ScriptInjector } from '../components';
@@ -12,16 +11,11 @@ import {
   StrapiApi,
   type CatalogueEntry,
 } from '../config/api';
+import { roboto } from '../config/fonts';
 import { getHomeMetadata, type SupportedLocale } from '../config/metadata';
 import '../globals.css';
 import { QueryProvider } from '../providers';
 import type { ProductCategory } from '../types/strapi';
-
-const roboto = Roboto({
-  variable: '--font-roboto',
-  subsets: ['latin', 'vietnamese'],
-  weight: ['300', '400', '500', '700'],
-});
 
 export async function generateMetadata({
   params,
