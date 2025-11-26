@@ -2,7 +2,7 @@
 
 /* Roboto font for article content */
 .prose {
-  font-family: var(--font-roboto), 'Roboto', sans-serif;
+  font-family: var(--font-roboto);
 }
 
 .prose h1,
@@ -11,7 +11,7 @@
 .prose h4,
 .prose h5,
 .prose h6 {
-  font-family: var(--font-roboto), 'Roboto', sans-serif;
+  font-family: var(--font-roboto);
   font-weight: 600;
   line-height: 1.2;
   margin-top: 2em;
@@ -57,9 +57,7 @@
 }
 
 .prose code {
-  font-family:
-    'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New',
-    monospace;
+  font-family: var(--font-roboto);
   font-size: 0.875rem;
   background-color: #f6f8fa;
   padding: 0.125rem 0.375rem;
