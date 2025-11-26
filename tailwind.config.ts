@@ -175,7 +175,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-roboto)', 'Roboto', 'system-ui', 'sans-serif'],
-        serif: ['Georgia', 'serif'],
+        serif: ['serif'],
         mono: ['ui-monospace', 'SFMono-Regular', 'SF Mono', 'Menlo', 'Consolas', 'Liberation Mono', 'monospace'],
       },
       fontSize: {
