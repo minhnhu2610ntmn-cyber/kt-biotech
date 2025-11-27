@@ -5,6 +5,7 @@ import {
   PhoneIcon,
   Text,
 } from '@/app/packages/system-design/src/components';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import * as React from 'react';
 
@@ -16,11 +17,13 @@ interface TopbarProps {
 }
 
 const Topbar: React.FC<TopbarProps> = ({
-  message = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh',
+  message,
   phoneNumber = '(+84) 28.3761.2606',
   emailInfo = 'Info@kt-biotech.com',
   emailSales = 'Sales@kt-biotech.com',
 }) => {
+  const t = useTranslations('topbar');
+  const displayMessage = message || t('message');
   return (
     <div className='w-full'>
       {/* Main dark blue bar */}
@@ -32,7 +35,7 @@ const Topbar: React.FC<TopbarProps> = ({
               className='text-xs sm:text-sm font-normal truncate flex-1 min-w-0'
               color='white'
             >
-              {message}
+              {displayMessage}
             </Text>
 
             {/* Right side - Contact information */}

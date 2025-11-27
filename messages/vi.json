@@ -184,6 +184,9 @@
     "unknownAuthor": "Tác giả không xác định",
     "uncategorized": "Chưa phân loại"
   },
+  "topbar": {
+    "message": "Nhà sản xuất và phân phối giải pháp chuẩn đoán PCR, Elisa, NGS,.."
+  },
   "common": {
     "noProducts": "Không có sản phẩm",
     "noData": "Không có dữ liệu",

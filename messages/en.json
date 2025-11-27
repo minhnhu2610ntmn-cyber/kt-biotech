@@ -184,6 +184,9 @@
     "unknownAuthor": "Unknown Author",
     "uncategorized": "Uncategorized"
   },
+  "topbar": {
+    "message": "Manufacturer and distributor of diagnostic solutions: PCR, Elisa, NGS,.."
+  },
   "common": {
     "noProducts": "No products",
     "noData": "No data",
