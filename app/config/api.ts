@@ -488,10 +488,25 @@ export class StrapiApi {
     }
 
     if (filters?.categorySlug) {
-      // assuming product has relation categories.slug (many-to-one or many-to-many)
-      params.push(
-        `filters[categories][slug][$in]=${encodeURIComponent(filters.categorySlug)}`
-      );
+      // Support multiple slugs (comma-separated) - includes parent and all subcategories
+      const slugs = filters.categorySlug
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean);
+      
+      if (slugs.length === 1) {
+        // Single slug - use direct filter
+        params.push(
+          `filters[categories][slug][$eq]=${encodeURIComponent(slugs[0])}`
+        );
+      } else if (slugs.length > 1) {
+        // Multiple slugs - use $in operator
+        slugs.forEach((slug, index) => {
+          params.push(
+            `filters[categories][slug][$in][${index}]=${encodeURIComponent(slug)}`
+          );
+        });
+      }
     }
 
     if (filters?.page) params.push(`pagination[page]=${filters.page}`);

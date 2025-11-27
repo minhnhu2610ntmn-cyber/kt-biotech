@@ -18,6 +18,15 @@ interface PageCategory {
 
 type CatalogueItem = CatalogueEntry;
 
+async function getProductCategoriesTree(locale: string): Promise<any[]> {
+  try {
+    const categories = await getProductCategoriesCached(locale);
+    return Array.isArray(categories) ? categories : [];
+  } catch {
+    return [];
+  }
+}
+
 async function getProductCategories(locale: string): Promise<PageCategory[]> {
   try {
     const categories = await getProductCategoriesCached(locale);
@@ -26,6 +35,50 @@ async function getProductCategories(locale: string): Promise<PageCategory[]> {
   } catch {
     return [];
   }
+}
+
+/**
+ * Helper function to collect all category slugs including parent and all subcategories recursively
+ */
+function getAllCategorySlugs(
+  categories: any[],
+  targetSlug: string
+): string[] {
+  const slugs: string[] = [targetSlug];
+
+  function findCategory(cats: any[], slug: string): any | null {
+    for (const cat of cats) {
+      if (cat.slug === slug) {
+        return cat;
+      }
+      if (cat.sub && cat.sub.length > 0) {
+        const found = findCategory(cat.sub, slug);
+        if (found) return found;
+      }
+    }
+    return null;
+  }
+
+  function collectSubcategorySlugs(cat: any): void {
+    if (cat.sub && Array.isArray(cat.sub) && cat.sub.length > 0) {
+      for (const sub of cat.sub) {
+        if (sub.slug) {
+          slugs.push(sub.slug);
+        }
+        // Recursively collect nested subcategories
+        if (sub.sub && sub.sub.length > 0) {
+          collectSubcategorySlugs(sub);
+        }
+      }
+    }
+  }
+
+  const targetCategory = findCategory(categories, targetSlug);
+  if (targetCategory) {
+    collectSubcategorySlugs(targetCategory);
+  }
+
+  return slugs;
 }
 
 export default async function CategoryListingPage({
@@ -39,7 +92,8 @@ export default async function CategoryListingPage({
   const resolvedSearchParams = await searchParams;
   const { locale } = resolvedParams;
   const api = new StrapiApi(locale);
-  const [categories, brands] = await Promise.all([
+  const [categoriesTree, categories, brands] = await Promise.all([
+    getProductCategoriesTree(locale),
     getProductCategories(locale),
     api.getBrands(),
   ]);
@@ -50,10 +104,15 @@ export default async function CategoryListingPage({
   const page = Number(resolvedSearchParams?.page || 1);
   const pageSize = Number(resolvedSearchParams?.pageSize || 20);
 
+  // Get all category slugs including parent and all subcategories
+  const allCategorySlugs = getAllCategorySlugs(categoriesTree, active);
+  // Join all slugs with comma for API call
+  const categorySlugsString = allCategorySlugs.join(',');
+
   const productsRes = await api.getProducts({
     q,
     brandIds,
-    categorySlug: active,
+    categorySlug: categorySlugsString,
     page,
     pageSize,
   });
