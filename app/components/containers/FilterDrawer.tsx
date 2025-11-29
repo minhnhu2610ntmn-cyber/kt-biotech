@@ -11,11 +11,13 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import BrandFilters from './BrandFilters';
+import SubcategoryFilters from './SubcategoryFilters';
 
 type FilterDrawerProps = {
   isOpen: boolean;
   onClose: () => void;
   categories: any[];
+  categoriesTree?: any[];
   activeCategory: string;
   brands: Array<{ id: number; name: string }>;
 };
@@ -24,6 +26,7 @@ export default function FilterDrawer({
   isOpen,
   onClose,
   categories,
+  categoriesTree = [],
   activeCategory,
   brands,
 }: FilterDrawerProps) {
@@ -152,6 +155,10 @@ export default function FilterDrawer({
                 <span className='text-sm font-medium'>{t('filter')}</span>
               </div>
             </div>
+            <SubcategoryFilters
+              categories={categoriesTree}
+              activeCategory={activeCategory}
+            />
             <BrandFilters brands={brands} />
           </div>
         </div>

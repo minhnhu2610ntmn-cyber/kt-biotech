@@ -877,6 +877,16 @@ export function Navbar({
                                       {tCommon('noProducts')}
                                     </div>
                                   )}
+                                  {/* View All Link */}
+                                  {sc.slug && parentSlug && (
+                                    <Link
+                                      href={`/danh-muc-san-pham/${parentSlug}?sub=${sc.slug}`}
+                                      className='block text-sm font-medium text-[#215778] px-3 py-2 rounded hover:bg-blue-50 transition-colors duration-150 mt-2'
+                                      onClick={closeMegaMenu}
+                                    >
+                                      {tCommon('viewAll')} →
+                                    </Link>
+                                  )}
                                 </div>
                               </div>
                             ))}
@@ -915,6 +925,16 @@ export function Navbar({
                                 <div className='text-sm text-gray-400 px-3 py-2 rounded'>
                                   Không có sản phẩm
                                 </div>
+                              )}
+                              {/* View All Link */}
+                              {parentSlug && (
+                                <Link
+                                  href={`/danh-muc-san-pham/${parentSlug}`}
+                                  className='block text-sm font-medium text-[#215778] px-3 py-2 rounded hover:bg-blue-50 transition-colors duration-150 mt-2'
+                                  onClick={closeMegaMenu}
+                                >
+                                  {tCommon('viewAll')} →
+                                </Link>
                               )}
                             </div>
                           </div>
@@ -1068,8 +1088,9 @@ export function Navbar({
                                     key={sc.slug || sc.id}
                                     className='space-y-1'
                                   >
-                                    <div className='px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase'>
-                                      {sc.name}
+                                    <div className='px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase flex items-center justify-between'>
+                                      <span>{sc.name}</span>
+                                      <ChevronRight className='h-4 w-4 text-gray-400' />
                                     </div>
                                     {Array.isArray(sc.products) &&
                                       sc.products.length > 0 &&
@@ -1078,16 +1099,30 @@ export function Navbar({
                                           <Link
                                             key={`${p.slug}-${idx}`}
                                             href={`/san-pham/${p.slug}`}
-                                            className='block px-4 py-1.5 text-sm text-gray-600 hover:text-[#3691C9] transition-colors'
+                                            className='block px-4 py-1.5 text-sm text-gray-600 hover:text-[#3691C9] transition-colors ml-[15px] whitespace-nowrap overflow-hidden text-ellipsis'
                                             onClick={() => {
                                               setIsMobileMenuOpen(false);
                                               onMobileMenuToggle?.(false);
                                             }}
+                                            title={p.title}
                                           >
                                             {p.title}
                                           </Link>
                                         ) : null
                                       )}
+                                    {/* View All Link for Subcategory */}
+                                    {sc.slug && parentSlug && (
+                                      <Link
+                                        href={`/danh-muc-san-pham/${parentSlug}?sub=${sc.slug}`}
+                                        className='block px-4 py-1.5 text-sm font-medium text-[#3691C9] hover:opacity-80 transition-opacity ml-[15px]'
+                                        onClick={() => {
+                                          setIsMobileMenuOpen(false);
+                                          onMobileMenuToggle?.(false);
+                                        }}
+                                      >
+                                        {tCommon('viewAll')} →
+                                      </Link>
+                                    )}
                                   </div>
                                 ))}
                               </div>
@@ -1102,15 +1137,29 @@ export function Navbar({
                                       <Link
                                         key={`${p.slug}-${idx}`}
                                         href={`/san-pham/${p.slug}`}
-                                        className='block px-4 py-1.5 text-sm text-gray-600 hover:text-[#3691C9] transition-colors'
+                                        className='block px-4 py-1.5 text-sm text-gray-600 hover:text-[#3691C9] transition-colors ml-[15px] whitespace-nowrap overflow-hidden text-ellipsis'
                                         onClick={() => {
                                           setIsMobileMenuOpen(false);
                                           onMobileMenuToggle?.(false);
                                         }}
+                                        title={p.title}
                                       >
                                         {p.title}
                                       </Link>
                                     ) : null
+                                  )}
+                                  {/* View All Link for Direct Products */}
+                                  {parentSlug && (
+                                    <Link
+                                      href={`/danh-muc-san-pham/${parentSlug}`}
+                                      className='block px-4 py-1.5 text-sm font-medium text-[#3691C9] hover:opacity-80 transition-opacity ml-[15px]'
+                                      onClick={() => {
+                                        setIsMobileMenuOpen(false);
+                                        onMobileMenuToggle?.(false);
+                                      }}
+                                    >
+                                      {tCommon('viewAll')} →
+                                    </Link>
                                   )}
                                 </div>
                               )}

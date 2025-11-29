@@ -8,9 +8,11 @@ import { CategoryHeader } from './CategoryHeader';
 import FilterDrawer from './FilterDrawer';
 import PaginationControls from './PaginationControls';
 import ProductTable, { type ProductRow } from './ProductTable';
+import SubcategoryFilters from './SubcategoryFilters';
 
 type CategoryLayoutProps = {
   categories: any[];
+  categoriesTree?: any[];
   activeCategory: string;
   brands: Array<{ id: number; name: string }>;
   products: ProductRow[];
@@ -30,6 +32,7 @@ type CategoryLayoutProps = {
 
 export default function CategoryLayout({
   categories,
+  categoriesTree = [],
   activeCategory,
   brands,
   products,
@@ -103,6 +106,10 @@ export default function CategoryLayout({
               <span className='text-sm font-medium'>{t('filter')}</span>
             </div>
           </div>
+          <SubcategoryFilters
+            categories={categoriesTree}
+            activeCategory={activeCategory}
+          />
           <BrandFilters brands={brands} />
         </div>
 
@@ -132,6 +139,7 @@ export default function CategoryLayout({
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
         categories={categories}
+        categoriesTree={categoriesTree}
         activeCategory={activeCategory}
         brands={brands}
       />

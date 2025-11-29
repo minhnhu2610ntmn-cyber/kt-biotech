@@ -38,26 +38,54 @@ async function getProductCategories(locale: string): Promise<PageCategory[]> {
 }
 
 /**
+ * Helper function to find category by slug in tree
+ */
+function findCategoryInTree(categories: any[], slug: string): any | null {
+  for (const cat of categories) {
+    if (cat.slug === slug) {
+      return cat;
+    }
+    if (cat.sub && cat.sub.length > 0) {
+      const found = findCategoryInTree(cat.sub, slug);
+      if (found) return found;
+    }
+  }
+  return null;
+}
+
+/**
  * Helper function to collect all category slugs including parent and all subcategories recursively
+ * If subcategorySlug is provided, only filter by that specific subcategory
  */
 function getAllCategorySlugs(
   categories: any[],
-  targetSlug: string
+  targetSlug: string,
+  subcategorySlug?: string
 ): string[] {
-  const slugs: string[] = [targetSlug];
+  // If subcategory slug is provided, only use that subcategory
+  if (subcategorySlug) {
+    // Verify the subcategory belongs to the parent category
+    const parentCategory = findCategoryInTree(categories, targetSlug);
+    if (parentCategory) {
+      // Check if subcategory exists in parent's subcategories
+      const hasSubcategory = (cat: any): boolean => {
+        if (cat.slug === subcategorySlug) return true;
+        if (cat.sub && cat.sub.length > 0) {
+          return cat.sub.some((sub: any) => hasSubcategory(sub));
+        }
+        return false;
+      };
 
-  function findCategory(cats: any[], slug: string): any | null {
-    for (const cat of cats) {
-      if (cat.slug === slug) {
-        return cat;
-      }
-      if (cat.sub && cat.sub.length > 0) {
-        const found = findCategory(cat.sub, slug);
-        if (found) return found;
+      if (hasSubcategory(parentCategory)) {
+        return [subcategorySlug];
       }
     }
-    return null;
+    // If subcategory doesn't belong to parent, fall back to parent only
+    return [targetSlug];
   }
+
+  // Default behavior: include parent and all subcategories
+  const slugs: string[] = [targetSlug];
 
   function collectSubcategorySlugs(cat: any): void {
     if (cat.sub && Array.isArray(cat.sub) && cat.sub.length > 0) {
@@ -73,7 +101,7 @@ function getAllCategorySlugs(
     }
   }
 
-  const targetCategory = findCategory(categories, targetSlug);
+  const targetCategory = findCategoryInTree(categories, targetSlug);
   if (targetCategory) {
     collectSubcategorySlugs(targetCategory);
   }
@@ -101,11 +129,21 @@ export default async function CategoryListingPage({
 
   const q = (resolvedSearchParams?.q as string) || '';
   const brandIds = (resolvedSearchParams?.brands as string) || '';
+  // Support both 'sub' and 'subcategory' query params (prefer 'sub')
+  const subcategorySlug =
+    (resolvedSearchParams?.sub as string) ||
+    (resolvedSearchParams?.subcategory as string) ||
+    '';
   const page = Number(resolvedSearchParams?.page || 1);
   const pageSize = Number(resolvedSearchParams?.pageSize || 20);
 
   // Get all category slugs including parent and all subcategories
-  const allCategorySlugs = getAllCategorySlugs(categoriesTree, active);
+  // If subcategorySlug is provided, only filter by that subcategory
+  const allCategorySlugs = getAllCategorySlugs(
+    categoriesTree,
+    active,
+    subcategorySlug || undefined
+  );
   // Join all slugs with comma for API call
   const categorySlugsString = allCategorySlugs.join(',');
 
@@ -163,6 +201,7 @@ export default async function CategoryListingPage({
       <Container className='space-y-4 mt-6 px-4'>
         <CategoryLayout
           categories={categories as unknown as any}
+          categoriesTree={categoriesTree}
           activeCategory={active}
           brands={brands}
           products={productRows}
