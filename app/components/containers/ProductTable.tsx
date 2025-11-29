@@ -1,6 +1,11 @@
 'use client';
 
-import { Text } from '@ktbiotech/system-design';
+import {
+  ChevronRightIcon,
+  Heading,
+  Link as SystemLink,
+  Text,
+} from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Link } from '../../utils/link';
@@ -120,83 +125,78 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
         </div>
       </div>
 
-      {/* Mobile Card View (< 768px) */}
+      {/* Mobile Card View (< 768px) - Horizontal Layout */}
       <div
-        className={`md:hidden rounded-lg overflow-hidden border border-[#E3EEF5] ${className}`}
+        className={`md:hidden space-y-3 ${className}`}
       >
-        {/* Tab Header */}
-        <div className='grid grid-cols-[150px_1fr] bg-[#D9EDF7]'>
-          <div
-            className={` px-6 py-3 text-sm font-medium transition-colors rounded-none  text-[#1B1C1D]`}
-          >
-            {t('image')}
-          </div>
-          <div
-            className={` text-center  py-3 text-sm font-medium text-[#1B1C1D] transition-colors rounded-none `}
-          >
-            {t('product')}
-          </div>
-        </div>
+        {products.map(p => {
+          if (!p.slug) return null;
+          const productHref = `/san-pham/${p.slug}`;
 
-        {/* Content */}
-        <div className='bg-white divide-y divide-[#EAF3F8]'>
-          {products.map(p => {
-            if (!p.slug) return null;
-            const productHref = `/san-pham/${p.slug}`;
+          return (
+            <article
+              key={p.id}
+              className='flex gap-3 cursor-pointer group rounded-lg overflow-hidden border border-[#E3EEF5] bg-white hover:bg-gray-50 transition-colors'
+              onClick={() => {
+                window.location.href = productHref;
+              }}
+            >
+              {/* Image - Left (1/3) */}
+              <div className='flex-shrink-0 w-1/3 relative'>
+                {p.imageUrl ? (
+                  <Image
+                    src={p.imageUrl}
+                    alt={p.name}
+                    width={120}
+                    height={120}
+                    className='w-full h-full object-cover rounded-lg'
+                  />
+                ) : (
+                  <div className='w-full h-full bg-gray-300 rounded-lg flex items-center justify-center'>
+                    <Text variant='caption' color='muted' className='text-xs'>
+                      Image
+                    </Text>
+                  </div>
+                )}
+              </div>
 
-            return (
-              <Link
-                key={p.id}
-                href={productHref}
-                className='p-4 flex gap-4 hover:bg-gray-50 transition-colors cursor-pointer'
-              >
-                {/* Image - Large square on left */}
-                <div className='flex-shrink-0'>
-                  {p.imageUrl ? (
-                    <div className='relative w-[150px] h-[150px] rounded-md overflow-hidden bg-gray-100'>
-                      <Image
-                        src={p.imageUrl}
-                        alt={p.name}
-                        fill
-                        className='object-cover'
-                      />
-                    </div>
-                  ) : (
-                    <div className='w-[150px] h-[150px] rounded-md bg-gray-200' />
-                  )}
-                </div>
+              {/* Content - Right (2/3) */}
+              <div className='flex-1 flex flex-col justify-between py-1'>
+                {/* Title */}
+                <Heading
+                  level={4}
+                  color='#1B1C1D'
+                  className='!text-base !font-[700] mb-2 line-clamp-2'
+                >
+                  {p.name}
+                </Heading>
 
-                {/* Content - Right side */}
-                <div className='flex-1 min-w-0'>
-                  <Text
-                    className='font-bold text-[#1B1C1D]'
-                    weight='bold'
-                    style={{
-                      display: '-webkit-box',
-                      WebkitLineClamp: 3,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                    }}
-                  >
-                    {p.name}
-                  </Text>
-                  <Text
-                    color='#636A6E'
-                    className='text-sm mt-1'
-                    style={{
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
-                    }}
-                  >
-                    {p.description}
-                  </Text>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+                {/* Description - Truncated */}
+                <Text
+                  variant='caption'
+                  color='#7C8388'
+                  className='text-xs mb-2 line-clamp-2'
+                >
+                  {p.description}
+                </Text>
+
+                {/* View All Link */}
+                <SystemLink
+                  href={productHref}
+                  className='inline-flex items-center gap-1 !text-[#3691C9] hover:!text-[#3691C9] font-medium text-xs !underline-none !no-underline whitespace-nowrap'
+                >
+                  <div className='flex items-center gap-1'>
+                    <span>{t('viewAll')}</span>
+                    <ChevronRightIcon
+                      fill='#3691C9'
+                      className='w-3 h-3 flex-shrink-0'
+                    />
+                  </div>
+                </SystemLink>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </>
   );
