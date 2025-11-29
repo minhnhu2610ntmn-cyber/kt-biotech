@@ -878,15 +878,18 @@ export function Navbar({
                                     </div>
                                   )}
                                   {/* View All Link */}
-                                  {sc.slug && parentSlug && (
-                                    <Link
-                                      href={`/danh-muc-san-pham/${parentSlug}?sub=${sc.slug}`}
-                                      className='block text-sm font-medium text-[#215778] px-3 py-2 rounded hover:bg-blue-50 transition-colors duration-150 mt-2'
-                                      onClick={closeMegaMenu}
-                                    >
-                                      {tCommon('viewAll')} →
-                                    </Link>
-                                  )}
+                                  {sc.slug &&
+                                    parentSlug &&
+                                    Array.isArray(sc.products) &&
+                                    sc.products.length > 0 && (
+                                      <Link
+                                        href={`/danh-muc-san-pham/${parentSlug}?sub=${sc.slug}`}
+                                        className='block text-sm font-medium text-[#215778] px-3 py-2 rounded hover:bg-blue-50 transition-colors duration-150 mt-2'
+                                        onClick={closeMegaMenu}
+                                      >
+                                        {tCommon('viewAll')} →
+                                      </Link>
+                                    )}
                                 </div>
                               </div>
                             ))}
@@ -927,7 +930,7 @@ export function Navbar({
                                 </div>
                               )}
                               {/* View All Link */}
-                              {parentSlug && (
+                              {parentSlug && parentProducts.length > 0 && (
                                 <Link
                                   href={`/danh-muc-san-pham/${parentSlug}`}
                                   className='block text-sm font-medium text-[#215778] px-3 py-2 rounded hover:bg-blue-50 transition-colors duration-150 mt-2'

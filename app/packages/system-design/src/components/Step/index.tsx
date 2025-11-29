@@ -45,7 +45,7 @@ export const Timeline: React.FC<TimelineProps> = ({
               className={`flex max-w-[594px] ${isVertical ? 'flex-row' : 'flex-col'} ${isVertical ? 'items-start' : 'items-center'} ${isVertical ? 'space-x-4' : 'space-y-2'}`}
             >
               {/* Timeline Circle */}
-              <div className='flex flex-col items-center'>
+              <div className='hidden lg:flex flex-col items-center'>
                 {getItemIcon(item)}
 
                 {/* Connector Line */}
