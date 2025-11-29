@@ -63,7 +63,7 @@ export default function Footer({
             {/* Description */}
             <Text
               color='gray-300'
-              className='mb-4 sm:mb-6 text-xs sm:text-sm leading-relaxed'
+              className='mb-4 sm:mb-6 !text-base sm:!text-sm leading-relaxed'
             >
               {t('description')}
             </Text>
@@ -71,39 +71,39 @@ export default function Footer({
             {/* Social Media Icons */}
             <div className='flex flex-wrap gap-3 sm:gap-4'>
               {/* Facebook */}
-              <div className='w-[20px] h-[20px] bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors cursor-pointer hover:scale-[1.25]'>
+              <div className='w-10 h-10 sm:w-5 sm:h-5 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors cursor-pointer hover:scale-[1.25]'>
                 <FacebookIcon
-                  width={14}
-                  height={14}
+                  width={28}
+                  height={28}
                   stroke='white'
-                  className='h-[14px] w-[14px]'
+                  className='h-7 w-7 sm:h-[14px] sm:w-[14px]'
                 />
               </div>
               {/* Zalo */}
-              <div className='w-[20px] h-[20px] bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer hover:scale-[1.25]'>
+              <div className='w-10 h-10 sm:w-5 sm:h-5 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer hover:scale-[1.25]'>
                 <ZaloIcon
-                  width={14}
-                  height={14}
+                  width={28}
+                  height={28}
                   fill='white'
-                  className='h-[14px] w-[14px]'
+                  className='h-7 w-7 sm:h-[14px] sm:w-[14px]'
                 />
               </div>
               {/* TikTok */}
-              <div className='w-[20px] h-[20px] bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer hover:scale-[1.25]'>
+              <div className='w-10 h-10 sm:w-5 sm:h-5 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer hover:scale-[1.25]'>
                 <TikTokIcon
-                  width={14}
-                  height={14}
+                  width={28}
+                  height={28}
                   stroke='white'
-                  className='h-[14px] w-[14px]'
+                  className='h-7 w-7 sm:h-[14px] sm:w-[14px]'
                 />
               </div>
               {/* YouTube */}
               <div className='flex items-center justify-center hover:scale-[1.25] transition-transform cursor-pointer'>
                 <YouTubeIcon
-                  width={18}
-                  height={18}
+                  width={36}
+                  height={36}
                   stroke='#ff0000'
-                  className='sm:w-5 sm:h-5'
+                  className='w-9 h-9 sm:w-5 sm:h-5'
                 />
               </div>
             </div>
@@ -114,7 +114,7 @@ export default function Footer({
             <Heading
               level={4}
               color='white'
-              className='font-semibold mb-4 sm:mb-6 text-base sm:text-lg'
+              className='font-semibold mb-4 sm:mb-6 text-lg sm:text-lg'
             >
               {t('products')}
             </Heading>
@@ -124,7 +124,7 @@ export default function Footer({
                   <Link
                     key={category.id}
                     href={`/danh-muc-san-pham/${category.slug || category.id}`}
-                    className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
+                    className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 !text-base sm:!text-sm'
                   >
                     {category.name || 'Unnamed Category'}
                   </Link>
@@ -134,7 +134,7 @@ export default function Footer({
                 <>
                   <Link
                     href='/danh-muc-san-pham'
-                    className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
+                    className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 !text-base sm:!text-sm'
                   >
                     {t('productCategories')}
                   </Link>
@@ -148,38 +148,38 @@ export default function Footer({
             <Heading
               level={4}
               color='white'
-              className='font-semibold mb-4 sm:mb-6 text-base sm:text-lg'
+              className='font-semibold mb-4 sm:mb-6 text-lg sm:text-lg'
             >
               {t('aboutUs')}
             </Heading>
             <div className='space-y-2 sm:space-y-3'>
               <Link
                 href='/gioi-thieu/ve-chung-toi'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 !text-base sm:!text-sm'
               >
                 {t('about')}
               </Link>
               <Link
                 href='/gioi-thieu/giai-thuong'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 !text-base sm:!text-sm'
               >
                 {t('awards')}
               </Link>
               <Link
                 href='/gioi-thieu/quan-he-hop-tac'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 !text-base sm:!text-sm'
               >
                 {t('cooperation')}
               </Link>
               <Link
                 href='/blogs'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 !text-base sm:!text-sm'
               >
                 {t('news')}
               </Link>
               <Link
                 href='/lien-he'
-                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm'
+                className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 !text-base sm:!text-sm'
               >
                 {t('contact')}
               </Link>
@@ -191,7 +191,7 @@ export default function Footer({
             <Heading
               level={4}
               color='white'
-              className='font-semibold mb-4 sm:mb-6 text-base sm:text-lg'
+              className='font-semibold mb-4 sm:mb-6 text-lg sm:text-lg'
             >
               {t('information')}
             </Heading>
@@ -199,16 +199,16 @@ export default function Footer({
               {/* Address HCMC */}
               <div className='flex items-start space-x-2 sm:space-x-3'>
                 <AddressIcon
-                  width={14}
-                  height={14}
+                  width={28}
+                  height={28}
                   stroke='white'
-                  className='mt-1 flex-shrink-0 sm:w-4 sm:h-4'
+                  className='mt-1 flex-shrink-0 w-7 h-7 sm:w-4 sm:h-4'
                 />
                 <a
                   href={`https://maps.google.com/?q=${encodeURIComponent(t('address'))}`}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm leading-relaxed cursor-pointer'
+                  className='text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 !text-base sm:!text-sm leading-relaxed cursor-pointer'
                 >
                   {t('address')}
                 </a>
@@ -217,16 +217,16 @@ export default function Footer({
               {/* Address Hanoi */}
               <div className='flex items-start space-x-2 sm:space-x-3'>
                 <AddressIcon
-                  width={14}
-                  height={14}
+                  width={28}
+                  height={28}
                   stroke='white'
-                  className='mt-1 flex-shrink-0 sm:w-4 sm:h-4'
+                  className='mt-1 flex-shrink-0 w-7 h-7 sm:w-4 sm:h-4'
                 />
                 <a
                   href={`https://maps.google.com/?q=${encodeURIComponent(t('addressHanoi'))}`}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm leading-relaxed cursor-pointer'
+                  className='text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 !text-base sm:!text-sm leading-relaxed cursor-pointer'
                 >
                   {t('addressHanoi')}
                 </a>
@@ -235,14 +235,14 @@ export default function Footer({
               {/* Phone */}
               <div className='flex items-center space-x-2 sm:space-x-3'>
                 <PhoneIcon
-                  width={14}
-                  height={14}
+                  width={28}
+                  height={28}
                   stroke='white'
-                  className='sm:w-4 sm:h-4'
+                  className='w-7 h-7 sm:w-4 sm:h-4'
                 />
                 <a
                   href='tel:+842837612606'
-                  className='text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 text-xs sm:text-sm cursor-pointer'
+                  className='text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 !text-base sm:!text-sm cursor-pointer'
                 >
                   (+84) 28.3761.2606
                 </a>
@@ -251,12 +251,12 @@ export default function Footer({
               {/* Email */}
               <div className='flex items-start space-x-2 sm:space-x-3'>
                 <EmailIcon
-                  width={14}
-                  height={14}
+                  width={28}
+                  height={28}
                   stroke='white'
-                  className='mt-1 flex-shrink-0 sm:w-4 sm:h-4'
+                  className='mt-1 flex-shrink-0 w-7 h-7 sm:w-4 sm:h-4'
                 />
-                <div className='text-gray-300 text-xs sm:text-sm'>
+                <div className='text-gray-300 !text-base sm:!text-sm'>
                   <a
                     href='mailto:Info@kt-biotech.com'
                     className='block hover:text-white hover:-translate-y-0.5 transition-all duration-200 cursor-pointer mb-1'
@@ -275,12 +275,12 @@ export default function Footer({
               {/* Business Hours */}
               <div className='flex items-start space-x-2 sm:space-x-3'>
                 <OClockIcon
-                  width={14}
-                  height={14}
+                  width={28}
+                  height={28}
                   stroke='white'
-                  className='mt-1 flex-shrink-0 sm:w-4 sm:h-4'
+                  className='mt-1 flex-shrink-0 w-7 h-7 sm:w-4 sm:h-4'
                 />
-                <div className='text-gray-300 text-xs sm:text-sm'>
+                <div className='text-gray-300 !text-base sm:!text-sm'>
                   <div className='font-medium'>{t('businessHours')}</div>
                   <div>{t('morning')}</div>
                   <div>{t('afternoon')}</div>
@@ -293,7 +293,10 @@ export default function Footer({
         {/* Footer Bottom */}
         <div className='border-t border-gray-700 mt-6 sm:mt-8 lg:mt-12 pt-4 sm:pt-6 lg:pt-8'>
           <div className='flex items-center justify-center'>
-            <Text color='gray-400' className='text-xs sm:text-sm text-center'>
+            <Text
+              color='gray-400'
+              className='!text-base sm:!text-sm text-center'
+            >
               Copyright © 2025 <span className='font-bold'>Khoa Thương</span>.
               Designed by{' '}
               <Link

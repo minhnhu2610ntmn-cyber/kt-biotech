@@ -1,6 +1,12 @@
 'use client';
 
-import { Container, Heading, Text, Timeline } from '@ktbiotech/system-design';
+import {
+  Button,
+  Container,
+  Heading,
+  Text,
+  Timeline,
+} from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 
@@ -8,8 +14,21 @@ export default function TechnologySection() {
   const t = useTranslations('homepage.technology');
   const [isVisible, setIsVisible] = useState(false);
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Check if mobile viewport
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024); // lg breakpoint
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -55,33 +74,47 @@ export default function TechnologySection() {
   const timelineItems = [
     {
       id: 1,
-      title: 'Tiêu đề mốc thời gian',
+      title: 'Tiêu đề công nghệ 1',
       description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      date: '01/01/2025',
+        'Tiêu đề công nghệ - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+      date: '01/02/2025',
     },
     {
       id: 2,
-      title: 'Tiêu đề mốc thời gian',
+      title: 'Tiêu đề công nghệ 2',
       description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      date: '01/01/2025',
+        'fake 1 text - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+      date: '01/03/2025',
     },
     {
       id: 3,
-      title: 'Tiêu đề mốc thời gian',
+      title: 'Tiêu đề công nghệ 3',
       description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      date: '01/01/2025',
+        'fake 2 text - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+      date: '01/04/2025',
     },
     {
       id: 4,
-      title: 'Tiêu đề mốc thời gian',
+      title: 'Tiêu đề công nghệ 4',
       description:
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      date: '01/01/2025',
+        'fake 3 text - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+      date: '01/05/2025',
     },
   ];
+
+  const handleNext = () => {
+    setActiveIndex(prev => (prev + 1) % timelineItems.length);
+  };
+
+  const handlePrev = () => {
+    setActiveIndex(
+      prev => (prev - 1 + timelineItems.length) % timelineItems.length
+    );
+  };
+
+  const activeItem = timelineItems[activeIndex];
+  const isFirstItem = activeIndex === 0;
+  const isLastItem = activeIndex === timelineItems.length - 1;
 
   return (
     <Container className='max-w-screen'>
@@ -96,25 +129,118 @@ export default function TechnologySection() {
                   : 'opacity-0 -translate-x-8'
               }`}
             >
-              <div className='relative space-y-4'>
-                {timelineItems.map((item, index) => (
-                  <div
-                    key={item.id}
-                    ref={el => {
-                      itemRefs.current[index] = el;
-                    }}
-                    data-index={index}
-                    className={`transition-all duration-600 ease-out ${
-                      visibleItems.has(index)
-                        ? 'opacity-100 translate-y-0'
-                        : 'opacity-0 translate-y-8'
-                    }`}
-                    style={{ transitionDelay: `${index * 200}ms` }}
-                  >
-                    <Timeline items={[item]} />
+              {isMobile ? (
+                /* Mobile View: Progress Bar + Single Card + Navigation */
+                <div className='w-full space-y-6'>
+                  {/* Progress Bar */}
+                  <div className='relative flex items-center justify-between px-2'>
+                    {/* Progress Line */}
+                    <div className='absolute top-1/2 left-0 right-0 h-0.5 bg-[#86BDDF] -translate-y-1/2 z-0' />
+                    <div
+                      className='absolute top-1/2 left-0 h-0.5 bg-[#86BDDF] -translate-y-1/2 z-0 transition-all duration-300'
+                      style={{
+                        width: `${(activeIndex / (timelineItems.length - 1)) * 100}%`,
+                      }}
+                    />
+
+                    {/* Progress Dots */}
+                    {timelineItems.map((_, index) => (
+                      <div
+                        key={index}
+                        className={`relative z-10 w-4 h-4 rounded-full border-2 transition-all duration-300 ${
+                          index <= activeIndex
+                            ? 'bg-[#86BDDF] border-[#86BDDF]'
+                            : 'bg-white border-[#86BDDF]'
+                        }`}
+                      />
+                    ))}
                   </div>
-                ))}
-              </div>
+
+                  {/* Single Milestone Card */}
+                  <div className='w-full'>
+                    <Timeline items={[activeItem]} />
+                  </div>
+
+                  {/* Navigation Controls */}
+                  <div className='flex items-center justify-center gap-4'>
+                    <Button
+                      variant='outline'
+                      size='lg'
+                      onClick={handlePrev}
+                      disabled={isFirstItem}
+                      className={`rounded-lg border-gray-300 ${
+                        isFirstItem
+                          ? 'opacity-50 cursor-not-allowed'
+                          : 'hover:bg-gray-50'
+                      }`}
+                      aria-label='Previous milestone'
+                    >
+                      <svg
+                        width='16'
+                        height='16'
+                        viewBox='0 0 16 16'
+                        fill='none'
+                        xmlns='http://www.w3.org/2000/svg'
+                      >
+                        <path
+                          d='M10 12L6 8L10 4'
+                          stroke='currentColor'
+                          strokeWidth='2'
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                        />
+                      </svg>
+                    </Button>
+                    <Button
+                      variant='default'
+                      size='lg'
+                      onClick={handleNext}
+                      disabled={isLastItem}
+                      className={`rounded-lg bg-[#86BDDF] hover:bg-[#6BA3C7] ${
+                        isLastItem ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
+                      aria-label='Next milestone'
+                    >
+                      <svg
+                        width='16'
+                        height='16'
+                        viewBox='0 0 16 16'
+                        fill='none'
+                        xmlns='http://www.w3.org/2000/svg'
+                      >
+                        <path
+                          d='M6 4L10 8L6 12'
+                          stroke='currentColor'
+                          strokeWidth='2'
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                        />
+                      </svg>
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                /* Desktop View: List of all timeline items */
+                <div className='relative space-y-4'>
+                  {timelineItems.map((item, index) => (
+                    <div
+                      key={item.id}
+                      ref={el => {
+                        itemRefs.current[index] = el;
+                      }}
+                      data-index={index}
+                      className={`transition-all duration-600 ease-out ${
+                        visibleItems.has(index)
+                          ? 'opacity-100 translate-y-0'
+                          : 'opacity-0 translate-y-8'
+                      }`}
+                      style={{ transitionDelay: `${index * 200}ms` }}
+                    >
+                      <Timeline items={[item]} />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Right Column - Content */}
