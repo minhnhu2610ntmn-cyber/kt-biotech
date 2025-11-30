@@ -1,7 +1,15 @@
 'use client';
 
-import { Container, Heading } from '@ktbiotech/system-design';
+import {
+  ChevronRightIcon,
+  Container,
+  Heading,
+  Link,
+  Text,
+} from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { mockRecruitmentPosts } from '../../data/mockData';
 import RecruitmentCard from '../RecruitmentCard';
@@ -25,6 +33,8 @@ export default function RecruitmentNewsSection({
   posts,
 }: RecruitmentNewsSectionProps) {
   const t = useTranslations('blog');
+  const tCommon = useTranslations('common');
+  const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -88,8 +98,69 @@ export default function RecruitmentNewsSection({
           {t('recruitment')}
         </Heading>
 
-        {/* Recruitment Cards Grid - 3 columns on desktop, 1 column on mobile */}
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-3 lg:px-0'>
+        {/* Mobile: Horizontal Card Layout */}
+        <div className='lg:hidden px-3 space-y-3'>
+          {recruitmentPosts.slice(0, 6).map(post => (
+            <article
+              key={post.id}
+              onClick={() => router.push(post.href)}
+              className='flex gap-3 cursor-pointer group rounded-lg overflow-hidden'
+            >
+              {/* Image - Left (1/3) */}
+              <div className='flex-shrink-0 w-1/3 relative'>
+                <Image
+                  src={post.imageSrc}
+                  alt={post.imageAlt}
+                  width={120}
+                  height={120}
+                  className='object-cover rounded-lg w-full h-full'
+                />
+              </div>
+
+              {/* Content - Right (2/3) */}
+              <div className='flex-1 flex flex-col py-1'>
+                {/* Date */}
+                <Text
+                  variant='caption'
+                  color='#7C8388'
+                  className='text-xs mb-0'
+                >
+                  {post.date}
+                </Text>
+
+                {/* Title */}
+                <Text
+                  color='#1B1C1D'
+                  className='!text-base !font-[700] mb-2 line-clamp-2'
+                >
+                  {post.title}
+                </Text>
+
+                {/* View All Link */}
+                <div
+                  onClick={e => e.stopPropagation()}
+                  className='inline-flex items-center gap-1'
+                >
+                  <Link
+                    href={post.href}
+                    className='inline-flex items-center gap-1 !text-[#3691C9] hover:!text-[#3691C9] font-medium text-xs !underline-none !no-underline whitespace-nowrap'
+                  >
+                    <div className='flex items-center gap-1'>
+                      {tCommon('viewAll')}
+                      <ChevronRightIcon
+                        fill='#3691C9'
+                        className='w-3 h-3 flex-shrink-0'
+                      />
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* Desktop: Recruitment Cards Grid - 3 columns */}
+        <div className='hidden lg:grid grid-cols-3 gap-6'>
           {recruitmentPosts.slice(0, 6).map((post, index) => (
             <div
               key={post.id}
