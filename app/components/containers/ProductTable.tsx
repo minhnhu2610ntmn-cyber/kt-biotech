@@ -126,39 +126,39 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
       </div>
 
       {/* Mobile Card View (< 768px) - Horizontal Layout */}
-      <div
+          <div
         className={`md:hidden space-y-3 ${className}`}
       >
-        {products.map(p => {
-          if (!p.slug) return null;
-          const productHref = `/san-pham/${p.slug}`;
+          {products.map(p => {
+            if (!p.slug) return null;
+            const productHref = `/san-pham/${p.slug}`;
 
-          return (
+            return (
             <article
-              key={p.id}
+                key={p.id}
               className='flex gap-3 cursor-pointer group rounded-lg overflow-hidden border border-[#E3EEF5] bg-white hover:bg-gray-50 transition-colors'
               onClick={() => {
                 window.location.href = productHref;
               }}
-            >
+              >
               {/* Image - Left (1/3) */}
               <div className='flex-shrink-0 w-1/3 relative'>
-                {p.imageUrl ? (
-                  <Image
-                    src={p.imageUrl}
-                    alt={p.name}
+                  {p.imageUrl ? (
+                      <Image
+                        src={p.imageUrl}
+                        alt={p.name}
                     width={120}
                     height={120}
                     className='w-full h-full object-cover rounded-lg'
-                  />
+                      />
                 ) : (
                   <div className='w-full h-full bg-gray-300 rounded-lg flex items-center justify-center'>
                     <Text variant='caption' color='muted' className='text-xs'>
                       Image
                     </Text>
-                  </div>
-                )}
-              </div>
+                    </div>
+                  )}
+                </div>
 
               {/* Content - Right (2/3) */}
               <div className='flex-1 flex flex-col justify-between py-1'>
@@ -167,18 +167,18 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
                   level={4}
                   color='#1B1C1D'
                   className='!text-base !font-[700] mb-2 line-clamp-2'
-                >
-                  {p.name}
+                  >
+                    {p.name}
                 </Heading>
 
                 {/* Description - Truncated */}
-                <Text
+                  <Text
                   variant='caption'
                   color='#7C8388'
                   className='text-xs mb-2 line-clamp-2'
-                >
-                  {p.description}
-                </Text>
+                  >
+                    {p.description}
+                  </Text>
 
                 {/* View All Link */}
                 <SystemLink
@@ -193,10 +193,10 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
                     />
                   </div>
                 </SystemLink>
-              </div>
+                </div>
             </article>
-          );
-        })}
+            );
+          })}
       </div>
     </>
   );

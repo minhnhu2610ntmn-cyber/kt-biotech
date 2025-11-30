@@ -221,25 +221,25 @@ export default function TechnologySection() {
                 </div>
               ) : (
                 /* Desktop View: List of all timeline items */
-                <div className='relative space-y-4'>
-                  {timelineItems.map((item, index) => (
-                    <div
-                      key={item.id}
-                      ref={el => {
-                        itemRefs.current[index] = el;
-                      }}
-                      data-index={index}
-                      className={`transition-all duration-600 ease-out ${
-                        visibleItems.has(index)
-                          ? 'opacity-100 translate-y-0'
-                          : 'opacity-0 translate-y-8'
-                      }`}
-                      style={{ transitionDelay: `${index * 200}ms` }}
-                    >
-                      <Timeline items={[item]} />
-                    </div>
-                  ))}
-                </div>
+              <div className='relative space-y-4'>
+                {timelineItems.map((item, index) => (
+                  <div
+                    key={item.id}
+                    ref={el => {
+                      itemRefs.current[index] = el;
+                    }}
+                    data-index={index}
+                    className={`transition-all duration-600 ease-out ${
+                      visibleItems.has(index)
+                        ? 'opacity-100 translate-y-0'
+                        : 'opacity-0 translate-y-8'
+                    }`}
+                    style={{ transitionDelay: `${index * 200}ms` }}
+                  >
+                    <Timeline items={[item]} />
+                  </div>
+                ))}
+              </div>
               )}
             </div>
 

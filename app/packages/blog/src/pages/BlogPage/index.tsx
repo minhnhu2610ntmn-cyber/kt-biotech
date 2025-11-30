@@ -40,12 +40,16 @@ export default function BlogPage({
         <Heading
           level={2}
           color='#215778'
-          className='font-bold !text-2xl mb-[42px] underline decoration-[#2C3E50] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-300'
+          className='font-bold !text-2xl px-4 xl:px-0 mb-[42px] underline decoration-[#2C3E50] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-300'
         >
           {t('latest')}
         </Heading>
         {/* News Section */}
-        <NewsSection latestArticles={latestArticles || []} gap='gap-4 ' />
+        <NewsSection
+          latestArticles={latestArticles || []}
+          gap='gap-4 '
+          className='px-0'
+        />
 
         {/* Most Viewed Section */}
         <MostViewedSection articles={mostViewedArticles} />

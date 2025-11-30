@@ -147,35 +147,35 @@ export default async function ProductCategoriesPage({
                 <div className='hidden lg:block'>
                   <div className='rounded-xl overflow-hidden bg-gray-100 border border-gray-200'>
                     <div className='relative w-full h-[220px]'>
-                      {imageUrl ? (
-                        <Image
-                          src={imageUrl}
-                          alt={category.name}
-                          fill
-                          className='object-cover'
-                          placeholder='blur'
-                          blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                            shimmer(700, 400)
-                          )}`}
-                          sizes='(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
-                          fetchPriority={index < 3 ? 'high' : 'low'}
-                        />
-                      ) : (
-                        <div className='w-full h-full bg-slate-100' />
-                      )}
-                    </div>
+                    {imageUrl ? (
+                      <Image
+                        src={imageUrl}
+                        alt={category.name}
+                        fill
+                        className='object-cover'
+                        placeholder='blur'
+                        blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                          shimmer(700, 400)
+                        )}`}
+                        sizes='(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
+                        fetchPriority={index < 3 ? 'high' : 'low'}
+                      />
+                    ) : (
+                      <div className='w-full h-full bg-slate-100' />
+                    )}
                   </div>
-                  <div className='mt-3'>
-                    <Text
-                      className='!font-semibold !text-gray-900'
-                      color='#1B1C1D'
-                      weight='semibold'
-                    >
-                      {category.name}
-                    </Text>
-                    <Text className='!text-gray-600' color='#636A6E'>
-                      {category.description || 'description'}
-                    </Text>
+                </div>
+                <div className='mt-3'>
+                  <Text
+                    className='!font-semibold !text-gray-900'
+                    color='#1B1C1D'
+                    weight='semibold'
+                  >
+                    {category.name}
+                  </Text>
+                  <Text className='!text-gray-600' color='#636A6E'>
+                    {category.description || 'description'}
+                  </Text>
                   </div>
                 </div>
               </Link>

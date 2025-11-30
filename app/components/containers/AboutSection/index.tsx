@@ -206,106 +206,106 @@ export default function AboutSection({ items = [], title }: AboutSectionProps) {
               ) : (
                 /* Desktop Layout - Original Design */
                 <div className='hidden lg:flex flex-row gap-8 items-center'>
-                  {/* Image */}
+              {/* Image */}
                   <div className='w-1/2'>
-                    {item.imageUrl ? (
-                      <div
-                        className={`relative rounded-lg h-80 overflow-hidden transition-all duration-500 ease-out ${
-                          visibleItems.has(index)
-                            ? 'scale-100 opacity-100'
-                            : 'scale-95 opacity-70'
-                        }`}
-                        style={{
-                          transitionDelay: `${index * 150 + 200}ms`,
-                        }}
-                      >
-                        <Image
-                          src={item.imageUrl}
-                          alt={item.title}
-                          fill
-                          className='object-cover'
-                          sizes='(max-width: 1024px) 100vw, 50vw'
-                        />
-                      </div>
-                    ) : (
-                      <div
+                {item.imageUrl ? (
+                  <div
+                    className={`relative rounded-lg h-80 overflow-hidden transition-all duration-500 ease-out ${
+                      visibleItems.has(index)
+                        ? 'scale-100 opacity-100'
+                        : 'scale-95 opacity-70'
+                    }`}
+                    style={{
+                      transitionDelay: `${index * 150 + 200}ms`,
+                    }}
+                  >
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.title}
+                      fill
+                      className='object-cover'
+                      sizes='(max-width: 1024px) 100vw, 50vw'
+                    />
+                  </div>
+                ) : (
+                  <div
                         className={`bg-gray-300 rounded-lg h-80 flex items-center justify-center transition-all duration-500 ease-out ${
-                          visibleItems.has(index)
-                            ? 'scale-100 opacity-100'
-                            : 'scale-95 opacity-70'
-                        }`}
-                        style={{
-                          transitionDelay: `${index * 150 + 200}ms`,
-                        }}
-                      >
-                        <Text variant='caption' color='muted' className='text-lg'>
-                          Image Placeholder
-                        </Text>
-                      </div>
-                    )}
+                      visibleItems.has(index)
+                        ? 'scale-100 opacity-100'
+                        : 'scale-95 opacity-70'
+                    }`}
+                    style={{
+                      transitionDelay: `${index * 150 + 200}ms`,
+                    }}
+                  >
+                    <Text variant='caption' color='muted' className='text-lg'>
+                      Image Placeholder
+                    </Text>
                   </div>
+                )}
+              </div>
 
-                  {/* Content */}
+              {/* Content */}
                   <div className='w-1/2'>
-                    <div
-                      className={`transition-all duration-500 ease-out ${
-                        visibleItems.has(index)
-                          ? 'opacity-100 translate-x-0'
-                          : 'opacity-0 translate-x-4'
-                      }`}
-                      style={{
-                        transitionDelay: `${index * 150 + 300}ms`,
-                      }}
+                <div
+                  className={`transition-all duration-500 ease-out ${
+                    visibleItems.has(index)
+                      ? 'opacity-100 translate-x-0'
+                      : 'opacity-0 translate-x-4'
+                  }`}
+                  style={{
+                    transitionDelay: `${index * 150 + 300}ms`,
+                  }}
+                >
+                  <Heading level={3} color='#215778' className='mb-4 !text-2xl'>
+                    {item.title}
+                  </Heading>
+                </div>
+                <div
+                  className={`transition-all duration-500 ease-out ${
+                    visibleItems.has(index)
+                      ? 'opacity-100 translate-x-0'
+                      : 'opacity-0 translate-x-4'
+                  }`}
+                  style={{
+                    transitionDelay: `${index * 150 + 400}ms`,
+                  }}
+                >
+                  <Text variant='body' className='mb-6 leading-relaxed'>
+                    {item.description}
+                  </Text>
+                </div>
+                <div
+                  className={`transition-all duration-500 ease-out ${
+                    visibleItems.has(index)
+                      ? 'opacity-100 translate-x-0'
+                      : 'opacity-0 translate-x-4'
+                  }`}
+                  style={{
+                    transitionDelay: `${index * 150 + 500}ms`,
+                  }}
+                >
+                  <a
+                    href={item.link}
+                    className='inline-flex items-center text-[#1092e3] hover:text-[#1092e3] font-medium transition-colors'
+                  >
+                    {t('viewAll')}
+                    <svg
+                      className='w-4 h-4 ml-1'
+                      fill='none'
+                      stroke='currentColor'
+                      viewBox='0 0 24 24'
                     >
-                      <Heading level={3} color='#215778' className='mb-4 !text-2xl'>
-                        {item.title}
-                      </Heading>
-                    </div>
-                    <div
-                      className={`transition-all duration-500 ease-out ${
-                        visibleItems.has(index)
-                          ? 'opacity-100 translate-x-0'
-                          : 'opacity-0 translate-x-4'
-                      }`}
-                      style={{
-                        transitionDelay: `${index * 150 + 400}ms`,
-                      }}
-                    >
-                      <Text variant='body' className='mb-6 leading-relaxed'>
-                        {item.description}
-                      </Text>
-                    </div>
-                    <div
-                      className={`transition-all duration-500 ease-out ${
-                        visibleItems.has(index)
-                          ? 'opacity-100 translate-x-0'
-                          : 'opacity-0 translate-x-4'
-                      }`}
-                      style={{
-                        transitionDelay: `${index * 150 + 500}ms`,
-                      }}
-                    >
-                      <a
-                        href={item.link}
-                        className='inline-flex items-center text-[#1092e3] hover:text-[#1092e3] font-medium transition-colors'
-                      >
-                        {t('viewAll')}
-                        <svg
-                          className='w-4 h-4 ml-1'
-                          fill='none'
-                          stroke='currentColor'
-                          viewBox='0 0 24 24'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            strokeWidth={2}
-                            d='M9 5l7 7-7 7'
-                          />
-                        </svg>
-                      </a>
-                    </div>
-                  </div>
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        strokeWidth={2}
+                        d='M9 5l7 7-7 7'
+                      />
+                    </svg>
+                  </a>
+                </div>
+              </div>
                 </div>
               )}
             </div>

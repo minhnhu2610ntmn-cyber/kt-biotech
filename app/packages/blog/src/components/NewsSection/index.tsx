@@ -41,6 +41,7 @@ interface NewsSectionProps {
   title?: string;
   gap?: string;
   mobileLayout?: 'vertical' | 'horizontal';
+  className?: string;
 }
 
 export default function NewsSection({
@@ -48,6 +49,7 @@ export default function NewsSection({
   title,
   gap = 'gap-4 sm:gap-6',
   mobileLayout = 'vertical',
+  className = 'px-4 xl:px-0',
 }: NewsSectionProps) {
   const t = useTranslations('blog');
   const tCommon = useTranslations('common');
@@ -126,7 +128,7 @@ export default function NewsSection({
       : mockBlogPosts;
 
   return (
-    <section ref={sectionRef} className='px-4 xl:px-0'>
+    <section ref={sectionRef} className={className}>
       <Container>
         {/* Section Title */}
         {title && (

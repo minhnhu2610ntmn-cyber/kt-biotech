@@ -48,7 +48,7 @@ export default function RecruitmentCard({
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
           />
         </div>
-        <div className='p-4'>
+        <div className='p-4 px-0 xl:px-4'>
           <Text color='#7C8388' className='text-xs mb-1'>
             {date}
           </Text>
