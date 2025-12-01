@@ -3,6 +3,7 @@
 import { cn } from '@ktbiotech/system-design';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 
 export interface ProductDetailBlock {
@@ -21,7 +22,7 @@ function normalizeMarkdown(content: string): string {
 
   const cleaned = content
     .replace(/<\/?p>/gi, '') // remove <p> and </p> wrappers from rich-text editors
-    .replace(/<br\s*\/?>/gi, '  \n') // convert <br> to markdown line breaks
+    .replace(/<br\s*\/?>/gi, '<br />') // standardize line break tags
     .trim();
 
   // Normalize lines: remove empty lines and trim to help GFM table detection
@@ -155,6 +156,7 @@ export default function ProductDetailContent({
           >
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
               components={{
                 table: ({ node: _node, ...props }) => (
                   <div className='my-4 overflow-x-auto'>

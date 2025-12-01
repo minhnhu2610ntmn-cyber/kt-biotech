@@ -58,9 +58,8 @@ export default async function AboutPage({
   const breadcrumbItems = [
     { label: t('home'), href: baseHref || '/' },
     { label: t('gioithieu'), href: `${baseHref}/gioi-thieu` },
-    { label: pageTitle, href: `${baseHref}/gioi-thieu` },
   ];
-
+  console.log('breadcrumbItems', breadcrumbItems);
   // Return empty items if global is null/not found
   return (
     <>
