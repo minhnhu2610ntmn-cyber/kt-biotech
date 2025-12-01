@@ -62,7 +62,7 @@ export default function CountriesSection() {
   return (
     <section
       ref={sectionRef}
-      className='py-16 bg-transparent relative overflow-hidden'
+      className='lg:py-16 pt-4 bg-transparent relative overflow-hidden'
     >
       {/* Title */}
       <Container>

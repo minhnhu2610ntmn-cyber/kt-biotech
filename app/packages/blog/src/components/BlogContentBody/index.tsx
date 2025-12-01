@@ -2,6 +2,7 @@
 
 import { cn, Slider, SliderPresets } from '@ktbiotech/system-design';
 import Image from 'next/image';
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import type {
@@ -208,7 +209,18 @@ function BlockRichText({ block }: { block: RichTextBlock }) {
       `,
         }}
       />
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{block.body}</ReactMarkdown>
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+          table: ({ node: _node, ...props }) => (
+            <div className='my-4 overflow-x-auto'>
+              {React.createElement('table', { ...props })}
+            </div>
+          ),
+        }}
+      >
+        {block.body}
+      </ReactMarkdown>
     </div>
   );
 }

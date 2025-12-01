@@ -83,7 +83,12 @@ export default async function CompanyPage({
     <Container>
       <div className='!pt-10'>
         <AnimatedPageContent>
-          <BlogHero title={title} imageUrl={heroUrl} imageAlt={title} />
+          <BlogHero
+            title={title}
+            imageUrl={heroUrl}
+            imageAlt={title}
+            isAboutPage={true}
+          />
         </AnimatedPageContent>
         <AnimatedPageContent delay={200}>
           <div className='max-w-5xl mx-auto px-2 lg:px-0 py-8 md:!-mt-[120px] mt-0'>

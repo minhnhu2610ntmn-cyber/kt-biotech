@@ -1,5 +1,8 @@
 // eslint-disable-next-line no-restricted-imports
+import { getTranslations } from 'next-intl/server';
 import { AboutSection } from '../components/containers';
+// eslint-disable-next-line no-restricted-imports
+import SetBreadcrumb from '../components/containers/SetBreadcrumb';
 import { buildImageUrl, StrapiApi } from '../config/api';
 
 // Disable static generation - fetch data at request time
@@ -45,6 +48,20 @@ export default async function AboutPage() {
     // Return empty items array on error
   }
 
+  // Breadcrumb (default locale = vi)
+  const t = await getTranslations('breadcrumb');
+  const pageTitle = t('gioithieuchung');
+  const breadcrumbItems = [
+    { label: t('home'), href: '/' },
+    { label: t('gioithieu'), href: '/gioi-thieu' },
+    { label: pageTitle, href: '/gioi-thieu' },
+  ];
+
   // Return empty items if global is null/not found
-  return <AboutSection items={items} />;
+  return (
+    <>
+      <SetBreadcrumb items={breadcrumbItems} />
+      <AboutSection items={items} title={pageTitle} />
+    </>
+  );
 }

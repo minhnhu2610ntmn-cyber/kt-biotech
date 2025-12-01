@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@ktbiotech/system-design';
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -13,6 +14,22 @@ export interface ProductDetailBlock {
 interface ProductDetailContentProps {
   blocks: ProductDetailBlock[];
   className?: string;
+}
+
+function normalizeMarkdown(content: string): string {
+  if (!content) return content;
+
+  const cleaned = content
+    .replace(/<\/?p>/gi, '') // remove <p> and </p> wrappers from rich-text editors
+    .replace(/<br\s*\/?>/gi, '  \n') // convert <br> to markdown line breaks
+    .trim();
+
+  // Normalize lines: remove empty lines and trim to help GFM table detection
+  return cleaned
+    .split(/\r?\n/)
+    .map(line => line.trim())
+    .filter(line => line.length > 0)
+    .join('\n');
 }
 
 export default function ProductDetailContent({
@@ -99,6 +116,13 @@ export default function ProductDetailContent({
             padding: 12px;
             text-align: left;
           }
+          .product-detail-content.prose table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+          }
+          .product-detail-content.prose table tbody tr:nth-child(even) td {
+            background-color: #f9fafb;
+          }
           .product-detail-content.prose a {
             color: #3b82f6;
             text-decoration: underline;
@@ -129,8 +153,17 @@ export default function ProductDetailContent({
             key={block.id ?? index}
             className='product-detail-content prose prose-lg max-w-none text-gray-800'
           >
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {block.body}
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                table: ({ node: _node, ...props }) => (
+                  <div className='my-4 overflow-x-auto'>
+                    {React.createElement('table', { ...props })}
+                  </div>
+                ),
+              }}
+            >
+              {normalizeMarkdown(block.body)}
             </ReactMarkdown>
           </div>
         );

@@ -1,8 +1,8 @@
 'use client';
 
+import type { BreadcrumbItem } from '@ktbiotech/system-design';
 import { useBreadcrumb } from '@ktbiotech/system-design';
 import { useEffect } from 'react';
-import type { BreadcrumbItem } from '@ktbiotech/system-design';
 
 interface SetBreadcrumbProps {
   items: BreadcrumbItem[];
@@ -10,7 +10,6 @@ interface SetBreadcrumbProps {
 
 export default function SetBreadcrumb({ items }: SetBreadcrumbProps) {
   const { setItems } = useBreadcrumb();
-
   useEffect(() => {
     setItems(items);
     return () => {

@@ -1,8 +1,7 @@
-// eslint-disable-next-line no-restricted-imports
+import { getTranslations } from 'next-intl/server';
 import { AboutSection } from '../../components/containers';
 import SetBreadcrumb from '../../components/containers/SetBreadcrumb';
 import { buildImageUrl, StrapiApi } from '../../config/api';
-import { getTranslations } from 'next-intl/server';
 
 // Disable static generation - fetch data at request time
 export const dynamic = 'force-dynamic';
@@ -54,16 +53,13 @@ export default async function AboutPage({
 
   // Build breadcrumb items from translation
   const t = await getTranslations('breadcrumb');
-  const homeHref = locale === 'vi' ? '/' : `/${locale}`;
-  const aboutHref =
-    locale === 'vi' ? '/gioi-thieu' : `/${locale}/gioi-thieu`;
-  const breadcrumbItems = [
-    { label: t('home'), href: homeHref },
-    { label: t('gioithieu'), href: aboutHref },
-  ];
-
-  // Get page title for AboutSection
   const pageTitle = t('gioithieuchung');
+  const baseHref = locale === 'vi' ? '' : `/${locale}`;
+  const breadcrumbItems = [
+    { label: t('home'), href: baseHref || '/' },
+    { label: t('gioithieu'), href: `${baseHref}/gioi-thieu` },
+    { label: pageTitle, href: `${baseHref}/gioi-thieu` },
+  ];
 
   // Return empty items if global is null/not found
   return (

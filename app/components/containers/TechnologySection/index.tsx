@@ -263,24 +263,27 @@ export default function TechnologySection() {
                 {t('title')}
               </Heading>
 
-              {/* Large Placeholder Box */}
-              <div
-                className={`w-full h-64 bg-[#DDEBF7] rounded-lg transition-all duration-600 ease-out delay-600 hover:scale-105 ${
-                  isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-                }`}
-              ></div>
+              {/* Description & Placeholder - order reversed on mobile */}
+              <div className='flex flex-col-reverse lg:flex-col gap-4'>
+                {/* Large Placeholder Box */}
+                <div
+                  className={`w-full h-64 bg-[#DDEBF7] rounded-lg transition-all duration-600 ease-out delay-600 hover:scale-105 ${
+                    isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                  }`}
+                ></div>
 
-              {/* Description Text */}
-              <Text
-                color='#333333'
-                className={`text-base leading-relaxed transition-all duration-600 ease-out delay-700 ${
-                  isVisible
-                    ? 'opacity-100 translate-y-0'
-                    : 'opacity-0 translate-y-4'
-                }`}
-              >
-                {t('description')}
-              </Text>
+                {/* Description Text */}
+                <Text
+                  color='#333333'
+                  className={`text-base leading-relaxed transition-all duration-600 ease-out delay-700 ${
+                    isVisible
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-4'
+                  }`}
+                >
+                  {t('description')}
+                </Text>
+              </div>
             </div>
           </div>
         </div>
