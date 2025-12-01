@@ -41,7 +41,12 @@ export function Breadcrumb({ items, className, separator }: BreadcrumbProps) {
   // Auto-generate breadcrumb from pathname if items not provided
   const breadcrumbItems = React.useMemo(() => {
     // Remove locale prefix from pathname for breadcrumb generation
-    const pathnameWithoutLocale = pathname.replace(/^\/[^/]+/, '') || '/';
+    // Default locale (vi) does not use a prefix, so we only strip
+    // the locale segment when it's a non-default locale.
+    const pathnameWithoutLocale =
+      locale === defaultLocale
+        ? pathname || '/'
+        : pathname.replace(`/${locale}`, '') || '/';
 
     // Hide breadcrumb on home page
     if (pathnameWithoutLocale === '/') {
@@ -146,7 +151,7 @@ export function Breadcrumb({ items, className, separator }: BreadcrumbProps) {
     });
 
     return result;
-  }, [pathname, items, contextItems, t, tNavbar]);
+  }, [pathname, items, contextItems, t, tNavbar, locale]);
 
   // Hide breadcrumb on home page or if no items
   if (pathname === '/' || breadcrumbItems.length === 0) {
