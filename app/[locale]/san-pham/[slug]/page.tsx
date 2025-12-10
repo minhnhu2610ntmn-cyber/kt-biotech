@@ -317,7 +317,10 @@ export default async function ProductDetailPage({
               <div className='space-y-3 border-t border-b border-gray-200 py-4'>
                 {brandName && (
                   <div className='flex flex-wrap gap-2'>
-                    <Text className='font-semibold text-gray-900 w-32 shrink-0'>
+                    <Text
+                      className='!font-semibold text-gray-900 w-32 shrink-0'
+                      weight='semibold'
+                    >
                       {t('manufacturer')}:
                     </Text>
                     <Text className='text-gray-700 flex-1'>{brandName}</Text>
@@ -325,7 +328,10 @@ export default async function ProductDetailPage({
                 )}
                 {specification && (
                   <div className='flex flex-wrap gap-2'>
-                    <Text className='font-semibold text-gray-900 w-32 shrink-0'>
+                    <Text
+                      className='!font-semibold text-gray-900 w-32 shrink-0'
+                      weight='semibold'
+                    >
                       {t('specification')}:
                     </Text>
                     <Text className='text-gray-700 flex-1'>
@@ -335,7 +341,10 @@ export default async function ProductDetailPage({
                 )}
                 {sku && (
                   <div className='flex flex-wrap gap-2'>
-                    <Text className='font-semibold text-gray-900 w-32 shrink-0'>
+                    <Text
+                      className='font-semibold text-gray-900 w-32 shrink-0'
+                      weight='semibold'
+                    >
                       {t('sku')}:
                     </Text>
                     <Text className='text-gray-700 flex-1'>{sku}</Text>
@@ -343,7 +352,10 @@ export default async function ProductDetailPage({
                 )}
                 {tags && (
                   <div className='flex flex-wrap gap-2'>
-                    <Text className='font-semibold text-gray-900 w-32 shrink-0'>
+                    <Text
+                      className='font-semibold text-gray-900 w-32 shrink-0'
+                      weight='semibold'
+                    >
                       {t('tags')}:
                     </Text>
                     <Text className='text-gray-700 flex-1'>{tags}</Text>

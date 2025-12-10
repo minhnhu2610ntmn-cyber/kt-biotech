@@ -32,7 +32,12 @@ export default async function ContactPage() {
       {/* Three Information Sections */}
       <Container className='grid grid-cols-1 md:grid-cols-3 gap-6 px-7'>
         {/* Address Section */}
-        <div className='bg-[#E7E8E9] rounded-lg p-6 text-center flex flex-col items-center justify-center shadow-sm'>
+        <a
+          href='https://maps.google.com/?q=Công+Ty+Tnhh+Công+Nghệ+Sinh+Học+Khoa+Thương'
+          target='_blank'
+          rel='noopener noreferrer'
+          className='bg-[#E7E8E9] rounded-lg p-6 text-center flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow cursor-pointer'
+        >
           <div className='w-16 h-16 bg-gray-300 rounded-full mx-auto mb-4 flex items-center justify-center'>
             <svg
               className='w-8 h-8 text-gray-600'
@@ -63,7 +68,7 @@ export default async function ContactPage() {
           >
             {t('addressValue')}
           </Text>
-        </div>
+        </a>
 
         {/* Phone Section */}
         <div className='bg-[#E7E8E9] rounded-lg p-6 text-center shadow-sm'>
@@ -89,9 +94,12 @@ export default async function ContactPage() {
           >
             {t('phone')}
           </Text>
-          <Text variant='body' className='text-gray-600 text-sm'>
-            +84 123 456 789
-          </Text>
+          <a
+            href='tel:+842837612606'
+            className='block text-gray-600 text-sm hover:text-blue-600 transition-colors'
+          >
+            (+84) 28.3761.2606
+          </a>
         </div>
 
         {/* Email Section */}
@@ -114,9 +122,18 @@ export default async function ContactPage() {
           <Text variant='subtitle' weight='bold' className='text-gray-800 mb-3'>
             {t('email')}
           </Text>
-          <Text variant='body' className='text-gray-600 text-sm'>
+          <a
+            href='mailto:info@ktbiotech.com'
+            className='block text-gray-600 text-sm hover:text-blue-600 transition-colors'
+          >
             info@ktbiotech.com
-          </Text>
+          </a>
+          <a
+            href='mailto:sales@kt-biotech.com'
+            className='block text-gray-600 text-sm mt-1 hover:text-blue-600 transition-colors'
+          >
+            sales@kt-biotech.com
+          </a>
         </div>
       </Container>
 

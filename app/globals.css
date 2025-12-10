@@ -186,3 +186,27 @@
 .underline-none a {
   text-decoration-line: none !important;
 }
+
+/* Hide scrollbar for horizontal scroll */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Force equal height for slider items in related products */
+.related-products-slider .swiper-wrapper {
+  align-items: stretch;
+}
+
+.related-products-slider .swiper-slide {
+  height: auto;
+  display: flex;
+}
+
+.related-products-slider .swiper-slide > a {
+  width: 100%;
+}

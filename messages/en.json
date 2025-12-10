@@ -132,7 +132,7 @@
   },
   "contact": {
     "title": "CONTACT",
-    "companyTitle": "KHOA THUONG BIOTECHNOLOGY COMPANY LIMITED",
+    "companyTitle": "KHOA THUONG/n BIOTECHNOLOGY COMPANY LIMITED",
     "address": "Address",
     "phone": "Phone",
     "email": "Email",
@@ -179,7 +179,7 @@
   "blog": {
     "latest": "LATEST NEWS",
     "mostViewed": "MOST VIEWED",
-    "important": "IMPORTANT NEWS",
+    "important": "INDUSTRY NEWS",
     "recruitment": "RECRUITMENT NEWS",
     "unknownAuthor": "Unknown Author",
     "uncategorized": "Uncategorized"

@@ -132,7 +132,7 @@
   },
   "contact": {
     "title": "LIÊN HỆ",
-    "companyTitle": "CÔNG TY TNHH CÔNG NGHỆ SINH HỌC KHOA THƯƠNG",
+    "companyTitle": "CÔNG TY TNHH\n CÔNG NGHỆ SINH HỌC KHOA THƯƠNG",
     "address": "Địa chỉ",
     "phone": "Điện thoại",
     "email": "Email",
@@ -179,7 +179,7 @@
   "blog": {
     "latest": "TIN MỚI NHẤT",
     "mostViewed": "XEM NHIỀU",
-    "important": "TIN QUAN TRỌNG",
+    "important": "TIN CHUYÊN NGÀNH",
     "recruitment": "TIN TUYỂN DỤNG",
     "unknownAuthor": "Tác giả không xác định",
     "uncategorized": "Chưa phân loại"

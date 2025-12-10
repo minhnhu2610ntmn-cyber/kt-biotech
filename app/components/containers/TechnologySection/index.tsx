@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  Button,
-  Container,
-  Heading,
-  Text,
-  Timeline,
-} from '@ktbiotech/system-design';
+import { Container, Heading, Text, Timeline } from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 
@@ -162,84 +156,78 @@ export default function TechnologySection() {
                   </div>
 
                   {/* Navigation Controls */}
-                  <div className='flex items-center justify-center gap-4'>
-                    <Button
-                      variant='outline'
-                      size='lg'
+                  <div className='flex items-center justify-center gap-3'>
+                    <button
+                      className={`flex items-center justify-start pl-2 w-12 h-8 rounded-full transition-all duration-200 ${
+                        isFirstItem
+                          ? 'bg-gray-100 border border-gray-300 cursor-not-allowed'
+                          : 'bg-gray-100 border border-gray-300 hover:bg-gray-200 cursor-pointer'
+                      }`}
                       onClick={handlePrev}
                       disabled={isFirstItem}
-                      className={`rounded-lg border-gray-300 ${
-                        isFirstItem
-                          ? 'opacity-50 cursor-not-allowed'
-                          : 'hover:bg-gray-50'
-                      }`}
                       aria-label='Previous milestone'
                     >
                       <svg
-                        width='16'
-                        height='16'
-                        viewBox='0 0 16 16'
+                        className={`w-4 h-4 ${isFirstItem ? 'text-gray-400' : 'text-gray-600'}`}
                         fill='none'
-                        xmlns='http://www.w3.org/2000/svg'
+                        stroke='currentColor'
+                        viewBox='0 0 24 24'
                       >
                         <path
-                          d='M10 12L6 8L10 4'
-                          stroke='currentColor'
-                          strokeWidth='2'
                           strokeLinecap='round'
                           strokeLinejoin='round'
+                          strokeWidth={2}
+                          d='M15 19l-7-7 7-7'
                         />
                       </svg>
-                    </Button>
-                    <Button
-                      variant='default'
-                      size='lg'
+                    </button>
+                    <button
+                      className={`flex items-center justify-end pr-2 w-12 h-8 rounded-full transition-all duration-200 ${
+                        isLastItem
+                          ? 'bg-gray-100 border border-gray-300 cursor-not-allowed'
+                          : 'bg-[#3691C9] hover:bg-[#2a7ba3] cursor-pointer'
+                      }`}
                       onClick={handleNext}
                       disabled={isLastItem}
-                      className={`rounded-lg bg-[#86BDDF] hover:bg-[#6BA3C7] ${
-                        isLastItem ? 'opacity-50 cursor-not-allowed' : ''
-                      }`}
                       aria-label='Next milestone'
                     >
                       <svg
-                        width='16'
-                        height='16'
-                        viewBox='0 0 16 16'
+                        className={`w-4 h-4 ${isLastItem ? 'text-gray-400' : 'text-white'}`}
                         fill='none'
-                        xmlns='http://www.w3.org/2000/svg'
+                        stroke='currentColor'
+                        viewBox='0 0 24 24'
                       >
                         <path
-                          d='M6 4L10 8L6 12'
-                          stroke='currentColor'
-                          strokeWidth='2'
                           strokeLinecap='round'
                           strokeLinejoin='round'
+                          strokeWidth={2}
+                          d='M9 5l7 7-7 7'
                         />
                       </svg>
-                    </Button>
+                    </button>
                   </div>
                 </div>
               ) : (
                 /* Desktop View: List of all timeline items */
-              <div className='relative space-y-4'>
-                {timelineItems.map((item, index) => (
-                  <div
-                    key={item.id}
-                    ref={el => {
-                      itemRefs.current[index] = el;
-                    }}
-                    data-index={index}
-                    className={`transition-all duration-600 ease-out ${
-                      visibleItems.has(index)
-                        ? 'opacity-100 translate-y-0'
-                        : 'opacity-0 translate-y-8'
-                    }`}
-                    style={{ transitionDelay: `${index * 200}ms` }}
-                  >
-                    <Timeline items={[item]} />
-                  </div>
-                ))}
-              </div>
+                <div className='relative space-y-4'>
+                  {timelineItems.map((item, index) => (
+                    <div
+                      key={item.id}
+                      ref={el => {
+                        itemRefs.current[index] = el;
+                      }}
+                      data-index={index}
+                      className={`transition-all duration-600 ease-out ${
+                        visibleItems.has(index)
+                          ? 'opacity-100 translate-y-0'
+                          : 'opacity-0 translate-y-8'
+                      }`}
+                      style={{ transitionDelay: `${index * 200}ms` }}
+                    >
+                      <Timeline items={[item]} />
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
 
@@ -254,7 +242,7 @@ export default function TechnologySection() {
               <Heading
                 level={2}
                 color='#215778'
-                className={`font-bold !text-2xl text-center xl:text-left underline decoration-[#2C3E50] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-500 ${
+                className={`font-bold !text-2xl text-center xl:text-left underline decoration-[#2C3E50] decoration-1 underline-offset-4 uppercase lg:normal-case transition-all duration-600 ease-out delay-500 ${
                   isVisible
                     ? 'opacity-100 translate-y-0'
                     : 'opacity-0 translate-y-4'

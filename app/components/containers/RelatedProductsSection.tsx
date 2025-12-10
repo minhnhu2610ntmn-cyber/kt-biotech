@@ -42,52 +42,94 @@ export default function RelatedProductsSection({
       >
         {defaultHeading}
       </Heading>
-      <div className='relative'>
+
+      {/* Mobile only (< 640px): Vertical list with horizontal cards */}
+      <div className='sm:hidden space-y-4'>
+        {products.map(product => (
+          <Link
+            key={product.slug}
+            href={`/san-pham/${product.slug}`}
+            className='flex flex-row rounded-2xl bg-white shadow-[0_1px_3px_rgba(0,0,0,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#215778]/40 overflow-hidden'
+          >
+            <div className='relative w-32 h-32 flex-shrink-0 bg-[#D8DEE4]'>
+              {product.imageUrl ? (
+                <Image
+                  src={product.imageUrl}
+                  alt={product.title}
+                  fill
+                  sizes='128px'
+                  className='object-cover'
+                />
+              ) : (
+                <div className='flex h-full w-full items-center justify-center text-xs text-gray-400'>
+                  {t('noImage')}
+                </div>
+              )}
+              {product.isNew && (
+                <span className='absolute right-2 top-2 rounded-full bg-[#86BDDF] px-2 py-0.5 text-xs font-semibold text-white'>
+                  {t('new')}
+                </span>
+              )}
+            </div>
+            <div className='flex flex-col justify-center space-y-1 px-4 py-3 flex-1'>
+              <Heading
+                level={3}
+                className='!text-base !font-bold text-[#1B1C1D] line-clamp-3 !leading-tight'
+              >
+                {product.title}
+              </Heading>
+              {product.description && (
+                <Text className='text-xs text-gray-600 line-clamp-3'>
+                  {product.description}
+                </Text>
+              )}
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {/* Tablet (>= 640px, < 1024px): SliderV2 */}
+      <div className='hidden sm:block lg:hidden relative related-products-slider'>
         <SliderV2
           className='w-full'
-          slidesPerView={4}
+          slidesPerView={2}
           spaceBetween={20}
           loop={true}
           navigation={true}
-          customNavigation={products.length > 4}
+          customNavigation={products.length > 2}
           navigationPosition='inside'
           navigationStyle='modern'
           grabCursor={true}
           allowTouchMove={true}
-          breakpoints={{
-            320: { slidesPerView: 1, spaceBetween: 10 },
-            640: { slidesPerView: 2, spaceBetween: 15 },
-            1024: { slidesPerView: 3, spaceBetween: 20 },
-            1280: { slidesPerView: 4, spaceBetween: 20 },
-          }}
         >
           {[...products].map(product => (
-            <div key={product.slug} className='h-full'>
-              <Link
-                href={`/san-pham/${product.slug}`}
-                className='block h-full rounded-3xl border border-[#E3EEF5] bg-white shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#215778]/40'
-              >
-                <div className='relative aspect-[4/3] w-full overflow-hidden rounded-t-3xl bg-[#D8DEE4]'>
-                  {product.imageUrl ? (
-                    <Image
-                      src={product.imageUrl}
-                      alt={product.title}
-                      fill
-                      sizes='(max-width: 640px) 100vw, 50vw'
-                      className='object-cover'
-                    />
-                  ) : (
-                    <div className='flex h-full w-full items-center justify-center text-sm text-gray-400'>
-                      {t('noImage')}
-                    </div>
-                  )}
-                  {product.isNew && (
-                    <span className='absolute right-4 top-4 rounded-full bg-[#86BDDF] px-3 py-1 text-xs font-semibold text-white'>
-                      {t('new')}
-                    </span>
-                  )}
-                </div>
-                <div className='space-y-2 px-5 pb-6 pt-4'>
+            <Link
+              key={product.slug}
+              href={`/san-pham/${product.slug}`}
+              className='flex flex-col h-full rounded-3xl border border-[#E3EEF5] bg-white shadow-[0_1px_3px_rgba(0,0,0,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#215778]/40'
+            >
+              <div className='relative aspect-[4/3] w-full flex-shrink-0 overflow-hidden rounded-t-3xl bg-[#D8DEE4]'>
+                {product.imageUrl ? (
+                  <Image
+                    src={product.imageUrl}
+                    alt={product.title}
+                    fill
+                    sizes='(max-width: 768px) 50vw, 33vw'
+                    className='object-cover'
+                  />
+                ) : (
+                  <div className='flex h-full w-full items-center justify-center text-sm text-gray-400'>
+                    {t('noImage')}
+                  </div>
+                )}
+                {product.isNew && (
+                  <span className='absolute right-4 top-4 rounded-full bg-[#86BDDF] px-3 py-1 text-xs font-semibold text-white'>
+                    {t('new')}
+                  </span>
+                )}
+              </div>
+              <div className='px-5 pb-6 pt-4 flex-1 flex flex-col justify-end'>
+                <div className='space-y-2'>
                   {product.category && (
                     <Text className='text-sm uppercase text-[#215778]/70'>
                       {product.category}
@@ -105,10 +147,57 @@ export default function RelatedProductsSection({
                     </Text>
                   )}
                 </div>
-              </Link>
-            </div>
+              </div>
+            </Link>
           ))}
         </SliderV2>
+      </div>
+
+      {/* Desktop (>= 1024px): Grid layout */}
+      <div className='hidden lg:grid lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+        {products.map(product => (
+          <Link
+            key={product.slug}
+            href={`/san-pham/${product.slug}`}
+            className='block h-full rounded-3xl border border-[#E3EEF5] bg-white shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#215778]/40'
+          >
+            <div className='relative aspect-[4/3] w-full overflow-hidden rounded-t-3xl bg-[#D8DEE4]'>
+              {product.imageUrl ? (
+                <Image
+                  src={product.imageUrl}
+                  alt={product.title}
+                  fill
+                  sizes='(max-width: 640px) 100vw, 33vw'
+                  className='object-cover'
+                />
+              ) : (
+                <div className='flex h-full w-full items-center justify-center text-sm text-gray-400'>
+                  {t('noImage')}
+                </div>
+              )}
+              {product.isNew && (
+                <span className='absolute right-4 top-4 rounded-full bg-[#86BDDF] px-3 py-1 text-xs font-semibold text-white'>
+                  {t('new')}
+                </span>
+              )}
+            </div>
+            <div className='space-y-2 px-5 pb-6 pt-4'>
+              {product.category && (
+                <Text className='text-sm uppercase text-[#215778]/70'>
+                  {product.category}
+                </Text>
+              )}
+              <Heading level={3} className='!text-xl !font-bold text-[#1B1C1D]'>
+                {product.title}
+              </Heading>
+              {product.description && (
+                <Text className='text-sm text-gray-600 line-clamp-2'>
+                  {product.description}
+                </Text>
+              )}
+            </div>
+          </Link>
+        ))}
       </div>
     </section>
   );

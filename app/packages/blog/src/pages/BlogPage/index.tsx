@@ -54,11 +54,15 @@ export default function BlogPage({
         {/* Most Viewed Section */}
         <MostViewedSection articles={mostViewedArticles} />
 
-        {/* Important News Section */}
-        <ImportantNewsSection articles={importantArticles} />
+        <div className='mt-6'>
+          {/* Important News Section */}
+          <ImportantNewsSection articles={importantArticles} />
+        </div>
 
         {/* Recruitment News Section */}
-        <RecruitmentNewsSection posts={recruitmentPosts} />
+        <div className='mt-6'>
+          <RecruitmentNewsSection posts={recruitmentPosts} />
+        </div>
       </Container>
     </div>
   );

@@ -135,13 +135,13 @@ export default function NewsSection({
           <Heading
             level={2}
             color='#215778'
-            className={`font-bold !text-2xl mb-10 text-center xl:text-left pl-4 underline decoration-[#2C3E50] decoration-1 underline-offset-4 transition-all duration-600 ease-out delay-300 ${
+            className={`font-bold !text-2xl mb-10 text-center xl:text-left pl-4 underline decoration-[#2C3E50] decoration-1 underline-offset-4  transition-all duration-600 ease-out delay-300 ${
               isVisible
                 ? 'opacity-100 translate-y-0'
                 : 'opacity-0 translate-y-4'
             }`}
           >
-            {title}
+            <span className='!uppercase lg:!normal-case'> {title}</span>
           </Heading>
         )}
 
