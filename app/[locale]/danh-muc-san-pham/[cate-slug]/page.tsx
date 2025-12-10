@@ -198,7 +198,7 @@ export default async function CategoryListingPage({
   return (
     <>
       <SetBreadcrumb items={breadcrumbItems} />
-      <Container className='space-y-4 mt-6 px-4'>
+      <Container className='space-y-4 mt-6 px-4 pb-8'>
         <CategoryLayout
           categories={categories as unknown as any}
           categoriesTree={categoriesTree}
