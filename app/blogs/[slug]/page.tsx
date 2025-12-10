@@ -1,5 +1,6 @@
 import { BlogContentBody, BlogHero, type StrapiBlock } from '@ktbiotech/blog';
-import { Container } from '@ktbiotech/system-design';
+import { Breadcrumb, Container } from '@ktbiotech/system-design';
+import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import ArticleViewCounter from '../../components/containers/ArticleViewCounter';
 import { buildImageUrl, StrapiApi } from '../../config/api';
@@ -31,6 +32,7 @@ async function getArticleBySlug(slug: string): Promise<Article | null> {
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const resolvedParams = await params;
+  const t = await getTranslations('navbar');
   const article = await getArticleBySlug(resolvedParams.slug);
 
   if (!article) {
@@ -87,6 +89,15 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         <ArticleViewCounter articleId={articleId} documentId={documentId} />
       )}
       <div className='!pt-10'>
+        {/* Breadcrumb */}
+        <Breadcrumb
+          items={[
+            { label: t('home'), href: '/' },
+            { label: t('news'), href: '/blogs' },
+            { label: article.title, href: `/blogs/${article.slug}` },
+          ]}
+        />
+
         {/* Blog Hero Section */}
         <BlogHero
           title={article.title}

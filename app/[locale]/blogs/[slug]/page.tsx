@@ -1,5 +1,6 @@
 import { BlogContentBody, BlogHero, type StrapiBlock } from '@ktbiotech/blog';
-import { Container } from '@ktbiotech/system-design';
+import { Breadcrumb, Container } from '@ktbiotech/system-design';
+import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import ArticleViewCounter from '../../../components/containers/ArticleViewCounter';
 import { buildImageUrl, StrapiApi } from '../../../config/api';
@@ -35,6 +36,7 @@ async function getArticleBySlug(
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const resolvedParams = await params;
+  const t = await getTranslations('navbar');
   const article = await getArticleBySlug(
     resolvedParams.slug,
     resolvedParams.locale
@@ -88,28 +90,39 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     : 'https://picsum.photos/1200/600?random=1';
 
   return (
-    <Container>
-      {/* Article View Counter - Client Side */}
-      {articleId && (
-        <ArticleViewCounter articleId={articleId} documentId={documentId} />
-      )}
-      <div className='!pt-10'>
-        {/* Blog Hero Section */}
-        <BlogHero
-          title={article.title}
-          imageUrl={heroImageUrl}
-          imageAlt={article.title}
-        />
+    <>
+      {/* Breadcrumb */}
+      <Breadcrumb
+        items={[
+          { label: t('home'), href: '/' },
+          { label: t('news'), href: '/blogs' },
+          { label: article.title, href: `/blogs/${article.slug}` },
+        ]}
+      />
+      <Container>
+        {/* Article View Counter - Client Side */}
+        {articleId && (
+          <ArticleViewCounter articleId={articleId} documentId={documentId} />
+        )}
 
-        {/* Content */}
+        <div className='!pt-10'>
+          {/* Blog Hero Section */}
+          <BlogHero
+            title={article.title}
+            imageUrl={heroImageUrl}
+            imageAlt={article.title}
+          />
 
-        <div className='max-w-5xl relative z-10 mx-auto px-2 mt-4 lg:-mt-[100px] pb-8'>
-          {/* Blog Content Body */}
-          {contentBlocks?.length > 0 && (
-            <BlogContentBody blocks={contentBlocks} />
-          )}
+          {/* Content */}
+
+          <div className='max-w-5xl relative z-10 mx-auto px-2 mt-4 lg:-mt-[100px] pb-8'>
+            {/* Blog Content Body */}
+            {contentBlocks?.length > 0 && (
+              <BlogContentBody blocks={contentBlocks} />
+            )}
+          </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 }

@@ -46,7 +46,7 @@ export default function ProductImageGallery({
           src={selectedImage.url}
           alt={selectedImage.alt || 'Product image'}
           layout='fill'
-          className='object-cover w-full h-full object-center'
+          className='object-contain w-full h-full object-center'
           priority={selectedIndex === 0}
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw'
         />

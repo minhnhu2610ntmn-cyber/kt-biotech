@@ -37,7 +37,7 @@ export default function RelatedProductsSection({
       <Heading
         level={2}
         color='#215778'
-        className='!text-2xl !font-bold text-[#215778] !uppercase tracking-wide'
+        className='!text-2xl !font-bold text-[#215778] !uppercase tracking-wide underline decoration-[#2C3E50] decoration-1 underline-offset-4'
         transform='uppercase'
       >
         {defaultHeading}
@@ -159,9 +159,9 @@ export default function RelatedProductsSection({
           <Link
             key={product.slug}
             href={`/san-pham/${product.slug}`}
-            className='block h-full rounded-3xl border border-[#E3EEF5] bg-white shadow-sm hover:shadow-md transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#215778]/40'
+            className='flex flex-col h-full group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#215778]/40'
           >
-            <div className='relative aspect-[4/3] w-full overflow-hidden rounded-t-3xl bg-[#D8DEE4]'>
+            <div className='relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#D8DEE4] flex-shrink-0'>
               {product.imageUrl ? (
                 <Image
                   src={product.imageUrl}
@@ -181,17 +181,20 @@ export default function RelatedProductsSection({
                 </span>
               )}
             </div>
-            <div className='space-y-2 px-5 pb-6 pt-4'>
+            <div className='flex flex-col flex-1 mt-3'>
               {product.category && (
-                <Text className='text-sm uppercase text-[#215778]/70'>
+                <Text className='text-sm uppercase text-[#215778]/70 mb-2'>
                   {product.category}
                 </Text>
               )}
-              <Heading level={3} className='!text-xl !font-bold text-[#1B1C1D]'>
+              <Heading
+                level={3}
+                className='!text-xl !font-bold text-[#1B1C1D] mb-2'
+              >
                 {product.title}
               </Heading>
               {product.description && (
-                <Text className='text-sm text-gray-600 line-clamp-2'>
+                <Text className='text-sm text-gray-600 line-clamp-3 mt-auto'>
                   {product.description}
                 </Text>
               )}
