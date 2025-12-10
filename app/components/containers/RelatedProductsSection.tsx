@@ -33,7 +33,7 @@ export default function RelatedProductsSection({
   }
 
   return (
-    <section className='space-y-6'>
+    <section className='space-y-6 pb-5'>
       <Heading
         level={2}
         color='#215778'

@@ -354,6 +354,7 @@ export default async function ProductDetailPage({
               >
                 {t('details')}
               </Heading>
+              <div className='border-b border-gray-200 mb-4' />
               <ProductDetailContent blocks={detailBlocks} />
             </div>
           )}
