@@ -6,9 +6,12 @@ import { Heading, Text } from '../Typography';
 
 export interface TimelineItem {
   id: string | number;
+  title?: string;
   description?: string;
+  details?: string;
   icon?: React.ReactNode;
   date?: string;
+  isActive?: boolean;
 }
 
 export interface TimelineProps {
@@ -42,7 +45,7 @@ export const Timeline: React.FC<TimelineProps> = ({
           return (
             <div
               key={item.id}
-              className={`flex max-w-[594px] ${isVertical ? 'flex-row' : 'flex-col'} ${isVertical ? 'items-start' : 'items-center'} ${isVertical ? 'space-x-4' : 'space-y-2'}`}
+              className={`flex w-full ${isVertical ? 'flex-row' : 'flex-col'} ${isVertical ? 'items-start' : 'items-center'} ${isVertical ? 'space-x-4' : 'space-y-2'}`}
             >
               {/* Timeline Circle */}
               <div className='hidden lg:flex flex-col items-center'>
@@ -61,22 +64,24 @@ export const Timeline: React.FC<TimelineProps> = ({
 
               {/* Timeline Content */}
               <div
-                className={`flex-1 bg-[#86BDDF] py-4 px-6 rounded-lg ${isVertical ? 'min-w-0' : 'text-center'}`}
+                className={`flex-1 bg-[#86BDDF] py-4 px-6 rounded-lg ${
+                  isVertical ? 'min-w-0 min-h-32' : 'text-center min-h-32'
+                } w-full flex flex-col justify-center`}
               >
                 {item.date && (
                   <Heading
                     color='white'
                     level={5}
-                    className={`text-sm mb-1 ${isVertical ? 'text-left' : 'text-center'}`}
+                    className={`text-sm mb-2 font-bold ${isVertical ? 'text-left' : 'text-center'}`}
                   >
                     {item.date}
                   </Heading>
                 )}
                 {/* <Text
-                  color='white'
+                    color='white'
                   className={`font-semibold  mb-2 ${isVertical ? 'text-left' : 'text-center'}`}
-                >
-                  {item.title}
+                  >
+                    {item.title}
                 </Text> */}
                 {item.description && (
                   <Text
@@ -84,6 +89,14 @@ export const Timeline: React.FC<TimelineProps> = ({
                     className={`text-sm leading-relaxed ${isVertical ? 'text-left' : 'text-center'}`}
                   >
                     {item.description}
+                  </Text>
+                )}
+                {item.details && (
+                  <Text
+                    color='white'
+                    className={`text-xs leading-relaxed opacity-90 ${isVertical ? 'text-left' : 'text-center'}`}
+                  >
+                    {item.details}
                   </Text>
                 )}
               </div>

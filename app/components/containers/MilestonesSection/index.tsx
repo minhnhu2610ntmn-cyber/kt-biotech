@@ -3,6 +3,7 @@
 import { Container, Heading, Text, Timeline } from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
+import { companyData, Milestone } from '../../../data/BeDayLichSuData';
 
 export default function MilestonesSection() {
   const t = useTranslations('homepage.milestones');
@@ -65,32 +66,18 @@ export default function MilestonesSection() {
     return () => itemObserver.disconnect();
   }, []);
 
-  const timelineItems = [
-    {
-      id: 1,
-      description:
-        'Tiêu đề mốc thời gian - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      date: '01/02/2025',
-    },
-    {
-      id: 2,
-      description:
-        'fake 1 text - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      date: '01/03/2025',
-    },
-    {
-      id: 3,
-      description:
-        'fake 2 text - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      date: '01/04/2025',
-    },
-    {
-      id: 4,
-      description:
-        'fake 3 text - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      date: '01/04/2025',
-    },
-  ];
+  // Transform milestones data to timeline format
+  const timelineItems = companyData.beDayLichSu.milestones.map(
+    (milestone: Milestone, index: number) => ({
+      id: index + 1,
+      title: milestone.title,
+      description: milestone.description,
+      details: milestone.details,
+      date: `${milestone.year}`,
+      image: milestone.image,
+      isActive: milestone.isActive,
+    })
+  );
 
   const handleNext = () => {
     setActiveIndex(prev => (prev + 1) % timelineItems.length);
@@ -250,8 +237,8 @@ export default function MilestonesSection() {
                   </div>
                 </div>
               ) : (
-                /* Desktop View: List of all timeline items */
-                <div className='relative space-y-4'>
+                /* Desktop View: List of all timeline items with equal width */
+                <div className='grid grid-cols-1 gap-4 w-full'>
                   {timelineItems.map((item, index) => (
                     <div
                       key={item.id}

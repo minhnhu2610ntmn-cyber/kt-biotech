@@ -3,6 +3,10 @@
 import { Container, Heading, Text, Timeline } from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
+import {
+  companyData,
+  TechnologyFootprint,
+} from '../../../data/BeDayLichSuData';
 
 export default function TechnologySection() {
   const t = useTranslations('homepage.technology');
@@ -65,36 +69,18 @@ export default function TechnologySection() {
     return () => itemObserver.disconnect();
   }, []);
 
-  const timelineItems = [
-    {
-      id: 1,
-      title: 'Tiêu đề công nghệ 1',
-      description:
-        'Tiêu đề công nghệ - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      date: '01/02/2025',
-    },
-    {
-      id: 2,
-      title: 'Tiêu đề công nghệ 2',
-      description:
-        'fake 1 text - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      date: '01/03/2025',
-    },
-    {
-      id: 3,
-      title: 'Tiêu đề công nghệ 3',
-      description:
-        'fake 2 text - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      date: '01/04/2025',
-    },
-    {
-      id: 4,
-      title: 'Tiêu đề công nghệ 4',
-      description:
-        'fake 3 text - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-      date: '01/05/2025',
-    },
-  ];
+  // Transform technology data to timeline format
+  const timelineItems = companyData.dinhCaoCongNghe.technologyFootprints.map(
+    (tech: TechnologyFootprint, index: number) => ({
+      id: index + 1,
+      title: tech.title,
+      description: tech.description,
+      details: tech.details,
+      date: `${tech.year}`,
+      image: tech.image,
+      isActive: tech.isActive,
+    })
+  );
 
   const handleNext = () => {
     setActiveIndex(prev => (prev + 1) % timelineItems.length);
@@ -111,7 +97,7 @@ export default function TechnologySection() {
   const isLastItem = activeIndex === timelineItems.length - 1;
 
   return (
-    <Container className='max-w-screen'>
+    <Container>
       <section ref={sectionRef} className='py-8 px-4 xl:px-0 xl:py-16 '>
         <div className=' px-4'>
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-16'>
@@ -208,8 +194,8 @@ export default function TechnologySection() {
                   </div>
                 </div>
               ) : (
-                /* Desktop View: List of all timeline items */
-                <div className='relative space-y-4'>
+                /* Desktop View: List of all timeline items with equal width */
+                <div className='grid grid-cols-1 gap-4 w-full'>
                   {timelineItems.map((item, index) => (
                     <div
                       key={item.id}
