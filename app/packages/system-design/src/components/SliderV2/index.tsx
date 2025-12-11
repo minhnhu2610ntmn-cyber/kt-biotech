@@ -230,7 +230,7 @@ export function SliderV2({
         <div className='flex justify-center items-center mt-6 space-x-3'>
           <button
             className={cn(
-              'slider-button-prev flex items-center justify-start pl-2 w-14 h-8 rounded-full transition-all duration-200',
+              'slider-button-prev flex items-center justify-start pl-1 w-14 h-8 rounded-full transition-all duration-200',
               swiperInstance?.isBeginning
                 ? 'bg-gray-100 border border-gray-300 cursor-not-allowed'
                 : 'bg-gray-100 border border-gray-300 hover:bg-gray-200 cursor-pointer'
@@ -241,7 +241,7 @@ export function SliderV2({
           >
             <svg
               className={cn(
-                'w-5 h-5',
+                'w-5 h-5 scale-[1.2]',
                 swiperInstance?.isBeginning ? 'text-gray-400' : 'text-gray-600'
               )}
               fill='none'
@@ -258,7 +258,7 @@ export function SliderV2({
           </button>
           <button
             className={cn(
-              'slider-button-next flex items-center justify-end pr-2 w-14 h-8 rounded-full transition-all duration-200',
+              'slider-button-next flex items-center justify-end pr-1 w-14 h-8 rounded-full transition-all duration-200',
               swiperInstance?.isEnd
                 ? 'bg-gray-100 border border-gray-300 cursor-not-allowed'
                 : 'bg-[#3691C9] hover:bg-[#2a7ba3] cursor-pointer'
@@ -269,7 +269,7 @@ export function SliderV2({
           >
             <svg
               className={cn(
-                'w-5 h-5',
+                'w-5 h-5 scale-[1.2]',
                 swiperInstance?.isEnd ? 'text-gray-400' : 'text-white'
               )}
               fill='none'

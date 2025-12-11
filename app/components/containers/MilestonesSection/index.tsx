@@ -187,7 +187,7 @@ export default function MilestonesSection() {
                   {/* Navigation Controls */}
                   <div className='flex items-center justify-center gap-3'>
                     <button
-                      className={`flex items-center justify-start pl-2 w-14 h-8 rounded-full transition-all duration-200 ${
+                      className={`flex items-center justify-start pl-1 w-14 h-8 rounded-full transition-all duration-200 ${
                         isFirstItem
                           ? 'bg-gray-100 border border-gray-300 cursor-not-allowed'
                           : 'bg-gray-100 border border-gray-300 hover:bg-gray-200 cursor-pointer'
@@ -197,7 +197,7 @@ export default function MilestonesSection() {
                       aria-label='Previous milestone'
                     >
                       <svg
-                        className={`w-5 h-5 ${isFirstItem ? 'text-gray-400' : 'text-gray-600'}`}
+                        className={`w-5 h-5 scale-[1.2] ${isFirstItem ? 'text-gray-400' : 'text-gray-600'}`}
                         fill='none'
                         stroke='currentColor'
                         viewBox='0 0 24 24'
@@ -211,7 +211,7 @@ export default function MilestonesSection() {
                       </svg>
                     </button>
                     <button
-                      className={`flex items-center justify-end pr-2 w-14 h-8 rounded-full transition-all duration-200 ${
+                      className={`flex items-center justify-end pr-1 w-14 h-8 rounded-full transition-all duration-200 ${
                         isLastItem
                           ? 'bg-gray-100 border border-gray-300 cursor-not-allowed'
                           : 'bg-[#3691C9] hover:bg-[#2a7ba3] cursor-pointer'
@@ -221,7 +221,7 @@ export default function MilestonesSection() {
                       aria-label='Next milestone'
                     >
                       <svg
-                        className={`w-5 h-5 ${isLastItem ? 'text-gray-400' : 'text-white'}`}
+                        className={`w-5 h-5 scale-[1.2] ${isLastItem ? 'text-gray-400' : 'text-white'}`}
                         fill='none'
                         stroke='currentColor'
                         viewBox='0 0 24 24'
