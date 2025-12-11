@@ -187,7 +187,7 @@ export default function MilestonesSection() {
                   {/* Navigation Controls */}
                   <div className='flex items-center justify-center gap-3'>
                     <button
-                      className={`flex items-center justify-start pl-1 w-14 h-8 rounded-full transition-all duration-200 ${
+                      className={`flex items-center justify-start pl-1 w-16 h-8 rounded-full transition-all duration-200 ${
                         isFirstItem
                           ? 'bg-gray-100 border border-gray-300 cursor-not-allowed'
                           : 'bg-gray-100 border border-gray-300 hover:bg-gray-200 cursor-pointer'
@@ -211,7 +211,7 @@ export default function MilestonesSection() {
                       </svg>
                     </button>
                     <button
-                      className={`flex items-center justify-end pr-1 w-14 h-8 rounded-full transition-all duration-200 ${
+                      className={`flex items-center justify-end pr-1 w-16 h-8 rounded-full transition-all duration-200 ${
                         isLastItem
                           ? 'bg-gray-100 border border-gray-300 cursor-not-allowed'
                           : 'bg-[#3691C9] hover:bg-[#2a7ba3] cursor-pointer'
