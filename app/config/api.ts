@@ -63,6 +63,7 @@ export const API_ENDPOINTS = {
   global: '/api/globals',
   genServices: '/api/gen-service',
   researchService: '/api/research-service',
+  oemServiceData: '/api/oem-service',
   vision: '/api/vision',
   mission: '/api/mission',
   structure: '/api/structure',
@@ -493,7 +494,7 @@ export class StrapiApi {
         .split(',')
         .map(s => s.trim())
         .filter(Boolean);
-      
+
       if (slugs.length === 1) {
         // Single slug - use direct filter
         params.push(
@@ -713,6 +714,39 @@ export class StrapiApi {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Error fetching gen services:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get OEM service data single type
+   */
+  async getOEMServiceData(): Promise<any | null> {
+    try {
+      const url = this.appendLocaleToUrl(
+        `${buildApiUrl(API_ENDPOINTS.oemServiceData)}?populate=*`
+      );
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: getApiHeaders(),
+        next: { revalidate: 300 },
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null;
+        }
+        const body = await response.text().catch(() => '');
+        throw new Error(
+          `Failed to fetch OEM service data: ${response.status} ${response.statusText} ${body}`
+        );
+      }
+
+      const data = await response.json();
+      return data?.data || null;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching OEM service data:', error);
       return null;
     }
   }

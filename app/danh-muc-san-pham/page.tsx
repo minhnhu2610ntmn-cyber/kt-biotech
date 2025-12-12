@@ -2,8 +2,8 @@
 
 import { Container, Heading, Text } from '@ktbiotech/system-design';
 import { getTranslations } from 'next-intl/server';
+import CategoryCard from '../[locale]/components/CategoryCard';
 import { getProductCategoriesCached } from '../config/api';
-import CategoryCard from './components/CategoryCard';
 
 interface PageCategory {
   id: number;
@@ -62,6 +62,7 @@ export default async function ProductCategoriesPage() {
                 category={category}
                 categoryHref={categoryHref}
                 index={index}
+                locale='vi'
               />
             );
           })}

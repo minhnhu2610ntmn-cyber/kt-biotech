@@ -76,6 +76,11 @@ export function useNavbarConfig(customConfig?: NavbarConfig): NavbarConfig {
             href: '/dich-vu/giai-trinh-tu-gen',
             i18nKey: 'serviceSequencing',
           },
+          {
+            label: tNavbar('oem'),
+            href: '/dich-vu/oem',
+            i18nKey: 'oem',
+          },
         ],
       },
       {

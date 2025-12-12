@@ -44,6 +44,7 @@
     "all": "Tất cả",
     "serviceResearch": "Nghiên cứu khoa học",
     "serviceSequencing": "Giải trình tự gen",
+    "oem": "OEM/ODM/CDMO",
     "downloadCatalogue": "Tải Catalogue",
     "danhmucsanpham": "Danh mục sản phẩm"
   },
@@ -75,6 +76,7 @@
     "dichvu": "Dịch vụ",
     "nghiencuukhoahoc": "Nghiên cứu khoa học",
     "giaitrinhtugen": "Giải trình tự gen",
+    "oem": "OEM/ODM/CDMO",
     "blogs": "Tin tức",
     "lienhe": "Liên hệ",
     "tamnhinsumenh": "Tầm nhìn sứ mệnh",

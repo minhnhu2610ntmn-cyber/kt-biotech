@@ -44,6 +44,7 @@
     "all": "All Categories",
     "serviceResearch": "Scientific research",
     "serviceSequencing": "Genome sequencing",
+    "oem": "OEM/ODM/CDMO",
     "downloadCatalogue": "Download Catalogue",
     "danhmucsanpham": "Product Categories"
   },
@@ -75,6 +76,7 @@
     "dichvu": "Services",
     "nghiencuukhoahoc": "Scientific Research",
     "giaitrinhtugen": "Genome Sequencing",
+    "oem": "OEM/ODM/CDMO",
     "blogs": "News",
     "lienhe": "Contact",
     "tamnhinsumenh": "Vision & Mission",

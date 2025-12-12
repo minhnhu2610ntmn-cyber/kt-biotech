@@ -13,7 +13,7 @@ export default async function GenomeSequencingServicePage({
   const resolvedParams = await params;
   const { locale } = resolvedParams;
   const api = new StrapiApi(locale);
-  const genService = await api.getGenServices();
+  const genService = await api.getOEMServiceData();
   const tNavbar = await getTranslations('navbar');
   const tBreadcrumb = await getTranslations('breadcrumb');
 
@@ -54,7 +54,7 @@ export default async function GenomeSequencingServicePage({
   const heroUrl = genService?.image?.url
     ? buildImageUrl(genService.image.url)
     : 'https://picsum.photos/1200/600?random=8';
-  const title = genService?.title || tNavbar('serviceSequencing');
+  const title = genService?.title || tNavbar('oem');
 
   // Build breadcrumb items
   const baseHref = locale === 'vi' ? '' : `/${locale}`;
@@ -62,7 +62,7 @@ export default async function GenomeSequencingServicePage({
     { label: tBreadcrumb('home'), href: baseHref || '/' },
     { label: tBreadcrumb('dichvu'), href: `${baseHref}/dich-vu` },
     {
-      label: title || tBreadcrumb('giaitrinhtugen'),
+      label: title || tBreadcrumb('oem'),
       href: `${baseHref}/dich-vu/oem`,
     },
   ];

@@ -58,16 +58,13 @@ export default async function ProductCategoriesPage({
 
         <div className='space-y-3 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0'>
           {categories.map((category, index) => {
-            const categoryHref =
-              locale === 'vi'
-                ? `/danh-muc-san-pham/${category.slug}`
-                : `/${locale}/danh-muc-san-pham/${category.slug}`;
+            const categoryHref = `/danh-muc-san-pham/${category.slug}`;
 
             console.log('Mapping category:', {
               category: category.slug,
               locale,
               categoryHref,
-              index
+              index,
             });
 
             return (
