@@ -1,6 +1,6 @@
 'use client';
 
-import { Text, ChevronRightIcon } from '@ktbiotech/system-design';
+import { ChevronRightIcon, Text } from '@ktbiotech/system-design';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 interface PaginationControlsProps {
@@ -40,9 +40,9 @@ export default function PaginationControls({
   if (pageCount <= 1) return null;
 
   return (
-    <div className='flex items-center justify-between mt-4'>
+    <div className='flex items-center justify-between mt-4 relative'>
       <div className='flex items-center gap-2'>
-        <Text className='text-[#1B1C1D]'>Số hàng trên mỗi trang:</Text>
+        <Text className='text-[#1B1C1D]'>Số hàng:</Text>
         <select
           className='border border-[#E3EEF5] rounded-md px-2 py-1 text-sm'
           value={pageSize}
@@ -55,7 +55,7 @@ export default function PaginationControls({
           ))}
         </select>
       </div>
-      <div className='flex items-center gap-2'>
+      <div className='flex items-center gap-2 absolute w-full justify-center'>
         <button
           aria-label='Prev'
           disabled={page <= 1}
