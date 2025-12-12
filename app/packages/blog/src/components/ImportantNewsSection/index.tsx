@@ -24,13 +24,13 @@ interface Article {
   createdAt: string;
   author: {
     name: string;
-  };
+  } | null;
   cover?: {
     url: string;
   };
   category: {
     name: string;
-    color: string;
+    color: string | null;
   };
 }
 
@@ -95,7 +95,7 @@ export default function ImportantNewsSection({
     return {
       id: article.id,
       title: article.title,
-      author: article.author.name,
+      author: article.author?.name || 'Unknown Author',
       date: formatDate(article.createdAt),
       description: article.description,
       imageSrc: buildImageUrl(article.cover?.url),
@@ -103,7 +103,7 @@ export default function ImportantNewsSection({
       badgeText: article.category.name,
       badgeBackgroundColor: lightenColor(article.category.color, 60),
       badgeTextColor: `#1B1C1D`,
-      badgeArrowColor: article.category.color,
+      badgeArrowColor: article.category.color || '#3691C9',
       href: `/blogs/${article.slug}`,
       slug: article.slug,
     };

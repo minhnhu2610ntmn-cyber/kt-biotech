@@ -13,7 +13,12 @@ export const formatDate = (dateString: string): string => {
 /**
  * Lighten a hex color by a specified percentage
  */
-export const lightenColor = (hex: string, percent: number): string => {
+export const lightenColor = (hex: string | null | undefined, percent: number): string => {
+  // Handle null/undefined hex values
+  if (!hex || typeof hex !== 'string') {
+    return '#E5E7EB'; // Default gray color
+  }
+
   const color = hex.replace('#', '');
   const r = parseInt(color.substr(0, 2), 16);
   const g = parseInt(color.substr(2, 2), 16);
