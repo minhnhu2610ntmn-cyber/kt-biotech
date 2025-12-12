@@ -2,7 +2,7 @@
 
 import { Container, Heading, Text } from '@ktbiotech/system-design';
 import Image from 'next/image';
-import { buildImageUrl } from '../../config/api';
+import { buildImageUrl } from '../config/api';
 
 interface Category {
   id: number;
