@@ -212,6 +212,8 @@
     "productDetails": "Product details",
     "productsOfKTBioTech": "KTBioTech Products",
     "by": "by",
-    "on": "on"
+    "on": "on",
+    "rowsPerPage": "Rows:",
+    "rowsPerPageMobile": "Rows per page"
   }
 }

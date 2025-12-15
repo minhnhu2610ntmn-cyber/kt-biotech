@@ -164,7 +164,7 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
                 <Heading
                   level={4}
                   color='#1B1C1D'
-                  className='!text-base !font-[700] mb-2 line-clamp-3'
+                  className='!text-base !font-[700] mb-2 line-clamp-3 leading-tight md:leading-normal'
                 >
                   {p.name}
                 </Heading>
@@ -181,7 +181,7 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
                 {/* View All Link */}
                 <SystemLink
                   href={productHref}
-                  className='inline-flex items-center gap-1 !text-[#3691C9] hover:!text-[#3691C9] font-medium text-xs !underline-none !no-underline whitespace-nowrap'
+                  className='hidden md:inline-flex items-center gap-1 !text-[#3691C9] hover:!text-[#3691C9] font-medium text-xs !underline-none !no-underline whitespace-nowrap'
                 >
                   <div className='flex items-center gap-1'>
                     <span>{t('viewAll')}</span>

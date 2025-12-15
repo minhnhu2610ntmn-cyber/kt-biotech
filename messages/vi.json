@@ -212,6 +212,8 @@
     "productDetails": "Chi tiết sản phẩm",
     "productsOfKTBioTech": "Sản phẩm của KTBioTech",
     "by": "bởi",
-    "on": "vào"
+    "on": "vào",
+    "rowsPerPage": "Số hàng:",
+    "rowsPerPageMobile": "Số hàng trên mỗi trang"
   }
 }

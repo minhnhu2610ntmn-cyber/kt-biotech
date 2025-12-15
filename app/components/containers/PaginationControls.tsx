@@ -1,6 +1,7 @@
 'use client';
 
 import { ChevronRightIcon, Text } from '@ktbiotech/system-design';
+import { useTranslations } from 'next-intl';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 interface PaginationControlsProps {
@@ -20,6 +21,7 @@ export default function PaginationControls({
   pageSize,
   pageSizeOptions = [10, 20, 50],
 }: PaginationControlsProps) {
+  const t = useTranslations('common');
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
@@ -40,9 +42,14 @@ export default function PaginationControls({
   if (pageCount <= 1) return null;
 
   return (
-    <div className='flex items-center justify-between mt-4 relative'>
-      <div className='flex items-center gap-2'>
-        <Text className='text-[#1B1C1D]'>Số hàng:</Text>
+    <div className='flex items-center justify-between flex-col md:flex-row mt-4 gap-2 md:gap-0 relative'>
+      <div className='flex items-center gap-2 order-1 md:order-0 relative z-10'>
+        <Text className='text-[#1B1C1D] hidden md:block '>
+          {t('rowsPerPage')}
+        </Text>
+        <Text className='text-[#1B1C1D] block md:hidden '>
+          {t('rowsPerPageMobile')}
+        </Text>
         <select
           className='border border-[#E3EEF5] rounded-md px-2 py-1 text-sm'
           value={pageSize}
@@ -55,7 +62,7 @@ export default function PaginationControls({
           ))}
         </select>
       </div>
-      <div className='flex items-center gap-2 absolute w-full justify-center'>
+      <div className='flex items-center order-0 md:order-1 gap-2 static md:absolute w-full justify-center'>
         <button
           aria-label='Prev'
           disabled={page <= 1}
