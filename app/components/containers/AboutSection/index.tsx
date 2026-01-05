@@ -169,13 +169,28 @@ export default function AboutSection({ items = [], title }: AboutSectionProps) {
                   {/* Content - Right (2/3) */}
                   <div className='flex-1 flex flex-col justify-between py-1'>
                     {/* Title */}
-                    <Heading
-                      level={4}
-                      color='#1B1C1D'
-                      className='!text-base !font-[700] mb-2 line-clamp-2'
-                    >
-                      {item.title}
-                    </Heading>
+                    {item.link ? (
+                      <Link
+                        href={item.link}
+                        className='!no-underline !text-inherit hover:!text-[#3691C9] transition-colors'
+                      >
+                        <Heading
+                          level={4}
+                          color='#1B1C1D'
+                          className='!text-base !font-[700] mb-2 line-clamp-2'
+                        >
+                          {item.title}
+                        </Heading>
+                      </Link>
+                    ) : (
+                      <Heading
+                        level={4}
+                        color='#1B1C1D'
+                        className='!text-base !font-[700] mb-2 line-clamp-2'
+                      >
+                        {item.title}
+                      </Heading>
+                    )}
 
                     {/* Description - Truncated */}
                     <Text
@@ -257,9 +272,20 @@ export default function AboutSection({ items = [], title }: AboutSectionProps) {
                     transitionDelay: `${index * 150 + 300}ms`,
                   }}
                 >
-                  <Heading level={3} color='#215778' className='mb-4 !text-2xl'>
-                    {item.title}
-                  </Heading>
+                  {item.link ? (
+                    <Link
+                      href={item.link}
+                      className='!no-underline !text-inherit hover:!text-[#3691C9] transition-colors'
+                    >
+                      <Heading level={3} color='#215778' className='mb-4 !text-2xl'>
+                        {item.title}
+                      </Heading>
+                    </Link>
+                  ) : (
+                    <Heading level={3} color='#215778' className='mb-4 !text-2xl'>
+                      {item.title}
+                    </Heading>
+                  )}
                 </div>
                 <div
                   className={`transition-all duration-500 ease-out ${

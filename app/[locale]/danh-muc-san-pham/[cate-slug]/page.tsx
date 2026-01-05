@@ -154,7 +154,16 @@ export default async function CategoryListingPage({
     page,
     pageSize,
   });
-  const catalogue: CatalogueItem | null = await api.getCatalogue();
+  let catalogue: CatalogueItem | null = await api.getCatalogue();
+
+  // Fallback to Vietnamese catalogue if current locale catalogue has no downloadUrl
+  if (!catalogue?.downloadUrl && locale !== 'vi') {
+    const viApi = new StrapiApi('vi');
+    const viCatalogue = await viApi.getCatalogue();
+    if (viCatalogue?.downloadUrl) {
+      catalogue = viCatalogue;
+    }
+  }
 
   // Get category data for breadcrumb
   const category = await api.getCategoryBySlug(active);

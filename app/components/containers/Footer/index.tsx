@@ -46,7 +46,7 @@ export default function Footer({
     >
       {/* Main Footer Content */}
       <div className=' px-4 py-8 sm:py-12'>
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8'>
           {/* Company Info & Social Media */}
           <div className='col-span-1 sm:col-span-2 md:col-span-3 max-w-[435px] lg:col-span-1'>
             {/* Logo */}
@@ -71,32 +71,47 @@ export default function Footer({
             {/* Social Media Icons */}
             <div className='flex flex-wrap gap-3 sm:gap-4'>
               {/* Facebook */}
-              <div className='w-10 h-10 sm:w-5 sm:h-5 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors cursor-pointer hover:scale-[1.25]'>
+              <a
+                href='https://www.facebook.com/share/1BrvzJoVB7/?mibextid=wwXIfr'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='w-10 h-10 sm:w-5 sm:h-5 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors cursor-pointer hover:scale-[1.25]'
+              >
                 <FacebookIcon
                   width={28}
                   height={28}
                   stroke='white'
                   className='h-7 w-7 sm:h-[14px] sm:w-[14px]'
                 />
-              </div>
+              </a>
               {/* Zalo */}
-              <div className='w-10 h-10 sm:w-5 sm:h-5 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer hover:scale-[1.25]'>
+              <a
+                href='https://zalo.me/722977074887414014'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='w-10 h-10 sm:w-5 sm:h-5 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors cursor-pointer hover:scale-[1.25]'
+              >
                 <ZaloIcon
                   width={28}
                   height={28}
                   fill='white'
                   className='h-7 w-7 sm:h-[14px] sm:w-[14px]'
                 />
-              </div>
+              </a>
               {/* TikTok */}
-              <div className='w-10 h-10 sm:w-5 sm:h-5 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer hover:scale-[1.25]'>
+              <a
+                href='https://www.tiktok.com/@kt.biotech?is_from_webapp=1&sender_device=pc'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='w-10 h-10 sm:w-5 sm:h-5 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer hover:scale-[1.25]'
+              >
                 <TikTokIcon
                   width={28}
                   height={28}
                   stroke='white'
                   className='h-7 w-7 sm:h-[14px] sm:w-[14px]'
                 />
-              </div>
+              </a>
               {/* YouTube */}
               <div className='flex items-center justify-center hover:scale-[1.25] transition-transform cursor-pointer'>
                 <YouTubeIcon
@@ -106,40 +121,6 @@ export default function Footer({
                   className='w-9 h-9 sm:w-5 sm:h-5'
                 />
               </div>
-            </div>
-          </div>
-
-          {/* Products */}
-          <div>
-            <Heading
-              level={4}
-              color='white'
-              className='font-semibold mb-4 sm:mb-6 text-lg sm:text-lg'
-            >
-              {t('products')}
-            </Heading>
-            <div className='space-y-2 sm:space-y-3'>
-              {productCategories && productCategories.length > 0 ? (
-                productCategories.map(category => (
-                  <Link
-                    key={category.id}
-                    href={`/danh-muc-san-pham/${category.slug || category.id}`}
-                    className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 !text-base sm:!text-sm'
-                  >
-                    {category.name || 'Unnamed Category'}
-                  </Link>
-                ))
-              ) : (
-                // Fallback nếu không có categories
-                <>
-                  <Link
-                    href='/danh-muc-san-pham'
-                    className='block text-gray-300 hover:text-white hover:-translate-y-0.5 transition-all duration-200 !text-base sm:!text-sm'
-                  >
-                    {t('productCategories')}
-                  </Link>
-                </>
-              )}
             </div>
           </div>
 

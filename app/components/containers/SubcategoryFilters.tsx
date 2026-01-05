@@ -38,7 +38,7 @@ function findCategoryInTree(categories: any[], slug: string): any | null {
  */
 function getAllSubcategories(category: any): Subcategory[] {
   const subcategories: Subcategory[] = [];
-  
+
   if (category.sub && Array.isArray(category.sub) && category.sub.length > 0) {
     for (const sub of category.sub) {
       if (sub.slug) {
@@ -55,7 +55,7 @@ function getAllSubcategories(category: any): Subcategory[] {
       }
     }
   }
-  
+
   return subcategories;
 }
 
@@ -65,14 +65,14 @@ export default function SubcategoryFilters({
   activeCategory,
 }: SubcategoryFiltersProps) {
   const t = useTranslations('category');
-  const defaultTitle = title || 'Danh mục con';
+  const defaultTitle = title || t('pcrKitGroup') || 'Nhóm Kit PCR';
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   // Find the active category in the tree
   const activeCategoryData = findCategoryInTree(categories, activeCategory);
-  
+
   // Get all subcategories of the active category
   const subcategories = activeCategoryData
     ? getAllSubcategories(activeCategoryData)
@@ -89,21 +89,21 @@ export default function SubcategoryFilters({
 
   function toggleSubcategory(subcategorySlug: string) {
     const params = new URLSearchParams(searchParams.toString());
-    
+
     // Remove both 'sub' and 'subcategory' to avoid conflicts
     params.delete('sub');
     params.delete('subcategory');
-    
+
     if (selectedSubcategory === subcategorySlug) {
       // If already selected, remove it (already deleted above)
     } else {
       // Set the selected subcategory using 'sub' param
       params.set('sub', subcategorySlug);
     }
-    
+
     // Reset to page 1 when changing filter
     params.set('page', '1');
-    
+
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
@@ -136,4 +136,3 @@ export default function SubcategoryFilters({
     </div>
   );
 }
-

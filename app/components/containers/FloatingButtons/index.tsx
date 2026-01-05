@@ -46,40 +46,39 @@ export default function FloatingButtons({
     }
   };
 
-  const downloadLabel = tNavbar('downloadCatalogue');
+  const downloadLabel = tNavbar('downloadCatalogue1');
   const isCatalogueAvailable = Boolean(catalogueDownload?.url);
 
   return (
     <>
       {/* Download Catalogue Button - Only visible on < 1024px */}
-      {isCatalogueAvailable && (
-        <button
-          onClick={handleCatalogueDownload}
-          className={cn(
-            'fixed right-0 top-1/2 -translate-y-[30vh] translate-x-[12px] z-50 lg:hidden',
-            'w-12 md:w-14 h-32 md:h-40',
-            'flex  items-center justify-center gap-2',
-            'group',
-            'rounded-t-2xl rounded-b-2xl'
-          )}
-          style={{
-            background: 'linear-gradient(90deg, #FDCF75 0%, #FDBA35 100%)',
-          }}
-          aria-label={downloadLabel}
-        >
-          <div className='-rotate-90 -translate-x-[6px] flex items-center gap-2'>
-            <DownloadIcon
-              width={20}
-              height={20}
-              color='#333638'
-              className='text-white scale-110 mb-1 transition-transform'
-            />
-            <span className='text-[#333638] text-xs md:text-sm font-semibold whitespace-nowrap'>
-              {downloadLabel}
-            </span>
-          </div>
-        </button>
-      )}
+      <button
+        onClick={handleCatalogueDownload}
+        className={cn(
+          'fixed right-0 top-1/2 -translate-y-[30vh] translate-x-[12px] z-50 lg:hidden',
+          'w-12 md:w-14 h-32 md:h-40',
+          'flex  items-center justify-center gap-2',
+          'group',
+          'rounded-t-2xl rounded-b-2xl'
+        )}
+        style={{
+          background: 'linear-gradient(90deg, #FDCF75 0%, #FDBA35 100%)',
+        }}
+        aria-label={downloadLabel}
+        disabled={!isCatalogueAvailable}
+      >
+        <div className='-rotate-90 -translate-x-[6px] flex items-center gap-2'>
+          <DownloadIcon
+            width={20}
+            height={20}
+            color='#333638'
+            className='text-white scale-110 mb-1 transition-transform'
+          />
+          <span className='text-[#333638] text-xs md:text-sm font-semibold whitespace-nowrap'>
+            {downloadLabel}
+          </span>
+        </div>
+      </button>
 
       {/* Phone and Zalo Buttons */}
       <div className='fixed right-3 md:right-4 top-2/3 z-50 flex flex-col gap-3'>

@@ -666,7 +666,11 @@ export function Navbar({
                         onClick={() => {
                           handleDropdownToggle(item.label);
                           // Navigate to link if no children or children is empty
-                          if (!item.children || item.children.length === 0) {
+                          if (
+                            !item.children ||
+                            item.children.length === 0 ||
+                            item.href === '/danh-muc-san-pham'
+                          ) {
                             router.push(item.href);
                           }
                         }}
@@ -967,7 +971,7 @@ export function Navbar({
       <div
         ref={mobileMenuRef}
         className={cn(
-          'fixed top-0 right-0 h-full w-screen max-w-sm bg-white shadow-xl z-[5000] lg:hidden transform transition-transform duration-300 ease-in-out flex flex-col',
+          'fixed top-0 right-0 h-full w-screen bg-white shadow-xl z-[5000] lg:hidden transform transition-transform duration-300 ease-in-out flex flex-col',
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         )}
       >
@@ -1132,7 +1136,7 @@ export function Navbar({
                             )}
 
                             {/* Direct Products */}
-                            {subcats.length === 0 &&
+                            {/* {subcats.length === 0 &&
                               parentProducts.length > 0 && (
                                 <div className='pl-4 space-y-1'>
                                   {parentProducts.map((p: any, idx: number) =>
@@ -1152,7 +1156,7 @@ export function Navbar({
                                     ) : null
                                   )}
                                   {/* View All Link for Direct Products */}
-                                  {parentSlug && (
+                            {/* {parentSlug && (
                                     <Link
                                       href={`/danh-muc-san-pham/${parentSlug}`}
                                       className='block px-4 py-1.5 text-sm font-medium text-[#3691C9] hover:opacity-80 transition-opacity ml-[15px]'
@@ -1165,7 +1169,7 @@ export function Navbar({
                                     </Link>
                                   )}
                                 </div>
-                              )}
+                              )} */}
                           </div>
                         );
                       })}

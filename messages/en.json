@@ -46,6 +46,7 @@
     "serviceSequencing": "Genome sequencing",
     "oem": "OEM/ODM/CDMO",
     "downloadCatalogue": "Download Catalogue",
+    "downloadCatalogue1": "Download",
     "danhmucsanpham": "Product Categories"
   },
 
@@ -134,7 +135,7 @@
   },
   "contact": {
     "title": "CONTACT",
-    "companyTitle": "KHOA THUONG/n BIOTECHNOLOGY COMPANY LIMITED",
+    "companyTitle": "KHOA THUONG BIOTECHNOLOGY COMPANY LIMITED",
     "address": "Address",
     "phone": "Phone",
     "email": "Email",
@@ -176,7 +177,8 @@
     "productList": "PRODUCT LIST",
     "downloadCatalogue": "Download Catalogue",
     "category": "Category",
-    "manufacturer": "Manufacturer"
+    "manufacturer": "Manufacturer",
+    "pcrKitGroup": "PCR Kit Group"
   },
   "blog": {
     "latest": "LATEST NEWS",

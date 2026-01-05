@@ -46,6 +46,7 @@
     "serviceSequencing": "Giải trình tự gen",
     "oem": "OEM/ODM/CDMO",
     "downloadCatalogue": "Tải Catalogue",
+    "downloadCatalogue1": "Tải Catalogue",
     "danhmucsanpham": "Danh mục sản phẩm"
   },
 
@@ -176,7 +177,8 @@
     "productList": "DANH SÁCH SẢN PHẨM",
     "downloadCatalogue": "Tải Catalogue",
     "category": "Danh Mục",
-    "manufacturer": "Hãng Sản Xuất"
+    "manufacturer": "Hãng Sản Xuất",
+    "pcrKitGroup": "Nhóm Kit PCR"
   },
   "blog": {
     "latest": "TIN MỚI NHẤT",
