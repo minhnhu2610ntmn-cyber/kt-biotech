@@ -156,7 +156,8 @@ export default async function ContactPage() {
           loading='lazy'
           referrerPolicy='no-referrer-when-downgrade'
           title='KTBioTech Location Map'
-        ></iframe>
+          suppressHydrationWarning
+        />
       </div>
     </div>
   );
