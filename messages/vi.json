@@ -114,11 +114,50 @@
     "newsTitle": "Tin Tức",
     "milestones": {
       "title": "BỀ DÀY LỊCH SỬ",
-      "description": "Mô tả mốc thời gian Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+      "description": "Khoa Thương được hình thành từ một nhóm nghiên cứu về bệnh nhiễm, trực thuộc Bộ môn Di truyền, Trường Đại học Khoa học Tự nhiên – Đại học Quốc gia TP.HCM, dưới sự dẫn dắt của <b>PGS.TS. Hồ Huỳnh Thùy Dương</b>.<br><br> Ngay từ năm 1997, nhóm đã tiên phong trong nghiên cứu và phát triển các bộ kit chẩn đoán HBV, HCV… Giai đoạn này đánh dấu những bước đi đầu tiên trong việc đưa công nghệ sinh học ứng dụng vào thực tiễn tại Việt Nam. Năm 2001, đề tài được nghiệm thu loại <b>Xuất sắc</b>, trở thành nền tảng quan trọng, mở đường cho hệ sinh thái sản phẩm Khoa Thương sau này.",
+      "items": {
+        "1": {
+          "title": "1997 – Khởi nguồn của sứ mệnh",
+          "description": "Khởi nguồn của sứ mệnh",
+          "details": "Khởi nguồn từ nhóm nghiên cứu ĐH KHTN TP.HCM,Khoa Thương tiên phong trong lĩnh vực SHPT từ 1997 và xây dựng nền tảng cho hệ sinh thái hiện nay"
+        },
+        "2": {
+          "title": "2004 – Thành lập Công ty Công nghệ Sinh học Khoa Thương",
+          "description": "Thành lập Công ty Công nghệ Sinh học Khoa Thương",
+          "details": "Khoa Thương được thành lập ngày 22/6/2004 để phát triển kit chẩn đoán chất lượng cao, chi phí phù hợp, mở rộng khả năng tiếp cận PCR–qPCR tại Việt Nam"
+        },
+        "3": {
+          "title": "2016 – Dấu mốc tạo đột phá với công nghệ protein tái tổ hợp",
+          "description": "Dấu mốc tạo đột phá với công nghệ protein tái tổ hợp",
+          "details": "Trước nhu cầu chẩn đoán ký sinh trùng lạc chủ, Khoa Thương tạo ra bộ kit ELISA tái tổ hợp với hiệu năng vượt trội."
+        },
+        "4": {
+          "title": "2024 – Mở rộng hệ sinh thái công nghệ cao",
+          "description": "Mở rộng hệ sinh thái công nghệ cao",
+          "details": "Khoa Thương mở rộng sang NGS, POCT và điện di mao quản, với sản phẩm được ứng dụng rộng rãi và bắt đầu xuất khẩu."
+        }
+      }
     },
     "technology": {
       "title": "ĐỈNH CAO CÔNG NGHỆ",
-      "description": "Mô tả mốc thời gian Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+      "description": "Khoa Thương đã và đang tiếp tục phát triển, nắm vững và thương mại hóa nhiều công nghệ sinh học tiên tiến nhất:<br/></br>Công nghệ PCR & sinh học phân tử</br>hiết kế PCR đa mồi hiệu suất cao</br>Ứng dụng LNA và long-range PCR</br>Điện di mao quản</br>Quy trình tách chiết DNA/RNA tự động và bán tự động</br>Công nghệ protein tái tổ hợp</br>Sản xuất kháng nguyên chất lượng cao</br>Tạo kháng thể đa dòng và đơn dòng</br>Công nghệ giải trình tự & phân tích tin sinh học</br>Giải trình tự Sanger</br>Giải trình tự thế hệ mới (NGS)</br>Phân tích & xử lý dữ liệu tin sinh học chuyên sâu</br></br>Việc làm chủ những công nghệ cốt lõi này giúp Khoa Thương tự tin triển khai các sản phẩm mang tính ứng dụng cao và đáp ứng tiêu chuẩn quốc tế.",
+      "items": {
+        "1": {
+          "title": "Làm chủ nhiều công nghệ mũi nhọn",
+          "description": "Các công nghệ hiện đại nhất hiện có trên thế giới đều được nghiên cứu và ứng dụng nhiều năm ở Khoa Thương.",
+          "details": "Khoa Thương đã và đang tiếp tục phát triển, nắm vững và thương mại hóa nhiều công nghệ sinh học tiên tiến nhất. Việc làm chủ những công nghệ cốt lõi này giúp Khoa Thương tự tin triển khai các sản phẩm mang tính ứng dụng cao và đáp ứng tiêu chuẩn quốc tế."
+        },
+        "2": {
+          "title": "Trang thiết bị hiện đại – Đầu tư bền vững cho tương lai",
+          "description": "Khoa Thương liên tục đầu tư hệ thống NGS, qPCR, FPLC, tách chiết tự động và thiết bị tự động hóa hiện đại, tạo nền tảng cho sản phẩm có độ chính xác và ổn định vượt trội.",
+          "details": "Khoa Thương liên tục đầu tư và nâng cấp hệ thống thiết bị nhằm đảm bảo chất lượng nghiên cứu – sản xuất ở mức cao nhất. Hạ tầng hiện đại là nền tảng để sản phẩm của Khoa Thương đạt độ chính xác, độ ổn định và hiệu năng vượt trội."
+        },
+        "3": {
+          "title": "Hợp tác nghiên cứu",
+          "description": "Khoa Thương mở rộng năng lực qua hợp tác sâu rộng với các trường đại học và viện nghiên cứu hàng đầu, tạo nền tảng kết nối tri thức và thúc đẩy đổi mới.",
+          "details": "Khoa Thương không ngừng mở rộng tri thức và năng lực công nghệ thông qua các mối quan hệ hợp tác sâu rộng với những đơn vị hàng đầu. Những hợp tác này tạo môi trường kết nối tri thức, thúc đẩy đổi mới và bồi đắp thế mạnh công nghệ cho công ty."
+        }
+      }
     },
     "countries": {
       "title": "QUỐC GIA KHOA THƯƠNG ĐÃ XUẤT KHẨU ĐẾN",

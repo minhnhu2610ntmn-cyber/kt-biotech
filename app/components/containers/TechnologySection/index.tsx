@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Heading, Text, Timeline } from '@ktbiotech/system-design';
+import { Container, Heading, Timeline } from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -69,14 +69,14 @@ export default function TechnologySection() {
     return () => itemObserver.disconnect();
   }, []);
 
-  // Transform technology data to timeline format
+  // Transform technology data to timeline format with translations
   const timelineItems = companyData.dinhCaoCongNghe.technologyFootprints.map(
     (tech: TechnologyFootprint, index: number) => ({
       id: index + 1,
-      title: tech.title,
-      description: tech.description,
-      details: tech.details,
-      date: `${tech.year}`,
+      title: t(`items.${tech.id}.title`),
+      description: t(`items.${tech.id}.description`),
+      details: t(`items.${tech.id}.details`),
+      date: t(`items.${tech.id}.title`), // Hiển thị title thay vì year
       image: tech.image,
       isActive: tech.isActive,
     })
@@ -247,16 +247,14 @@ export default function TechnologySection() {
                 ></div>
 
                 {/* Description Text */}
-                <Text
-                  color='#333333'
-                  className={`text-base leading-relaxed transition-all duration-600 ease-out delay-700 ${
+                <div
+                  className={`text-base text-[#333333] transition-all duration-600 ease-out delay-700 ${
                     isVisible
                       ? 'opacity-100 translate-y-0'
                       : 'opacity-0 translate-y-4'
                   }`}
-                >
-                  {t('description')}
-                </Text>
+                  dangerouslySetInnerHTML={{ __html: t.raw('description') }}
+                />
               </div>
             </div>
           </div>

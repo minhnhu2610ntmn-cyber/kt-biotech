@@ -1,5 +1,6 @@
 'use client';
 
+import { take } from 'lodash';
 import { ChevronRight, Menu, X } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -909,24 +910,25 @@ export function Navbar({
                             </div>
                             <div className='space-y-2'>
                               {parentProducts.length > 0 ? (
-                                parentProducts.map((p: any, idx: number) =>
-                                  p.slug ? (
-                                    <Link
-                                      key={`${p.slug}-${idx}`}
-                                      href={`/san-pham/${p.slug}`}
-                                      className='block text-sm text-gray-700 px-3 py-2 rounded hover:text-[#215778] hover:bg-gray-50 transition-colors duration-150'
-                                      onClick={closeMegaMenu}
-                                    >
-                                      {p.title}
-                                    </Link>
-                                  ) : (
-                                    <span
-                                      key={`no-slug-${idx}`}
-                                      className='block text-sm text-gray-400 px-3 py-2 rounded'
-                                    >
-                                      {p.title}
-                                    </span>
-                                  )
+                                take(parentProducts, 3).map(
+                                  (p: any, idx: number) =>
+                                    p.slug ? (
+                                      <Link
+                                        key={`${p.slug}-${idx}`}
+                                        href={`/san-pham/${p.slug}`}
+                                        className='block text-sm text-gray-700 px-3 py-2 rounded hover:text-[#215778] hover:bg-gray-50 transition-colors duration-150'
+                                        onClick={closeMegaMenu}
+                                      >
+                                        {p.title}
+                                      </Link>
+                                    ) : (
+                                      <span
+                                        key={`no-slug-${idx}`}
+                                        className='block text-sm text-gray-400 px-3 py-2 rounded'
+                                      >
+                                        {p.title}
+                                      </span>
+                                    )
                                 )
                               ) : (
                                 <div className='text-sm text-gray-400 px-3 py-2 rounded'>
@@ -1095,11 +1097,11 @@ export function Navbar({
                                     key={sc.slug || sc.id}
                                     className='space-y-1'
                                   >
-                                    <div className='px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase flex items-center justify-between'>
+                                    {/* <div className='px-4 py-1.5 text-xs font-semibold text-gray-500 uppercase flex items-center justify-between'>
                                       <span>{sc.name}</span>
                                       <ChevronRight className='h-4 w-4 text-gray-400' />
-                                    </div>
-                                    {Array.isArray(sc.products) &&
+                                    </div> */}
+                                    {/* {Array.isArray(sc.products) &&
                                       sc.products.length > 0 &&
                                       sc.products.map((p: any, idx: number) =>
                                         p.slug ? (
@@ -1116,9 +1118,9 @@ export function Navbar({
                                             {p.title}
                                           </Link>
                                         ) : null
-                                      )}
+                                      )} */}
                                     {/* View All Link for Subcategory */}
-                                    {sc.slug && parentSlug && (
+                                    {/* {sc.slug && parentSlug && (
                                       <Link
                                         href={`/danh-muc-san-pham/${parentSlug}?sub=${sc.slug}`}
                                         className='block px-4 py-1.5 text-sm font-medium text-[#3691C9] hover:opacity-80 transition-opacity ml-[15px]'
@@ -1129,7 +1131,7 @@ export function Navbar({
                                       >
                                         {tCommon('viewAll')} →
                                       </Link>
-                                    )}
+                                    )} */}
                                   </div>
                                 ))}
                               </div>

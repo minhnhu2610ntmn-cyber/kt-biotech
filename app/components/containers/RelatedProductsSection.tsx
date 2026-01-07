@@ -1,6 +1,7 @@
 'use client';
 
 import { Heading, SliderV2, Text } from '@ktbiotech/system-design';
+import { take } from 'lodash';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Link } from '../../utils/link';
@@ -45,7 +46,7 @@ export default function RelatedProductsSection({
 
       {/* Mobile only (< 640px): Vertical list with horizontal cards */}
       <div className='sm:hidden space-y-4'>
-        {products.map(product => (
+        {take(products, 4).map(product => (
           <Link
             key={product.slug}
             href={`/san-pham/${product.slug}`}
@@ -155,7 +156,7 @@ export default function RelatedProductsSection({
 
       {/* Desktop (>= 1024px): Grid layout */}
       <div className='hidden lg:grid lg:grid-cols-3 xl:grid-cols-4 gap-6'>
-        {products.map(product => (
+        {take(products, 4).map(product => (
           <Link
             key={product.slug}
             href={`/san-pham/${product.slug}`}

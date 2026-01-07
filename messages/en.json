@@ -114,11 +114,65 @@
     "newsTitle": "News",
     "milestones": {
       "title": "HISTORICAL DEPTH",
-      "description": "Timeline description Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+      "description": "Development history and key milestones of KTBioTech",
+      "items": {
+        "1": {
+          "title": "Company Establishment",
+          "description": "KTBioTech was established with a mission to develop biotechnology",
+          "details": "The company was established with a team of experienced experts in the field of biotechnology."
+        },
+        "2": {
+          "title": "Market Expansion",
+          "description": "Expanding operations to international markets",
+          "details": "Started exporting products to Southeast Asian markets."
+        },
+        "3": {
+          "title": "New Product Development",
+          "description": "Launching new diagnostic test kit product line",
+          "details": "Developed and launched COVID-19 diagnostic test kit product line."
+        },
+        "4": {
+          "title": "International Cooperation",
+          "description": "Signing cooperation with international partners",
+          "details": "Establishing partnerships with leading biotechnology companies worldwide."
+        },
+        "5": {
+          "title": "Future Development",
+          "description": "Development and expansion plans for the future",
+          "details": "Plans to expand manufacturing facilities and develop more new products."
+        }
+      }
     },
     "technology": {
       "title": "TECHNOLOGY EXCELLENCE",
-      "description": "Timeline description Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+      "description": "Outstanding technological achievements and breakthroughs of KTBioTech",
+      "items": {
+        "1": {
+          "title": "PCR Technology",
+          "description": "Developing advanced Real-time PCR technology",
+          "details": "Research and development of Real-time PCR technology with high accuracy."
+        },
+        "2": {
+          "title": "ELISA Technology",
+          "description": "Applying ELISA technology in diagnostics",
+          "details": "Developing ELISA kits for various types of diagnostic tests."
+        },
+        "3": {
+          "title": "Extraction Technology",
+          "description": "Automated DNA/RNA extraction technology",
+          "details": "Research and development of automated extraction technology."
+        },
+        "4": {
+          "title": "AI Technology",
+          "description": "Applying AI in result analysis",
+          "details": "Integrating AI into the process of analyzing and processing test results."
+        },
+        "5": {
+          "title": "IoT Technology",
+          "description": "Connecting smart devices",
+          "details": "Developing IoT systems to connect and manage devices remotely."
+        }
+      }
     },
     "countries": {
       "title": "COUNTRIES KHOA THUONG HAS EXPORTED TO",

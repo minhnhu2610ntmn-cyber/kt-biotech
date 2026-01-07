@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Heading, Text, Timeline } from '@ktbiotech/system-design';
+import { Container, Heading, Timeline } from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 import { companyData, Milestone } from '../../../data/BeDayLichSuData';
@@ -66,13 +66,13 @@ export default function MilestonesSection() {
     return () => itemObserver.disconnect();
   }, []);
 
-  // Transform milestones data to timeline format
+  // Transform milestones data to timeline format with translations
   const timelineItems = companyData.beDayLichSu.milestones.map(
     (milestone: Milestone, index: number) => ({
       id: index + 1,
-      title: milestone.title,
-      description: milestone.description,
-      details: milestone.details,
+      title: t(`items.${milestone.id}.title`),
+      description: t(`items.${milestone.id}.description`),
+      details: t(`items.${milestone.id}.details`),
       date: `${milestone.year}`,
       image: milestone.image,
       isActive: milestone.isActive,
@@ -131,16 +131,14 @@ export default function MilestonesSection() {
                 ></div>
 
                 {/* Description Text */}
-                <Text
-                  color='#333333'
-                  className={`text-base leading-relaxed transition-all duration-600 ease-out delay-500 ${
+                <div
+                  className={`text-base text-[#333333] transition-all duration-600 ease-out delay-500 ${
                     isVisible
                       ? 'opacity-100 translate-y-0'
                       : 'opacity-0 translate-y-4'
                   }`}
-                >
-                  {t('description')}
-                </Text>
+                  dangerouslySetInnerHTML={{ __html: t.raw('description') }}
+                />
               </div>
             </div>
 

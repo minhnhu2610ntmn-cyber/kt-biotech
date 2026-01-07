@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Heading, Text } from '@ktbiotech/system-design';
+import { Heading, Text } from '@ktbiotech/system-design';
 import Image from 'next/image';
 import { buildImageUrl } from '../../config/api';
 
@@ -40,14 +40,21 @@ const toBase64 = (str: string) =>
     ? Buffer.from(str).toString('base64')
     : window.btoa(str);
 
-export default function CategoryCard({ category, categoryHref, index, locale }: CategoryCardProps) {
-  const imageUrl = category.image?.url
-    ? buildImageUrl(category.image.url)
-    : '';
+export default function CategoryCard({
+  category,
+  categoryHref,
+  index,
+  locale,
+}: CategoryCardProps) {
+  const imageUrl = category.image?.url ? buildImageUrl(category.image.url) : '';
 
   const handleClick = () => {
     // Debug log to check what categoryHref contains
-    console.log('CategoryCard handleClick:', { categoryHref, locale, category: category.slug });
+    console.log('CategoryCard handleClick:', {
+      categoryHref,
+      locale,
+      category: category.slug,
+    });
     window.location.href = categoryHref;
   };
 
@@ -75,11 +82,7 @@ export default function CategoryCard({ category, categoryHref, index, locale }: 
             />
           ) : (
             <div className='w-full h-full aspect-square bg-gray-300 rounded-lg flex items-center justify-center'>
-              <Text
-                variant='caption'
-                color='muted'
-                className='text-xs'
-              >
+              <Text variant='caption' color='muted' className='text-xs'>
                 Image
               </Text>
             </div>
@@ -98,13 +101,13 @@ export default function CategoryCard({ category, categoryHref, index, locale }: 
           </Heading>
 
           {/* Description - Truncated */}
-          <Text
+          {/* <Text
             variant='caption'
             color='#7C8388'
             className='text-xs mb-2 line-clamp-2'
           >
             {category.description || 'description'}
-          </Text>
+          </Text> */}
         </div>
       </article>
 
@@ -138,9 +141,9 @@ export default function CategoryCard({ category, categoryHref, index, locale }: 
           >
             {category.name}
           </Text>
-          <Text className='!text-gray-600' color='#636A6E'>
+          {/* <Text className='!text-gray-600' color='#636A6E'>
             {category.description || 'description'}
-          </Text>
+          </Text> */}
         </div>
       </div>
     </div>
