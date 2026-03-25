@@ -14,8 +14,10 @@ export default function TechnologySection() {
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
 
   // Check if mobile viewport
   useEffect(() => {
@@ -27,6 +29,28 @@ export default function TechnologySection() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Auto play for technology items
+  useEffect(() => {
+    if (!isVisible || isMobile || isPaused) {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+        autoPlayRef.current = null;
+      }
+      return;
+    }
+
+    autoPlayRef.current = setInterval(() => {
+      setActiveIndex(prev => (prev + 1) % companyData.dinhCaoCongNghe.technologyFootprints.length);
+    }, 5000); // Change every 5 seconds
+
+    return () => {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+        autoPlayRef.current = null;
+      }
+    };
+  }, [isVisible, isMobile, isPaused]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -75,8 +99,8 @@ export default function TechnologySection() {
       id: index + 1,
       title: t(`items.${tech.id}.title`),
       description: t(`items.${tech.id}.description`),
-      details: t(`items.${tech.id}.details`),
-      date: t(`items.${tech.id}.title`), // Hiển thị title thay vì year
+      details: t.raw(`items.${tech.id}.details`),
+      date: t(`items.${tech.id}.title`),
       image: tech.image,
       isActive: tech.isActive,
     })
@@ -195,7 +219,11 @@ export default function TechnologySection() {
                 </div>
               ) : (
                 /* Desktop View: List of all timeline items with equal width */
-                <div className='grid grid-cols-1 gap-4 w-full'>
+                <div
+                  className='grid grid-cols-1 gap-4 w-full'
+                  onMouseEnter={() => setIsPaused(true)}
+                  onMouseLeave={() => setIsPaused(false)}
+                >
                   {timelineItems.map((item, index) => (
                     <div
                       key={item.id}
@@ -203,14 +231,15 @@ export default function TechnologySection() {
                         itemRefs.current[index] = el;
                       }}
                       data-index={index}
-                      className={`transition-all duration-600 ease-out ${
+                      onClick={() => setActiveIndex(index)}
+                      className={`transition-all duration-600 ease-out cursor-pointer ${
                         visibleItems.has(index)
                           ? 'opacity-100 translate-y-0'
                           : 'opacity-0 translate-y-8'
                       }`}
                       style={{ transitionDelay: `${index * 200}ms` }}
                     >
-                      <Timeline items={[item]} />
+                      <Timeline items={[{ ...item, isActive: index === activeIndex }]} />
                     </div>
                   ))}
                 </div>
@@ -239,21 +268,35 @@ export default function TechnologySection() {
 
               {/* Description & Placeholder - order reversed on mobile */}
               <div className='flex flex-col-reverse lg:flex-col gap-4'>
-                {/* Large Placeholder Box */}
-                <div
-                  className={`w-full h-64 bg-[#DDEBF7] rounded-lg transition-all duration-600 ease-out delay-600 hover:scale-105 ${
-                    isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-                  }`}
-                ></div>
+                {/* Large Placeholder Box - Show active item image */}
+                {activeItem.image ? (
+                  <div
+                    className={`w-full h-64 rounded-lg transition-all duration-600 ease-out delay-600 overflow-hidden ${
+                      isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                    }`}
+                  >
+                    <img
+                      src={activeItem.image}
+                      alt={activeItem.title}
+                      className='w-full h-full object-cover'
+                    />
+                  </div>
+                ) : (
+                  <div
+                    className={`w-full h-64 bg-[#DDEBF7] rounded-lg transition-all duration-600 ease-out delay-600 hover:scale-105 ${
+                      isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                    }`}
+                  ></div>
+                )}
 
-                {/* Description Text */}
+                {/* Description Text - Show active item details */}
                 <div
                   className={`text-base text-[#333333] transition-all duration-600 ease-out delay-700 ${
                     isVisible
                       ? 'opacity-100 translate-y-0'
                       : 'opacity-0 translate-y-4'
                   }`}
-                  dangerouslySetInnerHTML={{ __html: t.raw('description') }}
+                  dangerouslySetInnerHTML={{ __html: activeItem.details }}
                 />
               </div>
             </div>

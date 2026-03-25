@@ -113,64 +113,58 @@
     },
     "newsTitle": "News",
     "milestones": {
-      "title": "HISTORICAL DEPTH",
-      "description": "Development history and key milestones of KTBioTech",
+      "title": "HISTORICAL MILESTONES",
+      "description": "Originating from a research group at the University of Science, Ho Chi Minh City, Khoa Thuong has been a pioneer in molecular biology since 1997 and has built the foundational platform for today's ecosystem",
       "items": {
         "1": {
-          "title": "Company Establishment",
-          "description": "KTBioTech was established with a mission to develop biotechnology",
-          "details": "The company was established with a team of experienced experts in the field of biotechnology."
+          "title": "1997 – The Beginning of a Vision",
+          "description": "Originating from a research group at the University of Science, Ho Chi Minh City, Khoa Thuong has been a pioneer in molecular biology since 1997 and has built the foundational platform for today's ecosystem",
+          "date": "1997",
+          "details": "Khoa Thuong originated from an infectious disease research group within the Department of Genetics, University of Science – Vietnam National University Ho Chi Minh City, under the leadership of <strong>Assoc. Prof. Dr. Ho Huynh Thuy Duong</strong>.<br><br>As early as 1997, the group pioneered the research and development of diagnostic kits for HBV, HCV, and other pathogens. This period marked the first steps in bringing applied biotechnology into practical use in Vietnam. In 2001, the project was evaluated as <strong>Excellent</strong>, becoming a crucial foundation that paved the way for the development of Khoa Thuong's product ecosystem in the years that followed."
         },
         "2": {
-          "title": "Market Expansion",
-          "description": "Expanding operations to international markets",
-          "details": "Started exporting products to Southeast Asian markets."
+          "title": "2004 – Establishment of Khoa Thuong Biotechnology",
+          "description": "Khoa Thuong was established on June 22, 2004 to develop high-quality, cost-effective diagnostic kits and to expand access to PCR–qPCR technologies in Vietnam",
+          "date": "2004",
+          "details": "In response to the urgent need for high-quality yet affordable diagnostic kits tailored to local conditions, Khoa Thuong Biotechnology Co., Ltd. was officially established on June 22, 2004.<br><br>From that point forward, Khoa Thuong embarked on a journey of research, technology transfer, and commercialization of molecular diagnostic products such as PCR and qPCR kits, serving multiple fields including human health, veterinary diagnostics, and microbiology. These efforts have made significant contributions to improving access to advanced diagnostic solutions in Vietnam."
         },
         "3": {
-          "title": "New Product Development",
-          "description": "Launching new diagnostic test kit product line",
-          "details": "Developed and launched COVID-19 diagnostic test kit product line."
+          "title": "2016 – Breakthrough in Recombinant Protein Technology",
+          "description": "In response to the need for diagnosing aberrant parasitic infections, Khoa Thuong developed a recombinant ELISA kit with superior performance",
+          "date": "2016",
+          "details": "Vietnam is among the countries with a high prevalence of aberrant parasitic infections (such as Toxocara, Fasciola, Gnathostoma, etc.). However, international diagnostic kits for these diseases remain limited.<br><br>Recognizing this practical need, Khoa Thuong successfully applied recombinant protein technology to develop an ELISA kit for detecting aberrant parasitic infections. The resulting products exhibit outstanding stability and accuracy, fully overcoming the limitations of traditional methods that rely on extracting proteins from fresh helminths—marking a major technological breakthrough for the field."
         },
         "4": {
-          "title": "International Cooperation",
-          "description": "Signing cooperation with international partners",
-          "details": "Establishing partnerships with leading biotechnology companies worldwide."
-        },
-        "5": {
-          "title": "Future Development",
-          "description": "Development and expansion plans for the future",
-          "details": "Plans to expand manufacturing facilities and develop more new products."
+          "title": "2024 – Advancing Into High-Technology Diagnostics",
+          "description": "Khoa Thuong has expanded into next-generation sequencing (NGS), point-of-care testing (POCT), and capillary electrophoresis, with its products now widely adopted and beginning to enter export markets",
+          "date": "2024",
+          "details": "In alignment with the global advancement of biotechnology and Vietnam's national development orientation, Khoa Thuong has continued to expand into modern diagnostic technologies, including:<br>• Next-generation sequencing (NGS)<br>• Point-of-care testing (POCT)<br>• Capillary electrophoresis<br><br>These solutions are applied in diagnostics, parentage testing, and a variety of related fields. Khoa Thuong's products have been widely adopted domestically and have begun to enter international markets."
         }
       }
     },
     "technology": {
       "title": "TECHNOLOGY EXCELLENCE",
-      "description": "Outstanding technological achievements and breakthroughs of KTBioTech",
+      "description": "Leading the diagnostic field and staying ahead of development trends",
       "items": {
         "1": {
-          "title": "PCR Technology",
-          "description": "Developing advanced Real-time PCR technology",
-          "details": "Research and development of Real-time PCR technology with high accuracy."
+          "title": "R&D Excellence Driven by Top-Tier Scientists",
+          "description": "Khoa Thuong places people at the center of its development strategy, with more than 30% of its workforce dedicated to R&D and possessing advanced academic qualifications. Assoc. Prof. Dr. Ho Huynh Thuy Duong provides direct scientific leadership, ensuring the rigor and integrity of the research conducted.",
+          "details": "People have always been the core foundation of Khoa Thuong.<br><br>The <strong>Research & Development (R&D)</strong> department accounts for more than 30% of the company's workforce, with over 50% holding a Master's degree or higher, trained at prestigious universities in Vietnam and abroad (including the United States, Russia, and others).<br><br>This team is led by <strong>Assoc. Prof. Dr. Ho Huynh Thuy Duong</strong>—one of Vietnam's leading experts in molecular diagnostics—whose scientific leadership ensures the quality, rigor, and integrity of the company's research."
         },
         "2": {
-          "title": "ELISA Technology",
-          "description": "Applying ELISA technology in diagnostics",
-          "details": "Developing ELISA kits for various types of diagnostic tests."
+          "title": "Mastering Multiple Cutting-Edge Technologies",
+          "description": "The most advanced technologies available worldwide have been extensively researched and applied at Khoa Thuong for many years.",
+          "details": "Khoa Thuong has continuously advanced, mastered, and commercialized a wide range of state-of-the-art biotechnologies, including:<br><br>• PCR and Molecular Biology Technologies<br>– High-performance multiplex PCR design<br>– LNA-enhanced assays and long-range PCR<br>– Capillary electrophoresis<br>– Automated and semi-automated DNA/RNA extraction workflows<br><br>• Recombinant Protein Technology<br>– Production of high-quality recombinant antigens<br>– Development of polyclonal and monoclonal antibodies<br><br>• Sequencing and Bioinformatics<br>– Sanger sequencing<br>– Next-generation sequencing (NGS)<br>– Advanced bioinformatics data analysis and processing<br><br>Mastery of these core technologies enables Khoa Thuong to confidently develop highly applicable products that meet international standards."
         },
         "3": {
-          "title": "Extraction Technology",
-          "description": "Automated DNA/RNA extraction technology",
-          "details": "Research and development of automated extraction technology."
+          "title": "<strong>Modern Infrastructure</strong> – Sustainable Investment for the Future",
+          "description": "Khoa Thuong continuously invests in advanced NGS, qPCR, FPLC, automated extraction systems, and cutting-edge laboratory automation equipment, establishing a robust foundation for products with exceptional accuracy and stability.",
+          "details": "Khoa Thuong continuously invests in and upgrades its instrumentation to ensure the highest standards in research and manufacturing, including:<br><br>• NGS platforms: Illumina, MGI, PacBio, Oxford Nanopore Technologies (ONT), …<br>• qPCR systems: Thermo Fisher, Bio-Rad, Qiagen, BMS, Himedia<br>• Protein purification systems: ÄKTA (FPLC)<br>• Automated extraction systems: Tanbead, KingFisher, …<br>• Automated liquid-filling systems, automated multichannel pipetting systems, bioanalyzers, and other laboratory automation technologies<br><br>This advanced infrastructure provides the foundation for Khoa Thuong’s products to achieve exceptional accuracy, stability, and performance."
         },
         "4": {
-          "title": "AI Technology",
-          "description": "Applying AI in result analysis",
-          "details": "Integrating AI into the process of analyzing and processing test results."
-        },
-        "5": {
-          "title": "IoT Technology",
-          "description": "Connecting smart devices",
-          "details": "Developing IoT systems to connect and manage devices remotely."
+          "title": "Research Collaboration",
+          "description": "Khoa Thuong strengthens its capabilities through extensive collaborations with leading universities and research institutes, fostering knowledge exchange and driving innovation.",
+          "details": "Khoa Thuong continuously expands its scientific expertise and technological capabilities through deep and long-standing collaborations with leading institutions, including:<br><br>• University of Science – Vietnam National University Ho Chi Minh City<br>• University of Medicine and Pharmacy, Ho Chi Minh City<br>• Pham Ngoc Thach University of Medicine<br>• School of Medicine, Vietnam National University Ho Chi Minh City<br><br>These partnerships foster knowledge exchange, drive innovation, and strengthen the company’s technological foundation."
         }
       }
     },

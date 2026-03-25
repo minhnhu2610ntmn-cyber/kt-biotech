@@ -49,7 +49,9 @@ export const Timeline: React.FC<TimelineProps> = ({
             >
               {/* Timeline Circle */}
               <div className='hidden lg:flex flex-col items-center'>
-                {getItemIcon(item)}
+                <div className={`transition-transform duration-300 ${item.isActive ? 'scale-150' : 'scale-100'}`}>
+                  {getItemIcon(item)}
+                </div>
 
                 {/* Connector Line */}
                 {showConnector && (
@@ -69,13 +71,15 @@ export const Timeline: React.FC<TimelineProps> = ({
                 } w-full flex flex-col justify-center`}
               >
                 {item.date && (
-                  <Heading
-                    color='white'
-                    level={5}
-                    className={`text-sm mb-2 font-bold ${isVertical ? 'text-left' : 'text-center'}`}
-                  >
-                    {item.date}
-                  </Heading>
+                  <div>
+                    <Heading
+                      color='white'
+                      level={5}
+                      className={`text-sm mb-2 font-bold ${isVertical ? 'text-left' : 'text-center'}`}
+                    >
+                      {item.date}
+                    </Heading>
+                  </div>
                 )}
                 {/* <Text
                     color='white'
@@ -89,14 +93,6 @@ export const Timeline: React.FC<TimelineProps> = ({
                     className={`text-sm leading-relaxed ${isVertical ? 'text-left' : 'text-center'}`}
                   >
                     {item.description}
-                  </Text>
-                )}
-                {item.details && (
-                  <Text
-                    color='white'
-                    className={`text-xs leading-relaxed opacity-90 ${isVertical ? 'text-left' : 'text-center'}`}
-                  >
-                    {item.details}
                   </Text>
                 )}
               </div>

@@ -8,29 +8,25 @@ export const companyData = {
         id: '1',
         year: 1997,
         isActive: true,
-        image:
-          'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop',
+        image: '/minestone/1997.JPG',
       },
       {
         id: '2',
         year: 2004,
         isActive: false,
-        image:
-          'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop',
+        image: '/minestone/2004.jpg',
       },
       {
         id: '3',
         year: 2016,
         isActive: false,
-        image:
-          'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=600&h=400&fit=crop',
+        image: '/minestone/2017.jpg',
       },
       {
         id: '4',
         year: 2024,
         isActive: false,
-        image:
-          'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=600&h=400&fit=crop',
+        image: '/minestone/2024.jpg',
       },
     ],
   },
