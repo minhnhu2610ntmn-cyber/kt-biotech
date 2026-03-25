@@ -100,7 +100,7 @@ export default function TechnologySection() {
       title: t(`items.${tech.id}.title`),
       description: t(`items.${tech.id}.description`),
       details: t.raw(`items.${tech.id}.details`),
-      date: t(`items.${tech.id}.title`),
+      date: t.raw(`items.${tech.id}.title`),
       image: tech.image,
       isActive: tech.isActive,
     })
