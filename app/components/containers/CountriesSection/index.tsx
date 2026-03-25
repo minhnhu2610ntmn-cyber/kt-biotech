@@ -98,15 +98,15 @@ export default function CountriesSection() {
               breakpoints={{
                 640: {
                   slidesPerView: 2,
-                  spaceBetween: 30,
+                  spaceBetween: 50,
                 },
                 768: {
                   slidesPerView: 3,
-                  spaceBetween: 40,
+                  spaceBetween: 60,
                 },
                 1024: {
                   slidesPerView: 5,
-                  spaceBetween: 60,
+                  spaceBetween: 80,
                 },
               }}
               navigation={false}
@@ -126,8 +126,8 @@ export default function CountriesSection() {
               {countries.map((country, index) => {
                 const FlagIcon = country.flag;
                 return (
-                  <div key={index} className='flex  flex-col items-center px-4'>
-                    <div className='h-[135px] w-[180px] rounded-lg shadow-lg mb-2 overflow-hidden'>
+                  <div key={index} className='flex  flex-col items-center px-2'>
+                    <div className='h-[100px] w-[140px] md:h-[120px] md:w-[160px] lg:h-[135px] lg:w-[180px] rounded-lg shadow-lg mb-2 overflow-hidden'>
                       <FlagIcon className='w-full h-full' />
                     </div>
                     <Text
