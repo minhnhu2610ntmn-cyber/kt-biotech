@@ -11,6 +11,9 @@ interface LanguageSwitcherProps {
   variant?: 'default' | 'compact';
 }
 
+// Cookie name used by next-intl middleware
+const NEXT_INTL_COOKIE_NAME = 'NEXT_LOCALE';
+
 export function LanguageSwitcher({
   className,
   variant = 'default',
@@ -35,6 +38,13 @@ export function LanguageSwitcher({
       document.documentElement.lang = locale;
     }
   }, [locale]);
+
+  // Set locale cookie for next-intl middleware
+  const setLocaleCookie = (newLocale: string) => {
+    if (typeof document === 'undefined') return;
+    const maxAge = 365 * 24 * 60 * 60; // 1 year
+    document.cookie = `${NEXT_INTL_COOKIE_NAME}=${newLocale}; path=/; max-age=${maxAge}; SameSite=Lax`;
+  };
 
   const switchLanguage = (newLocale: string) => {
     // Supported locales
@@ -97,11 +107,12 @@ export function LanguageSwitcher({
       });
     }
 
-    // Use window.location.replace for navigation to avoid redirect loop
-    // This ensures the browser navigates directly without adding to history
+    // Set locale cookie BEFORE navigation to ensure middleware respects the new locale
+    setLocaleCookie(newLocale);
+
+    // Use window.location.href for navigation (not replace to allow back button)
     if (typeof window !== 'undefined') {
-      // Use replace instead of href to avoid redirect issues
-      window.location.replace(newPath);
+      window.location.href = newPath;
     } else {
       // Fallback to router
       router.push(newPath);
