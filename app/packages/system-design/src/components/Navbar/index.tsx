@@ -858,12 +858,12 @@ export function Navbar({
                                 <div className='space-y-2'>
                                   {Array.isArray(sc.products) &&
                                   sc.products.length > 0 ? (
-                                    sc.products.map((p: any, idx: number) =>
+                                    take(sc.products, 2).map((p: any, idx: number) =>
                                       p.slug ? (
                                         <Link
                                           key={`${p.slug}-${idx}`}
                                           href={`/san-pham/${p.slug}`}
-                                          className='block text-sm text-gray-700 px-3 py-2 rounded hover:text-[#215778] hover:bg-gray-50 transition-colors duration-150'
+                                          className='block text-sm text-gray-700 px-3 py-2 rounded hover:text-[#215778] hover:bg-gray-50 transition-colors duration-150 truncate'
                                           onClick={closeMegaMenu}
                                         >
                                           {p.title}
@@ -871,7 +871,7 @@ export function Navbar({
                                       ) : (
                                         <span
                                           key={`no-slug-${idx}`}
-                                          className='block text-sm text-gray-400 px-3 py-2 rounded'
+                                          className='block text-sm text-gray-400 px-3 py-2 rounded truncate'
                                         >
                                           {p.title}
                                         </span>
@@ -910,13 +910,13 @@ export function Navbar({
                             </div>
                             <div className='space-y-2'>
                               {parentProducts.length > 0 ? (
-                                take(parentProducts, 3).map(
+                                take(parentProducts, 2).map(
                                   (p: any, idx: number) =>
                                     p.slug ? (
                                       <Link
                                         key={`${p.slug}-${idx}`}
                                         href={`/san-pham/${p.slug}`}
-                                        className='block text-sm text-gray-700 px-3 py-2 rounded hover:text-[#215778] hover:bg-gray-50 transition-colors duration-150'
+                                        className='block text-sm text-gray-700 px-3 py-2 rounded hover:text-[#215778] hover:bg-gray-50 transition-colors duration-150 truncate'
                                         onClick={closeMegaMenu}
                                       >
                                         {p.title}
@@ -924,7 +924,7 @@ export function Navbar({
                                     ) : (
                                       <span
                                         key={`no-slug-${idx}`}
-                                        className='block text-sm text-gray-400 px-3 py-2 rounded'
+                                        className='block text-sm text-gray-400 px-3 py-2 rounded truncate'
                                       >
                                         {p.title}
                                       </span>
