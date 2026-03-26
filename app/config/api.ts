@@ -462,6 +462,7 @@ export class StrapiApi {
 
   /**
    * Get products with optional filters: q (search), brandIds (comma), categorySlug
+   * Falls back to other locale if no products found in current locale
    */
   async getProducts(filters?: {
     q?: string;
@@ -470,59 +471,68 @@ export class StrapiApi {
     excludeSlug?: string;
     page?: number;
     pageSize?: number;
-  }): Promise<{ data: any[]; meta: any }> {
-    const params: string[] = [];
-    // populate images and brands
-    params.push('populate[images][fields]=*');
-    params.push('populate[categories][fields]=*');
+  }): Promise<{ data: any[]; meta: any; _fallback?: boolean }> {
+    const buildQuery = (localeOverride?: string) => {
+      const params: string[] = [];
+      // populate images and brands
+      params.push('populate[images][fields]=*');
+      params.push('populate[categories][fields]=*');
 
-    if (filters?.q) {
-      const qEncoded = encodeURIComponent(filters.q);
-      params.push(`filters[$or][0][title][$containsi]=${qEncoded}`);
-      params.push(`filters[$or][1][description][$containsi]=${qEncoded}`);
-    }
-
-    if (filters?.brandIds) {
-      params.push(
-        `filters[brand][id][$in]=${encodeURIComponent(filters.brandIds)}`
-      );
-    }
-
-    if (filters?.categorySlug) {
-      // Support multiple slugs (comma-separated) - includes parent and all subcategories
-      const slugs = filters.categorySlug
-        .split(',')
-        .map(s => s.trim())
-        .filter(Boolean);
-
-      if (slugs.length === 1) {
-        // Single slug - use direct filter
-        params.push(
-          `filters[categories][slug][$eq]=${encodeURIComponent(slugs[0])}`
-        );
-      } else if (slugs.length > 1) {
-        // Multiple slugs - use $in operator
-        slugs.forEach((slug, index) => {
-          params.push(
-            `filters[categories][slug][$in][${index}]=${encodeURIComponent(slug)}`
-          );
-        });
+      if (filters?.q) {
+        const qEncoded = encodeURIComponent(filters.q);
+        params.push(`filters[$or][0][title][$containsi]=${qEncoded}`);
+        params.push(`filters[$or][1][description][$containsi]=${qEncoded}`);
       }
-    }
 
-    if (filters?.page) params.push(`pagination[page]=${filters.page}`);
-    if (filters?.pageSize)
-      params.push(`pagination[pageSize]=${filters.pageSize}`);
+      if (filters?.brandIds) {
+        params.push(
+          `filters[brand][id][$in]=${encodeURIComponent(filters.brandIds)}`
+        );
+      }
 
-    this.appendLocaleToQueryParts(params);
+      if (filters?.categorySlug) {
+        // Support multiple slugs (comma-separated) - includes parent and all subcategories
+        const slugs = filters.categorySlug
+          .split(',')
+          .map(s => s.trim())
+          .filter(Boolean);
 
-    if (filters?.excludeSlug) {
-      params.push(
-        `filters[slug][$ne]=${encodeURIComponent(filters.excludeSlug)}`
-      );
-    }
+        if (slugs.length === 1) {
+          // Single slug - use direct filter
+          params.push(
+            `filters[categories][slug][$eq]=${encodeURIComponent(slugs[0])}`
+          );
+        } else if (slugs.length > 1) {
+          // Multiple slugs - use $in operator
+          slugs.forEach((slug, index) => {
+            params.push(
+              `filters[categories][slug][$in][${index}]=${encodeURIComponent(slug)}`
+            );
+          });
+        }
+      }
 
-    const query = params.join('&');
+      if (filters?.page) params.push(`pagination[page]=${filters.page}`);
+      if (filters?.pageSize)
+        params.push(`pagination[pageSize]=${filters.pageSize}`);
+
+      // Use override locale if provided, otherwise use current locale
+      if (localeOverride) {
+        params.push(`locale=${encodeURIComponent(localeOverride)}`);
+      } else {
+        this.appendLocaleToQueryParts(params);
+      }
+
+      if (filters?.excludeSlug) {
+        params.push(
+          `filters[slug][$ne]=${encodeURIComponent(filters.excludeSlug)}`
+        );
+      }
+
+      return params.join('&');
+    };
+
+    const query = buildQuery();
     const response = await fetch(
       `${buildApiUrl(API_ENDPOINTS.products)}${query ? `?${query}` : ''}`,
       {
@@ -538,7 +548,38 @@ export class StrapiApi {
       );
     }
     const json = await response.json();
-    return { data: json?.data || [], meta: json?.meta || {} };
+    const products = json?.data || [];
+
+    // Fallback: if no products found, try the other locale
+    if (products.length === 0) {
+      const fallbackLocale = this.locale === 'en' ? 'vi-VN' : 'en';
+      const fallbackQuery = buildQuery(fallbackLocale);
+      const fallbackResponse = await fetch(
+        `${buildApiUrl(API_ENDPOINTS.products)}${fallbackQuery ? `?${fallbackQuery}` : ''}`,
+        {
+          method: 'GET',
+          headers: getApiHeaders(),
+          next: { revalidate: 60 },
+        }
+      );
+
+      if (fallbackResponse.ok) {
+        const fallbackJson = await fallbackResponse.json();
+        const fallbackProducts = fallbackJson?.data || [];
+        if (fallbackProducts.length > 0) {
+          console.log(
+            `No products found in ${this.locale}, using fallback from ${fallbackLocale}`
+          );
+          return {
+            data: fallbackProducts,
+            meta: fallbackJson?.meta || {},
+            _fallback: true,
+          };
+        }
+      }
+    }
+
+    return { data: products, meta: json?.meta || {} };
   }
 
   /**
@@ -578,7 +619,8 @@ export class StrapiApi {
   }
 
   /**
-   * Get single product by slug
+   * Get single product by slug with locale fallback
+   * If no product found in current locale, tries fallback locale
    */
   async getProductBySlug(slug: string): Promise<any | null> {
     try {
@@ -614,7 +656,46 @@ export class StrapiApi {
       const json = await response.json();
       console.log('json', json);
       const products = json?.data || [];
-      return products.length > 0 ? products[0] : null;
+      if (products.length > 0) {
+        return products[0];
+      }
+
+      // Fallback: try to get product from other locale
+      const fallbackLocale = this.locale === 'en' ? 'vi-VN' : 'en';
+      const fallbackParams = new URLSearchParams({
+        'filters[slug][$eq]': slug,
+        'populate[images][fields]': '*',
+        'populate[brand][fields]': '*',
+        'populate[categories][fields]': '*',
+        'populate[sale][fields]': '*',
+        'populate[sale][populate][avatar][fields]': '*',
+        'locale': fallbackLocale,
+      });
+
+      const fallbackResponse = await fetch(
+        `${buildApiUrl(API_ENDPOINTS.products)}?${fallbackParams.toString()}`,
+        {
+          method: 'GET',
+          headers: getApiHeaders(),
+          next: { revalidate: 300 },
+        }
+      );
+
+      if (fallbackResponse.ok) {
+        const fallbackJson = await fallbackResponse.json();
+        const fallbackProducts = fallbackJson?.data || [];
+        if (fallbackProducts.length > 0) {
+          // Mark as fallback for display purposes
+          const product = fallbackProducts[0];
+          product._fallbackLocale = fallbackLocale;
+          console.log(
+            `Product "${slug}" not found in ${this.locale}, using fallback from ${fallbackLocale}`
+          );
+          return product;
+        }
+      }
+
+      return null;
     } catch (error) {
       console.error('Error fetching product by slug:', error);
       return null;
@@ -622,7 +703,8 @@ export class StrapiApi {
   }
 
   /**
-   * Get single product by documentId (alternative to slug)
+   * Get single product by documentId with locale fallback
+   * If no product found in current locale, tries fallback locale
    */
   async getProductByDocumentId(documentId: string): Promise<any | null> {
     try {
@@ -656,7 +738,45 @@ export class StrapiApi {
 
       const json = await response.json();
       const products = json?.data || [];
-      return products.length > 0 ? products[0] : null;
+      if (products.length > 0) {
+        return products[0];
+      }
+
+      // Fallback: try to get product from other locale
+      const fallbackLocale = this.locale === 'en' ? 'vi-VN' : 'en';
+      const fallbackParams = new URLSearchParams({
+        'filters[documentId][$eq]': documentId,
+        'populate[images][fields]': '*',
+        'populate[brand][fields]': '*',
+        'populate[categories][fields]': '*',
+        'populate[sale][populate][avatar][fields]': '*',
+        'locale': fallbackLocale,
+      });
+
+      const fallbackResponse = await fetch(
+        `${buildApiUrl(API_ENDPOINTS.products)}?${fallbackParams.toString()}`,
+        {
+          method: 'GET',
+          headers: getApiHeaders(),
+          next: { revalidate: 300 },
+        }
+      );
+
+      if (fallbackResponse.ok) {
+        const fallbackJson = await fallbackResponse.json();
+        const fallbackProducts = fallbackJson?.data || [];
+        if (fallbackProducts.length > 0) {
+          // Mark as fallback for display purposes
+          const product = fallbackProducts[0];
+          product._fallbackLocale = fallbackLocale;
+          console.log(
+            `Product "${documentId}" not found in ${this.locale}, using fallback from ${fallbackLocale}`
+          );
+          return product;
+        }
+      }
+
+      return null;
     } catch (error) {
       console.error('Error fetching product by documentId:', error);
       return null;

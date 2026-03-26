@@ -226,7 +226,8 @@
     "downloadCatalogue": "Download Catalogue",
     "category": "Category",
     "manufacturer": "Manufacturer",
-    "pcrKitGroup": "PCR Kit Group"
+    "pcrKitGroup": "PCR Kit Group",
+    "fallbackNotice": "Products in this category are only available in Vietnamese."
   },
   "blog": {
     "latest": "LATEST NEWS",

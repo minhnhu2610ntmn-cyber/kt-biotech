@@ -154,6 +154,8 @@ export default async function CategoryListingPage({
     page,
     pageSize,
   });
+  const isFallbackProducts = (productsRes as any)._fallback || false;
+
   let catalogue: CatalogueItem | null = await api.getCatalogue();
 
   // Fallback to Vietnamese catalogue if current locale catalogue has no downloadUrl
@@ -215,6 +217,7 @@ export default async function CategoryListingPage({
           brands={brands}
           products={productRows}
           catalogue={catalogue}
+          isFallback={isFallbackProducts}
           pagination={{
             total: (productsRes.meta?.pagination?.total as number) || 0,
             page: (productsRes.meta?.pagination?.page as number) || page,

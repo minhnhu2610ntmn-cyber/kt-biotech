@@ -226,7 +226,8 @@
     "downloadCatalogue": "Tải Catalogue",
     "category": "Danh Mục",
     "manufacturer": "Hãng Sản Xuất",
-    "pcrKitGroup": "Nhóm Kit PCR"
+    "pcrKitGroup": "Nhóm Kit PCR",
+    "fallbackNotice": "Sản phẩm trong danh mục này chỉ có sẵn bằng tiếng Anh."
   },
   "blog": {
     "latest": "TIN MỚI NHẤT",
