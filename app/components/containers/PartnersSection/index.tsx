@@ -59,11 +59,6 @@ export default function PartnersSection() {
             onError={() => handleImageError(partner.id)}
           />
         </div>
-        {partner.name && (
-          <div className='text-kt-gray-800 font-medium text-center mt-2'>
-            {partner.name}
-          </div>
-        )}
       </div>
     );
   };
