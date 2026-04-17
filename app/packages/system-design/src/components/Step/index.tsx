@@ -72,13 +72,10 @@ export const Timeline: React.FC<TimelineProps> = ({
               >
                 {item.date && (
                   <div>
-                    <Heading
-                      color='white'
-                      level={5}
-                      className={`text-sm mb-2 font-bold ${isVertical ? 'text-left' : 'text-center'}`}
-                    >
-                      {item.date}
-                    </Heading>
+                    <h5
+                      className={`text-lg md:text-xl lg:text-2xl mb-2 font-semibold text-white ${isVertical ? 'text-left' : 'text-center'}`}
+                      dangerouslySetInnerHTML={{ __html: item.date }}
+                    />
                   </div>
                 )}
                 {/* <Text

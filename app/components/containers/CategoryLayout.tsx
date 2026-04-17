@@ -44,11 +44,13 @@ export default function CategoryLayout({
   const t = useTranslations('category');
   const tSidebar = useTranslations('sidebar');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const primaryCatalogue =
     catalogue && catalogue.downloadUrl ? catalogue : null;
 
   const handleDownloadCatalogue = useCallback(async () => {
-    if (!primaryCatalogue?.downloadUrl) return;
+    if (!primaryCatalogue?.downloadUrl || isDownloading) return;
+    setIsDownloading(true);
     try {
       const response = await fetch(primaryCatalogue.downloadUrl);
       if (!response.ok) {
@@ -68,8 +70,10 @@ export default function CategoryLayout({
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Catalogue download failed', error);
+    } finally {
+      setIsDownloading(false);
     }
-  }, [primaryCatalogue]);
+  }, [primaryCatalogue, isDownloading]);
 
   const FilterIcon = ({ className = '' }: { className?: string }) => (
     <svg
@@ -125,6 +129,7 @@ export default function CategoryLayout({
                 ? handleDownloadCatalogue
                 : undefined
             }
+            isDownloading={isDownloading}
             onOpenFilter={() => setIsDrawerOpen(true)}
           />
           {/* Fallback locale notice */}
@@ -165,6 +170,13 @@ export default function CategoryLayout({
         categoriesTree={categoriesTree}
         activeCategory={activeCategory}
         brands={brands}
+        catalogueDownload={primaryCatalogue}
+        onDownloadCatalogue={
+          primaryCatalogue?.downloadUrl
+            ? handleDownloadCatalogue
+            : undefined
+        }
+        isDownloading={isDownloading}
       />
     </>
   );

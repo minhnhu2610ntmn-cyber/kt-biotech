@@ -290,8 +290,12 @@ export function Navbar({
     }
   }, [catalogueDownload?.label, t]);
 
+  // Catalogue download loading state
+  const [isCatalogueDownloading, setIsCatalogueDownloading] = React.useState(false);
+
   const handleCatalogueDownload = React.useCallback(async () => {
-    if (!catalogueDownload?.url) return;
+    if (!catalogueDownload?.url || isCatalogueDownloading) return;
+    setIsCatalogueDownloading(true);
     try {
       const response = await fetch(catalogueDownload.url);
       if (!response.ok) {
@@ -311,8 +315,10 @@ export function Navbar({
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Catalogue download failed', error);
+    } finally {
+      setIsCatalogueDownloading(false);
     }
-  }, [catalogueDownload]);
+  }, [catalogueDownload, isCatalogueDownloading]);
 
   // Debounced search (materials)
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -742,13 +748,14 @@ export function Navbar({
               <button
                 type='button'
                 onClick={handleCatalogueDownload}
-                disabled={!isCatalogueAvailable}
-                aria-disabled={!isCatalogueAvailable}
+                disabled={!isCatalogueAvailable || isCatalogueDownloading}
+                aria-disabled={!isCatalogueAvailable || isCatalogueDownloading}
                 className={cn(
                   'flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors duration-200 cursor-pointer',
                   isCatalogueAvailable
                     ? 'text-[#3691C9] hover:text-[#2a7bb8]'
-                    : 'text-gray-400 cursor-not-allowed'
+                    : 'text-gray-400 cursor-not-allowed',
+                  isCatalogueDownloading && 'opacity-75 cursor-not-allowed'
                 )}
                 title={
                   isCatalogueAvailable
@@ -756,8 +763,32 @@ export function Navbar({
                     : tCommon('catalogueUnavailable')
                 }
               >
-                <DownloadIcon width={24} height={24} />
-                {downloadLabel}
+                {isCatalogueDownloading ? (
+                  <svg
+                    className='animate-spin'
+                    width={24}
+                    height={24}
+                    viewBox='0 0 24 24'
+                    fill='none'
+                  >
+                    <circle
+                      className='opacity-25'
+                      cx='12'
+                      cy='12'
+                      r='10'
+                      stroke='currentColor'
+                      strokeWidth='4'
+                    />
+                    <path
+                      className='opacity-75'
+                      fill='currentColor'
+                      d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                    />
+                  </svg>
+                ) : (
+                  <DownloadIcon width={24} height={24} />
+                )}
+                {isCatalogueDownloading ? tCommon('downloading') : downloadLabel}
               </button>
             </div>
           </div>
@@ -1208,13 +1239,14 @@ export function Navbar({
             <button
               type='button'
               onClick={handleCatalogueDownload}
-              disabled={!isCatalogueAvailable}
-              aria-disabled={!isCatalogueAvailable}
+              disabled={!isCatalogueAvailable || isCatalogueDownloading}
+              aria-disabled={!isCatalogueAvailable || isCatalogueDownloading}
               className={cn(
                 'w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200',
                 isCatalogueAvailable
                   ? 'text-[#3691C9] hover:bg-blue-50'
-                  : 'text-gray-400 cursor-not-allowed'
+                  : 'text-gray-400 cursor-not-allowed',
+                isCatalogueDownloading && 'opacity-75 cursor-not-allowed'
               )}
               title={
                 isCatalogueAvailable
@@ -1222,8 +1254,32 @@ export function Navbar({
                   : tCommon('catalogueUnavailable')
               }
             >
-              <DownloadIcon width={18} height={18} />
-              {downloadLabel}
+              {isCatalogueDownloading ? (
+                <svg
+                  className='animate-spin'
+                  width={18}
+                  height={18}
+                  viewBox='0 0 24 24'
+                  fill='none'
+                >
+                  <circle
+                    className='opacity-25'
+                    cx='12'
+                    cy='12'
+                    r='10'
+                    stroke='currentColor'
+                    strokeWidth='4'
+                  />
+                  <path
+                    className='opacity-75'
+                    fill='currentColor'
+                    d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                  />
+                </svg>
+              ) : (
+                <DownloadIcon width={18} height={18} />
+              )}
+              {isCatalogueDownloading ? 'Đang tải...' : downloadLabel}
             </button>
           </div>
 

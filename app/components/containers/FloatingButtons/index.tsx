@@ -7,6 +7,7 @@ import {
   ZaloIcon,
 } from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 interface FloatingButtonsProps {
   catalogueDownload?: {
@@ -21,9 +22,11 @@ export default function FloatingButtons({
 }: FloatingButtonsProps) {
   const t = useTranslations('common');
   const tNavbar = useTranslations('navbar');
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const handleCatalogueDownload = async () => {
-    if (!catalogueDownload?.url) return;
+    if (!catalogueDownload?.url || isDownloading) return;
+    setIsDownloading(true);
     try {
       const response = await fetch(catalogueDownload.url);
       if (!response.ok) {
@@ -43,6 +46,8 @@ export default function FloatingButtons({
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Catalogue download failed', error);
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -59,23 +64,48 @@ export default function FloatingButtons({
           'w-12 md:w-14 h-32 md:h-40',
           'flex  items-center justify-center gap-2',
           'group',
-          'rounded-t-2xl rounded-b-2xl'
+          'rounded-t-2xl rounded-b-2xl',
+          isDownloading && 'opacity-75 cursor-not-allowed'
         )}
         style={{
           background: 'linear-gradient(90deg, #FDCF75 0%, #FDBA35 100%)',
         }}
         aria-label={downloadLabel}
-        disabled={!isCatalogueAvailable}
+        disabled={!isCatalogueAvailable || isDownloading}
       >
         <div className='-rotate-90 -translate-x-[6px] flex items-center gap-2'>
-          <DownloadIcon
-            width={20}
-            height={20}
-            color='#333638'
-            className='text-white scale-110 mb-1 transition-transform'
-          />
+          {isDownloading ? (
+            <svg
+              className='animate-spin text-[#333638]'
+              width={20}
+              height={20}
+              viewBox='0 0 24 24'
+              fill='none'
+            >
+              <circle
+                className='opacity-25'
+                cx='12'
+                cy='12'
+                r='10'
+                stroke='currentColor'
+                strokeWidth='4'
+              />
+              <path
+                className='opacity-75'
+                fill='currentColor'
+                d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+              />
+            </svg>
+          ) : (
+            <DownloadIcon
+              width={20}
+              height={20}
+              color='#333638'
+              className='text-white scale-110 mb-1 transition-transform'
+            />
+          )}
           <span className='text-[#333638] text-xs md:text-sm font-semibold whitespace-nowrap'>
-            {downloadLabel}
+            {isDownloading ? t('downloading') : downloadLabel}
           </span>
         </div>
       </button>

@@ -58,7 +58,7 @@ export const companyData = {
         year: 2023,
         isActive: false,
         image:
-          'https://images.unsplash.com/photo-1532094349504-4c4fb1c8d439?w=600&h=400&fit=crop',
+          'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop',
       },
     ],
   },
