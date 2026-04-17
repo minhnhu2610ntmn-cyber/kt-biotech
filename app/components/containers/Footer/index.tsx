@@ -100,7 +100,7 @@ export default function Footer({
               </a>
               {/* TikTok */}
               <a
-                href='https://www.tiktok.com/@kt.biotech?is_from_webapp=1&sender_device=pc'
+                href='https://www.tiktok.com/@omdylab'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='w-10 h-10 sm:w-5 sm:h-5 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors cursor-pointer hover:scale-[1.25]'
