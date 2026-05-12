@@ -194,14 +194,6 @@ export default async function BlogsPage({
     mostViewedArticles = mostViewedArticlesRaw.slice(0, 4);
   }
 
-  // Debug logs
-  // eslint-disable-next-line no-console
-  console.log('mostViewedArticlesRaw:', mostViewedArticlesRaw?.length);
-  // eslint-disable-next-line no-console
-  console.log('latestArticleIds:', Array.from(latestArticleIds));
-  // eslint-disable-next-line no-console
-  console.log('mostViewedArticles after filter:', mostViewedArticles?.length);
-
   return (
     <BlogPage
       latestArticles={latestArticles}

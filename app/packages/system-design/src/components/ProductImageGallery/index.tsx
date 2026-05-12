@@ -49,6 +49,7 @@ export default function ProductImageGallery({
           className='object-contain w-full h-full object-center'
           priority={selectedIndex === 0}
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw'
+          unoptimized
         />
       </div>
 
@@ -75,6 +76,7 @@ export default function ProductImageGallery({
                   fill
                   className='object-contain'
                   sizes='80px'
+                  unoptimized
                 />
               </button>
             );

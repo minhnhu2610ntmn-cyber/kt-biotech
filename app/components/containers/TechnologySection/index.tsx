@@ -97,10 +97,10 @@ export default function TechnologySection() {
   const timelineItems = companyData.dinhCaoCongNghe.technologyFootprints.map(
     (tech: TechnologyFootprint, index: number) => ({
       id: index + 1,
-      title: t(`items.${tech.id}.title`),
-      description: t(`items.${tech.id}.description`),
-      details: t.raw(`items.${tech.id}.details`),
-      date: t.raw(`items.${tech.id}.title`),
+      title: t.raw(`items.${tech.id}.title`) as string,
+      description: t.raw(`items.${tech.id}.description`) as string,
+      details: t.raw(`items.${tech.id}.details`) as string,
+      date: t.raw(`items.${tech.id}.title`) as string,
       image: tech.image,
       isActive: tech.isActive,
     })

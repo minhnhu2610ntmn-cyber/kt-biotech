@@ -19,7 +19,7 @@ export function getApiConfig(): ApiConfig {
     baseUrl:
       process.env.STRAPI_URL ||
       process.env.NEXT_PUBLIC_STRAPI_URL ||
-      'http://103.90.225.225:1337',
+      'https://strapi.kt-biotech.com',
     token:
       process.env.STRAPI_TOKEN || process.env.NEXT_PUBLIC_STRAPI_TOKEN || '',
     timeout: 10000, // 10 seconds
@@ -110,10 +110,22 @@ export function buildApiUrl(endpoint: string): string {
 
 /**
  * Build full image URL from Strapi
+ * Replaces any IP-based URLs with the proper domain
  */
 export function buildImageUrl(imagePath?: string): string {
   const config = getApiConfig();
   if (!imagePath) return '/images/hero.png'; // Fallback image
+
+  // If imagePath is already an absolute URL (contains http)
+  if (imagePath.startsWith('http')) {
+    // Replace IP address with domain
+    return imagePath.replace(
+      /http:\/\/103\.90\.225\.225:1337/g,
+      'https://strapi.kt-biotech.com'
+    );
+  }
+
+  // Otherwise, prepend the base URL
   return `${config.baseUrl}${imagePath}`;
 }
 
@@ -669,7 +681,7 @@ export class StrapiApi {
         'populate[categories][fields]': '*',
         'populate[sale][fields]': '*',
         'populate[sale][populate][avatar][fields]': '*',
-        'locale': fallbackLocale,
+        locale: fallbackLocale,
       });
 
       const fallbackResponse = await fetch(
@@ -750,7 +762,7 @@ export class StrapiApi {
         'populate[brand][fields]': '*',
         'populate[categories][fields]': '*',
         'populate[sale][populate][avatar][fields]': '*',
-        'locale': fallbackLocale,
+        locale: fallbackLocale,
       });
 
       const fallbackResponse = await fetch(

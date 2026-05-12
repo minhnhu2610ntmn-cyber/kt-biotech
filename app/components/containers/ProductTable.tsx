@@ -98,6 +98,7 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
                       alt={p.name}
                       fill
                       className='object-cover'
+                      unoptimized
                     />
                   </div>
                 ) : (
@@ -148,6 +149,7 @@ function ProductTableBase({ products, className = '' }: ProductTableProps) {
                     width={120}
                     height={120}
                     className='w-full h-full object-cover rounded-lg'
+                    unoptimized
                   />
                 ) : (
                   <div className='w-full h-full bg-gray-300 rounded-lg flex items-center justify-center'>

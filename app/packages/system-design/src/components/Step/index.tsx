@@ -85,12 +85,10 @@ export const Timeline: React.FC<TimelineProps> = ({
                     {item.title}
                 </Text> */}
                 {item.description && (
-                  <Text
-                    color='white'
-                    className={`text-sm leading-relaxed ${isVertical ? 'text-left' : 'text-center'}`}
-                  >
-                    {item.description}
-                  </Text>
+                  <div
+                    className={`text-sm leading-relaxed text-white ${isVertical ? 'text-left' : 'text-center'}`}
+                    dangerouslySetInnerHTML={{ __html: item.description }}
+                  />
                 )}
               </div>
             </div>

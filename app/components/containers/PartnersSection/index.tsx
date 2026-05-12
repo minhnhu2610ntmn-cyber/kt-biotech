@@ -55,6 +55,7 @@ export default function PartnersSection() {
             alt={logoAlt}
             width={185}
             height={185}
+            unoptimized
             className=' object-contain w-full h-full object-center filter transition-all duration-200'
             onError={() => handleImageError(partner.id)}
           />
