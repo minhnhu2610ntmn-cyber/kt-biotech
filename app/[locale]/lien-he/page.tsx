@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Container, Heading, Text } from '@ktbiotech/system-design';
 import { getTranslations } from 'next-intl/server';
 
@@ -10,9 +11,15 @@ export default async function ContactPage() {
       <Container className='my-6 px-4'>
         <div className='flex flex-col gap-4 lg:flex-row '>
           {/* Left Side - Company Information */}
-          <div className='lg:w-1/2 bg-gray-200 rounded-2xl flex flex-col justify-center p-8 lg:p-12'>
-            {/* Company Title */}
-            <div className='text-center mb-12'></div>
+          <div className='lg:w-1/2 bg-gray-200 rounded-2xl overflow-hidden'>
+            <Image
+              src='/images/IMG_2238.jpg'
+              alt='KTBioTech Office'
+              width={800}
+              height={600}
+              className='w-full h-full object-cover'
+              priority
+            />
           </div>
 
           {/* Right Side - Contact Form */}

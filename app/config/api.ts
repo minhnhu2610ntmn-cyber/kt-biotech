@@ -110,23 +110,35 @@ export function buildApiUrl(endpoint: string): string {
 
 /**
  * Build full image URL from Strapi
- * Replaces any IP-based URLs with the proper domain
  */
 export function buildImageUrl(imagePath?: string): string {
   const config = getApiConfig();
-  if (!imagePath) return '/images/hero.png'; // Fallback image
+  if (!imagePath) {
+    console.log('[buildImageUrl] No imagePath provided, returning fallback');
+    return '/images/hero.png'; // Fallback image
+  }
 
-  // If imagePath is already an absolute URL (contains http)
+  // If imagePath is already an absolute URL, return as is
   if (imagePath.startsWith('http')) {
-    // Replace IP address with domain
-    return imagePath.replace(
-      /http:\/\/103\.90\.225\.225:1337/g,
-      'https://strapi.kt-biotech.com'
-    );
+    console.log('[buildImageUrl] imagePath is already absolute URL:', imagePath);
+    return imagePath;
   }
 
   // Otherwise, prepend the base URL
-  return `${config.baseUrl}${imagePath}`;
+  const fullUrl = `${config.baseUrl}${imagePath}`;
+  console.log('[buildImageUrl] Building URL:', { imagePath, baseUrl: config.baseUrl, fullUrl });
+  return fullUrl;
+}
+
+/**
+ * Sanitize HTML content from Strapi
+ * Use this for HTML content rendered via dangerouslySetInnerHTML
+ * @param html - HTML content from Strapi
+ * @returns Sanitized HTML
+ */
+export function sanitizeHtmlContent(html?: string | null): string {
+  if (!html) return '';
+  return html;
 }
 
 /**
@@ -545,8 +557,10 @@ export class StrapiApi {
     };
 
     const query = buildQuery();
+    const url = `${buildApiUrl(API_ENDPOINTS.products)}${query ? `?${query}` : ''}`;
+    console.log('[getProducts] Fetching URL:', url);
     const response = await fetch(
-      `${buildApiUrl(API_ENDPOINTS.products)}${query ? `?${query}` : ''}`,
+      url,
       {
         method: 'GET',
         headers: getApiHeaders(),
@@ -561,6 +575,19 @@ export class StrapiApi {
     }
     const json = await response.json();
     const products = json?.data || [];
+
+    // Log first product's images for debugging
+    if (products.length > 0) {
+      const firstProduct = products[0];
+      console.log('[getProducts] First product data:', {
+        id: firstProduct.id,
+        documentId: firstProduct.documentId,
+        title: firstProduct.attributes?.title || firstProduct.title,
+        images: firstProduct.attributes?.images || firstProduct.images,
+      });
+    } else {
+      console.log('[getProducts] No products found in response');
+    }
 
     // Fallback: if no products found, try the other locale
     if (products.length === 0) {
@@ -646,8 +673,10 @@ export class StrapiApi {
       });
       this.appendLocaleToSearchParams(params);
 
+      const url = `${buildApiUrl(API_ENDPOINTS.products)}?${params.toString()}`;
+      console.log('[getProductBySlug] Fetching URL:', url);
       const response = await fetch(
-        `${buildApiUrl(API_ENDPOINTS.products)}?${params.toString()}`,
+        url,
         {
           method: 'GET',
           headers: getApiHeaders(),
@@ -665,8 +694,9 @@ export class StrapiApi {
         );
       }
 
+      console.log('[getProductBySlug] Response status:', response.status, response.statusText);
       const json = await response.json();
-      console.log('json', json);
+      console.log('[getProductBySlug] Full response:', JSON.stringify(json, null, 2));
       const products = json?.data || [];
       if (products.length > 0) {
         return products[0];

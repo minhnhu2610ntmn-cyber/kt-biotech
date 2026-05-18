@@ -7,6 +7,7 @@ import {
   companyData,
   TechnologyFootprint,
 } from '../../../data/BeDayLichSuData';
+import { sanitizeHtmlContent } from '../../../config/api';
 
 export default function TechnologySection() {
   const t = useTranslations('homepage.technology');
@@ -296,7 +297,7 @@ export default function TechnologySection() {
                       ? 'opacity-100 translate-y-0'
                       : 'opacity-0 translate-y-4'
                   }`}
-                  dangerouslySetInnerHTML={{ __html: activeItem.details }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(activeItem.details) }}
                 />
               </div>
             </div>

@@ -17,7 +17,16 @@ import type {
 function buildImageUrl(imagePath?: string): string {
   if (!imagePath) return '';
   const baseUrl =
-    process.env.NEXT_PUBLIC_STRAPI_URL || 'http://103.90.225.225:1337';
+    process.env.NEXT_PUBLIC_STRAPI_URL || 'https://strapi.kt-biotech.com';
+
+  // If imagePath is already an absolute URL, replace old IP with new domain
+  if (imagePath.startsWith('http')) {
+    return imagePath
+      .replace(/https?:\/\/103\.90\.225\.225:1337/g, 'https://strapi.kt-biotech.com')
+      .replace(/http:\/\/103\.90\.225\.225:1337/g, 'https://strapi.kt-biotech.com')
+      .replace(/https:\/\/103\.90\.225\.225:1337/g, 'https://strapi.kt-biotech.com');
+  }
+
   return `${baseUrl}${imagePath}`;
 }
 

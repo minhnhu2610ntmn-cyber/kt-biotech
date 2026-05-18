@@ -4,6 +4,7 @@ import { Container, Heading, Timeline } from '@ktbiotech/system-design';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 import { companyData, Milestone } from '../../../data/BeDayLichSuData';
+import { sanitizeHtmlContent } from '../../../config/api';
 
 export default function MilestonesSection() {
   const t = useTranslations('homepage.milestones');
@@ -181,7 +182,7 @@ export default function MilestonesSection() {
                       ? 'opacity-100 translate-y-0'
                       : 'opacity-0 translate-y-4'
                   }`}
-                  dangerouslySetInnerHTML={{ __html: activeItem.details }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtmlContent(activeItem.details) }}
                 />
               </div>
             </div>

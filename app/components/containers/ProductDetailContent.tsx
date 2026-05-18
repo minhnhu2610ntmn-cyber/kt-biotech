@@ -5,6 +5,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
+import { sanitizeHtmlContent } from '../../config/api';
 
 export interface ProductDetailBlock {
   __component: 'shared.rich-text';
@@ -26,11 +27,14 @@ function normalizeMarkdown(content: string): string {
     .trim();
 
   // Normalize lines: remove empty lines and trim to help GFM table detection
-  return cleaned
+  const normalized = cleaned
     .split(/\r?\n/)
     .map(line => line.trim())
     .filter(line => line.length > 0)
     .join('\n');
+
+  // Sanitize any old IP URLs in the content
+  return sanitizeHtmlContent(normalized);
 }
 
 export default function ProductDetailContent({

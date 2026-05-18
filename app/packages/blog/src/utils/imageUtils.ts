@@ -9,7 +9,13 @@
  */
 export const buildImageUrl = (imagePath?: string): string => {
   const baseUrl =
-    process.env.NEXT_PUBLIC_STRAPI_URL || 'http://103.90.225.225:1337';
+    process.env.NEXT_PUBLIC_STRAPI_URL || 'https://strapi.kt-biotech.com';
   if (!imagePath) return '/images/hero.png';
+
+  // If imagePath is already an absolute URL, return as is
+  if (imagePath.startsWith('http')) {
+    return imagePath;
+  }
+
   return `${baseUrl}${imagePath}`;
 };

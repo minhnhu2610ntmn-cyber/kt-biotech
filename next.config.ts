@@ -6,7 +6,10 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  // Disable image optimization for standalone deployment
+  // Images will be served directly without optimization
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -26,13 +29,9 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
-      {
-        protocol: 'http',
-        hostname: '103.90.225.225',
-        port: '1337',
-        pathname: '/**',
-      },
     ],
+    // Allow all image domains for flexibility
+    domains: ['strapi.kt-biotech.com', 'kt-biotech.com'],
   },
   webpack: (config, { dev }) => {
     // In development, use TypeScript source directly for hot reload
