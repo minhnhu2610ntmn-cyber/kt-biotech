@@ -355,29 +355,31 @@ export class StrapiApi {
    * Get articles with filters
    */
   async getArticles(filters?: Record<string, string>): Promise<Article[]> {
-    // Build query string manually to handle bracket notation
-    const params: string[] = [];
+    // Use URLSearchParams for proper URL encoding
+    const searchParams = new URLSearchParams();
 
     // Set default populate if not provided
     if (!filters?.populate) {
-      // params.push('populate=*');
+      searchParams.set('populate', '*');
     }
 
     // Add all filters
     Object.entries(filters || {}).forEach(([key, value]) => {
-      params.push(`${key}=${value}`);
+      searchParams.set(key, value);
     });
-    this.appendLocaleToQueryParts(params);
 
-    const queryString = params.join('&');
-    const response = await fetch(
-      `${buildApiUrl(API_ENDPOINTS.articles)}?${queryString}`,
-      {
-        method: 'GET',
-        headers: getApiHeaders(),
-        next: { revalidate: 1800 }, // Cache for 30 minutes
-      }
-    );
+    // Add locale
+    if (!searchParams.has('locale')) {
+      searchParams.set('locale', this.locale);
+    }
+
+    const url = `${buildApiUrl(API_ENDPOINTS.articles)}?${searchParams.toString()}`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: getApiHeaders(),
+      next: { revalidate: 1800 }, // Cache for 30 minutes
+    });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch articles: ${response.statusText}`);
