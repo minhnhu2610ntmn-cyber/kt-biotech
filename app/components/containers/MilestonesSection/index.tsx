@@ -164,7 +164,11 @@ export default function MilestonesSection() {
                     <img
                       src={activeItem.image}
                       alt={activeItem.title}
-                      className='w-full h-full object-cover'
+                      className={`w-full h-full ${
+                        activeItem.image?.endsWith('2004.jpg')
+                          ? 'object-contain'
+                          : 'object-cover'
+                      }`}
                     />
                   </div>
                 ) : (
