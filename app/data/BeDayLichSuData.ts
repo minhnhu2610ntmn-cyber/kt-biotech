@@ -36,29 +36,25 @@ export const companyData = {
         id: '1',
         year: 2020,
         isActive: true,
-        image:
-          'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&h=400&fit=crop',
+        image: '/Nghiên Cứu Khoa học.png',
       },
       {
         id: '2',
         year: 2021,
         isActive: false,
-        image:
-          'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&h=400&fit=crop',
+        image: '/Làm chủ nhiều công nghệ mũi nhọn.png',
       },
       {
         id: '3',
         year: 2022,
         isActive: false,
-        image:
-          'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=600&h=400&fit=crop',
+        image: '/Trang thiết bị hiện đại.png',
       },
       {
         id: '4',
         year: 2023,
         isActive: false,
-        image:
-          'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop',
+        image: '/hợp tác nghiên cứu.png',
       },
     ],
   },
